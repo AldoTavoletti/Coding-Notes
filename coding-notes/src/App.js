@@ -12,26 +12,40 @@ import Modals from "./Modals";
 
 
 function App() {
-  // "none" if no modal is showing, "folder" if it's the modal folder, "note" if it's the modal note
+
+  /* 
+  "none" if no modal is showing; 
+  "folder" if the modal folder is showing; 
+  "note" if it's the modal note. 
+  */
   const [modalShowing, setModalShowing] = useState("none");
 
-  //"normal" if the menu is not expanded nor hidden, "expanded" if it's expanded, "hidden" if it's hidden.
+  /*
+  "normal" if the menu is not expanded nor hidden; 
+  "expanded" if the menu expanded; 
+  "hidden" if the menu hidden. 
+  */
   const [menuStatus, setMenuStatus] = useState("normal");
-  return (
-    <>
 
+  return (
+    <div className="App">
+
+      {/* the modals */ }
       <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-      <div className="App">
-        <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+      {/* the header */}
+      <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-        <div className="content">
-          <Menu menuStatus = {menuStatus} setMenuStatus={setMenuStatus}/>
-          <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />
-        </div>
+      {/* the content */}
+      <div className="content">
+        {/* sidemenu */}
+        <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />
+        
+        {/* the current note */}
+        <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />
       </div>
+    </div>
 
-    </>
   );
 }
 
