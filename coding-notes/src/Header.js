@@ -1,12 +1,16 @@
-const Header = () => {
+import { switchState } from "./utils";
+const Header = ({modalShowing, setModalShowing}) => {
+
+    
+
     return ( 
 
         <div className="header">
 
             <p>Coding Notes</p>
             <div className="header__buttons-div">
-            <button>Add a folder +</button>
-            <button>Add a note +</button>
+            <button className="primary-button" onClick={()=>switchState(modalShowing,setModalShowing,"folder")}>Add a folder +</button>
+                <button className="primary-button" onClick={ () => switchState(modalShowing,setModalShowing,"note") }>Add a note +</button>
             </div>
         </div>
 
