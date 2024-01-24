@@ -4,6 +4,8 @@ import { switchState } from "./utils";
 
 const Menu = ({ menuStatus, setMenuStatus }) => {
 
+    
+
     return (
         
         <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
@@ -20,7 +22,8 @@ const Menu = ({ menuStatus, setMenuStatus }) => {
                 }
 
             </div>
-            <NoteList />
+
+            {menuStatus !== "hidden" && <NoteList/>}
 
         </div>
 

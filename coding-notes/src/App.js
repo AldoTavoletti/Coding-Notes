@@ -33,15 +33,16 @@ function App() {
       {/* the modals */ }
       <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-      {/* the header */}
+      {/* the header */ }
       <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-      {/* the content */}
+      {/* the content */ }
       <div className="content">
-        {/* sidemenu */}
+
+        {/* sidemenu */ }
         <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />
-        
-        {/* the current note */}
+
+        {/* the current note */ }
         <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />
       </div>
     </div>

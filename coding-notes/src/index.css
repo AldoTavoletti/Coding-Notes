@@ -4,15 +4,22 @@
 
     --primary-bg-color: #222222;
     --secondary-bg-color: #383737;
+    --secondary-bg-color-hover: #3e3d3d;
     --tertiary-bg-color: #ffffff;
     --tertiary-bg-color-hover: #ffffffc9;
     --tertiary-bg-color-active: #ffffff8f;
+
+    --light: 80;
+    /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
+    --threshold: 60;
 }
 
 * {
     font-family: Work Sans;
     color: white;
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 body {
@@ -32,9 +39,22 @@ button {
     background-color: var(--primary-bg-color);
     height: 2.5vh;
     width: 2.5vh;
-    border-width: 0 3px 3px 0;
+    border-width: 0 4px 4px 0;
     display: inline-block;
     padding: 3px;
+    transition: all 0.1s ease;
+}
+
+.arrow:hover {
+
+    border-color: var(--tertiary-bg-color-hover);
+
+}
+
+.arrow:active {
+
+    border-color: var(--tertiary-bg-color-active);
+
 }
 
 .left {
@@ -58,21 +78,46 @@ button {
 
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--primary-bg-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #2f2f2f;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
 .menu {
-    flex-basis: 25%;
+    flex-basis: 27.5%;
     padding: 1% 1.5%;
     background-color: var(--primary-bg-color);
-    border-right: 5px solid #2f2f2f;
+    transition: all 0.15s ease;
+    max-width: 26%;
+    overflow-y: scroll;
 
 }
 
-.menu--expanded{
+
+
+.menu--expanded {
 
     flex-basis: 100%;
+    max-width: 100%;
 }
 
 
-.menu--hidden{
+.menu--hidden {
 
     flex-basis: 0;
 
@@ -82,7 +127,7 @@ button {
 
     background-color: var(--secondary-bg-color);
     flex-basis: 75%;
-
+    transition: all 0.15s ease;
 }
 
 .note-display--expanded {
@@ -139,7 +184,7 @@ button {
 }
 
 .header p {
-
+    margin: 0;
     font-size: 1.5em;
     font-weight: bold;
 
@@ -267,10 +312,12 @@ button {
 
 }
 
-.myModal__body__form input, .myModal__body__form select {
+.myModal__body__form input,
+.myModal__body__form select {
 
     border: 0;
     width: 90%;
+    padding-inline: 2%;
     height: 7vh;
     font-size: 1.2em;
     background-color: var(--secondary-bg-color);
@@ -318,33 +365,40 @@ button {
 
 .color-box--red {
 
-    background-color: red;
+    background-color: #ff0000;
 
 }
 
 .color-box--green {
 
-    background-color: rgb(3, 183, 3);
+    background-color: #03b703;
 
 }
 
 .color-box--blue {
 
-    background-color: rgb(37, 37, 248);
-
+    background-color: #4d94ff;
 }
 
 .color-box--yellow {
 
-    background-color: rgb(231, 231, 49);
+    background-color: #e7e731;
 
 }
 
-.color-box--orange {
 
-    background-color: orange;
+.color-box--black {
+
+    background-color: var(--secondary-bg-color);
 
 }
+
+.color-box--selected {
+
+    border: 4px solid #4e9eff;
+
+}
+
 
 .flex-container {
 
@@ -352,5 +406,82 @@ button {
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
+
+}
+
+.note-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-block: 5%;
+    row-gap: 2vh;
+
+
+}
+
+
+
+.accordion {
+    width: 95%;
+
+    --bs-accordion-border-width: 0;
+    --bs-accordion-btn-focus-box-shadow: 0;
+
+    --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+
+}
+
+.accordion-button {
+
+    font-weight: bold;
+    font-size: 0.6em;
+
+}
+
+.accordion-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+
+}
+
+.note-list__note {
+    height: 11vh;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.note-list__note:hover {
+
+    background-color: var(--secondary-bg-color-hover);
+
+}
+
+.note-list__note h4,
+.note-list__note p {
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.note-list__note h4 {
+
+    margin-bottom: 5px;
+    font-weight: bold;
+
+
+}
+
+.failed {
+
+    font-weight: bold;
+    font-size: 1.3em;
+
 
 }
