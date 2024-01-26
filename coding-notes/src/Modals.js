@@ -9,7 +9,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     const [folderName, setFolderName] = useState("");
     const [selectedColor, setSelectedColor] = useState("#383737");
     
-    const [noteTitle, setNoteName] = useState("");
+    const [noteTitle, setNoteTitle] = useState("");
     const [noteFolder, setNoteFolder] = useState("General");
 
 
@@ -17,9 +17,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
     const { data: folders, isValidating, error, mutate} = useSWR(URL, fetcher);
 
-    // Handles error and loading state
-    if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
-    if (isValidating) return (< div className="note-list"><div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div></div>);
+    // Handles error and loading state. Without these useSWR doesn't work
+    if (error) return (<div></div>);
+    if (isValidating) return (<div></div>);
 
     const addFolder = async (e) => {
 
@@ -47,15 +47,23 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         e.preventDefault();
 
         const newNote = { title: noteTitle, folder: noteFolder };
+
         $.ajax({
             url: URL,
             type: 'POST',
             data: newNote,
+            success: () => {
+                
+                //? if it is positioned outside of this function, it doesn't work all the time 
+                mutate(URL);
+
+            }
         });
 
-        switchState(modalShowing, setModalShowing, "none")
+        switchState(modalShowing, setModalShowing, "none");
     };
 
+    
     return (
 
         // dim layer
@@ -122,13 +130,13 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                     {/* the title of the note */ }
                     <form method="post" className="myModal__body__form">
 
-                        <input type="text" name="note-name" placeholder="Note name..." value={ noteTitle } onChange={ (e) => setNoteName(e.target.value) } />
+                        <input type="text" name="note-name" placeholder="Note name..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } />
 
                         {/* the folder where the note has to be inserted.*/ }
                         <select name="folder-selection" value={noteFolder} onChange={ (e) => setNoteFolder(e.target.value) }>
                             { folders.map((folder, i) => (
 
-                                <option key={folder.folderID} value={folder.name}>{folder.name}</option>
+                                <option key={folder.folderID} value={folder.folderName}>{folder.folderName}</option>
 
                             )) }
 

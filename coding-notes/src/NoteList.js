@@ -21,7 +21,7 @@ const NoteList = () => {
                     <div className="accordion-item">
                         <h2 className="accordion-header">
                             <button className="accordion-button collapsed" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + i } aria-expanded="false" aria-controls="collapseThree">
-                                { folder.name }
+                                { folder.folderName }
                             </button>
                         </h2>
                         <div id={ "collapse" + i } className="accordion-collapse collapse" data-bs-parent={ "#accordion" + i }>
