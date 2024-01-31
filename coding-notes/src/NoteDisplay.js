@@ -31,7 +31,7 @@ const NoteDisplay = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote}) 
     }, [note]);
 
     useEffect(() => {
-        if (note && noteTitle !== note.title && noteTitle !== "") {
+        if (note) {
 
             const titleObj = { noteID: note.noteID, title: noteTitle };
             $.ajax({
@@ -48,7 +48,7 @@ const NoteDisplay = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote}) 
     }, [noteTitle]);
 
     useEffect(() => {
-        if (note && noteBody !== note.body && noteBody !== "") {
+        if (note) {
 
             const bodyObj = { noteID: note.noteID, body: noteBody };
             $.ajax({
