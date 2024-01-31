@@ -25,6 +25,8 @@
 body {
 
     margin: 0;
+    /* so that when the menu is getting extended, the white background color is not seen */
+    background-color: var(--secondary-bg-color);
 
 }
 
@@ -37,8 +39,8 @@ button {
 .arrow {
     border: solid rgb(255, 255, 255);
     background-color: var(--primary-bg-color);
-    height: 2.5vh;
-    width: 2.5vh;
+    height: 15px;
+    width: 15px;
     border-width: 0 4px 4px 0;
     display: inline-block;
     padding: 3px;
@@ -99,12 +101,12 @@ button {
 }
 
 .menu {
-    flex-basis: 27.5%;
+    flex-basis: 28%;
     padding: 1% 1.5%;
     background-color: var(--primary-bg-color);
     transition: all 0.15s ease;
     max-width: 26%;
-    overflow-y: scroll;
+    overflow-y: auto;
 
 }
 
@@ -119,26 +121,33 @@ button {
 
 .menu--hidden {
 
-    flex-basis: 0;
+    flex-basis: 4%;
 
 }
 
 .note-display {
 
     background-color: var(--secondary-bg-color);
-    flex-basis: 75%;
+    flex-basis: 74%;
+    padding: 1.5% 3%;
     transition: all 0.15s ease;
 }
 
 .note-display--expanded {
 
-    flex-basis: 100%;
+    flex-basis: 96%;
 
 }
 
-.note-display--hidden {
+.note-display__title{
 
-    flex-basis: 0%;
+font-size: 3em;
+font-weight: bold;
+
+}
+.note-display__body {
+
+    font-size: 1.1em;
 
 }
 
@@ -255,7 +264,7 @@ button {
 .dim-layer--visible {
 
     visibility: visible;
-    opacity: 0.95;
+    opacity: 1;
 }
 
 .myModal {
@@ -467,6 +476,7 @@ button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: inherit;
 
 }
 

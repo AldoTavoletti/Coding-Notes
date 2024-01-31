@@ -1,15 +1,31 @@
 import useSWR from "swr";
-import { getContrastColor } from "./utils";
+import { getContrastColor, switchState } from "./utils";
+import { noteBodyContext } from "./noteBodyContext";
+import { noteTitleContext } from "./noteTitleContext";
+import { useContext } from "react";
 
-const NoteList = () => {
+const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus }) => {
+
+    const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
+    const [noteBody, setNoteBody] = useContext(noteBodyContext);
+
+    const GET_FOLDERS_URL = 'http://localhost/www/folders_api.php';
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-    const { data: folders, isValidating, error } = useSWR('http://localhost/www/db_connection.php', fetcher);
+    const { data: folders, isValidating, error, mutate } = useSWR(GET_FOLDERS_URL, fetcher);
 
     // Handles error and loading state
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
     if (isValidating) return (< div className="note-list"><div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div></div>);
+
+    const handleNoteClick = (noteID)=>{
+        mutate(GET_FOLDERS_URL);
+        switchState(currentNote, setCurrentNote, noteID);
+        menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");
+
+
+    }
 
     return (
         <div className="note-list">
@@ -28,9 +44,9 @@ const NoteList = () => {
                             <div className="accordion-body" style={ { backgroundColor: folder.color + "88" } }>
                                 { folder && folder.notes.map((note) => (
 
-                                    <div key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color } }>
-                                        <h4>{ note.title }</h4>
-                                        <p>{ note.body }</p>
+                                    <div onClick={ () => handleNoteClick(note.noteID) } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
+                                        <h4>{ currentNote === note.noteID ? noteTitle:note.title }</h4>
+                                        <p>{ currentNote === note.noteID ? noteBody : note.body }</p>
 
                                     </div>
 

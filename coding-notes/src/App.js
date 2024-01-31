@@ -4,15 +4,15 @@ It should give the opportunity to write code in it. All the notes have to be sav
 and connected to a PHP script. The react framework is used.
 */
 
-import { useState } from "react";
+import { createContext, useState } from "react";
 import Header from "./Header";
 import Menu from "./Menu";
 import NoteDisplay from "./NoteDisplay";
 import Modals from "./Modals";
-
+import { noteBodyContext } from "./noteBodyContext";
+import { noteTitleContext } from "./noteTitleContext";
 
 function App() {
-
   /* 
   "none" if no modal is showing; 
   "folder" if the modal folder is showing; 
@@ -25,7 +25,12 @@ function App() {
   "expanded" if the menu expanded; 
   "hidden" if the menu hidden. 
   */
-  const [menuStatus, setMenuStatus] = useState("normal");
+  const [menuStatus, setMenuStatus] = useState("expanded");
+
+  const [currentNote, setCurrentNote] = useState(null);
+
+  const [noteTitle, setNoteTitle] = useState("");
+  const [noteBody, setNoteBody] = useState("");
 
   return (
     <div className="App">
@@ -39,11 +44,17 @@ function App() {
       {/* the content */ }
       <div className="content">
 
-        {/* sidemenu */ }
-        <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />
+        <noteTitleContext.Provider value={ [noteTitle, setNoteTitle] }>
+          <noteBodyContext.Provider value={ [noteBody, setNoteBody] }>
 
-        {/* the current note */ }
-        <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />
+            {/* sidemenu */ }
+            <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+
+            {/* the current note */ }
+            { (currentNote && menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } /> }
+          
+          </noteBodyContext.Provider>
+        </noteTitleContext.Provider>
       </div>
     </div>
 

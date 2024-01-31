@@ -4,7 +4,8 @@ import $ from "jquery";
 import { useState } from "react";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
-    const URL = "http://localhost/www/db_connection.php";
+    const URL = "http://localhost/www/folders_api.php";
+    const URL_POST = "http://localhost/www/post_api.php";
 
     const [folderName, setFolderName] = useState("");
     const [selectedColor, setSelectedColor] = useState("#383737");
@@ -27,7 +28,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
         const newFolder = { name: folderName, color: selectedColor };
         $.ajax({
-            url: URL,
+            url: URL_POST,
             type: 'POST',
             data: newFolder,
             success: ()=>{
@@ -49,7 +50,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         const newNote = { title: noteTitle, folder: noteFolder };
 
         $.ajax({
-            url: URL,
+            url: URL_POST,
             type: 'POST',
             data: newNote,
             success: () => {
