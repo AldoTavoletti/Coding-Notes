@@ -139,16 +139,23 @@ button {
 
 }
 
-.note-display__title{
+.note-display__title {
 
-font-size: 3em;
-font-weight: bold;
+    font-size: 3em;
+    font-weight: bold;
+    outline: 0;
 
 }
+
+.note-display__title:empty::before, .note-display__body:empty::before {
+    content: attr(data-placeholder);
+    color: #a4a4a4;
+}
+
 .note-display__body {
 
     font-size: 1.1em;
-
+    outline: 0;
 }
 
 .menu__functionalities {

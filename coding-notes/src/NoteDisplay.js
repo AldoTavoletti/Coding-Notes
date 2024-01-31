@@ -13,7 +13,7 @@ const NoteDisplay = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote}) 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
     const { data: note, isValidating, isLoading, error } = useSWR(`http://localhost/www/single_note_api.php?note=${currentNote}`, fetcher);
-
+    
     //? if you don't know what error occured in the php file, do console.log(error)
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
     const [noteBody, setNoteBody] = useContext(noteBodyContext);
@@ -76,8 +76,8 @@ const NoteDisplay = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote}) 
 
         <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"}` }>
 
-            <p contentEditable="true" className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, e.currentTarget.textContent) }>{ note.title }</p>
-            <p contentEditable="true" className="note-display__body" onInput={ (e) => switchState(noteBody, setNoteBody, e.currentTarget.textContent) }>{ note.body }</p>
+            <p contentEditable="true" data-placeholder= "Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, e.currentTarget.textContent) }>{ note.title }</p>
+            <p contentEditable="true" data-placeholder="Write some text..." className="note-display__body" onInput={ (e) => switchState(noteBody, setNoteBody, e.currentTarget.textContent) }>{  note.body }</p>
 
 
         </div>

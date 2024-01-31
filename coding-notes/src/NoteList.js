@@ -45,8 +45,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus }) =>
                                 { folder && folder.notes.map((note) => (
 
                                     <div onClick={ () => handleNoteClick(note.noteID) } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
-                                        <h4>{ currentNote === note.noteID ? noteTitle:note.title }</h4>
-                                        <p>{ currentNote === note.noteID ? noteBody : note.body }</p>
+                                        <h4 onClick={ (e) => e.currentTarget.focus() }>{ currentNote === note.noteID ? (noteTitle === "" ? `Note ${i + 1}`: noteTitle) : (note.title === "" ? `Note ${i + 1}`:note.title)  }</h4>
+                                        <p onClick={ (e) => e.currentTarget.focus() }>{ currentNote === note.noteID ? noteBody : note.body }</p>
 
                                     </div>
 
