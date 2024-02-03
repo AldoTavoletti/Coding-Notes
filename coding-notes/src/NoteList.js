@@ -84,7 +84,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus }) =>
             { folders && folders.map((folder, folderIndex) => (
 
                 <>
-                    <div className="accordion" onContextMenu={ (e) => openMenu(e, folder.folderID, "folder") } key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
+                    <div className="accordion" onContextMenu={ (e) => folder.folderName !== "General" ? openMenu(e, folder.folderID, "folder") : e.preventDefault()} key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
                         <div className="accordion-item">
                             <h2 className="accordion-header">
                                 <button className="accordion-button" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
