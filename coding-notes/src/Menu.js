@@ -2,7 +2,7 @@
 import NoteList from "./NoteList";
 import { switchState } from "./utils";
 
-const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote }) => {
+const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalShowing, setModalShowing}) => {
 
     
 
@@ -23,7 +23,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote }) => {
 
             </div>
 
-            { menuStatus !== "hidden" && <NoteList currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } />}
+            { menuStatus !== "hidden" && <NoteList currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />}
 
         </div>
 

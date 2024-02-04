@@ -5,7 +5,7 @@ import { noteTitleContext } from "./noteTitleContext";
 import { useContext, useRef, useState } from "react";
 import $ from "jquery";
 
-const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus }) => {
+const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing }) => {
 
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
     const [noteBody, setNoteBody] = useContext(noteBodyContext);
@@ -64,8 +64,9 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus }) =>
             url: DELETE_URL,
             type: 'DELETE',
             data: elementToDelete,
-            success: () => {
-                console.log(elementToDelete);
+            success: (res) => {
+
+                console.log(res);
                 mutate(GET_FOLDERS_URL);
 
             }, error: () => {
@@ -114,7 +115,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus }) =>
                         <div className="context-menu" style={{left:contextMenuInfo.x, top:contextMenuInfo.y}}>
 
                             <div className="list-group">
-                                <button type="button"  className="list-group-item list-group-item-action">Rename</button>
+                                {contextMenuInfo.elementType === "folder" && <button type="button"  className="list-group-item list-group-item-action" onClick={()=> switchState(modalShowing,setModalShowing,contextMenuInfo.elementID)}>Modify</button>}
                                 <button type="button"  className="list-group-item list-group-item-action" onClick={()=>deleteElement()}>Delete</button>
                             </div>
 

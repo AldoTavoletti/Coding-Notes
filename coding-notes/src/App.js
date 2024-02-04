@@ -48,7 +48,7 @@ function App() {
           <noteBodyContext.Provider value={ [noteBody, setNoteBody] }>
 
             {/* sidemenu */ }
-            <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+            <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
             {/* the current note */ }
             { (currentNote && menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } /> }
