@@ -1,45 +1,51 @@
-import { createContext, useState } from "react";
-import { noteBodyContext } from "./noteBodyContext";
-import { noteTitleContext } from "./noteTitleContext";
-import Menu from "./Menu";
 
+import Menu from "./Menu";
 import NoteDisplay from "./NoteDisplay";
 
-const HomePage = ({modalShowing, setModalShowing}) => {
+import { noteTitleContext } from "./noteTitleContext";
+import { noteBodyContext } from "./noteBodyContext";
 
-    const [currentNote, setCurrentNote] = useState(null);
+import { useState } from "react";
 
-    const [noteTitle, setNoteTitle] = useState("");
-    const [noteBody, setNoteBody] = useState("");
-
-    
+const HomePage = ({ modalShowing, setModalShowing }) => {
 
     /*
-    "normal" if the menu is not expanded nor hidden; 
-    "expanded" if the menu expanded; 
-    "hidden" if the menu hidden. 
+    ?"normal" if the menu is not expanded nor hidden; 
+    ?"expanded" if the menu expanded; 
+    ?"hidden" if the menu hidden. 
     */
     const [menuStatus, setMenuStatus] = useState("expanded");
 
-    return ( 
+    // the note the user clicked
+    const [currentNote, setCurrentNote] = useState(null);
+
+    // the title of the current note
+    const [noteTitle, setNoteTitle] = useState("");
+
+    // the body of the current note
+    const [noteBody, setNoteBody] = useState("");
+
+    //|| the noteTitle and noteBody state variables are passed over to the other components via Context.
+
+    return (
 
         <div className="home-page">
 
-                <noteTitleContext.Provider value={ [noteTitle, setNoteTitle] }>
-                    <noteBodyContext.Provider value={ [noteBody, setNoteBody] }>
+            <noteTitleContext.Provider value={ [noteTitle, setNoteTitle] }>
+                <noteBodyContext.Provider value={ [noteBody, setNoteBody] }>
 
-                        {/* sidemenu */ }
-                        <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+                    {/* sidemenu */ }
+                    <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-                        {/* the current note */ }
-                        { (currentNote && menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } /> }
+                    {/* the note display */ }
+                    { (currentNote && menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
 
-                    </noteBodyContext.Provider>
-                </noteTitleContext.Provider>
+                </noteBodyContext.Provider>
+            </noteTitleContext.Provider>
 
         </div>
 
-     );
-}
- 
+    );
+};
+
 export default HomePage;

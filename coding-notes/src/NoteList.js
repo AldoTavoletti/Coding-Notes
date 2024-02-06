@@ -6,64 +6,78 @@ import { useContext, useRef, useState } from "react";
 import $ from "jquery";
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing }) => {
-
+    
+    const URL_GET_FOLDERS_API = 'http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php';
+    const URL_DELETE_API = 'http://localhost/CodingNotesRepo/coding-notes/PHP/delete_api.php';
+    
+    // get the title of the current note
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
+
+    // get the bodyW of the current note
     const [noteBody, setNoteBody] = useContext(noteBodyContext);
 
-    const GET_FOLDERS_URL = 'http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php';
-    const DELETE_URL = 'http://localhost/CodingNotesRepo/coding-notes/PHP/delete_api.php';
-
-
+    // the index of the previous note the user navigated to, so that it's value can be settled.
     const prevNoteIndex = useRef(null);
+
+    // a state variable to determine where the user right clicked and on what element he did do it over
     const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null });
 
+    //#region GET FOLDERS AND MUTATE DECLARATION
+    
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
-    const { data, isValidating, error } = useSWR(GET_FOLDERS_URL, fetcher);
-
+    const { data, isValidating, error } = useSWR(URL_GET_FOLDERS_API, fetcher);
     const { mutate } = useSWRConfig();
 
-
-
+    //#endregion
+    
     // Handles error and loading state
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
     if (isValidating) return (< div className="note-list"><div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div></div>);
 
+    // copy the data read-only array to create a modifiable folders array
     const folders = [...data];
 
-    const handleNoteClick = async (note, folderIndex, noteIndex) => {
-
-        if (prevNoteIndex.current) {
-            folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
-            folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].body = noteBody;
-        }
-        await mutate(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`);
-        // await mutate(GET_FOLDERS_URL);
-        switchState(currentNote, setCurrentNote, note.noteID);
-        menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");
-
-        prevNoteIndex.current = [folderIndex, noteIndex];
-    };
     /**
      * 
-     * @param {Event} e 
-     * @param {*} elementID 
-     * @param {*} elementType 
+     * @param {object} note 
+     * @param {number} folderIndex 
+     * @param {number} noteIndex 
      */
+    const handleNoteClick = async (note, folderIndex, noteIndex) => {
 
+        if (prevNoteIndex.current) /* if it's not the first selected note in the session */ {
+
+            // modify the folders array so that it shows the correct modified title on the previous note
+            folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
+
+            // modify the folders array so that it shows the correct modified body on the previous note
+            folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].body = noteBody;
+        }
+
+        // await mutate(URL_GET_FOLDERS_API);
+        switchState(currentNote, setCurrentNote, note.noteID);
+        // to be honest I don't really know why I need this, I think the refetch of the single note api makes sure the noteBody and noteTitle won't get set to the previous values when the note gets opened again. But I'm not sure. Anyway I need it. 
+        await mutate(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`);
+        
+        // if the menu isn't already in normal status, set it to be
+        menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");
+
+        // save the index of the current note in the prevNoteIndex ref.
+        prevNoteIndex.current = [folderIndex, noteIndex];
+    };
 
     const deleteElement = () => {
 
         const elementToDelete = { elementID: contextMenuInfo.elementID, elementType: contextMenuInfo.elementType };
 
         $.ajax({
-            url: DELETE_URL,
+            url: URL_DELETE_API,
             type: 'DELETE',
             data: elementToDelete,
             success: (res) => {
 
                 console.log(res);
-                mutate(GET_FOLDERS_URL);
+                mutate(URL_GET_FOLDERS_API);
 
             }, error: () => {
 
