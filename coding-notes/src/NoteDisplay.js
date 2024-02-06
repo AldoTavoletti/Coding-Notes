@@ -7,12 +7,12 @@ import { noteTitleContext } from "./noteTitleContext";
 
 const NoteDisplay = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote }) => {
 
-    const URL_PATCH = "http://localhost/www/patch_api.php";
+    const URL_PATCH = "http://localhost/CodingNotesRepo/coding-notes/PHP/patch_api.php";
 
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-    const { data: note, isValidating, isLoading, error } = useSWR(`http://localhost/www/single_note_api.php?note=${currentNote}`, fetcher);
+    const { data: note, isValidating, isLoading, error } = useSWR(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`, fetcher);
 
     //? if you don't know what error occured in the php file, do console.log(error)
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);

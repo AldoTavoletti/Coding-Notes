@@ -10,8 +10,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
     const [noteBody, setNoteBody] = useContext(noteBodyContext);
 
-    const GET_FOLDERS_URL = 'http://localhost/www/folders_api.php';
-    const DELETE_URL = 'http://localhost/www/delete_api.php';
+    const GET_FOLDERS_URL = 'http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php';
+    const DELETE_URL = 'http://localhost/CodingNotesRepo/coding-notes/PHP/delete_api.php';
 
 
     const prevNoteIndex = useRef(null);
@@ -37,7 +37,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].body = noteBody;
         }
-        await mutate(`http://localhost/www/single_note_api.php?note=${currentNote}`);
+        await mutate(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`);
         // await mutate(GET_FOLDERS_URL);
         switchState(currentNote, setCurrentNote, note.noteID);
         menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");

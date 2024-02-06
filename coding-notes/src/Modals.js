@@ -4,9 +4,9 @@ import $ from "jquery";
 import { useState } from "react";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
-    const URL = "http://localhost/www/folders_api.php";
-    const URL_POST = "http://localhost/www/post_api.php";
-    const URL_PATCH = "http://localhost/www/patch_api.php";
+    const URL = "http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php";
+    const URL_POST = "http://localhost/CodingNotesRepo/coding-notes/PHP/post_api.php";
+    const URL_PATCH = "http://localhost/CodingNotesRepo/coding-notes/PHP/patch_api.php";
 
 
     const [folderName, setFolderName] = useState("");
