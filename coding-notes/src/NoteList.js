@@ -1,5 +1,5 @@
 import useSWR, { useSWRConfig } from "swr";
-import { getContrastColor, switchState } from "./utils";
+import { getContrastColor, switchState, openMenu } from "./utils";
 import { noteBodyContext } from "./noteBodyContext";
 import { noteTitleContext } from "./noteTitleContext";
 import { useContext, useRef, useState } from "react";
@@ -15,7 +15,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
 
 
     const prevNoteIndex = useRef(null);
-    const [contextMenuInfo, setcontextMenuInfo] = useState({x:null,y:null, elementID:null, elementType:null});
+    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null });
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -44,21 +44,17 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
 
         prevNoteIndex.current = [folderIndex, noteIndex];
     };
-
-    const openMenu = (e, elementID, elementType)=>{
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        switchState(contextMenuInfo, setcontextMenuInfo, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType });
-
+    /**
+     * 
+     * @param {Event} e 
+     * @param {*} elementID 
+     * @param {*} elementType 
+     */
 
 
-    }
+    const deleteElement = () => {
 
-    const deleteElement = ()=>{
-
-        const elementToDelete = {elementID:contextMenuInfo.elementID, elementType:contextMenuInfo.elementType}
+        const elementToDelete = { elementID: contextMenuInfo.elementID, elementType: contextMenuInfo.elementType };
 
         $.ajax({
             url: DELETE_URL,
@@ -75,9 +71,9 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             }
         });
 
-    }
+    };
 
-    document.onclick = () => contextMenuInfo.x !== null && switchState(contextMenuInfo, setcontextMenuInfo, { x: null, y: null, elementID: null, elementType: null });
+    document.onclick = () => contextMenuInfo.x !== null && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null, elementID: null, elementType: null });
 
     return (
         <div className="note-list">
@@ -85,7 +81,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             { folders && folders.map((folder, folderIndex) => (
 
                 <>
-                    <div className="accordion" onContextMenu={ (e) => folder.folderName !== "General" ? openMenu(e, folder.folderID, "folder") : e.preventDefault()} key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
+                    <div className="accordion" onContextMenu={ (e) => folder.folderName !== "General" ? openMenu(e, contextMenuInfo, setContextMenuInfo, folder.folderID, "folder") : e.preventDefault() } key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
                         <div className="accordion-item">
                             <h2 className="accordion-header">
                                 <button className="accordion-button" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
@@ -96,7 +92,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                                 <div className="accordion-body" style={ { backgroundColor: folder.color + "88" } }>
                                     { folder && folder.notes.map((note, noteIndex) => (
 
-                                        <div onClick={ () => handleNoteClick(note, folderIndex, noteIndex) } onContextMenu={ (e)=> openMenu(e, note.noteID, "note") } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
+                                        <div onClick={ () => handleNoteClick(note, folderIndex, noteIndex) } onContextMenu={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo, note.noteID, "note") } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
 
                                             <h4>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</h4>
                                             <p>{ currentNote === note.noteID ? noteBody : note.body }</p>
@@ -112,11 +108,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
 
                     { contextMenuInfo.x && (
 
-                        <div className="context-menu" style={{left:contextMenuInfo.x, top:contextMenuInfo.y}}>
+                        <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
 
                             <div className="list-group">
-                                {contextMenuInfo.elementType === "folder" && <button type="button"  className="list-group-item list-group-item-action" onClick={()=> switchState(modalShowing,setModalShowing,contextMenuInfo.elementID)}>Modify</button>}
-                                <button type="button"  className="list-group-item list-group-item-action" onClick={()=>deleteElement()}>Delete</button>
+                                { contextMenuInfo.elementType === "folder" && <button type="button" className="list-group-item list-group-item-action" onClick={ () => switchState(modalShowing, setModalShowing, contextMenuInfo.elementID) }>Modify</button> }
+                                <button type="button" className="list-group-item list-group-item-action" onClick={ () => deleteElement() }>Delete</button>
                             </div>
 
                         </div>

@@ -4,15 +4,18 @@ It should give the opportunity to write code in it. All the notes have to be sav
 and connected to a PHP script. The react framework is used.
 */
 
-import { createContext, useState } from "react";
+import { useState } from "react";
 import Header from "./Header";
-import Menu from "./Menu";
-import NoteDisplay from "./NoteDisplay";
+import LoginPage from "./LoginPage";
+import HomePage from "./HomePage";
 import Modals from "./Modals";
-import { noteBodyContext } from "./noteBodyContext";
-import { noteTitleContext } from "./noteTitleContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
   /* 
   "none" if no modal is showing; 
   "folder" if the modal folder is showing; 
@@ -20,44 +23,24 @@ function App() {
   */
   const [modalShowing, setModalShowing] = useState("none");
 
-  /*
-  "normal" if the menu is not expanded nor hidden; 
-  "expanded" if the menu expanded; 
-  "hidden" if the menu hidden. 
-  */
-  const [menuStatus, setMenuStatus] = useState("expanded");
-
-  const [currentNote, setCurrentNote] = useState(null);
-
-  const [noteTitle, setNoteTitle] = useState("");
-  const [noteBody, setNoteBody] = useState("");
-
   return (
     <div className="App">
-
       {/* the modals */ }
       <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
       {/* the header */ }
-      <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+      <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } />
 
-      {/* the content */ }
-      <div className="content">
+      <BrowserRouter>
+        <Routes>
 
-        <noteTitleContext.Provider value={ [noteTitle, setNoteTitle] }>
-          <noteBodyContext.Provider value={ [noteBody, setNoteBody] }>
+          <Route path="/" element={ <HomePage modalShowing={ modalShowing } setModalShowing={ setModalShowing } /> } />
+          <Route path="login" element={ <LoginPage /> } />
+          {/* todo: add a <Route path="*" element={<NoPage />} />, create a page for 404 */}
 
-            {/* sidemenu */ }
-            <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
-
-            {/* the current note */ }
-            { (currentNote && menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } /> }
-          
-          </noteBodyContext.Provider>
-        </noteTitleContext.Provider>
-      </div>
+        </Routes>
+      </BrowserRouter>
     </div>
-
   );
 }
 

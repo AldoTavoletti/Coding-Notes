@@ -16,3 +16,12 @@ export const getContrastColor = (backgroundColor) => {
     // Determine whether to use light or dark text based on the threshold
     return backgroundLuminance > threshold ? '#000' : '#fff';
 };
+
+export const openMenu = (e, state, setMethod, elementID = null, elementType = null) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType });
+
+};

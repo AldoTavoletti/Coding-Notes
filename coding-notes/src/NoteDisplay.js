@@ -1,6 +1,6 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { switchState } from "./utils";
+import { switchState, openMenu } from "./utils";
 import $ from "jquery";
 import { noteBodyContext } from "./noteBodyContext";
 import { noteTitleContext } from "./noteTitleContext";
@@ -17,6 +17,9 @@ const NoteDisplay = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote })
     //? if you don't know what error occured in the php file, do console.log(error)
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
     const [noteBody, setNoteBody] = useContext(noteBodyContext);
+    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null });
+
+
 
     const isPatching = useRef(false);
 
@@ -91,15 +94,32 @@ const NoteDisplay = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote })
     };
 
     return (
-
+        <>
         <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"}` }>
 
             <p contentEditable="true" suppressContentEditableWarning={ true } data-placeholder="Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, saveLineBreaks(e.currentTarget.innerHTML)) }>{ note.title }</p>
-            <p contentEditable="true" suppressContentEditableWarning={ true } data-placeholder="Write some text..." className="note-display__body" onInput={ (e) => switchState(noteBody, setNoteBody, saveLineBreaks(e.currentTarget.innerHTML)) }>{ note.body }</p>
+            <p 
+            contentEditable="true"
+            suppressContentEditableWarning={ true } 
+            data-placeholder="Write some text..." 
+            className="note-display__body" 
+            onInput={ (e) => switchState(noteBody, setNoteBody, saveLineBreaks(e.currentTarget.innerHTML)) }
+            onSelect={(e)=>openMenu(e,contextMenuInfo,setContextMenuInfo)}
+            >{ note.body }</p>
 
 
         </div>
+            { contextMenuInfo.x && (
+            <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
 
+                <div className="list-group">
+                    <button type="button" className="list-group-item list-group-item-action"></button>
+                    <button type="button" className="list-group-item list-group-item-action" ></button>
+                </div>
+
+            </div>
+)}
+        </>
     );
 };
 

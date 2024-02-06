@@ -73,7 +73,7 @@ button {
 
 }
 
-.content {
+.home-page {
 
     display: flex;
     height: 90vh;
@@ -235,19 +235,19 @@ color: white;
 }
 
 .header__buttons-div {
-
     height: 100%;
-    width: 22.5%;
+    gap: 10%; 
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 
 }
 
 .primary-button {
 
+    box-sizing: content-box;
     height: 75%;
-    padding-inline: 4%;
+    padding-inline: 15px;
     font-size: 1.2em;
 
     color: black;
@@ -279,7 +279,7 @@ color: white;
     height: 100%;
     width: 100%;
     background-color: black;
-    z-index: 2;
+    z-index: 3;
 
     display: flex;
 
@@ -303,7 +303,6 @@ color: white;
 }
 
 .myModal {
-    position: absolute;
 
     height: 80vh;
     width: 30vw;
@@ -323,14 +322,14 @@ color: white;
 }
 
 .myModal--hidden {
-
     bottom: -80vh;
-
+    position: absolute;
 }
 
 .myModal--visible {
-
-    bottom: 10vh;
+    position: relative;
+    /* without bottom 0 the animation doesnt work */
+    bottom: 0; 
 
 }
 
@@ -532,5 +531,25 @@ hr {
     font-weight: bold;
     font-size: 1.3em;
 
+
+}
+
+
+/* login page */
+
+.login-page{
+
+display: flex;
+align-items: center;
+justify-content: center;
+height: 90vh;
+
+}
+
+
+.form-container{
+
+background-color: var(--primary-bg-color);
+height: 60vh;
 
 }
