@@ -2,55 +2,71 @@ import { switchState } from "./utils";
 import useSWR from "swr";
 import $ from "jquery";
 import { useState } from "react";
+import { URL_GET_FOLDERS, URL_POST, URL_PATCH } from "./utils";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
-    const URL = "http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php";
-    const URL_POST = "http://localhost/CodingNotesRepo/coding-notes/PHP/post_api.php";
-    const URL_PATCH = "http://localhost/CodingNotesRepo/coding-notes/PHP/patch_api.php";
 
-
+    // the folder name in the folders modal
     const [folderName, setFolderName] = useState("");
+
+    // the selected color in the folders modal
     const [selectedColor, setSelectedColor] = useState("#383737");
 
+    // the note title in the note modal
     const [noteTitle, setNoteTitle] = useState("");
+
+    // the note's parent folder in the note modal
     const [noteFolder, setNoteFolder] = useState("General");
 
+    //#region
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
+    const { data: folders, isValidating, error, mutate } = useSWR(URL_GET_FOLDERS, fetcher);
 
-    const { data: folders, isValidating, error, mutate } = useSWR(URL, fetcher);
+    //#endregion
 
     // Handles error and loading state. Without these useSWR doesn't work
     if (error) return (<div></div>);
     if (isValidating) return (<div></div>);
 
+    /**
+     * 
+     * @param {Event} e 
+     */
     const addFolder = async (e) => {
 
-        e.preventDefault();
-
+        // the folder to post
         const newFolder = { name: folderName, color: selectedColor };
+
         $.ajax({
             url: URL_POST,
             type: 'POST',
             data: newFolder,
             success: () => {
-                
+
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL);
+                mutate(URL_GET_FOLDERS);
+
+                //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesFolder();
 
             }
         });
 
+        //close the modal
         switchState(modalShowing, setModalShowing, "none");
 
     };
 
+    /**
+     * 
+     * @param {Event} e 
+     */
     const modifyFolder = async (e) => {
 
-        e.preventDefault();
-
+        // the folder to patch
         const folder = { name: folderName, color: selectedColor, folderID: modalShowing };
+
         $.ajax({
             url: URL_PATCH,
             type: 'PATCH',
@@ -59,24 +75,26 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 console.log(res);
 
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL);
+                mutate(URL_GET_FOLDERS);
+
+                //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesFolder();
 
             },
-            error: (error)=>{
-
-                console.log(error);
-            }
         });
 
+        //close the modal
         switchState(modalShowing, setModalShowing, "none");
 
     };
 
+    /**
+     * 
+     * @param {Event} e 
+     */
     const addNote = (e) => {
 
-        e.preventDefault();
-
+        // the note to add
         const newNote = { title: noteTitle, folder: noteFolder };
 
         $.ajax({
@@ -86,12 +104,15 @@ const Modals = ({ modalShowing, setModalShowing }) => {
             success: () => {
 
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL);
+                mutate(URL_GET_FOLDERS);
+
+                //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesNote();
 
             }
         });
 
+        //close the modal
         switchState(modalShowing, setModalShowing, "none");
     };
 
@@ -110,9 +131,10 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         setNoteFolder("General");
 
     };
+
     return (
 
-        // dim layer
+        // the dim layer
         <div
             // if the modal is showing, make the dim layer visible
             className={ `${"dim-layer"} ${modalShowing !== "none" ? "dim-layer--visible" : "dim-layer--hidden"}` }
@@ -120,7 +142,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
             onClick={ () => switchState(modalShowing, setModalShowing, "none") }
         >
 
-            {/* folder modal */ }
+            {/* add folder modal */ }
             <div
                 className={ `${"myModal"} ${modalShowing === "folder" ? "myModal--visible" : "myModal--hidden"}` }
                 // when the modal is clicked, don't make the dim layer onClick get triggered
@@ -161,9 +183,10 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
             </div>
 
-            {/* folder modal */ }
+
+            {/* modify folder modal */ }
             <div
-                className={ `${"myModal"} ${!isNaN(modalShowing)  ? "myModal--visible" : "myModal--hidden"}` }
+                className={ `${"myModal"} ${!isNaN(modalShowing) ? "myModal--visible" : "myModal--hidden"}` }
                 // when the modal is clicked, don't make the dim layer onClick get triggered
                 onClick={ (e) => e.stopPropagation() }
             >
@@ -201,8 +224,6 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 </div>
 
             </div>
-
-
 
 
             {/* note modal */ }
@@ -248,7 +269,6 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
 
         </div>
-
 
     );
 };

@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 
@@ -8,9 +9,9 @@ import { switchState, openMenu } from "./utils";
 import { noteBodyContext } from "./noteBodyContext";
 import { noteTitleContext } from "./noteTitleContext";
 
-const NoteDisplay = ({ menuStatus, currentNote }) => {
+import { URL_PATCH } from "./utils";
 
-    const URL_PATCH_API = "http://localhost/CodingNotesRepo/coding-notes/PHP/patch_api.php";
+const NoteDisplay = ({ menuStatus, currentNote }) => {
 
     // get the current note title
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
@@ -19,7 +20,7 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
     const [noteBody, setNoteBody] = useContext(noteBodyContext);
 
     // a state variable to determine where the user right clicked and on what element he did do it over
-    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null });
+    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null });
 
     // a state variable to check if a patching operation is ongoing. I use useRef cause i don't want the component to re-render when the value changes.
     const isPatching = useRef(false);
@@ -31,7 +32,7 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
     const patchAjaxCall = (obj) => {
 
         $.ajax({
-            url: URL_PATCH_API,
+            url: URL_PATCH,
             type: 'PATCH',
             data: obj
         });
@@ -43,11 +44,12 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
      * @param {string} html 
      * @returns {string}
      */
-    const saveLineBreaks = (html) => {
+    // const saveLineBreaks = (html) => {
+    //     console.log(noteBody);
 
-        return html.replace(/<div>/g, "\n").replace(/<br>/g, "").replace(/<\/div>/g, "").replace(/&nbsp;/g, " ");
+    //     return html.replace(/<div>/g, "\n").replace(/<br>/g, "\n").replace(/<\/div>/g, "").replace(/&nbsp;/g, " ");
 
-    };
+    // };
    
     //#region FETCH NOTE
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -82,7 +84,6 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
     useEffect(() => {
 
         if (note && !isPatching.current) /* if the note has been fetched and there is no patch operation ongoing */ {
-
             isPatching.current = true;
             patchAjaxCall({ noteID: note.noteID, body: noteBody });
             isPatching.current = false;
@@ -93,25 +94,43 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteBody]);
 
+    const openStyleMenu = (e,state,setMethod)=>{
+
+        e.stopPropagation();
+        e.preventDefault();
+
+
+        const selectedText = window.getSelection().toString();
+        
+        if (selectedText) {
+            
+            switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px" });
+
+        }
+
+    }
     // Handles error and loading state. Without these useSWR doesn't work
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (<div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div>);
+    console.log(noteBody);
+    document.onclick = () => contextMenuInfo.x && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null });
 
     return (
         <>
             <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"}` }>
 
                 {/* //? the title */ }
-                <p contentEditable="true" suppressContentEditableWarning={ true } data-placeholder="Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, saveLineBreaks(e.currentTarget.innerHTML)) }>{ note.title }</p>
+                <p contentEditable="true" suppressContentEditableWarning={ true } data-placeholder="Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, e.currentTarget.innerText ) }>{ note.title }</p>
 
                 {/* //? the body */ }
                 <p
-                    contentEditable="true"
+                    contentEditable="plaintext-only" // if I dont' use plaintext-only, \n get duplicated
                     suppressContentEditableWarning={ true }
                     data-placeholder="Write some text..."
                     className="note-display__body"
-                    onInput={ (e) => switchState(noteBody, setNoteBody, saveLineBreaks(e.currentTarget.innerHTML)) }
-                /*onSelect={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo) }*/
+                    onInput={ (e) => {switchState(noteBody, setNoteBody, e.currentTarget.innerText)} }
+                    onClick={(e)=>e.stopPropagation()}
+                    onMouseUp={ (e) => openStyleMenu(e, contextMenuInfo, setContextMenuInfo) }
                 >{ note.body }</p>
 
 
@@ -122,8 +141,8 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
                 <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
 
                     <div className="list-group">
-                        <button type="button" className="list-group-item list-group-item-action"></button>
-                        <button type="button" className="list-group-item list-group-item-action" ></button>
+                        <button type="button" name="bold" className="list-group-item list-group-item-action">Bold</button>
+                        <button type="button" name="italic" className="list-group-item list-group-item-action" >italic</button>
                     </div>
 
                 </div>

@@ -3,7 +3,7 @@
 :root {
 
     --primary-bg-color: #222222;
-    --secondary-bg-color: #383737;
+    --secondary-bg-color: #2d2d2d;
     --secondary-bg-color-hover: #3e3d3d;
     --tertiary-bg-color: #ffffff;
     --tertiary-bg-color-hover: #ffffffc9;
@@ -551,5 +551,17 @@ height: 90vh;
 
 background-color: var(--primary-bg-color);
 height: 60vh;
+
+}
+
+.list-group-item[name="bold"]{
+
+    font-weight: bold;
+
+}
+
+.list-group-item[name="italic"] {
+
+    font-style: italic;
 
 }

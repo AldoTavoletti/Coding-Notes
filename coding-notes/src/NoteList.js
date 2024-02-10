@@ -1,14 +1,15 @@
+/* eslint-disable no-unused-vars */
+
 import useSWR, { useSWRConfig } from "swr";
 import { getContrastColor, switchState, openMenu } from "./utils";
 import { noteBodyContext } from "./noteBodyContext";
 import { noteTitleContext } from "./noteTitleContext";
 import { useContext, useRef, useState } from "react";
 import $ from "jquery";
+import { URL_DELETE, URL_GET_FOLDERS } from "./utils";
+
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing }) => {
-    
-    const URL_GET_FOLDERS_API = 'http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php';
-    const URL_DELETE_API = 'http://localhost/CodingNotesRepo/coding-notes/PHP/delete_api.php';
     
     // get the title of the current note
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
@@ -25,7 +26,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     //#region GET FOLDERS AND MUTATE DECLARATION
     
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data, isValidating, error } = useSWR(URL_GET_FOLDERS_API, fetcher);
+    const { data, isValidating, error } = useSWR(URL_GET_FOLDERS, fetcher);
     const { mutate } = useSWRConfig();
 
     //#endregion
@@ -54,8 +55,9 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].body = noteBody;
         }
 
-        // await mutate(URL_GET_FOLDERS_API);
+        // await mutate(URL_GET_FOLDERS);
         switchState(currentNote, setCurrentNote, note.noteID);
+        
         // to be honest I don't really know why I need this, I think the refetch of the single note api makes sure the noteBody and noteTitle won't get set to the previous values when the note gets opened again. But I'm not sure. Anyway I need it. 
         await mutate(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`);
         
@@ -66,28 +68,29 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         prevNoteIndex.current = [folderIndex, noteIndex];
     };
 
+    /**
+     * @note to delete folders/notes from the DB
+     */
     const deleteElement = () => {
 
+        // the folder/note to delete.
         const elementToDelete = { elementID: contextMenuInfo.elementID, elementType: contextMenuInfo.elementType };
 
         $.ajax({
-            url: URL_DELETE_API,
+            url: URL_DELETE,
             type: 'DELETE',
             data: elementToDelete,
-            success: (res) => {
+            success: () => {
 
-                console.log(res);
-                mutate(URL_GET_FOLDERS_API);
-
-            }, error: () => {
-
+                mutate(URL_GET_FOLDERS);
 
             }
         });
 
     };
-
-    document.onclick = () => contextMenuInfo.x !== null && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null, elementID: null, elementType: null });
+    
+    //if the contextMenu is open and the screen is clicked, close the contextMenu
+    document.onclick = () => contextMenuInfo.x && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null, elementID: null, elementType: null });
 
     return (
         <div className="note-list">
@@ -107,8 +110,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                                     { folder && folder.notes.map((note, noteIndex) => (
 
                                         <div onClick={ () => handleNoteClick(note, folderIndex, noteIndex) } onContextMenu={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo, note.noteID, "note") } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
-
+                                           
+                                            {/* //? The note title. If the current note or every other note's title is empty show "Untitled Note"  */}
                                             <h4>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</h4>
+
+                                            {/* //? the note body. If it's the current note's body use the state variable (so that it is modifiable), otherwise the one we got from the DB */}
                                             <p>{ currentNote === note.noteID ? noteBody : note.body }</p>
 
                                         </div>
@@ -118,8 +124,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                             </div>
                         </div>
                     </div>
-                    <hr style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } />
 
+                    {/* a horizontal line between folders */}
+                    <hr style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } />
+                    
+                    {/* the context menu */}
                     { contextMenuInfo.x && (
 
                         <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
