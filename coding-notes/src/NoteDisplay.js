@@ -124,10 +124,11 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
 
                 {/* //? the body */ }
                 <p
-                    contentEditable="plaintext-only" // if I dont' use plaintext-only, \n get duplicated
+                    contentEditable="plaintext-only" // if I dont' use plaintext-only, new lines get duplicated
                     suppressContentEditableWarning={ true }
                     data-placeholder="Write some text..."
                     className="note-display__body"
+                    // i use innerText cause, innerHTML doesn't give you the possibility to write things like "<" and textContent doesn't recognize new lines
                     onInput={ (e) => {switchState(noteBody, setNoteBody, e.currentTarget.innerText)} }
                     onClick={(e)=>e.stopPropagation()}
                     onMouseUp={ (e) => openStyleMenu(e, contextMenuInfo, setContextMenuInfo) }
