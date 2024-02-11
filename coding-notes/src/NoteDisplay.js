@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 import $ from "jquery";
 
-import { switchState, openMenu } from "./utils";
+import { switchState } from "./utils";
 
 import { noteBodyContext } from "./noteBodyContext";
 import { noteTitleContext } from "./noteTitleContext";
@@ -24,32 +24,9 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
 
     // a state variable to check if a patching operation is ongoing. I use useRef cause i don't want the component to re-render when the value changes.
     const isPatching = useRef(false);
+
+    // the body element
     const bodyElement = useRef();
-    /**
-     * @note makes an ajax call to patch the data in the DB
-     * @param {object} obj 
-     */
-    const patchAjaxCall = (obj) => {
-
-        $.ajax({
-            url: URL_PATCH,
-            type: 'PATCH',
-            data: obj
-        });
-
-    };
-
-    /**
-     * @note it's used to replace html tags with the corresponding value, maybe there's a better way to do this in php or something.
-     * @param {string} html 
-     * @returns {string}
-     */
-    // const saveLineBreaks = (html) => {
-    //     console.log(noteBody);
-
-    //     return html.replace(/<div>/g, "\n").replace(/<br>/g, "\n").replace(/<\/div>/g, "").replace(/&nbsp;/g, " ");
-
-    // };
 
     //#region FETCH NOTE
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -94,55 +71,81 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteBody]);
 
+    /**
+     * 
+     * @param {Event} e 
+     * @param {*} state 
+     * @param {Function} setMethod 
+     */
     const openStyleMenu = (e, state, setMethod) => {
 
-        e.stopPropagation();
-        e.preventDefault();
+        //// e.stopPropagation();
+        //// e.preventDefault();
 
-
+        // get the selected text
         const selectedText = window.getSelection().toString();
 
-        if (selectedText) {
+        if (selectedText) /* if some text has been selected */ {
 
+            // set the position where the contextmenu has to appear
             switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px" });
 
         }
 
     };
 
-    const boldify = () => {
+    /**
+        * @note makes an ajax call to patch the data in the DB
+        * @param {object} obj 
+        */
+    const patchAjaxCall = (obj) => {
 
-        // Get selected text
-        const selection = window.getSelection();
-        const range = selection.getRangeAt(0);
-        const selectedText = range.toString();
+        $.ajax({
+            url: URL_PATCH,
+            type: 'PATCH',
+            data: obj
+        });
 
-        const span = document.createElement('span');
-        span.style.fontWeight = 'bold';
-
-        span.appendChild(range.cloneContents());
-
-        range.deleteContents();
-        range.insertNode(span);
-        switchState(noteBody, setNoteBody, bodyElement.current.innerHTML);
     };
 
-    const italify = () => {
+    /**
+     * 
+     * @param {string} chosenStyle "italic", "bold" or a color 
+     */
+    const textStyle = (chosenStyle) => {
 
         // Get selected text
         const selection = window.getSelection();
 
+        // get the range, which will contain all the nodes that are in the selected text
         const range = selection.getRangeAt(0);
-        const selectedText = range.toString();
 
+        // create a span element
         const span = document.createElement('span');
-        span.style.fontStyle = 'italic'; // Example: Make text italic
 
+        // style the span
+        switch (chosenStyle) {
+            case "italic":
+                span.style.fontStyle = 'italic';
+                break;
+
+            case "bold":
+                span.style.fontWeight = 'bold';
+                break;
+
+            default /* if it's a color */:
+                span.style.color = chosenStyle;
+                break;
+        }
+
+        // append the selected notes in the span element
         span.appendChild(range.cloneContents());
 
         // Replace the selected text with the styled span
         range.deleteContents();
         range.insertNode(span);
+
+        // update the body
         switchState(noteBody, setNoteBody, bodyElement.current.innerHTML);
 
     };
@@ -166,8 +169,7 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
                     suppressContentEditableWarning={ true }
                     data-placeholder="Write some text..."
                     className="note-display__body"
-                    // i use innerText cause, innerHTML doesn't give you the possibility to write things like "<" and textContent doesn't recognize new lines
-                    onInput={ (e) => { switchState(noteBody, setNoteBody, e.currentTarget.innerHTML); } }
+                    onInput={ () => { switchState(noteBody, setNoteBody, bodyElement.current.innerHTML) } }
                     onClick={ (e) => e.stopPropagation() }
                     onMouseUp={ (e) => openStyleMenu(e, contextMenuInfo, setContextMenuInfo) }
                     onDragStart={ (e) => e.preventDefault() }
@@ -182,8 +184,8 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
                 <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
 
                     <div className="list-group">
-                        <button type="button" name="bold" className="list-group-item list-group-item-action" onClick={ () => boldify() }>Bold</button>
-                        <button type="button" name="italic" className="list-group-item list-group-item-action" onClick={ () => italify() } >italic</button>
+                        <button type="button" name="bold" className="list-group-item list-group-item-action" onClick={ () => textStyle("bold") }>Bold</button>
+                        <button type="button" name="italic" className="list-group-item list-group-item-action" onClick={ () => textStyle("italic") } >italic</button>
                     </div>
 
                 </div>
