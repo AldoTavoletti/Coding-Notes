@@ -115,7 +115,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                                             <h4>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</h4>
 
                                             {/* //? the note body. If it's the current note's body use the state variable (so that it is modifiable), otherwise the one we got from the DB */}
-                                            <p>{ currentNote === note.noteID ? noteBody : note.body }</p>
+                                            <p dangerouslySetInnerHTML={ { __html: currentNote === note.noteID ? noteBody : note.body }}></p>
 
                                         </div>
 
