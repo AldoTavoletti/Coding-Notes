@@ -9,9 +9,12 @@ import { switchState } from "./utils";
 import { noteBodyContext } from "./noteBodyContext";
 import { noteTitleContext } from "./noteTitleContext";
 
-import { URL_PATCH } from "./utils";
+import { URL_PATCH } from "./utils";   
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const NoteDisplay = ({ menuStatus, currentNote }) => {
+
 
     // get the current note title
     const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
@@ -66,6 +69,7 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
             isPatching.current = false;
 
         }
+        console.log(noteBody);
 
         //? the eslint error has got to be disabled cause adding "note" to the dependancy list causes problems
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,43 +114,160 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
 
     /**
      * 
+     * @param {DocumentFragment} container 
+     */
+    const removeInnerChildren = (container, propertyToKeep) => {
+
+        if (!container) {
+            return null;
+        }
+
+        for (const child of container.childNodes) {
+
+            if (child.nodeName === "#text") {
+                
+                continue;
+
+            }
+        
+        // let tempChild = child.cloneNode(true);
+
+        // while (tempChild.hasChildNodes()) {
+            
+        //     const spanChild = tempChild.querySelector("span");
+
+        //     if (spanChild) {
+                
+        //         tempChild = spanChild.cloneNode(true); // check if you have to use clone node
+
+        //     }else{
+
+        //         break;
+
+        //     }
+
+        // }
+
+
+
+            switch (propertyToKeep) {
+                case "bold":
+
+                    if (child.style.fontWeight === "bold") {
+                        continue;
+                    }
+
+                    break;
+
+                case "italic":
+
+                    if (child.style.fontStyle === "italic") {
+                        continue;
+                    }
+
+                    break;
+
+
+                default:
+                    break;
+            }
+
+            for (const innerChild of child.childNodes) {
+                container.appendChild(innerChild);
+                
+            }
+            container.removeChild(child);
+            
+
+        }
+        return container;
+
+    };
+
+    /**
+     * 
      * @param {string} chosenStyle "italic", "bold" or a color 
      */
     const textStyle = (chosenStyle) => {
-
         // Get selected text
         const selection = window.getSelection();
 
+        
+        
         // get the range, which will contain all the nodes that are in the selected text
         const range = selection.getRangeAt(0);
-
         // create a span element
         const span = document.createElement('span');
 
+        
+        let HTMLToAppend = range.extractContents();        
+        
         // style the span
         switch (chosenStyle) {
             case "italic":
-                span.style.fontStyle = 'italic';
+
+                HTMLToAppend = removeInnerChildren(HTMLToAppend, "bold");
+
+                span.style.fontStyle = "italic";
                 break;
 
             case "bold":
-                span.style.fontWeight = 'bold';
+
+                HTMLToAppend = removeInnerChildren(HTMLToAppend, "italic");
+
+                span.style.fontWeight = "bold";
+
                 break;
 
             default /* if it's a color */:
                 span.style.color = chosenStyle;
                 break;
         }
-
         // append the selected notes in the span element
-        span.appendChild(range.cloneContents());
+        // span.appendChild(HTMLToAppend);
 
         // Replace the selected text with the styled span
-        range.deleteContents();
+        // range.deleteContents();
+
+        span.appendChild(HTMLToAppend);
         range.insertNode(span);
+        // range.insertNode(span);
+        // span.nextSibling.remove();
 
         // update the body
         switchState(noteBody, setNoteBody, bodyElement.current.innerHTML);
+
+    };
+    const handleBodyInput = () => {
+
+        switchState(noteBody, setNoteBody, bodyElement.current.innerHTML);
+        if (bodyElement.current.querySelector("br")) {
+
+            bodyElement.current.innerHTML = "";
+
+        }
+
+    };
+
+    /**
+     * 
+     * @param {Event} e 
+     */
+    const handleOnKeyDown = (e) => {
+
+        if (e.ctrlKey && window.getSelection()) {
+
+            if (e.key === "b") {
+
+                textStyle("bold");
+
+            } else if (e.key === "i") {
+
+                textStyle("italic");
+
+            }
+        }
+
 
     };
 
@@ -154,6 +275,10 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (<div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div>);
     document.onclick = () => contextMenuInfo.x && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null });
+
+  
+
+
 
     return (
         <>
@@ -163,16 +288,18 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
                 <p contentEditable="true" suppressContentEditableWarning={ true } onDragStart={ (e) => e.preventDefault() } data-placeholder="Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, e.currentTarget.innerText) }>{ note.title }</p>
 
                 {/* //? the body */ }
+
                 <p
                     ref={ bodyElement }
                     contentEditable="plaintext-only" // if I dont' use plaintext-only, new lines get duplicated
                     suppressContentEditableWarning={ true }
                     data-placeholder="Write some text..."
                     className="note-display__body"
-                    onInput={ () => { switchState(noteBody, setNoteBody, bodyElement.current.innerHTML) } }
+                    onInput={ () => { handleBodyInput(); } }
                     onClick={ (e) => e.stopPropagation() }
                     onMouseUp={ (e) => openStyleMenu(e, contextMenuInfo, setContextMenuInfo) }
                     onDragStart={ (e) => e.preventDefault() }
+                    onKeyDown={ (e) => handleOnKeyDown(e) }
                     dangerouslySetInnerHTML={ { __html: note.body } }
                 ></p>
 
