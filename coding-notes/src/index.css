@@ -131,13 +131,11 @@ button {
     flex-basis: 74%;
     padding: 1.5% 3%;
     transition: all 0.15s ease;
-    max-width: 65%;
 }
 
 .note-display--expanded {
 
     flex-basis: 96%;
-    max-width: 90%;
 
 }
 
@@ -564,4 +562,9 @@ height: 60vh;
 
     font-style: italic;
 
+}
+
+.ce-block__content,
+.ce-toolbar__content {
+    max-width: 90%;
 }
