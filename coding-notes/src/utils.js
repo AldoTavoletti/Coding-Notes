@@ -1,9 +1,7 @@
 import { getLuminance } from 'polished';
+import $ from "jquery";
 
-export const URL_GET_FOLDERS = "http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php";
-export const URL_POST = "http://localhost/CodingNotesRepo/coding-notes/PHP/post_api.php";
-export const URL_PATCH = "http://localhost/CodingNotesRepo/coding-notes/PHP/patch_api.php";
-export const URL_DELETE = "http://localhost/CodingNotesRepo/coding-notes/PHP/delete_api.php";
+export const URL = "http://localhost/CodingNotesRepo/coding-notes/PHP/index.php";
 
 
 /**
@@ -50,3 +48,22 @@ export const openMenu = (e, state, setMethod, elementID = null, elementType = nu
     switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType });
 
 };
+
+export const patchAjaxCall = (obj) => {
+    $.ajax({
+        url: URL,
+        type: 'PATCH',
+        data: obj,
+        success: (res) => {
+
+            console.log(res);
+
+        },
+        error: (err) => {
+
+            console.log(err);
+
+        }
+    });
+
+}

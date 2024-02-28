@@ -1,6 +1,5 @@
 <?php
 
-require_once "db_connection.php";   
 
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -41,4 +40,3 @@ if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
 
     }
 }
-?>

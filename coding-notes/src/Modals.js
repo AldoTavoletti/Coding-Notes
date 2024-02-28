@@ -101,13 +101,18 @@ const Modals = ({ modalShowing, setModalShowing }) => {
             url: URL_POST,
             type: 'POST',
             data: newNote,
-            success: () => {
-
+            success: (res) => {
+                console.log(res);
                 //? if it is positioned outside of this function, it doesn't work all the time 
                 mutate(URL_GET_FOLDERS);
 
                 //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesNote();
+
+            },
+            error: (err)=>{
+
+                console.log(err);
 
             }
         });

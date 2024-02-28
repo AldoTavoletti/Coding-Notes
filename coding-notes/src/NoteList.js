@@ -2,20 +2,13 @@
 
 import useSWR, { useSWRConfig } from "swr";
 import { getContrastColor, switchState, openMenu } from "./utils";
-import { noteBodyContext } from "./noteBodyContext";
-import { noteTitleContext } from "./noteTitleContext";
 import { useContext, useRef, useState } from "react";
 import $ from "jquery";
 import { URL_DELETE, URL_GET_FOLDERS } from "./utils";
 
 
-const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing }) => {
+const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle }) => {
     
-    // get the title of the current note
-    const [noteTitle, setNoteTitle] = useContext(noteTitleContext);
-
-    // get the bodyW of the current note
-    const [noteBody, setNoteBody] = useContext(noteBodyContext);
 
     // the index of the previous note the user navigated to, so that it's value can be settled.
     const prevNoteIndex = useRef(null);
@@ -45,14 +38,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
      * @param {number} noteIndex 
      */
     const handleNoteClick = async (note, folderIndex, noteIndex) => {
-
         if (prevNoteIndex.current) /* if it's not the first selected note in the session */ {
 
             // modify the folders array so that it shows the correct modified title on the previous note
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
 
-            // modify the folders array so that it shows the correct modified body on the previous note
-            folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].body = noteBody;
         }
 
         // await mutate(URL_GET_FOLDERS);
@@ -66,6 +56,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
 
         // save the index of the current note in the prevNoteIndex ref.
         prevNoteIndex.current = [folderIndex, noteIndex];
+
     };
 
     /**
@@ -112,10 +103,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                                         <div onClick={ () => handleNoteClick(note, folderIndex, noteIndex) } onContextMenu={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo, note.noteID, "note") } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
                                            
                                             {/* //? The note title. If the current note or every other note's title is empty show "Untitled Note"  */}
-                                            <h4>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</h4>
-
-                                            {/* //? the note body. If it's the current note's body use the state variable (so that it is modifiable), otherwise the one we got from the DB */}
-                                            <p dangerouslySetInnerHTML={ { __html: currentNote === note.noteID ? noteBody : note.body }}></p>
+                                            <p>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
 
                                         </div>
 

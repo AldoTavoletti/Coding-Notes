@@ -2,8 +2,6 @@
 import Menu from "./Menu";
 import NoteDisplay from "./NoteDisplay";
 
-import { noteTitleContext } from "./noteTitleContext";
-import { noteBodyContext } from "./noteBodyContext";
 
 import { useState } from "react";
 
@@ -22,26 +20,17 @@ const HomePage = ({ modalShowing, setModalShowing }) => {
     // the title of the current note
     const [noteTitle, setNoteTitle] = useState("");
 
-    // the body of the current note
-    const [noteBody, setNoteBody] = useState("");
 
-    //|| the noteTitle and noteBody state variables are passed over to the other components via Context.
 
     return (
 
         <div className="home-page">
 
-            <noteTitleContext.Provider value={ [noteTitle, setNoteTitle] }>
-                <noteBodyContext.Provider value={ [noteBody, setNoteBody] }>
-
                     {/* sidemenu */ }
-                    <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+                    <Menu noteTitle={noteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
                     {/* the note display */ }
-                    { (currentNote && menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
-
-                </noteBodyContext.Provider>
-            </noteTitleContext.Provider>
+                    { (currentNote && menuStatus !== "expanded") && <NoteDisplay noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } currentNote={ currentNote } /> }
 
         </div>
 

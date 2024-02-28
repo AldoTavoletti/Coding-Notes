@@ -77,7 +77,6 @@ button {
 
     display: flex;
     height: 90vh;
-
 }
 
 /* width */
@@ -131,32 +130,36 @@ button {
     flex-basis: 74%;
     padding: 1.5% 3%;
     transition: all 0.15s ease;
+    max-width: 100%;
+    overflow-y: scroll;
+    max-height: 90vh;
 }
 
 .note-display--expanded {
 
     flex-basis: 96%;
+    max-width: 90%;
 
 }
 
 
-.context-menu{
+.context-menu {
 
-position: absolute;
-z-index: 9999;
+    position: absolute;
+    z-index: 9999;
 }
 
-.list-group-item{
+.list-group-item {
 
-background-color: var(--primary-bg-color);
-color: white;
+    background-color: var(--primary-bg-color);
+    color: white;
 
 }
 
-.list-group-item:hover{
+.list-group-item:hover {
 
-background-color: var(--secondary-bg-color);
-color: white;
+    background-color: var(--secondary-bg-color);
+    color: white;
 
 }
 
@@ -234,7 +237,7 @@ color: white;
 
 .header__buttons-div {
     height: 100%;
-    gap: 10%; 
+    gap: 10%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -327,7 +330,7 @@ color: white;
 .myModal--visible {
     position: relative;
     /* without bottom 0 the animation doesnt work */
-    bottom: 0; 
+    bottom: 0;
 
 }
 
@@ -495,7 +498,10 @@ hr {
 
 .note-list__note {
     height: 12vh;
-    padding: 10px;
+    display: flex;
+    padding-inline: 10px;
+    justify-content: center;
+    align-items: center;
     border: 3px solid rgba(0, 0, 0, 0.178);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -507,21 +513,19 @@ hr {
 
 }
 
-.note-list__note h4,
 .note-list__note p {
+    padding: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: inherit;
-
-}
-
-.note-list__note h4 {
-
     font-weight: bold;
-
+    font-size: 1.5em;
 
 }
+
+
+
 
 
 .failed {
@@ -535,24 +539,24 @@ hr {
 
 /* login page */
 
-.login-page{
+.login-page {
 
-display: flex;
-align-items: center;
-justify-content: center;
-height: 90vh;
-
-}
-
-
-.form-container{
-
-background-color: var(--primary-bg-color);
-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
 
 }
 
-.list-group-item[name="bold"]{
+
+.form-container {
+
+    background-color: var(--primary-bg-color);
+    height: 60vh;
+
+}
+
+.list-group-item[name="bold"] {
 
     font-weight: bold;
 
@@ -567,4 +571,90 @@ height: 60vh;
 .ce-block__content,
 .ce-toolbar__content {
     max-width: 90%;
+}
+
+.ce-toolbar__plus:hover{
+
+    background-color: var(--secondary-bg-color-hover);
+
+}
+
+.ce-popover{
+
+background-color: var(--secondary-bg-color-hover);
+border: 0;
+
+}
+
+.ce-popover-item:hover{
+
+background-color: var(--secondary-bg-color) !important;
+
+}
+
+.ce-popover-item__icon{
+
+background-color: var(--primary-bg-color);
+
+}
+
+.cdx-search-field{
+
+background-color: var(--primary-bg-color);
+
+}
+
+::selection{
+
+background: var(--primary-bg-color) !important;
+
+}
+
+.ce-conversion-toolbar{
+
+background-color: var(--secondary-bg-color-hover);
+    border: 0;
+
+}
+
+.ce-conversion-tool:hover{
+
+    background-color: var(--primary-bg-color);
+
+}
+
+.ce-toolbar__settings-btn:hover{
+
+background-color: var(--secondary-bg-color-hover);
+
+}
+
+
+/* when you press the settings button the backgorund of the paragraph becomes white, since i don't know how to change that color, i disabled that function giving this element the background color */
+.cdx-block{
+
+background-color: var(--secondary-bg-color);
+
+}
+
+.ce-inline-toolbar{
+
+border: 0;
+}
+
+.ce-inline-toolbar__dropdown:hover {
+
+    background-color: var(--primary-bg-color);
+
+}
+
+.ce-inline-tool:hover{
+
+background-color: var(--primary-bg-color);
+
+}
+
+.ce-inline-toolbar__toggler-and-button-wrapper{
+
+background-color: var(--secondary-bg-color-hover);
 }

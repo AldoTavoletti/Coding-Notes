@@ -42,5 +42,3 @@ for ($i=0; $i < count($folders); $i++) {
 // Convert the array to JSON and return
 header('Content-Type: application/json');
 echo json_encode($folders);
-
-?>
