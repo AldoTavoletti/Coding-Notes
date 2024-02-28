@@ -3,6 +3,7 @@ import { switchState } from "./utils";
 import { useRef,useEffect } from "react";
 import useSWR from "swr";
 import { patchAjaxCall } from "./utils";
+import { URL } from "./utils";
 
 
 const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
@@ -23,7 +24,7 @@ const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
     }, [noteTitle]);
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading, error } = useSWR(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`, fetcher);
+    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher);
 
     // a state variable to check if a patching operation is ongoing. I use useRef cause i don't want the component to re-render when the value changes.
     const isPatching = useRef(false);

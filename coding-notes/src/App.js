@@ -5,7 +5,6 @@ and connected to a PHP script. The react framework is used.
 */
 
 import Header from "./Header";
-import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
 import Modals from "./Modals";
 
@@ -33,7 +32,7 @@ function App() {
         <Routes>
 
           <Route path="/" element={ <HomePage modalShowing={ modalShowing } setModalShowing={ setModalShowing } /> } />
-          <Route path="login" element={ <LoginPage /> } />
+          {/* <Route path="login" element={ <LoginPage /> } /> */}
 
           {/* //todo: add a <Route path="*" element={<NoPage />} />, create a page for 404// */ }
 

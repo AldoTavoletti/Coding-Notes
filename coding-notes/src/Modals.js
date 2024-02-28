@@ -2,7 +2,7 @@ import { switchState } from "./utils";
 import useSWR from "swr";
 import $ from "jquery";
 import { useState } from "react";
-import { URL_GET_FOLDERS, URL_POST, URL_PATCH } from "./utils";
+import { URL } from "./utils";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
 
@@ -21,7 +21,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     //#region
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: folders, isValidating, error, mutate } = useSWR(URL_GET_FOLDERS, fetcher);
+    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher);
 
     //#endregion
 
@@ -39,13 +39,13 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         const newFolder = { name: folderName, color: selectedColor };
 
         $.ajax({
-            url: URL_POST,
+            url: URL,
             type: 'POST',
             data: newFolder,
             success: () => {
 
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL_GET_FOLDERS);
+                mutate(URL);
 
                 //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesFolder();
@@ -68,14 +68,14 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         const folder = { name: folderName, color: selectedColor, folderID: modalShowing };
 
         $.ajax({
-            url: URL_PATCH,
+            url: URL,
             type: 'PATCH',
             data: folder,
             success: (res) => {
                 console.log(res);
 
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL_GET_FOLDERS);
+                mutate(URL);
 
                 //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesFolder();
@@ -98,13 +98,13 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         const newNote = { title: noteTitle, folder: noteFolder };
 
         $.ajax({
-            url: URL_POST,
+            url: URL,
             type: 'POST',
             data: newNote,
             success: (res) => {
                 console.log(res);
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL_GET_FOLDERS);
+                mutate(URL);
 
                 //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesNote();

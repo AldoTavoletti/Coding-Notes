@@ -12,7 +12,7 @@ import Title from "title-editorjs";
 import Quote from '@editorjs/quote';
 import Warning from '@editorjs/warning';
 import Alert from 'editorjs-alert';
-import { URL_PATCH } from "./utils";
+import { URL } from "./utils";
 import useSWR from "swr";
 import { patchAjaxCall } from "./utils";
 import React, { useEffect, useRef } from "react";
@@ -27,7 +27,7 @@ const Editor = React.memo(({currentNote}) => {
     // get the current note title
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading, error } = useSWR(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`, fetcher);
+    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher);
     
 
 

@@ -4,7 +4,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { getContrastColor, switchState, openMenu } from "./utils";
 import { useContext, useRef, useState } from "react";
 import $ from "jquery";
-import { URL_DELETE, URL_GET_FOLDERS } from "./utils";
+import { URL } from "./utils";
 
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle }) => {
@@ -19,7 +19,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     //#region GET FOLDERS AND MUTATE DECLARATION
     
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data, isValidating, error } = useSWR(URL_GET_FOLDERS, fetcher);
+    const { data, isValidating, error } = useSWR(URL + "?retrieve=all", fetcher);
     const { mutate } = useSWRConfig();
 
     //#endregion
@@ -49,7 +49,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         switchState(currentNote, setCurrentNote, note.noteID);
         
         // to be honest I don't really know why I need this, I think the refetch of the single note api makes sure the noteBody and noteTitle won't get set to the previous values when the note gets opened again. But I'm not sure. Anyway I need it. 
-        await mutate(`http://localhost/CodingNotesRepo/coding-notes/PHP/single_note_api.php?note=${currentNote}`);
+        await mutate(URL + `?retrieve=single&note=${currentNote}`);
         
         // if the menu isn't already in normal status, set it to be
         menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");
@@ -68,12 +68,12 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         const elementToDelete = { elementID: contextMenuInfo.elementID, elementType: contextMenuInfo.elementType };
 
         $.ajax({
-            url: URL_DELETE,
+            url: URL,
             type: 'DELETE',
             data: elementToDelete,
             success: () => {
 
-                mutate(URL_GET_FOLDERS);
+                mutate(URL + "?retrieve=all");
 
             }
         });
