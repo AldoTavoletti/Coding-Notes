@@ -41,14 +41,19 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         $.ajax({
             url: URL,
             type: 'POST',
-            data: newFolder,
-            success: () => {
-
+            data: JSON.stringify(newFolder),
+            success: (msg) => {
+                console.log(msg);
                 //? if it is positioned outside of this function, it doesn't work all the time 
                 mutate(URL);
 
                 //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesFolder();
+
+            },
+            error: (err)=>{
+
+                    console.log(err);
 
             }
         });
@@ -70,7 +75,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         $.ajax({
             url: URL,
             type: 'PATCH',
-            data: folder,
+            data: JSON.stringify(folder),
             success: (res) => {
                 console.log(res);
 
@@ -100,7 +105,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         $.ajax({
             url: URL,
             type: 'POST',
-            data: newNote,
+            data: JSON.stringify(newNote),
             success: (res) => {
                 console.log(res);
                 //? if it is positioned outside of this function, it doesn't work all the time 
@@ -161,11 +166,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 <div className="myModal__body">
 
                     {/* the name of the folder */ }
-                    <form method="post" className="myModal__body__form" >
 
                         <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } />
 
-                    </form>
 
                     {/* the color of the folder */ }
                     <div className="flex-container">
@@ -203,11 +206,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 <div className="myModal__body">
 
                     {/* the name of the folder */ }
-                    <form method="post" className="myModal__body__form" >
 
                         <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } />
 
-                    </form>
 
                     {/* the color of the folder */ }
                     <div className="flex-container">
@@ -244,7 +245,6 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 <div className="myModal__body">
 
                     {/* the title of the note */ }
-                    <form method="post" className="myModal__body__form">
 
                         <input type="text" name="note-name" placeholder="Note name..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } />
 
@@ -259,7 +259,6 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
                         </select>
 
-                    </form>
                 </div>
 
                 {/* the footer of the modal */ }

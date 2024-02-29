@@ -343,21 +343,16 @@ button {
 
 .myModal__body {
     width: 100%;
-}
-
-.myModal__body__form {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    row-gap: 2vh;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 5%;
-
+        align-items: center;
+        justify-content: center;
+        row-gap: 2vh;
+        flex-direction: column;
+        margin-bottom: 5%;
 }
 
-.myModal__body__form input,
-.myModal__body__form select {
+.myModal__body input,
+.myModal__body select {
 
     border: 0;
     width: 90%;

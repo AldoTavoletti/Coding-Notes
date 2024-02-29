@@ -15,7 +15,7 @@ const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
         if (note && !isPatching.current) /* if the note has been fetched and there is no patch operation ongoing */ {
 
             isPatching.current = true;
-            patchAjaxCall(JSON.stringify({ noteID: note.noteID, title: noteTitle }));
+            patchAjaxCall({ noteID: note.noteID, title: noteTitle });
             isPatching.current = false;
 
         }

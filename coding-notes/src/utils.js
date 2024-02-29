@@ -53,7 +53,7 @@ export const patchAjaxCall = (obj) => {
     $.ajax({
         url: URL,
         type: 'PATCH',
-        data: obj,
+        data: JSON.stringify(obj),
         success: (res) => {
 
             console.log(res);

@@ -3,54 +3,63 @@
 
 if ($_GET["retrieve"] === "all") {
 
-    // SQL query to retrieve data
-    $sql = "SELECT * FROM folders";  // Replace with your actual table name
+    //prepare the statement
+    $stmt = $conn->prepare("SELECT * FROM folders");
 
-    $result = $conn->query($sql);
+    // execute the query
+    $stmt->execute();
 
-    $folders = array();  // Initialize an array to store the data
+    // get the result
+    $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        // Fetch data and store in the array
-        while ($row = $result->fetch_assoc()) {
-            $folders[] = $row;
-        }
-    }
+    // fetch the whole result into an associative array
+    $folders = $result->fetch_all(MYSQLI_ASSOC);
+
 
     for ($i = 0; $i < count($folders); $i++) {
 
-        $sql = "SELECT * FROM notes WHERE folderID = " . $folders[$i]["folderID"];  // Replace with your actual table name
+        //prepare the statement
+        $stmt = $conn->prepare("SELECT * FROM notes WHERE folderID=?");
 
-        $result = $conn->query($sql);
+        // bind the parameters
+        $stmt->bind_param("i", $folders[$i]["folderID"]);
 
-        $notes = array();  // Initialize an array to store the data
+        // execute the query
+        $stmt->execute();
 
-        if ($result->num_rows > 0) {
-            // Fetch data and store in the array
-            while ($row = $result->fetch_assoc()) {
-                $notes[] = $row;
-            }
-        }
+        // get the result
+        $result = $stmt->get_result();
 
+        // fetch the whole result into an associative array
+        $notes = $result->fetch_all(MYSQLI_ASSOC);
 
+        // insert the notes associative array in a field related to the parent folder
         $folders[$i]["notes"] = $notes;
 
     }
 
-    // Close connection
-// $conn->close();
-
-    // Convert the array to JSON and return
-    header('Content-Type: application/json');
+    // echo the encoded folders (also containing the notes)  
     echo json_encode($folders);
 
-}elseif ($_GET["retrieve"] === "single") {
 
-    $noteID = $_GET["note"];
+} elseif ($_GET["retrieve"] === "single") {
 
-    $note = $conn->query("SELECT * FROM notes WHERE noteID = '$noteID'")->fetch_assoc();
+    //prepare the statement
+    $stmt = $conn->prepare("SELECT * FROM notes WHERE noteID =?");
 
-    header('Content-Type: application/json');
+    $stmt->bind_param("i", $_GET["note"]);
 
+    // execute the query
+    $stmt->execute();
+
+    // bind the parameters
+    $result = $stmt->get_result();
+
+    // fetch the single row as an associative array
+    $note = $result->fetch_assoc();
+
+    // echo the encoded note
     echo json_encode($note);
+
+
 }

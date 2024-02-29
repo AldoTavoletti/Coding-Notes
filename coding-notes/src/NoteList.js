@@ -70,7 +70,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         $.ajax({
             url: URL,
             type: 'DELETE',
-            data: elementToDelete,
+            data: JSON.stringify(elementToDelete),
             success: () => {
 
                 mutate(URL + "?retrieve=all");

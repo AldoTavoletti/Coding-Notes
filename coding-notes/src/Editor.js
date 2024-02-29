@@ -23,7 +23,7 @@ const Editor = React.memo(({currentNote}) => {
     const Paragraph = require('editorjs-paragraph-with-alignment');
     const Header = require("editorjs-header-with-alignment");
     const ColorPlugin = require('editorjs-text-color-plugin');
-
+    
     // get the current note title
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -115,7 +115,7 @@ const Editor = React.memo(({currentNote}) => {
                     // outputData.blocks.forEach((block)=>block.data.text = block.data.text.replace(/"/g,"'"));
                     
                     console.log('Article data: ', outputData);
-                    patchAjaxCall(JSON.stringify({ ...outputData, noteID: currentNote }));
+                    patchAjaxCall({ ...outputData, noteID: currentNote });
                 }).catch((error) => {
                     console.log('Saving failed: ', error);
                 });
