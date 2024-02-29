@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@bomdi/codebox": "^2.0.0",
+    "@calumk/editorjs-columns": "^0.3.1",
     "@ckeditor/ckeditor5-build-classic": "^41.1.0",
     "@ckeditor/ckeditor5-react": "^6.2.0",
     "@editorjs/checklist": "^1.6.0",
@@ -65,8 +66,12 @@
     ]
   },
   "devDependencies": {
+    "editorjs-change-case": "^0.0.3",
+    "editorjs-drag-drop": "^1.1.13",
     "editorjs-text-color-plugin": "^2.0.4",
     "editorjs-toggle-block": "^0.3.14",
+    "editorjs-tooltip": "^1.2.0",
+    "editorjs-undo": "^2.0.26",
     "react-router-dom": "^6.22.0"
   }
 }
