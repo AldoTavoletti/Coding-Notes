@@ -40,12 +40,12 @@ export const getContrastColor = (backgroundColor) => {
  * @param {string} elementType 
  * @note it open the context menu
  */
-export const openMenu = (e, state, setMethod, elementID = null, elementType = null) => {
+export const openMenu = (e, state, setMethod, elementID = null, elementType = null, folderName=null, folderColor = null) => {
     
     e.preventDefault();
     e.stopPropagation();
 
-    switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType });
+    switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName:folderName, folderColor:folderColor });
 
 };
 

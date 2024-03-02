@@ -14,7 +14,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     const prevNoteIndex = useRef(null);
 
     // a state variable to determine where the user right clicked and on what element he did do it over
-    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null });
+    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor:null });
 
     //#region GET FOLDERS AND MUTATE DECLARATION
     
@@ -74,6 +74,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             success: () => {
 
                 mutate(URL + "?retrieve=all");
+                menuStatus !== "expanded" && switchState(menuStatus, setMenuStatus, "expanded");
+                switchState(currentNote, setCurrentNote, null);
+
+                prevNoteIndex.current = null;
+                
 
             }
         });
@@ -81,7 +86,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     };
     
     //if the contextMenu is open and the screen is clicked, close the contextMenu
-    document.onclick = () => contextMenuInfo.x && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null, elementID: null, elementType: null });
+    document.onclick = () => contextMenuInfo.x && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null, elementID: null, elementType: null, folderName:null, folderColor:null });
 
     return (
         <div className="note-list">
@@ -89,7 +94,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             { folders && folders.map((folder, folderIndex) => (
 
                 <>
-                    <div className="accordion" onContextMenu={ (e) => folder.folderName !== "General" ? openMenu(e, contextMenuInfo, setContextMenuInfo, folder.folderID, "folder") : e.preventDefault() } key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
+                    <div className="accordion" onContextMenu={ (e) => folder.folderName !== "General" ? openMenu(e, contextMenuInfo, setContextMenuInfo, folder.folderID, "folder",folder.folderName, folder.color) : e.preventDefault() } key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
                         <div className="accordion-item">
                             <h2 className="accordion-header">
                                 <button className="accordion-button" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
@@ -122,7 +127,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                         <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
 
                             <div className="list-group">
-                                { contextMenuInfo.elementType === "folder" && <button type="button" className="list-group-item list-group-item-action" onClick={ () => switchState(modalShowing, setModalShowing, contextMenuInfo.elementID) }>Modify</button> }
+                                { contextMenuInfo.elementType === "folder" && <button type="button" className="list-group-item list-group-item-action" onClick={ () => switchState(modalShowing, setModalShowing, {elementID:contextMenuInfo.elementID, folderName:contextMenuInfo.folderName, folderColor: contextMenuInfo.folderColor}) }>Modify</button> }
                                 <button type="button" className="list-group-item list-group-item-action" onClick={ () => deleteElement() }>Delete</button>
                             </div>
 

@@ -1,7 +1,7 @@
 import { switchState } from "./utils";
 import useSWR from "swr";
 import $ from "jquery";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { URL } from "./utils";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
@@ -17,6 +17,17 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
     // the note's parent folder in the note modal
     const [noteFolder, setNoteFolder] = useState("General");
+
+    useEffect(()=>{
+
+        if (typeof modalShowing === "object") {
+            console.log(modalShowing);
+            setFolderName(modalShowing.folderName);
+            setSelectedColor(modalShowing.folderColor); 
+        }
+        
+
+    },[modalShowing]);
 
     //#region
 
@@ -70,7 +81,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     const modifyFolder = async (e) => {
 
         // the folder to patch
-        const folder = { name: folderName, color: selectedColor, folderID: modalShowing };
+        const folder = { name: folderName, color: selectedColor, folderID: modalShowing.elementID };
 
         $.ajax({
             url: URL,
@@ -80,7 +91,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 console.log(res);
 
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL);
+                mutate(URL+"?retrieve=all");
 
                 //reset the state variables so that when the modal gets opened again it's empty.
                 resetStatesFolder();
@@ -194,7 +205,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
             {/* modify folder modal */ }
             <div
-                className={ `${"myModal"} ${!isNaN(modalShowing) ? "myModal--visible" : "myModal--hidden"}` }
+                className={ `${"myModal"} ${typeof modalShowing === "object" ? "myModal--visible" : "myModal--hidden"}` }
                 // when the modal is clicked, don't make the dim layer onClick get triggered
                 onClick={ (e) => e.stopPropagation() }
             >

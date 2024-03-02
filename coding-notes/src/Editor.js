@@ -19,6 +19,7 @@ import TextVariantTune from '@editorjs/text-variant-tune';
 import { patchAjaxCall } from "./utils";
 import React, { useEffect, useRef } from "react";
 import Tooltip from 'editorjs-tooltip';
+import AttachesTool from '@editorjs/attaches';
 import DragDrop from 'editorjs-drag-drop';
 // we use react memo cause when i wirte in the title, the editor gets re-rendered. React.memo makes sure this doesn't happen
 const Editor = React.memo(({currentNote}) => {
@@ -26,14 +27,25 @@ const Editor = React.memo(({currentNote}) => {
     const Paragraph = require('editorjs-paragraph-with-alignment');
     const Header = require("editorjs-header-with-alignment");
     const ColorPlugin = require('editorjs-text-color-plugin');
-    
+    const FootnotesTune = require('@editorjs/footnotes');
     // get the current note title
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher);
     
 
+    const saveEditor= (editor)=>{
+        editor.save().then((outputData) => {
 
+            // outputData.blocks.forEach((block)=>block.data.text = block.data.text.replace(/"/g,"'"));
+
+            console.log('Article data: ', outputData);
+            patchAjaxCall({ ...outputData, noteID: currentNote });
+        }).catch((error) => {
+            console.log('Saving failed: ', error);
+        });
+
+    }
     
     // we put the editor in the useEffect so that we can unmount it when the note is switched
     //#region EDITOR.JS
@@ -51,7 +63,32 @@ const Editor = React.memo(({currentNote}) => {
              * Pass Tool's class or Settings object for each Tool you want to use 
             */
            tools: {
+            //    tooltip: {
+            //        class: Tooltip,
+            //        config: {
+            //            location: 'left',
+            //            underline: true,
+            //            //    placeholder: 'Enter a tooltip',
+            //            highlightColor: '#00bbff',
+            //            backgroundColor: '#00bbff',
+            //            textColor: 'white',
+            //            holder: 'editorjs',
+            //        }
+            //    },
+            //    attaches: {
+            //        class: AttachesTool,
+            //        config: {
+            //            endpoint: URL
+            //        }
+            //    },
                header: Header,
+               footnotes: {
+                   class: FootnotesTune,
+                   config: {
+                       placeholder: 'Write a note',
+                       shortcut: 'CMD+SHIFT+F',
+                   }
+               },
                textVariant: TextVariantTune,
                 Marker: {
                     class: ColorPlugin, // if load from CDN, please try: window.ColorPlugin
@@ -64,29 +101,22 @@ const Editor = React.memo(({currentNote}) => {
                     class: ChangeCase,
                     config: {
                         showLocaleOption: true, // enable locale case options
-                        locale: 'tr' // or ['tr', 'TR', 'tr-TR']
+                        locale: 'tr', // or ['tr', 'TR', 'tr-TR']
                     }
                 },
                 title: Title,
                 warning: Warning,
                 quote: Quote,
                 alert: Alert,
-               tooltip: {
-                   class: Tooltip,
-                   config: {
-                       location: 'left',
-                       underline: true,
-                    //    placeholder: 'Enter a tooltip',
-                       highlightColor: '#FFEFD5',
-                       backgroundColor: '#154360',
-                       textColor: '#FDFEFE',
-                       holder: 'editorjs',
-                   }
-               },
+               
                 paragraph: {
                     class: Paragraph,
                     inlineToolbar: true,
-                    tunes:["textVariant"]
+                    config: {
+
+                        preserveBlank:true,
+                    },
+                    tunes:["textVariant",'footnotes']
                 },
                 list: {
                     class: NestedList,
@@ -94,6 +124,7 @@ const Editor = React.memo(({currentNote}) => {
                     config: {
                         defaultStyle: 'unordered'
                     },
+                    tunes: ["textVariant"]
                 },
                 inlineCode: {
                     class: InlineCode,
@@ -125,15 +156,7 @@ const Editor = React.memo(({currentNote}) => {
 
             onChange: (api, e) => {
 
-                editor.save().then((outputData) => {
-                    
-                    // outputData.blocks.forEach((block)=>block.data.text = block.data.text.replace(/"/g,"'"));
-                    
-                    console.log('Article data: ', outputData);
-                    patchAjaxCall({ ...outputData, noteID: currentNote });
-                }).catch((error) => {
-                    console.log('Saving failed: ', error);
-                });
+                editor.save && saveEditor(editor);
 
 
 
@@ -141,12 +164,22 @@ const Editor = React.memo(({currentNote}) => {
 
             onReady: ()=>{
 
+                //? drag and drop gives an error: when modifying a folder, accessing one of its notes, and going back to another folder's note, an error occurs.
+                // new DragDrop(editor);
 
-                new DragDrop(editor);
+                //make sure that pressing "apply" in the footnotes editor saves the content
+                const footNoteApplyBtn = document.getElementsByClassName("_2C1M2x7JQrjyRQWYCbCx1a")[0];
+
+                footNoteApplyBtn.addEventListener("click", () => {
+
+                    saveEditor(editor);
+
+                });
             }
 
         });
 
+        
 
         return ()=>{
             if (editor.destroy) {
@@ -158,6 +191,8 @@ const Editor = React.memo(({currentNote}) => {
         
     });
 
+    
+    
     // Handles error and loading state. Without these useSWR doesn't work
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (<div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div>);

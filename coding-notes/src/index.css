@@ -2,8 +2,8 @@
 
 :root {
 
-    --primary-bg-color: #222222;
-    --secondary-bg-color: #2d2d2d;
+    --primary-bg-color: #1b1b1b;
+    --secondary-bg-color: #222222;
     --secondary-bg-color-hover: #3e3d3d;
     --tertiary-bg-color: #ffffff;
     --tertiary-bg-color-hover: #ffffffc9;
@@ -66,6 +66,23 @@ button {
 
 }
 
+sup[data-tune="footnotes"]{
+
+background-color: var(--primary-bg-color) !important;
+color: var(--primary-bg-color);
+top: -0.05em;
+border: 1px solid white !important;
+border-radius: 50%;
+height: 15px;
+width: 15px;
+margin: 0px 5px !important;
+}
+/* remove the "remove" button in the footnotes */
+._33Mm1ls72e74_5NUEilpew{
+
+display: none !important;
+
+}
 .right {
 
     transform: rotate(-45deg);
@@ -109,7 +126,23 @@ button {
 
 }
 
+._35XzWAtEYQRy6vt_xvGTEN{
 
+background-color: var(--secondary-bg-color-hover) !important;
+
+}
+
+._35XzWAtEYQRy6vt_xvGTEN::before{
+
+background: none !important;
+
+}
+
+._35XzWAtEYQRy6vt_xvGTEN::after {
+
+    background: none !important;
+
+}
 
 .menu--expanded {
 
@@ -364,6 +397,23 @@ button {
 
 }
 
+.change-case-action{
+
+background-color: var(--secondary-bg-color-hover);
+
+}
+
+.change-case-tool:hover{
+
+background-color: var(--secondary-bg-color) !important;
+
+}
+
+.cdx-input tooltip-tool__input{
+
+background-color: var(--secondary-bg-color-hover) !important;
+
+}
 
 .myModal__footer {
 
