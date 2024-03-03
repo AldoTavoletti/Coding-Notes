@@ -66,23 +66,6 @@ button {
 
 }
 
-sup[data-tune="footnotes"]{
-
-background-color: var(--primary-bg-color) !important;
-color: var(--primary-bg-color);
-top: -0.05em;
-border: 1px solid white !important;
-border-radius: 50%;
-height: 15px;
-width: 15px;
-margin: 0px 5px !important;
-}
-/* remove the "remove" button in the footnotes */
-._33Mm1ls72e74_5NUEilpew{
-
-display: none !important;
-
-}
 .right {
 
     transform: rotate(-45deg);
@@ -123,24 +106,6 @@ display: none !important;
     transition: all 0.15s ease;
     max-width: 26%;
     overflow-y: auto;
-
-}
-
-._35XzWAtEYQRy6vt_xvGTEN{
-
-background-color: var(--secondary-bg-color-hover) !important;
-
-}
-
-._35XzWAtEYQRy6vt_xvGTEN::before{
-
-background: none !important;
-
-}
-
-._35XzWAtEYQRy6vt_xvGTEN::after {
-
-    background: none !important;
 
 }
 
@@ -397,23 +362,6 @@ background: none !important;
 
 }
 
-.change-case-action{
-
-background-color: var(--secondary-bg-color-hover);
-
-}
-
-.change-case-tool:hover{
-
-background-color: var(--secondary-bg-color) !important;
-
-}
-
-.cdx-input tooltip-tool__input{
-
-background-color: var(--secondary-bg-color-hover) !important;
-
-}
 
 .myModal__footer {
 
@@ -613,93 +561,38 @@ hr {
 
 }
 
-.ce-block__content,
-.ce-toolbar__content {
-    max-width: 90%;
-}
+.tox-editor-header{
 
-.ce-toolbar__plus:hover{
-
-    background-color: var(--secondary-bg-color-hover);
+    background-color: var(--secondary-bg-color) !important;
 
 }
 
-.ce-popover{
+.tox-toolbar-overlord {
 
-background-color: var(--secondary-bg-color-hover);
-border: 0;
-
-}
-
-.ce-popover-item:hover{
-
-background-color: var(--secondary-bg-color) !important;
+    background-color: var(--secondary-bg-color) !important;
 
 }
 
-.ce-popover-item__icon{
+.tox-toolbar__primary {
 
-background-color: var(--primary-bg-color);
-
-}
-
-.cdx-search-field{
-
-background-color: var(--primary-bg-color);
+    background-color: var(--secondary-bg-color) !important;
 
 }
 
-::selection{
+.tox-menubar {
 
-background: var(--primary-bg-color) !important;
-
-}
-
-.ce-conversion-toolbar{
-
-background-color: var(--secondary-bg-color-hover);
-    border: 0;
+    background-color: var(--secondary-bg-color) !important;
 
 }
 
-.ce-conversion-tool:hover{
+.tox-statusbar {
 
-    background-color: var(--primary-bg-color);
-
-}
-
-.ce-toolbar__settings-btn:hover{
-
-background-color: var(--secondary-bg-color-hover);
+    background-color: var(--secondary-bg-color) !important;
 
 }
 
+.tox-tinymce{
 
-/* when you press the settings button the backgorund of the paragraph becomes white, since i don't know how to change that color, i disabled that function giving this element the background color */
-.cdx-block{
+border-color: var(--primary-bg-color) !important;
 
-background-color: var(--secondary-bg-color);
-
-}
-
-.ce-inline-toolbar{
-
-border: 0;
-}
-
-.ce-inline-toolbar__dropdown:hover {
-
-    background-color: var(--primary-bg-color);
-
-}
-
-.ce-inline-tool:hover{
-
-background-color: var(--primary-bg-color);
-
-}
-
-.ce-inline-toolbar__toggler-and-button-wrapper{
-
-background-color: var(--secondary-bg-color-hover);
 }

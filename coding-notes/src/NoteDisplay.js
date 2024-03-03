@@ -1,13 +1,11 @@
-import Editor from "./Editor";
 import { switchState } from "./utils";
 import { useRef,useEffect } from "react";
 import useSWR from "swr";
 import { patchAjaxCall } from "./utils";
 import { URL } from "./utils";
-
+import EditorMCE from "./EditorMCE";
 
 const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
-
    console.log(currentNote);
 
     useEffect(() => {
@@ -31,6 +29,7 @@ const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
 
 
     useEffect(() => /* this is called at the first render and when the note gets fetched */ {
+        
         if (note) /* if the note has been fetched */ {
             
             console.log("hi");
@@ -50,7 +49,8 @@ const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
             <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"}` }>
             <p contentEditable="true" suppressContentEditableWarning={ true } onDragStart={ (e) => e.preventDefault() } data-placeholder="Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, e.currentTarget.innerText) }>{ note.title }</p>
 
-                <Editor currentNote={currentNote}/>
+           <EditorMCE />
+
 
             </div>
     );
