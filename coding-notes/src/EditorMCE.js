@@ -8,7 +8,7 @@ const EditorMCE = ({currentNote}) => {
     const editorRef = useRef(null);
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher, {revalidateOnFocus:false});
+    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher);
 
     const isPatching = useRef(false);
 
@@ -21,14 +21,14 @@ const EditorMCE = ({currentNote}) => {
         <Editor
             apiKey='ih58dcotk63myxm6muyk1j8f9skgkvv956m39ggamsqe25ui'
             onInit={ (e, editor) => editorRef.current = editor }
-            initialValue="<p>This is the initial content of the editor.</p>"
+            initialValue={note.content}
             init={ {
                 height: 500,
                 setup: (editor)=>{
 
                     editor.on('change',(e)=>{
 
-                        patchAjaxCall({blocks:editor.getContent(),noteID:note.noteID});
+                        patchAjaxCall({content:editor.getContent(),noteID:currentNote});
 
                     });
 

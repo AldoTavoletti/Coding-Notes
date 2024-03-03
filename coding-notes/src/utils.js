@@ -50,6 +50,7 @@ export const openMenu = (e, state, setMethod, elementID = null, elementType = nu
 };
 
 export const patchAjaxCall = (obj) => {
+    console.log(obj);
     $.ajax({
         url: URL,
         type: 'PATCH',

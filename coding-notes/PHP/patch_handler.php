@@ -6,18 +6,13 @@ $json_data = file_get_contents("php://input");
 // decode the json data into an associative array
 $arr = json_decode($json_data, true);
 
-if (isset($arr["blocks"])) /* if the content of the note has to be patched */ {
-
-    $noteID = $arr["noteID"];
-    unset($arr["noteID"]);
-
-    $content = json_encode($arr);
+if (isset($arr["content"])) /* if the content of the note has to be patched */ {
 
     //prepare the statement
     $stmt = $conn->prepare("UPDATE notes SET content=? WHERE noteID=?");
 
     // bind the parameters
-    $stmt->bind_param("si", $content, $noteID);
+    $stmt->bind_param("si", $arr["content"], $arr["noteID"]);
 
     // execute the query
     $stmt->execute();
