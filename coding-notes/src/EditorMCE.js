@@ -1,16 +1,19 @@
 import { useEffect, useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
+import useSWR from "swr";
+import { URL } from "./utils";
+import { patchAjaxCall } from "./utils";
 
-
-const EditorMCE = () => {
+const EditorMCE = ({currentNote}) => {
     const editorRef = useRef(null);
 
-    // useEffect(()=>{
+    const fetcher = (...args) => fetch(...args).then((res) => res.json());
+    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher, {revalidateOnFocus:false});
 
-    //     const bodyElement = editorRef.current.editor.getBody().removeEventListener('blur');
+    const isPatching = useRef(false);
 
-
-    // },[]);
+    if (error) return (<div></div>);
+    if (!note || isLoading || isValidating) return (<div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div>);
 
 
     return ( 
@@ -21,13 +24,22 @@ const EditorMCE = () => {
             initialValue="<p>This is the initial content of the editor.</p>"
             init={ {
                 height: 500,
+                setup: (editor)=>{
+
+                    editor.on('change',(e)=>{
+
+                        patchAjaxCall({blocks:editor.getContent(),noteID:note.noteID});
+
+                    });
+
+                },
                 menubar: true,
                 content_css: ['index.css', 'dark'],
                 skin: "oxide-dark",
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount','autosave'
                 ],
                 toolbar: 'undo redo | blocks | ' +
                     'bold italic forecolor | alignleft aligncenter ' +
