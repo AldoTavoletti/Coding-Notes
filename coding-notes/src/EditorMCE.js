@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "./utils";
@@ -11,8 +11,6 @@ const EditorMCE = ({currentNote}) => {
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher);
-
-    const isPatching = useRef(false);
 
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (<div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div>);
