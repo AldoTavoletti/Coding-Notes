@@ -6,6 +6,7 @@ import NoteDisplay from "./NoteDisplay";
 import { useState } from "react";
 
 const HomePage = ({ modalShowing, setModalShowing }) => {
+    console.log('HomePage rerendered!');
 
     /*
     ?"normal" if the menu is not expanded nor hidden; 

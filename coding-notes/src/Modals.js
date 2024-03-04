@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { URL } from "./utils";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
+    console.log('Modals rerendered!');
 
     // the folder name in the folders modal
     const [folderName, setFolderName] = useState("");
@@ -32,7 +33,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     //#region
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher);
+    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, {revalidateOnFocus:false, revalidateIfStale:false});
 
     //#endregion
 

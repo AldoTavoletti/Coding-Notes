@@ -6,7 +6,7 @@ import { URL } from "./utils";
 import EditorMCE from "./EditorMCE";
 
 const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
-   console.log(currentNote);
+    console.log('NoteDisplay rerendered!');
 
      useEffect(() => {
 
@@ -32,7 +32,6 @@ const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
         
          if (note) /* if the note has been fetched */ {
             
-             console.log("hi");
              setNoteTitle(note.title);
             
          }

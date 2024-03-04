@@ -5,6 +5,8 @@ import { URL } from "./utils";
 import { patchAjaxCall } from "./utils";
 
 const EditorMCE = ({currentNote}) => {
+    console.log('editorMCE rerendered!');
+    
     const editorRef = useRef(null);
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());

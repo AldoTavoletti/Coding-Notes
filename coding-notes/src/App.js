@@ -13,6 +13,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App() {
+  console.log('App rerendered!');
 
   /* 
   ?"none" if no modal is showing; 
