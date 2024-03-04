@@ -593,6 +593,6 @@ hr {
 
 .tox-tinymce{
 
-border-color: var(--primary-bg-color) !important;
+border: 0 !important;
 
 }

@@ -52,7 +52,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         switchState(currentNote, setCurrentNote, note.noteID);
         
         // to be honest I don't really know why I need this, I think the refetch of the single note api makes sure the noteBody and noteTitle won't get set to the previous values when the note gets opened again. But I'm not sure. Anyway I need it. 
-        // await mutate(URL + `?retrieve=single&note=${currentNote}`);
+        await mutate(URL + `?retrieve=single&note=${currentNote}`);
         
         // if the menu isn't already in normal status, set it to be
         menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");

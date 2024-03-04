@@ -38,14 +38,16 @@ const EditorMCE = ({currentNote}) => {
                 skin: "oxide-dark",
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount','autosave'
+                    'anchor', 'searchreplace', 'visualblocks', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'wordcount','autosave','autoresize','footnotes','tableofcontents','codesample','quickbars','accordion','casechange'
                 ],
                 toolbar: 'undo redo | blocks | ' +
-                    'bold italic forecolor | alignleft aligncenter ' +
+                    'bold italic forecolor codesample casechange | accordion alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help',
-                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px;background-color: #222222 }'
+                    'footnotes tableofcontents | removeformat',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px;background-color: #222222 }',
+                min_height:450,
+                quickbars_insert_toolbar: false
             } }
         />
 
