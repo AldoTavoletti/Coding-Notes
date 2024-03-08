@@ -9,7 +9,6 @@ import { URL } from "./utils";
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle }) => {
     
-    console.log('NoteDisplay rerendered!');
 
     // the index of the previous note the user navigated to, so that it's value can be settled.
     const prevNoteIndex = useRef(null);
@@ -39,20 +38,24 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
      * @param {number} noteIndex 
      */
     const handleNoteClick = async (note, folderIndex, noteIndex) => {
-        console.log('note click!!!!!!!!!!');
-        
+        // await mutate(URL_GET_FOLDERS);
+        switchState(currentNote, setCurrentNote, note.noteID);
+
+
         if (prevNoteIndex.current) /* if it's not the first selected note in the session */ {
 
             // modify the folders array so that it shows the correct modified title on the previous note
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
 
+            // to be honest I don't really know why I need this, I think the refetch of the single note api makes sure the noteBody and noteTitle won't get set to the previous values when the note gets opened again. But I'm not sure. Anyway I need it. 
+            await mutate(URL + `?retrieve=single&note=${currentNote}`);
+
+        }else{
+
+
         }
 
-        // await mutate(URL_GET_FOLDERS);
-        switchState(currentNote, setCurrentNote, note.noteID);
-        
-        // to be honest I don't really know why I need this, I think the refetch of the single note api makes sure the noteBody and noteTitle won't get set to the previous values when the note gets opened again. But I'm not sure. Anyway I need it. 
-        await mutate(URL + `?retrieve=single&note=${currentNote}`);
+    
         
         // if the menu isn't already in normal status, set it to be
         menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { URL } from "./utils";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
-    console.log('Modals rerendered!');
 
     // the folder name in the folders modal
     const [folderName, setFolderName] = useState("");

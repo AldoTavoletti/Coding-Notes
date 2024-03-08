@@ -6,7 +6,6 @@ import { URL } from "./utils";
 import EditorMCE from "./EditorMCE";
 
 const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle}) => {
-    console.log('NoteDisplay rerendered!');
 
      useEffect(() => {
 

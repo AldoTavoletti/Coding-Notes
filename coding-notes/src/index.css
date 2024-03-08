@@ -131,6 +131,7 @@ button {
     max-width: 100%;
     overflow-y: scroll;
     max-height: 90vh;
+    animation: load-note-animation 1s ease-in;
 }
 
 .note-display--expanded {
@@ -594,5 +595,22 @@ hr {
 .tox-tinymce{
 
 border: 0 !important;
+
+}
+
+@keyframes load-note-animation {
+
+0%{
+
+opacity: 0;
+
+}
+
+
+100%{
+    
+   opacity: 1;
+
+}
 
 }
