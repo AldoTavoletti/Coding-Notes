@@ -35,12 +35,11 @@ const EditorMCE = ({currentNote}) => {
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'wordcount','autosave','autoresize','footnotes','tableofcontents','codesample','quickbars','accordion','casechange'
+                    'insertdatetime', 'media', 'table', 'wordcount','autosave','autoresize','codesample','quickbars','accordion'
                 ],
                 toolbar: 'undo redo | blocks | ' +
-                    'bold italic forecolor codesample casechange | accordion alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'footnotes tableofcontents | removeformat',
+                    'bold italic forecolor codesample | accordion alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | removeformat',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px;background-color: #222222 }',
                 min_height:450,
                 quickbars_insert_toolbar: false
