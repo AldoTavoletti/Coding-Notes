@@ -21,17 +21,23 @@ function App() {
   */
   const [modalShowing, setModalShowing] = useState("none");
 
+  // the note the user clicked
+  const [currentNote, setCurrentNote] = useState(null);
+
+  // the title of the current note
+  const [noteTitle, setNoteTitle] = useState("");
+
   return (
     <div className="App">
 
       <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-      <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+      <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/>
 
       <BrowserRouter>
         <Routes>
 
-          <Route path="/" element={ <HomePage modalShowing={ modalShowing } setModalShowing={ setModalShowing } /> } />
+          <Route path="/" element={ <HomePage modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} setCurrentNote={setCurrentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/> } />
           {/* <Route path="login" element={ <LoginPage /> } /> */}
 
           {/* //todo: add a <Route path="*" element={<NoPage />} />, create a page for 404// */ }

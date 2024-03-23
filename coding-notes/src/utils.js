@@ -56,11 +56,13 @@ export const patchAjaxCall = (obj) => {
         type: 'PATCH',
         data: JSON.stringify(obj),
         success: (res) => {
-
+            console.log('done');
+            console.log(obj);
+            
 
         },
         error: (err) => {
-
+            console.log(err);
 
         }
     });

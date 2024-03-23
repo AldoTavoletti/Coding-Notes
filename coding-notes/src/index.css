@@ -129,15 +129,14 @@ button {
     padding: 1.5% 3%;
     transition: all 0.15s ease;
     max-width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 90vh;
-    animation: load-note-animation 1s ease-in;
 }
 
 .note-display--expanded {
 
     flex-basis: 96%;
-    max-width: 90%;
+    max-width: 100%;
 
 }
 
@@ -168,8 +167,6 @@ button {
     font-size: 3em;
     font-weight: bold;
     outline: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
 }
 
 .note-display__title:empty::before,
@@ -219,7 +216,6 @@ button {
 
     justify-content: space-between;
     align-items: center;
-
     height: 10vh;
     width: 100%;
     padding: 0.5% 2%;
@@ -231,6 +227,7 @@ button {
     margin: 0;
     font-size: 1.5em;
     font-weight: bold;
+    animation: load-note-animation 0.5s ease-in;
 
 }
 
@@ -242,7 +239,6 @@ button {
     justify-content: flex-end;
 
 }
-
 .primary-button {
 
     box-sizing: content-box;
@@ -589,13 +585,14 @@ hr {
 .tox-statusbar {
 
     background-color: var(--secondary-bg-color) !important;
-
+    opacity: 0;
 }
+
 
 .tox-tinymce{
 
 border: 0 !important;
-
+    animation: load-note-animation 1s ease-in;
 }
 
 @keyframes load-note-animation {

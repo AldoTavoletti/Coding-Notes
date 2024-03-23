@@ -7,7 +7,7 @@ import $ from "jquery";
 import { URL } from "./utils";
 
 
-const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle }) => {
+const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle, setNoteTitle }) => {
     
 
     // the index of the previous note the user navigated to, so that it's value can be settled.
@@ -37,9 +37,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
      * @param {number} folderIndex 
      * @param {number} noteIndex 
      */
-    const handleNoteClick = async (note, folderIndex, noteIndex) => {
+    const handleNoteClick = async (note, folderIndex, noteIndex,e) => {
         // await mutate(URL_GET_FOLDERS);
-        switchState(currentNote, setCurrentNote, note.noteID);
 
 
         if (prevNoteIndex.current) /* if it's not the first selected note in the session */ {
@@ -48,20 +47,20 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
 
             // to be honest I don't really know why I need this, I think the refetch of the single note api makes sure the noteBody and noteTitle won't get set to the previous values when the note gets opened again. But I'm not sure. Anyway I need it. 
-            await mutate(URL + `?retrieve=single&note=${currentNote}`);
-
-        }else{
-
+        //    await mutate(URL + `?retrieve=single&note=${note.noteID}`); //maybe i dont even need this line
 
         }
+        switchState(currentNote, setCurrentNote, note.noteID);
 
-    
+
+
         
         // if the menu isn't already in normal status, set it to be
         menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");
 
         // save the index of the current note in the prevNoteIndex ref.
         prevNoteIndex.current = [folderIndex, noteIndex];
+
 
     };
 
@@ -93,7 +92,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     
     //if the contextMenu is open and the screen is clicked, close the contextMenu
     document.onclick = () => contextMenuInfo.x && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null, elementID: null, elementType: null, folderName:null, folderColor:null });
-
+    console.log("rerendered");
     return (
         <div className="note-list">
 
@@ -111,7 +110,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                                 <div className="accordion-body" style={ { backgroundColor: folder.color + "88" } }>
                                     { folder && folder.notes.map((note, noteIndex) => (
 
-                                        <div onClick={ () => handleNoteClick(note, folderIndex, noteIndex) } onContextMenu={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo, note.noteID, "note") } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
+                                        <div onClick={ (e) => handleNoteClick(note, folderIndex, noteIndex, e) } onContextMenu={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo, note.noteID, "note") } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
                                            
                                             {/* //? The note title. If the current note or every other note's title is empty show "Untitled Note"  */}
                                             <p>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>

@@ -5,7 +5,7 @@ import NoteDisplay from "./NoteDisplay";
 
 import { useState } from "react";
 
-const HomePage = ({ modalShowing, setModalShowing }) => {
+const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
 
     /*
     ?"normal" if the menu is not expanded nor hidden; 
@@ -14,11 +14,7 @@ const HomePage = ({ modalShowing, setModalShowing }) => {
     */
     const [menuStatus, setMenuStatus] = useState("expanded");
 
-    // the note the user clicked
-    const [currentNote, setCurrentNote] = useState(null);
-
-    // the title of the current note
-    const [noteTitle, setNoteTitle] = useState("");
+    
 
 
 
@@ -27,7 +23,7 @@ const HomePage = ({ modalShowing, setModalShowing }) => {
         <div className="home-page">
 
                     {/* sidemenu */ }
-                    <Menu noteTitle={noteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+                    <Menu noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
                     {/* the note display */ }
                     { (currentNote && menuStatus !== "expanded") && <NoteDisplay noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } currentNote={ currentNote } /> }
