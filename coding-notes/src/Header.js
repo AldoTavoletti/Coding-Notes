@@ -12,13 +12,15 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
 
     useEffect(() => /* this is called at the first render and when the note gets fetched */ {
 
-        if (note) /* if the note has been fetched */ {
+        if (note && noteTitle !== note.title) /* if the note has been fetched */ {
 
             setNoteTitle(note.title);
+            console.log("shit");
 
         }
 
-    }, [note, setNoteTitle]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [note]);
     
     useEffect(() => {
 
