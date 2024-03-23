@@ -12,6 +12,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
 
     // the index of the previous note the user navigated to, so that it's value can be settled.
     const prevNoteIndex = useRef(null);
+    const currentNoteIndex = useRef(null);
+
 
     // a state variable to determine where the user right clicked and on what element he did do it over
     const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor:null });
@@ -38,9 +40,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
      * @param {number} noteIndex 
      */
     const handleNoteClick = async (note, folderIndex, noteIndex,e) => {
-        // await mutate(URL_GET_FOLDERS);
 
-
+        prevNoteIndex.current = currentNoteIndex.current;
         if (prevNoteIndex.current) /* if it's not the first selected note in the session */ {
 
             // modify the folders array so that it shows the correct modified title on the previous note
@@ -59,8 +60,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");
 
         // save the index of the current note in the prevNoteIndex ref.
-        prevNoteIndex.current = [folderIndex, noteIndex];
-
+        currentNoteIndex.current = [folderIndex, noteIndex];
 
     };
 
@@ -83,7 +83,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                 switchState(currentNote, setCurrentNote, null);
 
                 prevNoteIndex.current = null;
-                
+                currentNoteIndex.current = null;
+
 
             }
         });
@@ -111,9 +112,9 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                                     { folder && folder.notes.map((note, noteIndex) => (
 
                                         <div onClick={ (e) => handleNoteClick(note, folderIndex, noteIndex, e) } onContextMenu={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo, note.noteID, "note") } key={ note.noteID } className="note-list__note" style={ { backgroundColor: folder.color, color: getContrastColor(folder.color) } }>
-                                           
+                                            
                                             {/* //? The note title. If the current note or every other note's title is empty show "Untitled Note"  */}
-                                            <p>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
+                                            <p>{ currentNote === note.noteID && (prevNoteIndex.current && noteTitle !== folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title) ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
 
                                         </div>
 
