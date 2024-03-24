@@ -13,7 +13,7 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
     useEffect(() => /* this is called at the first render and when the note gets fetched */ {
 
         if (note && noteTitle !== note.title) /* if the note has been fetched */ {
-
+            console.log("2: " + note.title);
             setNoteTitle(note.title);
             console.log("shit");
 
@@ -24,7 +24,7 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
     
     useEffect(() => {
 
-        if (note && !isPatching.current) /* if the note has been fetched and there is no patch operation ongoing */ {
+        if (note && !isPatching.current && noteTitle !== note.title) /* if the note has been fetched and there is no patch operation ongoing */ {
 
             isPatching.current = true;
             patchAjaxCall({ noteID: note.noteID, title: noteTitle });

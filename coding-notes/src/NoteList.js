@@ -21,7 +21,6 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data, isValidating, error } = useSWR(URL + "?retrieve=all", fetcher);
     const { mutate } = useSWRConfig();
-
     //#endregion
     
     // Handles error and loading state
@@ -39,9 +38,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
      */
     const handleNoteClick = async (note, folderIndex, noteIndex,e) => {
 
-
         if (prevNoteIndex.current) /* if it's not the first selected note in the session */ {
-
             // modify the folders array so that it shows the correct modified title on the previous note
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
 
@@ -50,8 +47,16 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
 
         }
         switchState(currentNote, setCurrentNote, note.noteID);
-        switchState(noteTitle, setNoteTitle, note.title);
 
+        console.log(note.title);
+
+        // the noteTitle is changed, and then the mutate for the header is called. This way the noteTitle gets changed only here, and not also in the useEffects in Header.js
+        // if i didn't add the mutate, note.title in Header.js would be different to noteTitle, and the the useEffect would be executed
+        // if i didn't switch the state here, the useEffect in Header.js would have changed the noteTitle to the previous note.title and then to the correct one, since useSWR takes time to fetch.
+        // it also makes sure that if I switch to another note immediately after i wrote something in the title, it "gets saved"
+        // DO NOT CHANGE THESE LINES
+        switchState(noteTitle, setNoteTitle, note.title);
+        mutate(URL + `?retrieve=single&note=${currentNote}`);
 
 
         
