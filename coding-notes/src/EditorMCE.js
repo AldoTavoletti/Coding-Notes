@@ -19,7 +19,6 @@ const EditorMCE = ({currentNote}) => {
             apiKey='ih58dcotk63myxm6muyk1j8f9skgkvv956m39ggamsqe25ui'
             onInit={ (e, editor) => {
                 editorRef.current = editor;
-                console.log(editor.getContainer());
 
             } }
             initialValue={note.content}
@@ -30,6 +29,7 @@ const EditorMCE = ({currentNote}) => {
                     });
 
                 },
+                toolbar_sticky:true,
                 branding:false,
                 menubar: false,
                 content_css: ['index.css', 'dark'],
@@ -43,7 +43,7 @@ const EditorMCE = ({currentNote}) => {
                     'bold italic forecolor codesample | accordion alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | removeformat',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px;background-color: #222222 }',
-                min_height:540,
+                min_height:700,
                 quickbars_insert_toolbar: false,
             } }
         />

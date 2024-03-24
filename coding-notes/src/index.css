@@ -123,7 +123,6 @@ button {
 }
 
 .note-display {
-
     background-color: var(--secondary-bg-color);
     flex-basis: 74%;
     padding: 1.5% 3%;
@@ -609,5 +608,16 @@ opacity: 0;
    opacity: 1;
 
 }
+
+}
+.tox:not(.tox-tinymce-inline).tox-tinymce--toolbar-bottom .tox-editor-header {
+
+border: 0 !important;
+
+}
+
+.tox .tox-tbtn svg{
+
+    fill: rgba(255, 255, 255, 0.596) !important;
 
 }
