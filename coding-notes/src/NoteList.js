@@ -48,7 +48,6 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         }
         switchState(currentNote, setCurrentNote, note.noteID);
 
-        console.log(note.title);
 
         // the noteTitle is changed, and then the mutate for the header is called. This way the noteTitle gets changed only here, and not also in the useEffects in Header.js
         // if i didn't add the mutate, note.title in Header.js would be different to noteTitle, and the the useEffect would be executed

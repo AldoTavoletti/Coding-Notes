@@ -3,12 +3,15 @@
 :root {
 
     --primary-bg-color: #1b1b1b;
-    --secondary-bg-color: #222222;
+    /* --secondary-bg-color: #222222; */
+    /* --secondary-bg-color: #1e1e1e; */
+    --secondary-bg-color: #232323;
     --secondary-bg-color-hover: #3e3d3d;
     --tertiary-bg-color: #ffffff;
     --tertiary-bg-color-hover: #ffffffc9;
     --tertiary-bg-color-active: #ffffff8f;
 
+    /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
     --light: 80;
     /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
     --threshold: 60;
@@ -559,31 +562,30 @@ hr {
 
 .tox-editor-header{
 
-    background-color: var(--secondary-bg-color) !important;
+    background-color: var(--primary-bg-color) !important;
 
 }
 
 .tox-toolbar-overlord {
 
-    background-color: var(--secondary-bg-color) !important;
-
+    /* background-color: var(--secondary-bg-color) !important; */
+    background-color: var(--primary-bg-color) !important;
 }
 
 .tox-toolbar__primary {
 
-    background-color: var(--secondary-bg-color) !important;
-
+    /* background-color: var(--secondary-bg-color) !important; */
+    background-color: var(--primary-bg-color) !important;
 }
 
 .tox-menubar {
 
-    background-color: var(--secondary-bg-color) !important;
+    background-color: var(--primary-bg-color) !important;
 
 }
 
 .tox-statusbar {
 
-    background-color: var(--secondary-bg-color) !important;
     opacity: 0;
 }
 
@@ -619,5 +621,19 @@ border: 0 !important;
 .tox .tox-tbtn svg{
 
     fill: rgba(255, 255, 255, 0.596) !important;
+
+}
+
+/* .tox .tox-statusbar {
+
+    border: 0 !important;
+
+    display: none !important;
+} */
+
+/* removes the white line at the end of the editor */
+.tox .tox-edit-area__iframe{
+
+background-color: transparent !important;
 
 }

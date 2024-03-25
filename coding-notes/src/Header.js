@@ -13,9 +13,7 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
     useEffect(() => /* this is called at the first render and when the note gets fetched */ {
 
         if (note && noteTitle !== note.title) /* if the note has been fetched */ {
-            console.log("2: " + note.title);
             setNoteTitle(note.title);
-            console.log("shit");
 
         }
 
@@ -46,8 +44,8 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
 
         <div className="header">
             
-            {!note && <p>Coding Notes</p>}
-            
+            {(!note && (isValidating || isLoading)) && <p></p>}
+            {(!note && !isValidating && !isLoading) && <p>Coding Notes</p>}
             { note && <p contentEditable="true" suppressContentEditableWarning={ true } onDragStart={ (e) => e.preventDefault() } data-placeholder="Title..." className="note-display__title" onKeyDown={ (e) => (e.currentTarget.innerText.length > 50 && /^.$/.test(e.key)) && e.preventDefault()}onInput={ (e) => handleTitleInput(e)}>{note.title}</p> }
             
             <div className="header__buttons-div">
