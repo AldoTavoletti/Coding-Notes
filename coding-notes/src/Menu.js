@@ -8,7 +8,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
 
     return (
         
-        <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
+        <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" ? "menu--hidden": menuStatus === null && "menu--invisible"}` }>
            
             <div className="menu__functionalities">
 
@@ -23,7 +23,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
 
             </div>
 
-            { menuStatus !== "hidden" && <NoteList noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />}
+            { menuStatus !== "hidden" && menuStatus !== null && <NoteList noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />}
 
         </div>
 

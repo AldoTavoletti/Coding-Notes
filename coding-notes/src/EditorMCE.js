@@ -8,7 +8,6 @@ const EditorMCE = ({ currentNote }) => {
 
     const editorRef = useRef(null);
     const correspondingNoteID = useRef(null);
-
     //this prevents the duplication of note contents. Even if the currentNote changed during the "change" event, it would still remain the same value. If I didn't use this ref, switching between notes fast could cause content duplication, since the currentNote could change right before sending the object to ajaxPatchCall.
     correspondingNoteID.current = currentNote;
 
@@ -29,22 +28,14 @@ const EditorMCE = ({ currentNote }) => {
                 setup: (editor) => {
                     editor.on('change', (e) => {
 
-                        
                         patchAjaxCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
 
                     });
-                    editor.on('FullscreenStateChanged', (e)=> {
-                        if (e.state) {
-                          
-                        } else {
-
-
-                        }
-                    });
-
                 },
                 branding: false,
-                menubar: false,
+                menubar: true,
+                toolbar_sticky:true,
+                ui_mode:"split",
                 content_css: ['index.css', 'dark'],
                 skin: "oxide-dark",
                 plugins: [
@@ -54,7 +45,7 @@ const EditorMCE = ({ currentNote }) => {
                 ],
                 toolbar: 'undo redo | fontsize  |' +
                     'bold italic forecolor backcolor codesample | alignleft aligncenter ' +
-                    'alignright alignjustify | accordion bullist numlist outdent indent table media | charmap removeformat fullscreen',
+                    'alignright alignjustify indent | accordion bullist numlist media | charmap removeformat fullscreen',
                 content_style: `
                 body { 
                     font-family:Helvetica,Arial,sans-serif; 
@@ -82,7 +73,6 @@ const EditorMCE = ({ currentNote }) => {
                     background-color: #555;
                 }
                 `,
-                toolbar:"fullscreen",
                 statusbar:false,
                 min_height: 700,
                 quickbars_insert_toolbar: false,
