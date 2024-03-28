@@ -40,12 +40,12 @@ const EditorMCE = ({ currentNote }) => {
                 skin: "oxide-dark",
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                    'anchor', 'searchreplace', 'fullscreen',
+                    'anchor', 'searchreplace',
                     'insertdatetime', 'media', 'table', 'wordcount', 'autosave', 'autoresize', 'codesample', 'quickbars', 'accordion'
                 ],
                 toolbar: 'undo redo | fontsize  |' +
                     'bold italic forecolor backcolor codesample | alignleft aligncenter ' +
-                    'alignright alignjustify indent | accordion bullist numlist media | charmap removeformat fullscreen',
+                    'alignright alignjustify indent | accordion bullist numlist media | charmap removeformat',
                 content_style: `
                 body { 
                     font-family:Helvetica,Arial,sans-serif; 

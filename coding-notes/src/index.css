@@ -513,6 +513,7 @@ hr {
 
 .note-list__note p {
     padding: 0;
+    margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -569,6 +570,22 @@ hr {
 .tox-editor-header{
 
     background-color: var(--primary-bg-color) !important;
+    /* left: 4% !important; */
+    /* width: auto !important; */
+
+}
+
+.my-tox-header-sticky--expanded{
+left: 4% !important;
+/* 95.3 and not 96 to make the scrollbar visible */
+    width: 95.3vw !important;
+
+}
+
+.my-tox-header-sticky--normal {
+    left: 26% !important;
+/* 73.3 and not 74 to make the scrollbar visible */
+    width: 73.3vw !important;
 
 }
 
