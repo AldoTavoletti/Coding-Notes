@@ -1,11 +1,10 @@
 <?php
-
+session_start();
 
 if ($_GET["retrieve"] === "all") {
-
     //prepare the statement
-    $stmt = $conn->prepare("SELECT * FROM folders");
-
+    $stmt = $conn->prepare("SELECT * FROM folders WHERE userID=?");
+    $stmt->bind_param("i", $_SESSION["userID"]);
     // execute the query
     $stmt->execute();
 
@@ -47,19 +46,23 @@ if ($_GET["retrieve"] === "all") {
     //prepare the statement
     $stmt = $conn->prepare("SELECT * FROM notes WHERE noteID =?");
 
+    // bind the parameters
     $stmt->bind_param("i", $_GET["note"]);
 
     // execute the query
     $stmt->execute();
 
-    // bind the parameters
+    // get the result
     $result = $stmt->get_result();
 
     // fetch the single row as an associative array
     $note = $result->fetch_assoc();
+
+    $_SESSION["sessionid"] = session_id();
 
     // echo the encoded note
     echo json_encode($note);
 
 
 }
+

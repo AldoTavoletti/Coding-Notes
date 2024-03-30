@@ -2,7 +2,7 @@ import NoteList from "./NoteList";
 
 import { switchState } from "./utils";
 
-const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalShowing, setModalShowing, noteTitle, setNoteTitle}) => {
+const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalShowing, setModalShowing, noteTitle, setNoteTitle, userID, setUserID }) => {
 
     //|| the status of the menu ("normal","expanded","hidden") is controlled with the menuStatus state variable.
 
@@ -23,7 +23,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
 
             </div>
 
-            { menuStatus !== "hidden" && <NoteList noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />}
+            { menuStatus !== "hidden" && <NoteList userID={ userID } setUserID={ setUserID } noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />}
 
         </div>
 

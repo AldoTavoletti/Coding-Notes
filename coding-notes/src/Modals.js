@@ -31,7 +31,8 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
     //#region
 
-    const fetcher = (...args) => fetch(...args).then((res) => res.json());
+    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
+
     const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, {revalidateOnFocus:false, revalidateIfStale:false});
 
     //#endregion
@@ -53,6 +54,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
             url: URL,
             type: 'POST',
             data: JSON.stringify(newFolder),
+            xhrFields: {
+                withCredentials: true
+            },
             success: (msg) => {
                 console.log(msg);
                 //? if it is positioned outside of this function, it doesn't work all the time 
@@ -87,6 +91,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
             url: URL,
             type: 'PATCH',
             data: JSON.stringify(folder),
+            xhrFields: {
+                withCredentials: true
+            },
             success: (res) => {
                 console.log(res);
 
@@ -117,6 +124,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
             url: URL,
             type: 'POST',
             data: JSON.stringify(newNote),
+            xhrFields: {
+                withCredentials: true
+            },
             success: (res) => {
                 console.log(res);
                 //? if it is positioned outside of this function, it doesn't work all the time 

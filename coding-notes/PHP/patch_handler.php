@@ -1,5 +1,4 @@
 <?php
-
 //get the json data sent (we have to retrieve it this way since it's sent with ajax and not with a regular form)
 $json_data = file_get_contents("php://input");
 

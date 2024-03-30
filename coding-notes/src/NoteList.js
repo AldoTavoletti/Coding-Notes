@@ -7,7 +7,7 @@ import $ from "jquery";
 import { URL } from "./utils";
 
 
-const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle, setNoteTitle }) => {
+const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle, setNoteTitle, userID, setUserID }) => {
     
 
     // the index of the previous note the user navigated to, so that it's value can be settled.
@@ -18,15 +18,15 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
 
     //#region GET FOLDERS AND MUTATE DECLARATION
     
-    const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data, isValidating, error } = useSWR(URL + "?retrieve=all", fetcher);
+    const fetcher = (url) => fetch(url,{credentials:'include'}).then((res) => res.json());
+    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher);
     const { mutate } = useSWRConfig();
+    console.log(data,error);
     //#endregion
-    
     // Handles error and loading state
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
     if (isValidating) return (< div className="note-list"><div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div></div>);
-
+    
     // copy the data read-only array to create a modifiable folders array
     const folders = [...data];
 

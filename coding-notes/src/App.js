@@ -7,7 +7,7 @@ and connected to a PHP script. The react framework is used.
 import Header from "./Header";
 import HomePage from "./HomePage";
 import Modals from "./Modals";
-
+import Login from "./Login";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -27,6 +27,9 @@ function App() {
   // the title of the current note
   const [noteTitle, setNoteTitle] = useState("");
 
+  const [userID, setUserID] = useState(null);
+
+
   return (
     <div className="App">
 
@@ -37,8 +40,8 @@ function App() {
       <BrowserRouter>
         <Routes>
 
-          <Route path="/" element={ <HomePage modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} setCurrentNote={setCurrentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/> } />
-          {/* <Route path="login" element={ <LoginPage /> } /> */}
+          <Route path={`/`} element={ <HomePage userID={userID} setUserID={setUserID} modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} setCurrentNote={setCurrentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/> } />
+          <Route path="/login" element={ <Login setUserID={setUserID}/> } />
 
           {/* //todo: add a <Route path="*" element={<NoPage />} />, create a page for 404// */ }
 

@@ -55,9 +55,12 @@ export const patchAjaxCall = (obj) => {
         url: URL,
         type: 'PATCH',
         data: JSON.stringify(obj),
+        xhrFields: {
+            withCredentials: true
+        },
         success: (res) => {
             console.log('done');
-            console.log(obj);
+            console.log(res);
             
 
         },

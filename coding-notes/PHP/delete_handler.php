@@ -25,7 +25,3 @@ if ($arr["elementType"] === "note") /* if a note is being deleted */ {
     // execute the query
     $stmt->execute();
 
-
-//mysqli_query($conn, "DELETE FROM notes WHERE noteID = '$elementID'");
-
-//mysqli_query($conn, "DELETE FROM folders WHERE folderID = '$elementID'");

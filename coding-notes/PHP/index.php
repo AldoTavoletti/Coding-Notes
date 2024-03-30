@@ -1,5 +1,4 @@
 <?php
-
 require_once "db_connection.php";
 
 // Allow from any origin
@@ -19,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
     exit(0);
 }
+
 
 switch ($_SERVER["REQUEST_METHOD"]) {
     case "GET":
