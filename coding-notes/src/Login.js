@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { URL } from "./utils";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
@@ -96,7 +96,15 @@ const Login = ({setUserID}) => {
 
         if (wantsLogin) {
 
-            setWantsLogin(false);
+            titleRef.current.style.opacity = 0;
+            setTimeout(() => {
+                
+                titleRef.current.style.opacity = 1;
+                setWantsLogin(false);  
+                setError(null);
+                
+                
+            }, 200);
         } else {
 
             signUp();
@@ -107,7 +115,16 @@ const Login = ({setUserID}) => {
 
     const handleLoginClick = () => {
         if (!wantsLogin) {
-            setWantsLogin(true);
+            titleRef.current.style.opacity = 0;
+
+            setTimeout(() => {
+                
+                titleRef.current.style.opacity = 1;
+                setWantsLogin(true);
+                setError(null);
+
+
+            }, 200);
         } else {
 
 logIn();
@@ -115,6 +132,10 @@ logIn();
         }
 
     };
+
+    const titleRef = useRef();
+
+    const confirmPasswordRef = useRef();
 
     return (
 
@@ -129,15 +150,15 @@ logIn();
 
 
             <div className="login-container">
-                { wantsLogin ? <p>Login</p> : <p>Sign up</p> }
+                <p ref={titleRef}>{ wantsLogin ? "Login" : "Sign up" }</p>
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } />
                 <input type="password" name="password" placeholder="Password..." onChange={ (e) => setPassword(e.target.value) } />
-                { !wantsLogin && <input type="password" name="password-confirm" placeholder="Confirm Password..." onChange={ (e) => setPassword2(e.target.value) } /> }
+                <input ref={confirmPasswordRef} className={ wantsLogin && "input-disappear"} type="password" name="password-confirm" placeholder="Confirm Password..." onChange={ (e) => setPassword2(e.target.value) } />
                 { error && <p className="login-container__error">{ error }</p> }
 
                 <div className="login-container__buttons">
-                    <button onClick={ (e) => handleSignUpClick(e) } type= "button">Sign Up</button>
-                    <button onClick={ (e) => handleLoginClick(e) } type= "button">Login</button>
+                    <button onClick={ (e) => handleSignUpClick(e) } type= "button" className={!wantsLogin ? "active":""}>Sign Up</button>
+                    <button onClick={ (e) => handleLoginClick(e) } type="button" className={ wantsLogin ? "active" : "" }>Login</button>
                 </div>
             </div>
 
