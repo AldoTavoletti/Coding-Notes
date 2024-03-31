@@ -74,37 +74,36 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
 
 
         $_SESSION["userID"] = $userID;
-        echo json_encode(array("message" => "Signed up!", "userID" => $_SESSION["userID"]));
+        echo json_encode(array("message" => "Signed up!", "userID" => $_SESSION["userID"],'$passwordHash'=>$passwordHash));
 
 
     }
 
 } else if (isset($arr["username"], $arr["password"]) && $arr["action"] === "login") {
 
-    $stmt = $conn->prepare("SELECT userID FROM users WHERE username=?");
+    $stmt = $conn->prepare("SELECT userID, password FROM users WHERE username=?");
     $stmt->bind_param("s", $arr["username"]);
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
     if ($result) {
         $userID =$result["userID"]; 
 
-        $passwordHash = password_hash($arr["password"], PASSWORD_DEFAULT);
         
-        if (password_verify($arr["password"], $passwordHash)) {
+        if (password_verify($arr["password"], $result["password"])) {
 
             $_SESSION["userID"] = $userID;
             echo json_encode(array("message"=> "Access granted!","userID"=>session_id(),"code"=>200));
             
         } else{
 
-            die(json_encode(array('message' => 'Wrong password', 'code' => 0)));
+            die(json_encode(array('message' => 'Wrong password', 'code' => 401,'$arr["password"]'=>$arr["password"],'$arr["password"] HASHED'=>password_hash($arr["password"],PASSWORD_DEFAULT), '$result["password"]' => $result["password"])));
             
             
         }
         
     } else {
         
-        die(json_encode(array('message' => 'Wrong username', 'code' => 0)));
+        die(json_encode(array('message' => 'Not existing username', 'code' => 401)));
         
         
     }

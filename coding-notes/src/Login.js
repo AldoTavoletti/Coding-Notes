@@ -34,9 +34,14 @@ const Login = ({setUserID}) => {
                 data: JSON.stringify({ username: username, password: password, action: "login" }),
             
                 success: (res) => {
-                    if (JSON.parse(res)["code"] === 200) {
+                    const resParsed = JSON.parse(res); 
+                    if (resParsed["code"] === 200) {
                         
                         navigate("/");
+                    }else{
+
+                        setError(resParsed["message"]);
+
                     }
 
                     console.log(res);
@@ -77,7 +82,6 @@ const Login = ({setUserID}) => {
             success: (res) => {
 
                 console.log('done');
-                setUserID(res["userID"]);
                 navigate("/");
             },
             error: (err) => {
