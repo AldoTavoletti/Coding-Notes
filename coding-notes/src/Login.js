@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { URL } from "./utils";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 
 
-const Login = ({setUserID}) => {
+const Login = ({isLoggedIn, setIsLoggedIn}) => {
 
     const [wantsLogin, setWantsLogin] = useState(true);
 
@@ -15,6 +15,12 @@ const Login = ({setUserID}) => {
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+
+        isLoggedIn && setIsLoggedIn(false);
+
+    });
 
     const logIn = () => {
 
@@ -36,8 +42,9 @@ const Login = ({setUserID}) => {
                 success: (res) => {
                     const resParsed = JSON.parse(res); 
                     if (resParsed["code"] === 200) {
-                        
+                        setIsLoggedIn(true);
                         navigate("/");
+
                     }else{
 
                         setError(resParsed["message"]);
@@ -80,8 +87,8 @@ const Login = ({setUserID}) => {
             },
             data: JSON.stringify({ username: username, password: password, action:"signup" }),
             success: (res) => {
+                setIsLoggedIn(true);
 
-                console.log('done');
                 navigate("/");
             },
             error: (err) => {

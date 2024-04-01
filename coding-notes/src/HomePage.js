@@ -1,11 +1,13 @@
 
+import { useNavigate } from "react-router-dom";
+import Login from "./Login";
 import Menu from "./Menu";
 import NoteDisplay from "./NoteDisplay";
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, userID, setUserID }) => {
+const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
 
     /*
     ?"normal" if the menu is not expanded nor hidden; 
@@ -13,10 +15,18 @@ const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, 
     ?"hidden" if the menu hidden. 
     */
     const [menuStatus, setMenuStatus] = useState("expanded");
-
+    const navigate = useNavigate();
     
-    console.log(userID);
+   
 
+    useEffect(()=>{
+
+        if (isLoggedIn === false) /* can't use !isLoggedIn, it would consider null too */ {
+            navigate("/login");
+        }
+
+        
+    });
 
 
     return (
@@ -24,10 +34,10 @@ const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, 
         <div className="home-page">
 
                     {/* sidemenu */ }
-            <Menu userID={ userID } setUserID={ setUserID } noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+            <Menu noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
                     {/* the note display */ }
-                    { (currentNote && menuStatus !== "expanded") && <NoteDisplay noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={setMenuStatus} currentNote={ currentNote } /> }
+                    { (menuStatus !== "expanded") && <NoteDisplay noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={setMenuStatus} currentNote={ currentNote } /> }
 
         </div>
 

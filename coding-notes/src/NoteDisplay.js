@@ -28,7 +28,14 @@ const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle, setMenu
     <div className={ `${"note-display"} ${(menuStatus === "hidden") && "note-display--expanded"}` } ref={ noteDisplayRef }>
       {/* <p contentEditable="true" suppressContentEditableWarning={ true } onDragStart={ (e) => e.preventDefault() } data-placeholder="Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, e.currentTarget.innerText) }>{ note.title }</p> */ }
 
-      <EditorMCE currentNote={ currentNote } />
+      { currentNote ? <EditorMCE currentNote={ currentNote } /> : 
+      (
+          <div className="note-display__message">
+      <i class="bi bi-journals"></i>
+      <p className="">Choose a note!</p>
+          </div>
+      )}
+
 
 
     </div>

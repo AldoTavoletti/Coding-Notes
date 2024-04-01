@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_GET["retrieve"] === "all") {
+if (isset($_GET["retrieve"]) && $_GET["retrieve"] === "all") {
     //prepare the statement
     $stmt = $conn->prepare("SELECT * FROM folders WHERE userID=?");
     $stmt->bind_param("i", $_SESSION["userID"]);
@@ -41,7 +41,7 @@ if ($_GET["retrieve"] === "all") {
     echo json_encode($folders);
 
 
-} elseif ($_GET["retrieve"] === "single") {
+} elseif (isset($_GET["retrieve"]) && $_GET["retrieve"] === "single") {
 
     //prepare the statement
     $stmt = $conn->prepare("SELECT * FROM notes WHERE noteID =?");
@@ -63,6 +63,18 @@ if ($_GET["retrieve"] === "all") {
     // echo the encoded note
     echo json_encode($note);
 
+
+}else if (isset($_GET["check"]) && $_GET["check"] === "login") {
+
+    if (isset($_SESSION["userID"])) {
+    
+        echo json_encode(array("message"=>"The user is logged in!", "code"=>200));
+    
+    }else{
+
+        die(json_encode(array("message"=>"The user is not logged in!", "code"=>403)));
+
+    }
 
 }
 

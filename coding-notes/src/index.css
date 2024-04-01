@@ -136,7 +136,7 @@ flex-basis: 0;
     transition: all 0.15s ease;
     max-width: 100%;
     overflow-y: auto;
-    max-height: 90vh;
+    height: 90vh;
 }
 
 .note-display--expanded {
@@ -404,10 +404,27 @@ column-gap: 2%;
     transition: all .2s ease;
 
 }
+.login-container__buttons button:hover {
+
+    background-color: rgb(113, 113, 248);
+}
+.login-container__buttons :not(.active):hover {
+
+    background-color: var(--tertiary-bg-color-hover);
+}
 
 .login-container__buttons :not(.active){
 
     background-color: var(--tertiary-bg-color-active);
+}
+
+.note-display__message{
+
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+    /* the margin from the top is half the height of note-display minus the fontsize */
+    margin-top: calc(45vh - 2em);
 }
 
 .color-box {

@@ -8,8 +8,11 @@ import Header from "./Header";
 import HomePage from "./HomePage";
 import Modals from "./Modals";
 import Login from "./Login";
-import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import $ from "jquery";
+import { URL } from "./utils";
+import { redirect } from "react-router-dom";
 
 
 function App() {
@@ -27,7 +30,46 @@ function App() {
   // the title of the current note
   const [noteTitle, setNoteTitle] = useState("");
 
-  const [userID, setUserID] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  useEffect(()=>{
+
+    if (isLoggedIn === null) {
+      checkLoggedIn();
+    }
+
+  },[isLoggedIn]);
+
+  const checkLoggedIn = ()=>{
+
+    $.ajax({
+      url: URL+"?check=login",
+      type: 'GET',
+      xhrFields: {
+        withCredentials: true
+      },
+      success: (res) => {
+        console.log(res);
+        const resParsed = JSON.parse(res);
+        if (resParsed["code"] === 200) {
+          
+          setIsLoggedIn(true);
+          
+        } else {
+          setIsLoggedIn(false);
+
+
+        }
+
+
+
+      },
+      error: (err) => {
+        // console.log(err);
+
+      }
+    });
+  }
 
 
   return (
@@ -35,13 +77,13 @@ function App() {
 
       <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-      <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/>
+      <Header isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/>
 
       <BrowserRouter>
         <Routes>
 
-          <Route path={`/`} element={ <HomePage userID={userID} setUserID={setUserID} modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} setCurrentNote={setCurrentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/> } />
-          <Route path="/login" element={ <Login setUserID={setUserID}/> } />
+          <Route path={`/`}  element={ <HomePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} setCurrentNote={setCurrentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/> } />
+          <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
 
           {/* //todo: add a <Route path="*" element={<NoPage />} />, create a page for 404// */ }
 

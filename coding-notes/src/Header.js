@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { URL } from "./utils";
 import { patchAjaxCall } from "./utils";
 import useSWR from "swr";
-const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNoteTitle }) => {
+const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
 
     const isPatching = useRef(false);
     
@@ -50,11 +50,9 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
             
             <div className="header__buttons-div">
 
-                {/* // // { isLoggedIn ? <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "folder") }>Add a folder +</button> : <button className="primary-button" >Register</button> } */}
-                {/* // //{ isLoggedIn && <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "note") }>Add a note +</button> } */}
+                 { isLoggedIn && <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "folder") }>Add a folder +</button>}
+                { isLoggedIn && <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "note") }>Add a note +</button> }
                 
-                <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "folder") }>Add a folder +</button>
-                <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "note") }>Add a note +</button>
 
             </div>
         </div>
