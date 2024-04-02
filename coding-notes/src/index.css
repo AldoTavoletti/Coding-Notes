@@ -427,6 +427,12 @@ column-gap: 2%;
     margin-top: calc(45vh - 2em);
 }
 
+.vert-line{
+
+height: 90%;
+border-left: 2px solid var(--secondary-bg-color-hover);
+
+}
 .color-box {
 
     height: 7vh;
