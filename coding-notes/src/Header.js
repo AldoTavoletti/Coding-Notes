@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react";
 import { URL } from "./utils";
 import { patchAjaxCall } from "./utils";
 import useSWR from "swr";
-const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
+import $ from "jquery";
+const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, setCurrentNote }) => {
 
     const isPatching = useRef(false);
 
@@ -40,20 +41,50 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
 
         switchState(noteTitle, setNoteTitle, e.currentTarget.innerText);
     };
+
+    const logout = ()=>{
+
+        
+
+        $.ajax({
+            url: URL + "?logout=true",
+            type: 'GET',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: (res) => {
+                console.log(res);
+                const resParsed = JSON.parse(res);
+                if (resParsed["code"] === 200) {
+                    switchState(isLoggedIn, setIsLoggedIn);
+
+                }
+
+
+
+            },
+            error: (err) => {
+                // console.log(err);
+
+            }
+        });
+
+    }
+
     return (
 
         <div className="header">
 
+            { (!isLoggedIn || (!note && !isValidating && !isLoading)) && <p>Coding Notes</p> }
             { (!note && (isValidating || isLoading)) && <p></p> }
-            { (!note && !isValidating && !isLoading) && <p>Coding Notes</p> }
-            { note && <p contentEditable="true" suppressContentEditableWarning={ true } onDragStart={ (e) => e.preventDefault() } data-placeholder="Title..." className="note-display__title" onKeyDown={ (e) => (e.currentTarget.innerText.length > 50 && /^.$/.test(e.key)) && e.preventDefault() } onInput={ (e) => handleTitleInput(e) }>{ note.title }</p> }
+            { note && isLoggedIn && currentNote && <p contentEditable="true" suppressContentEditableWarning={ true } onDragStart={ (e) => e.preventDefault() } data-placeholder="Title..." className="note-display__title" onKeyDown={ (e) => (e.currentTarget.innerText.length > 50 && /^.$/.test(e.key)) && e.preventDefault() } onInput={ (e) => handleTitleInput(e) }>{ note.title }</p> }
 
             <div className="header__buttons-div">
                 { isLoggedIn &&
 
                     (
                         <>
-                        <button className="text-button" onClick={ () => switchState(isLoggedIn, setIsLoggedIn)}>logout</button> 
+                        <button className="text-button" onClick={ () => logout()}>logout</button> 
                         <div className="vert-line"></div>
                             <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "folder") }>Add a folder +</button>
                             <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "note") }>Add a note +</button>

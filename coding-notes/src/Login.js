@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { URL } from "./utils";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from '@react-oauth/google';
 
-
-const Login = ({isLoggedIn, setIsLoggedIn}) => {
+const Login = ({isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTitle, setNoteTitle}) => {
 
     const [wantsLogin, setWantsLogin] = useState(true);
 
@@ -14,13 +14,18 @@ const Login = ({isLoggedIn, setIsLoggedIn}) => {
 
     const [error, setError] = useState(null);
 
+    const [isLongEnough, setIsLongEnough] = useState(null);
+
     const navigate = useNavigate();
 
     useEffect(()=>{
 
         isLoggedIn && setIsLoggedIn(false);
+        currentNote && setCurrentNote(null);
+        noteTitle && setNoteTitle("");
 
-    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
 
     const logIn = () => {
 
@@ -29,6 +34,7 @@ const Login = ({isLoggedIn, setIsLoggedIn}) => {
         } else if (password === "") {
 
             setError("insert a password");
+
         }else{
 
             $.ajax({
@@ -77,6 +83,9 @@ const Login = ({isLoggedIn, setIsLoggedIn}) => {
         } else if (password2 !== password) {
             setError("the passwords are not the same");
 
+        }else if (isLongEnough !== true) {
+            setError("The password should be at least 8 characters long");
+        
         }else{
 
         $.ajax({
@@ -87,6 +96,8 @@ const Login = ({isLoggedIn, setIsLoggedIn}) => {
             },
             data: JSON.stringify({ username: username, password: password, action:"signup" }),
             success: (res) => {
+                console.log(res);
+
                 setIsLoggedIn(true);
 
                 navigate("/");
@@ -144,6 +155,75 @@ logIn();
 
     const confirmPasswordRef = useRef();
 
+    const googleLogin = useGoogleLogin({
+        onSuccess: (codeResponse) => {
+
+            $.ajax({
+                url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
+                type: 'GET',
+                headers: {
+                    Authorization: `Bearer ${codeResponse.access_token}`,
+                    Accept: 'application/json'
+                },
+                success: (res) => {
+                    console.log(res);
+
+                    $.ajax({
+                        url: URL,
+                        type: 'POST',
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        data: JSON.stringify({ googleID:res.id }),
+
+                        success: (res) => {
+                            console.log(res);
+
+                            const resParsed = JSON.parse(res);
+                            if (resParsed["code"] === 200) {
+                                setIsLoggedIn(true);
+                                navigate("/");
+
+                            } else {
+
+                                setError(resParsed["message"]);
+
+                            }
+
+
+
+                        },
+                        error: (err) => {
+                            // console.log(err);
+
+                        }
+                    });
+                },
+                error: (err) => {
+                    console.log(err);
+
+                }
+            });
+
+        },
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+const handlePasswordInput = (e, set)=>{
+
+    set(e.target.value);
+
+    if (e.target.value.length >= 8 && isLongEnough !== true) {
+        setIsLongEnough(true);
+    } else if (e.target.value.length < 8 && isLongEnough !== false){
+
+        setIsLongEnough(false);
+    } else if (e.target.value.length === 0) {
+        setIsLongEnough(null);
+    }
+
+}
+
     return (
 
         <div className="login-page">
@@ -159,16 +239,32 @@ logIn();
             <div className="login-container">
                 <p ref={titleRef}>{ wantsLogin ? "Login" : "Sign up" }</p>
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } />
-                <input type="password" name="password" placeholder="Password..." onChange={ (e) => setPassword(e.target.value) } />
-                <input ref={confirmPasswordRef} className={ wantsLogin && "input-disappear"} type="password" name="password-confirm" placeholder="Confirm Password..." onChange={ (e) => setPassword2(e.target.value) } />
+                <input type="password" name="password" placeholder="Password..." onChange={ (e) => handlePasswordInput(e, setPassword) } />
+                <input ref={ confirmPasswordRef } className={ wantsLogin && "input-disappear" } type="password" name="passwordConfirm" placeholder="Confirm Password..." onChange={ (e) => setPassword2(e.target.value)  } />
+                { !wantsLogin && <span className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` }>At least 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span>}
                 { error && <p className="login-container__error">{ error }</p> }
 
                 <div className="login-container__buttons">
                     <button onClick={ (e) => handleSignUpClick(e) } type= "button" className={!wantsLogin ? "active":""}>Sign Up</button>
                     <button onClick={ (e) => handleLoginClick(e) } type="button" className={ wantsLogin ? "active" : "" }>Login</button>
                 </div>
+               
+                <button className="gsi-material-button" onClick={ () => googleLogin() }>
+                    <div className="gsi-material-button-state"></div>
+                    <div className="gsi-material-button-content-wrapper">
+                        <div className="gsi-material-button-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlnsXlink="http://www.w3.org/1999/xlink" style={{display: "block"}}>
+                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                                <path fill="none" d="M0 0h48v48H0z"></path>
+                            </svg>
+                        </div>
+                        <span style={{display: "none"}}>Sign in with Google</span>
+                    </div>
+                </button>
             </div>
-
         </div>
 
     );

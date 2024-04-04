@@ -26,7 +26,8 @@ const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, 
         }
 
         
-    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[isLoggedIn]);
 
 
     return (

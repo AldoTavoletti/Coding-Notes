@@ -14,15 +14,16 @@ if (isset($_GET["retrieve"]) && $_GET["retrieve"] === "all") {
     // fetch the whole result into an associative array
     $folders = $result->fetch_all(MYSQLI_ASSOC);
 
+    //prepare the statement
+    $stmt = $conn->prepare("SELECT * FROM notes WHERE folderID=?");
+
+    // bind the parameters
+    $stmt->bind_param("i", $folderID);
 
     for ($i = 0; $i < count($folders); $i++) {
 
-        //prepare the statement
-        $stmt = $conn->prepare("SELECT * FROM notes WHERE folderID=?");
-
-        // bind the parameters
-        $stmt->bind_param("i", $folders[$i]["folderID"]);
-
+        $folderID = $folders[$i]["folderID"];
+        
         // execute the query
         $stmt->execute();
 
@@ -75,6 +76,12 @@ if (isset($_GET["retrieve"]) && $_GET["retrieve"] === "all") {
         die(json_encode(array("message"=>"The user is not logged in!", "code"=>403)));
 
     }
+
+}else if (isset($_GET["logout"]) && $_GET["logout"] === "true") {
+
+unset($_SESSION["userID"]);
+
+    echo json_encode(array("message" => "The user has logged out!", "code" => 200));
 
 }
 

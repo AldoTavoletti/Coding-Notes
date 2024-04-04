@@ -9,10 +9,9 @@ import HomePage from "./HomePage";
 import Modals from "./Modals";
 import Login from "./Login";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import $ from "jquery";
 import { URL } from "./utils";
-import { redirect } from "react-router-dom";
 
 
 function App() {
@@ -39,6 +38,7 @@ function App() {
     }
 
   },[isLoggedIn]);
+
 
   const checkLoggedIn = ()=>{
 
@@ -83,7 +83,7 @@ function App() {
         <Routes>
 
           <Route path={`/`}  element={ <HomePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} setCurrentNote={setCurrentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/> } />
-          <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
+          <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } setCurrentNote={ setCurrentNote } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } /> } />
 
           {/* //todo: add a <Route path="*" element={<NoPage />} />, create a page for 404// */ }
 
