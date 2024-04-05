@@ -188,16 +188,10 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
     $stmt->execute();
     $userID = $stmt->get_result()->fetch_assoc()["userID"];
 
-    if ($userID) {
+    if (!$userID) {
 
-        $stmt = $conn->prepare("UPDATE users SET refresh_token=? WHERE userID=?");
-        $stmt->bind_param("si", $responseDecoded->refresh_token,$userID);
-        $stmt->execute();
-    
-    }else{
-
-        $stmt = $conn->prepare("INSERT INTO users (refresh_token,sub) VALUES (?,?)");
-        $stmt->bind_param("ss", $responseDecoded->refresh_token, $tokenInfo->sub);
+        $stmt = $conn->prepare("INSERT INTO users (sub) VALUES (?)");
+        $stmt->bind_param("ss", $tokenInfo->sub);
         $stmt->execute();
 
     }
@@ -213,7 +207,6 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
 
 
 
-    $_SESSION["access_token"] = $responseDecoded->access_token;
     $_SESSION["userID"] = $userID;
 
     echo json_encode(array("message" => "Access granted!", "code" => 200));
