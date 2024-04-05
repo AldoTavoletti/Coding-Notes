@@ -156,25 +156,20 @@ logIn();
     const confirmPasswordRef = useRef();
 
     const googleLogin = useGoogleLogin({
+        flow: "auth-code",
+
         onSuccess: (codeResponse) => {
-
-            $.ajax({
-                url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
-                type: 'GET',
-                headers: {
-                    Authorization: `Bearer ${codeResponse.access_token}`,
-                    Accept: 'application/json'
-                },
-                success: (res) => {
-                    console.log(res);
-
+                    console.log(codeResponse);
                     $.ajax({
                         url: URL,
                         type: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
                         xhrFields: {
                             withCredentials: true
                         },
-                        data: JSON.stringify({ googleID:res.id }),
+                        data: JSON.stringify({ code: codeResponse.code }),
 
                         success: (res) => {
                             console.log(res);
@@ -198,12 +193,7 @@ logIn();
 
                         }
                     });
-                },
-                error: (err) => {
-                    console.log(err);
-
-                }
-            });
+                
 
         },
         onError: (error) => console.log('Login Failed:', error)

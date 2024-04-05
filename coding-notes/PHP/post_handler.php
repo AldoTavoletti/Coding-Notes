@@ -116,35 +116,105 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
         
     }
     
-}else if (isset($arr["googleID"])) {
+}else if (isset($arr["code"])) {
 
-$stmt = $conn->prepare("SELECT userID FROM users WHERE googleID=?");
-$stmt->bind_param("s",$arr["googleID"]);
-$stmt->execute();
-$result = $stmt->get_result()->fetch_assoc();
+    $code = $arr['code'];
+    $client_id = '225902902685-nfk9t53m1894vf4rmi4jj3fpp3o913cp.apps.googleusercontent.com';
+    $client_secret = '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';
+    $redirect_uri = 'http://localhost:3000';
+    $grant_type = 'authorization_code';
 
- if (!$result) {
+    // Build request body data
+    $data = http_build_query(
+        array(
+            'code' => $code,
+            'client_id' => $client_id,
+            'client_secret' => $client_secret,
+            'redirect_uri' => $redirect_uri,
+            'grant_type' => $grant_type
+        )
+    );
+    // echo json_encode($data);
+    // Set headers
+    $headers = array(
+        'Content-Type: application/x-www-form-urlencoded',
+    );
 
-        $stmt = $conn->prepare("INSERT INTO users(googleID) VALUES(?)");
-        $stmt->bind_param("s", $arr["googleID"]);
-        $stmt->execute();
+    // Initialize cURL session
+    $ch = curl_init();
 
-        $stmt = $conn->prepare("SELECT userID FROM users WHERE googleID=?");
-        $stmt->bind_param("s", $arr["googleID"]);
-        $stmt->execute();
-        $result = $stmt->get_result()->fetch_assoc();
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_URL, 'https://oauth2.googleapis.com/token');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        //prepare the statement
-        $stmt = $conn->prepare("INSERT INTO folders (folderName, color, userID) VALUES ('General','#383737',?)");
+    // Execute cURL request
+    $response = curl_exec($ch);
 
-        // bind the parameters
-        $stmt->bind_param("i", $result["userID"]);
-
-        // execute the query
-        $stmt->execute();
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        // Handle cURL errors
+        $error_message = curl_error($ch);
+        echo json_encode(['error' => 'cURL Error: ' . $error_message]);
     }
 
-$_SESSION["userID"] = $result["userID"];
+    // Close cURL session
+    curl_close($ch);
+
+
+    // decode response
+    $responseDecoded =  json_decode($response);
+
+
+    // Google OAuth 2.0 tokeninfo endpoint URL
+    $tokenInfoUrl = "https://oauth2.googleapis.com/tokeninfo?id_token=" . urlencode($responseDecoded->id_token);
+
+    // Make a GET request to the tokeninfo endpoint
+    $response = file_get_contents($tokenInfoUrl);
+
+    // Check if request was successful
+    if ($response === FALSE) {
+        // Handle error
+        return $response;
+    }
+
+    // Decode the JSON response
+    $tokenInfo = json_decode($response);
+
+    $stmt = $conn->prepare("SELECT userID FROM users WHERE sub=?");
+    $stmt->bind_param("s", $tokenInfo->sub);
+    $stmt->execute();
+    $userID = $stmt->get_result()->fetch_assoc()["userID"];
+
+    if ($userID) {
+
+        $stmt = $conn->prepare("UPDATE users SET refresh_token=? WHERE userID=?");
+        $stmt->bind_param("si", $responseDecoded->refresh_token,$userID);
+        $stmt->execute();
+    
+    }else{
+
+        $stmt = $conn->prepare("INSERT INTO users (refresh_token,sub) VALUES (?,?)");
+        $stmt->bind_param("ss", $responseDecoded->refresh_token, $tokenInfo->sub);
+        $stmt->execute();
+
+    }
+
+    // Check if the token is valid
+    // if (isset($tokenInfo['error'])) {
+    //     // Token is not valid
+    //     return false;
+    // } else {
+    //     // Token is valid
+    //     return true;
+    // }
+
+
+
+    $_SESSION["access_token"] = $responseDecoded->access_token;
+    $_SESSION["userID"] = $userID;
 
     echo json_encode(array("message" => "Access granted!", "code" => 200));
 

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import $ from "jquery";
 import { URL } from "./utils";
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
 
@@ -73,6 +73,7 @@ function App() {
 
 
   return (
+    <GoogleOAuthProvider clientId="225902902685-nfk9t53m1894vf4rmi4jj3fpp3o913cp.apps.googleusercontent.com"> 
     <div className="App">
 
       <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
@@ -90,6 +91,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
+      </GoogleOAuthProvider>
   );
 }
 
