@@ -281,7 +281,17 @@ flex-basis: 0;
     height: 100%;
     width: 100%;
     background-color: black;
-    z-index: 3;
+    opacity: 0.7;
+
+}
+
+.modal-container{
+
+position: fixed;
+    height: 100%;
+    width: 100%;
+    /* has to be over everything */
+    z-index: 9999; 
 
     display: flex;
 
@@ -292,13 +302,14 @@ flex-basis: 0;
 
 }
 
-.dim-layer--hidden {
+
+.modal-container--hidden {
 
     visibility: hidden;
     opacity: 0;
 }
 
-.dim-layer--visible {
+.modal-container--visible {
 
     visibility: visible;
     opacity: 1;
