@@ -19,33 +19,17 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
     // execute the query
     $stmt->execute();
 
-} else if (isset($arr["title"], $arr["folder"])) /* if a note is being added */ {
-
-    // get the folderName to get the folderID
-    $folderName = $arr["folder"];
-
-    //prepare the statement
-    $stmt = $conn->prepare("SELECT folderID FROM folders WHERE folderName =? AND userID=?");
-
-    // bind the parameters
-    $stmt->bind_param("si", $folderName, $_SESSION["userID"]);
-
-    // execute the query
-    $stmt->execute();
-
-    $folderID = $stmt->get_result()->fetch_assoc()["folderID"];
-
-    // get the title
-    $title = $arr["title"];
+} else if (isset($arr["title"], $arr["folderID"])) /* if a note is being added */ {
 
     //prepare the statement
     $stmt = $conn->prepare("INSERT INTO notes (title, folderID) VALUES (?,?)");
 
     // bind the parameters
-    $stmt->bind_param("si", $title, $folderID);
+    $stmt->bind_param("si", $arr["title"], $arr["folderID"]);
 
     // execute the query
     $stmt->execute();
+
 } else if (isset($arr["username"], $arr["password"]) && $arr["action"] === "signup") {
 
     $stmt = $conn->prepare("SELECT username FROM users WHERE username=?");
@@ -60,7 +44,7 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
 
         $passwordHash = password_hash($arr["password"], PASSWORD_DEFAULT); 
 
-        $stmt = $conn->prepare("INSERT INTO users(userID,username,password) VALUES(NULL,?,?)");
+        $stmt = $conn->prepare("INSERT INTO users(username,password) VALUES(?,?)");
         $stmt->bind_param("ss", $arr["username"], $passwordHash);
         $stmt->execute();
 

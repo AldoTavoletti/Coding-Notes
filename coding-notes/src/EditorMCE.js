@@ -13,10 +13,10 @@ const EditorMCE = ({ currentNote }) => {
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher, { revalidateOnFocus: false });
-    
+
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (<div></div>);
-    
+
     return (
         <Editor
             apiKey='ih58dcotk63myxm6muyk1j8f9skgkvv956m39ggamsqe25ui'
@@ -32,10 +32,11 @@ const EditorMCE = ({ currentNote }) => {
 
                     });
                 },
+                placeholder: "Write something...",
                 branding: false,
                 menubar: true,
-                toolbar_sticky:true,
-                ui_mode:"split",
+                toolbar_sticky: true,
+                ui_mode: "split",
                 content_css: ['index.css', 'dark'],
                 skin: "oxide-dark",
                 plugins: [
@@ -46,7 +47,9 @@ const EditorMCE = ({ currentNote }) => {
                 toolbar: 'undo redo | fontsize  |' +
                     'bold italic forecolor backcolor codesample | alignleft aligncenter ' +
                     'alignright alignjustify indent | accordion bullist numlist media | charmap removeformat',
-                content_style: `
+             
+                    //i use content_styke caus these instructions don't work if put in the index.css file, they refer only to the tinymce editor
+                    content_style: `
                 body { 
                     font-family:Helvetica,Arial,sans-serif; 
                     font-size:14pt;
@@ -72,8 +75,11 @@ const EditorMCE = ({ currentNote }) => {
                 ::-webkit-scrollbar-thumb:hover {
                     background-color: #555;
                 }
+                .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+  color: #ffffff80;
+}
                 `,
-                statusbar:false,
+                statusbar: false,
                 min_height: 700,
                 quickbars_insert_toolbar: false,
                 quickbars_selection_toolbar: 'bold italic forecolor backcolor'

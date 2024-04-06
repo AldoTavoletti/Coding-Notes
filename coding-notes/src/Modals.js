@@ -16,7 +16,8 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     const [noteTitle, setNoteTitle] = useState("");
 
     // the note's parent folder in the note modal
-    const [noteFolder, setNoteFolder] = useState("General");
+    const [noteFolderID, setNoteFolderID] = useState("General");
+
     const resetStatesFolder = () => {
 
         setFolderName("");
@@ -29,7 +30,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
 
         setNoteTitle("");
-        setNoteFolder("General");
+        setNoteFolderID({ folderName: folders[0].folderName, folderID: folders[0].folderID });
 
     };
     useEffect(()=>{
@@ -38,13 +39,14 @@ const Modals = ({ modalShowing, setModalShowing }) => {
             console.log(modalShowing);
             setFolderName(modalShowing.folderName);
             setSelectedColor(modalShowing.folderColor); 
-        }else if (modalShowing === "none") /*if the modal gets closed*/{
+        }else if (modalShowing === "none" && folders) /*if the modal gets closed and it's not the first render of the application (&& folders)*/{
            resetStatesFolder();
            resetStatesNote();
 
         }
         
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[modalShowing]);
 
     //#region
@@ -54,10 +56,18 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, {revalidateOnFocus:false, revalidateIfStale:false});
 
     //#endregion
+    useEffect(() => {
 
+        if (folders  && folders.length > 0) {
+            setNoteFolderID({ folderName: folders[0].folderName, folderID: folders[0].folderID});
+        }
+
+    }, [folders]);
     // Handles error and loading state. Without these useSWR doesn't work
     if (error) return (<div></div>);
     if (isValidating) return (<div></div>);
+
+   
 
     /**
      * 
@@ -130,7 +140,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     const addNote = (e) => {
 
         // the note to add
-        const newNote = { title: noteTitle, folder: noteFolder };
+        const newNote = { title: noteTitle, folderID: noteFolderID };
 
         $.ajax({
             url: URL,
@@ -224,13 +234,13 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
                     {/* the title of the note */ }
 
-                        <input type="text" name="note-name" placeholder="Note name..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } />
+                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } />
 
                         {/* the folder where the note has to be inserted.*/ }
-                        <select name="folder-selection" value={ noteFolder } onChange={ (e) => setNoteFolder(e.target.value) }>
+                        <select name="folder-selection" onChange={ (e) => setNoteFolderID(e.target.value) }>
                             { folders.map((folder, i) => (
 
-                                <option key={ folder.folderID } value={ folder.folderName }>{ folder.folderName }</option>
+                                <option key={ folder.folderID } value={ folder.folderID } className="folder-selection__option">{ folder.folderName }</option>
 
                             )) }
 
