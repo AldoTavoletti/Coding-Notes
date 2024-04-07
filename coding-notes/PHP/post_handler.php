@@ -56,7 +56,7 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
         
 
         //prepare the statement
-        $stmt = $conn->prepare("INSERT INTO folders (folderName, color, userID) VALUES ('General','#383737',?)");
+        $stmt = $conn->prepare("INSERT INTO folders (folderName, color, userID) VALUES ('General','black',?)");
 
         // bind the parameters
         $stmt->bind_param("i", $userID);
@@ -170,24 +170,28 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
     $stmt = $conn->prepare("SELECT userID FROM users WHERE sub=?");
     $stmt->bind_param("s", $tokenInfo->sub);
     $stmt->execute();
-    $userID = $stmt->get_result()->fetch_assoc()["userID"];
+    $result = $stmt->get_result()->fetch_assoc();
 
-    if (!$userID) {
+    if (!$result) {
 
         $stmt = $conn->prepare("INSERT INTO users (sub) VALUES (?)");
-        $stmt->bind_param("ss", $tokenInfo->sub);
+        $stmt->bind_param("s", $tokenInfo->sub);
         $stmt->execute();
 
     }
+    $stmt = $conn->prepare("SELECT userID FROM users WHERE sub=?");
+    $stmt->bind_param("s", $tokenInfo->sub);
+    $stmt->execute();
+    $userID = $stmt->get_result()->fetch_assoc()["userID"];
 
-    // Check if the token is valid
-    // if (isset($tokenInfo['error'])) {
-    //     // Token is not valid
-    //     return false;
-    // } else {
-    //     // Token is valid
-    //     return true;
-    // }
+    //prepare the statement
+    $stmt = $conn->prepare("INSERT INTO folders (folderName, color, userID) VALUES ('General','black',?)");
+
+    // bind the parameters
+    $stmt->bind_param("i", $userID);
+
+    // execute the query
+    $stmt->execute();
 
 
 

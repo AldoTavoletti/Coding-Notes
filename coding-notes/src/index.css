@@ -452,6 +452,30 @@ border-left: 2px solid var(--secondary-bg-color-hover);
     border-radius: 50%;
     border: 3px solid white;
     cursor: pointer;
+    /* --color is set in the JSX */
+    background-color: var(--color);
+
+}
+.empty-folder-content{
+
+text-align: center;
+    font-weight: bold;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.empty-folder-content p{
+    font-size: 1.4em;
+    color: inherit;
+    margin: 0;
+}
+
+.empty-folder-content i {
+
+    color: inherit;
 
 }
 
@@ -459,38 +483,7 @@ border-left: 2px solid var(--secondary-bg-color-hover);
     border-width: 4px;
 }
 
-.color-box--red {
-
-    background-color: #ff0000;
-
-}
-
-.color-box--green {
-
-    background-color: #03b703;
-
-}
-
-.color-box--blue {
-
-    background-color: #4d94ff;
-}
-
-.color-box--yellow {
-
-    background-color: #e7e731;
-
-}
-
-
-.color-box--black {
-
-    background-color: var(--secondary-bg-color);
-
-}
-
 .color-box--selected {
-
     border: 4px solid #4e9eff;
 
 }
@@ -519,7 +512,7 @@ border-left: 2px solid var(--secondary-bg-color-hover);
 hr {
 
     width: 100%;
-
+    background-color: #2b2a2a;
 }
 
 
@@ -534,35 +527,35 @@ hr {
 
 }
 
-.accordion-button {
 
+
+.accordion-button {
     font-weight: bold;
     font-size: 0.6em;
 
 }
 
 .accordion-body {
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 2vh;
 
 }
-
 .note-list__note {
-    height: 7vh;
+    width: 100% !important;
+    height: 12vh;
     display: flex;
     padding-inline: 10px;
     justify-content: center;
     align-items: center;
-    border: 3px solid rgba(0, 0, 0, 0.178);
+    border: 2px solid rgba(0, 0, 0, 0.178);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .note-list__note:hover {
 
-    border-radius: 10px;
-
+background-color: var(--hover-color) !important;
 }
 
 .note-list__note p {

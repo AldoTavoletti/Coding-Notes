@@ -2,7 +2,7 @@ import { switchState } from "./utils";
 import useSWR from "swr";
 import $ from "jquery";
 import { useEffect, useState } from "react";
-import { URL } from "./utils";
+import { URL, folderColors } from "./utils";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
 
@@ -10,18 +10,24 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     const [folderName, setFolderName] = useState("");
 
     // the selected color in the folders modal
-    const [selectedColor, setSelectedColor] = useState("#383737");
+    const [selectedColor, setSelectedColor] = useState("black");
 
     // the note title in the note modal
     const [noteTitle, setNoteTitle] = useState("");
 
     // the note's parent folder in the note modal
-    const [noteFolderID, setNoteFolderID] = useState("General");
+    const [noteFolderID, setNoteFolderID] = useState("");
+
+    // transform the folderColors object in an array so that I can iterate it with map
+    const colorsArr = Object.values(folderColors);
+
+    const colorKeysArr = Object.keys(folderColors);
+
 
     const resetStatesFolder = () => {
 
         setFolderName("");
-        setSelectedColor("#383737");
+        setSelectedColor("black");
 
 
     };
@@ -33,33 +39,33 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         setNoteFolderID({ folderName: folders[0].folderName, folderID: folders[0].folderID });
 
     };
-    useEffect(()=>{
+    useEffect(() => {
 
         if (typeof modalShowing === "object") /* if it's the modify folder modal*/ {
             console.log(modalShowing);
             setFolderName(modalShowing.folderName);
-            setSelectedColor(modalShowing.folderColor); 
-        }else if (modalShowing === "none" && folders) /*if the modal gets closed and it's not the first render of the application (&& folders)*/{
-           resetStatesFolder();
-           resetStatesNote();
+            setSelectedColor(modalShowing.folderColor);
+        } else if (modalShowing === "none" && folders) /*if the modal gets closed and it's not the first render of the application (&& folders)*/ {
+            resetStatesFolder();
+            resetStatesNote();
 
         }
-        
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[modalShowing]);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalShowing]);
 
     //#region
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
-    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, {revalidateOnFocus:false, revalidateIfStale:false});
+    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, { revalidateOnFocus: false, revalidateIfStale: false });
 
     //#endregion
     useEffect(() => {
 
-        if (folders  && folders.length > 0) {
-            setNoteFolderID({ folderName: folders[0].folderName, folderID: folders[0].folderID});
+        if (folders && folders.length > 0) {
+            setNoteFolderID( folders[0].folderID);
         }
 
     }, [folders]);
@@ -67,7 +73,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     if (error) return (<div></div>);
     if (isValidating) return (<div></div>);
 
-   
+
 
     /**
      * 
@@ -91,9 +97,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 mutate(URL);
 
             },
-            error: (err)=>{
+            error: (err) => {
 
-                    console.log(err);
+                console.log(err);
 
             }
         });
@@ -123,7 +129,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 console.log(res);
 
                 //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL+"?retrieve=all");
+                mutate(URL + "?retrieve=all");
 
             },
         });
@@ -155,7 +161,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 mutate(URL);
 
             },
-            error: (err)=>{
+            error: (err) => {
 
                 console.log(err);
 
@@ -166,73 +172,76 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         switchState(modalShowing, setModalShowing, "none");
     };
 
-    
+
 
     return (
-<>
-        <div
-            // if the modal is showing, make the dim layer visible
-                className={ `modal-container ${modalShowing !== "none" ? "modal-container--visible" : "modal-container--hidden"}` }
-            // if the dim layer is pressed, close the modal and hide the dim layer
-            onClick={ () => switchState(modalShowing, setModalShowing, "none") }
-            >
-                <div className={`dim-layer` }></div>
-
-            {/* add folder modal */ }
+        <>
             <div
-                    className={ `${"myModal"} ${modalShowing === "folder" || typeof modalShowing === "object" ? "myModal--visible" : "myModal--hidden"}` }
-                // when the modal is clicked, don't make the dim layer onClick get triggered
-                onClick={ (e) => e.stopPropagation() }
+                // if the modal is showing, make the dim layer visible
+                className={ `modal-container ${modalShowing !== "none" ? "modal-container--visible" : "modal-container--hidden"}` }
+                // if the dim layer is pressed, close the modal and hide the dim layer
+                onClick={ () => switchState(modalShowing, setModalShowing, "none") }
             >
+                <div className={ `dim-layer` }></div>
 
-                {/* the title of the modal */ }
-                <div className="myModal__title">FOLDER</div>
+                {/* add folder modal */ }
+                <div
+                    className={ `${"myModal"} ${modalShowing === "folder" || typeof modalShowing === "object" ? "myModal--visible" : "myModal--hidden"}` }
+                    // when the modal is clicked, don't make the dim layer onClick get triggered
+                    onClick={ (e) => e.stopPropagation() }
+                >
 
-                {/* the body of the modal */ }
-                <div className="myModal__body">
+                    {/* the title of the modal */ }
+                    <div className="myModal__title">FOLDER</div>
 
-                    {/* the name of the folder */ }
+                    {/* the body of the modal */ }
+                    <div className="myModal__body">
+
+                        {/* the name of the folder */ }
 
                         <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } />
 
 
-                    {/* the color of the folder */ }
-                    <div className="flex-container">
-                        <div className={ `color-box color-box--black ${selectedColor === "#383737" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#383737") }>{ selectedColor === "#383737" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--green ${selectedColor === "#03b703" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#03b703") }>{ selectedColor === "#03b703" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--red ${selectedColor === "#ff0000" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#ff0000") }>{ selectedColor === "#ff0000" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--blue ${selectedColor === "#4d94ff" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#4d94ff") }>{ selectedColor === "#4d94ff" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--yellow ${selectedColor === "#e7e731" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#e7e731") }>{ selectedColor === "#e7e731" && <i className="bi bi-check-lg"></i> }</div>
+                        {/* the color of the folder */ }
+                        <div className="flex-container">
+                            {
+                                colorsArr.map(({primary,secondary},i) => {
+                                    return (
+                                        <div style={ { '--color': primary } } className={ `color-box ${selectedColor === colorKeysArr[i] && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, colorKeysArr[i]) }>{ selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }</div>
+                                    );
+
+                                })
+                            }
+                        </div>
+
+                    </div>
+
+                    {/* the footer of the modal */ }
+                    <div className="myModal__footer">
+
+                        {/* the add button */ }
+                        <button onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) : addFolder(e) } className="primary-button">Add</button>
+
                     </div>
 
                 </div>
 
-                {/* the footer of the modal */ }
-                <div className="myModal__footer">
-
-                    {/* the add button */ }
-                        <button onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) :addFolder(e) } className="primary-button">Add</button>
-
-                </div>
-
-            </div>
 
 
 
+                {/* note modal */ }
+                <div
+                    className={ `${"myModal"} ${modalShowing === "note" ? "myModal--visible" : "myModal--hidden"}` }
+                    // when the modal is clicked, don't make the dim layer onClick get triggered
+                    onClick={ (e) => e.stopPropagation() }
+                >
+                    {/* the title of the modal */ }
+                    <div className="myModal__title">NOTE</div>
 
-            {/* note modal */ }
-            <div
-                className={ `${"myModal"} ${modalShowing === "note" ? "myModal--visible" : "myModal--hidden"}` }
-                // when the modal is clicked, don't make the dim layer onClick get triggered
-                onClick={ (e) => e.stopPropagation() }
-            >
-                {/* the title of the modal */ }
-                <div className="myModal__title">NOTE</div>
+                    {/* the body of the modal */ }
+                    <div className="myModal__body">
 
-                {/* the body of the modal */ }
-                <div className="myModal__body">
-
-                    {/* the title of the note */ }
+                        {/* the title of the note */ }
 
                         <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } />
 
@@ -247,20 +256,20 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
                         </select>
 
+                    </div>
+
+                    {/* the footer of the modal */ }
+                    <div className="myModal__footer">
+
+                        {/* the add button */ }
+                        <button className="primary-button" onClick={ (e) => addNote(e) }>Add</button>
+
+                    </div>
+
                 </div>
 
-                {/* the footer of the modal */ }
-                <div className="myModal__footer">
-
-                    {/* the add button */ }
-                    <button className="primary-button" onClick={ (e) => addNote(e) }>Add</button>
-
-                </div>
 
             </div>
-
-
-        </div>
         </>
     );
 };
