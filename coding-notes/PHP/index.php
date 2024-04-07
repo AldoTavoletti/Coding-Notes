@@ -1,6 +1,5 @@
 <?php
-
-require_once "db_connection.php";   
+require_once "db_connection.php";
 
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -20,25 +19,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
 
-    $data = file_get_contents('php://input');
+switch ($_SERVER["REQUEST_METHOD"]) {
+    case "GET":
 
-    // Decode the JSON data
-    parse_str($data, $_DELETE);
+        include "get_handler.php";
+        break;
 
-    if (isset($_DELETE["elementID"])) {
-        $elementID = $_DELETE["elementID"];
-        
-        if ($_DELETE["elementType"] === "note") {
-        
-             mysqli_query($conn,"DELETE FROM notes WHERE noteID = '$elementID'");
-        
-        }else if ($_DELETE["elementType"] === "folder") {
-             mysqli_query($conn,"DELETE FROM folders WHERE folderID = '$elementID'");
-        }
+    case "POST":
 
+        include "post_handler.php";
+        break;
 
-    }
+    case "PATCH":
+
+        include "patch_handler.php";
+        break;
+
+    case "DELETE":
+
+        include "delete_handler.php";
+        break;
+    
+    default:
+        # code...
+        break;
 }
-?>

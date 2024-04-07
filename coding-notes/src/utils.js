@@ -1,9 +1,7 @@
 import { getLuminance } from 'polished';
+import $ from "jquery";
 
-export const URL_GET_FOLDERS = "http://localhost/CodingNotesRepo/coding-notes/PHP/folders_api.php";
-export const URL_POST = "http://localhost/CodingNotesRepo/coding-notes/PHP/post_api.php";
-export const URL_PATCH = "http://localhost/CodingNotesRepo/coding-notes/PHP/patch_api.php";
-export const URL_DELETE = "http://localhost/CodingNotesRepo/coding-notes/PHP/delete_api.php";
+export const URL = "http://localhost/CodingNotesRepo/coding-notes/PHP/index.php";
 
 
 /**
@@ -42,11 +40,34 @@ export const getContrastColor = (backgroundColor) => {
  * @param {string} elementType 
  * @note it open the context menu
  */
-export const openMenu = (e, state, setMethod, elementID = null, elementType = null) => {
+export const openMenu = (e, state, setMethod, elementID = null, elementType = null, folderName=null, folderColor = null) => {
     
     e.preventDefault();
     e.stopPropagation();
 
-    switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType });
+    switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName:folderName, folderColor:folderColor });
 
 };
+
+export const patchAjaxCall = (obj) => {
+    console.log(obj);
+    $.ajax({
+        url: URL,
+        type: 'PATCH',
+        data: JSON.stringify(obj),
+        xhrFields: {
+            withCredentials: true
+        },
+        success: (res) => {
+            console.log('done');
+            console.log(res);
+            
+
+        },
+        error: (err) => {
+            console.log(err);
+
+        }
+    });
+
+}

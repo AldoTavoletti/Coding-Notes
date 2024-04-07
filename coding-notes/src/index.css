@@ -2,13 +2,14 @@
 
 :root {
 
-    --primary-bg-color: #222222;
-    --secondary-bg-color: #2d2d2d;
+    --primary-bg-color: #1b1b1b;
+    --secondary-bg-color: #232323;
     --secondary-bg-color-hover: #3e3d3d;
     --tertiary-bg-color: #ffffff;
     --tertiary-bg-color-hover: #ffffffc9;
     --tertiary-bg-color-active: #ffffff8f;
 
+    /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
     --light: 80;
     /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
     --threshold: 60;
@@ -26,7 +27,7 @@ body {
 
     margin: 0;
     /* so that when the menu is getting extended, the white background color is not seen */
-    background-color: var(--secondary-bg-color);
+    background-color: var(--primary-bg-color);
 
 }
 
@@ -77,7 +78,6 @@ button {
 
     display: flex;
     height: 90vh;
-
 }
 
 /* width */
@@ -110,8 +110,6 @@ button {
 
 }
 
-
-
 .menu--expanded {
 
     flex-basis: 100%;
@@ -125,40 +123,47 @@ button {
 
 }
 
-.note-display {
+.menu--invisible{
 
-    background-color: var(--secondary-bg-color);
+flex-basis: 0;
+
+}
+
+.note-display {
+    background-color: var(--primary-bg-color);
     flex-basis: 74%;
-    padding: 1.5% 3%;
+    /* padding: 1.5% 3%; */
     transition: all 0.15s ease;
-    max-width: 65%;
+    max-width: 100%;
+    overflow-y: auto;
+    height: 90vh;
 }
 
 .note-display--expanded {
 
     flex-basis: 96%;
-    max-width: 90%;
+    max-width: 100%;
 
 }
 
 
-.context-menu{
+.context-menu {
 
-position: absolute;
-z-index: 9999;
+    position: absolute;
+    z-index: 9999;
 }
 
-.list-group-item{
+.list-group-item {
 
-background-color: var(--primary-bg-color);
-color: white;
+    background-color: var(--primary-bg-color);
+    color: white;
 
 }
 
-.list-group-item:hover{
+.list-group-item:hover {
 
-background-color: var(--secondary-bg-color);
-color: white;
+    background-color: var(--secondary-bg-color);
+    color: white;
 
 }
 
@@ -168,8 +173,6 @@ color: white;
     font-size: 3em;
     font-weight: bold;
     outline: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
 }
 
 .note-display__title:empty::before,
@@ -219,7 +222,6 @@ color: white;
 
     justify-content: space-between;
     align-items: center;
-
     height: 10vh;
     width: 100%;
     padding: 0.5% 2%;
@@ -231,18 +233,18 @@ color: white;
     margin: 0;
     font-size: 1.5em;
     font-weight: bold;
+    animation: load-note-animation 0.5s ease-in;
 
 }
 
 .header__buttons-div {
     height: 100%;
-    gap: 10%; 
+    gap: 10%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 
 }
-
 .primary-button {
 
     box-sizing: content-box;
@@ -279,7 +281,17 @@ color: white;
     height: 100%;
     width: 100%;
     background-color: black;
-    z-index: 3;
+    opacity: 0.7;
+
+}
+
+.modal-container{
+
+position: fixed;
+    height: 100%;
+    width: 100%;
+    /* has to be over everything */
+    z-index: 9999; 
 
     display: flex;
 
@@ -290,13 +302,14 @@ color: white;
 
 }
 
-.dim-layer--hidden {
+
+.modal-container--hidden {
 
     visibility: hidden;
     opacity: 0;
 }
 
-.dim-layer--visible {
+.modal-container--visible {
 
     visibility: visible;
     opacity: 1;
@@ -329,7 +342,7 @@ color: white;
 .myModal--visible {
     position: relative;
     /* without bottom 0 the animation doesnt work */
-    bottom: 0; 
+    bottom: 0;
 
 }
 
@@ -342,32 +355,33 @@ color: white;
 
 .myModal__body {
     width: 100%;
-}
-
-.myModal__body__form {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    row-gap: 2vh;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 5%;
-
+        align-items: center;
+        justify-content: center;
+        row-gap: 2vh;
+        flex-direction: column;
+        margin-bottom: 5%;
 }
 
-.myModal__body__form input,
-.myModal__body__form select {
+.myModal__body input,
+.myModal__body select,
+.login-container input {
 
     border: 0;
     width: 90%;
-    padding-inline: 2%;
+    padding-inline: 6%;
     height: 7vh;
     font-size: 1.2em;
     background-color: var(--secondary-bg-color);
     border-radius: 10px;
-
+    transition: all .2s ease;
 }
 
+.input-disappear{
+
+height: 0 !important;
+
+}
 
 .myModal__footer {
 
@@ -381,7 +395,17 @@ color: white;
 
 }
 
-.myModal__footer button {
+.login-container__buttons{
+display: flex;
+justify-content: center;
+width: 100%;
+margin-top: auto;
+column-gap: 2%;
+user-select: none;
+
+}
+
+.myModal__footer button, .login-container__buttons button {
     font-size: 1.2em;
     border: 0;
     background-color: white;
@@ -389,9 +413,38 @@ color: white;
     width: 30%;
     color: black;
     border-radius: 10px;
+    transition: all .2s ease;
 
 }
+.login-container__buttons button:hover {
 
+    background-color: rgb(113, 113, 248);
+}
+.login-container__buttons :not(.active):hover {
+
+    background-color: var(--tertiary-bg-color-hover);
+}
+
+.login-container__buttons :not(.active){
+
+    background-color: var(--tertiary-bg-color-active);
+}
+
+.note-display__message{
+
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+    /* the margin from the top is half the height of note-display minus the fontsize */
+    margin-top: calc(45vh - 2em);
+}
+
+.vert-line{
+
+height: 90%;
+border-left: 2px solid var(--secondary-bg-color-hover);
+
+}
 .color-box {
 
     height: 7vh;
@@ -496,8 +549,11 @@ hr {
 }
 
 .note-list__note {
-    height: 12vh;
-    padding: 10px;
+    height: 7vh;
+    display: flex;
+    padding-inline: 10px;
+    justify-content: center;
+    align-items: center;
     border: 3px solid rgba(0, 0, 0, 0.178);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -509,21 +565,20 @@ hr {
 
 }
 
-.note-list__note h4,
 .note-list__note p {
+    padding: 0;
+    margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: inherit;
-
-}
-
-.note-list__note h4 {
-
     font-weight: bold;
-
+    font-size: 1.3em;
 
 }
+
+
+
 
 
 .failed {
@@ -537,24 +592,17 @@ hr {
 
 /* login page */
 
-.login-page{
-
-display: flex;
-align-items: center;
-justify-content: center;
-height: 90vh;
-
-}
 
 
-.form-container{
 
-background-color: var(--primary-bg-color);
-height: 60vh;
+.form-container {
+
+    background-color: var(--primary-bg-color);
+    height: 60vh;
 
 }
 
-.list-group-item[name="bold"]{
+.list-group-item[name="bold"] {
 
     font-weight: bold;
 
@@ -565,3 +613,355 @@ height: 60vh;
     font-style: italic;
 
 }
+
+.tox-editor-header{
+
+    background-color: var(--primary-bg-color) !important;
+    /* left: 4% !important; */
+    /* width: auto !important; */
+
+}
+
+.my-tox-header-sticky--expanded{
+left: 4% !important;
+/* 95.3 and not 96 to make the scrollbar visible */
+    width: 95.3vw !important;
+
+}
+
+.my-tox-header-sticky--normal {
+    left: 26% !important;
+/* 73.3 and not 74 to make the scrollbar visible */
+    width: 73.3vw !important;
+
+}
+
+.tox-toolbar-overlord {
+
+    /* background-color: var(--secondary-bg-color) !important; */
+    background-color: var(--primary-bg-color) !important;
+}
+
+.tox-toolbar__primary {
+
+    /* background-color: var(--secondary-bg-color) !important; */
+    background-color: var(--primary-bg-color) !important;
+}
+
+.tox-menubar {
+
+    background-color: var(--primary-bg-color) !important;
+
+}
+
+.tox-statusbar {
+
+    opacity: 0;
+}
+
+
+.tox-tinymce{
+
+border: 0 !important;
+    animation: load-note-animation 0.2s ease-in;
+}
+
+@keyframes load-note-animation {
+
+0%{
+
+opacity: 0;
+
+}
+
+
+100%{
+    
+   opacity: 1;
+
+}
+
+}
+.tox:not(.tox-tinymce-inline).tox-tinymce--toolbar-bottom .tox-editor-header {
+
+border: 0 !important;
+
+}
+
+.tox .tox-tbtn svg{
+
+    fill: rgba(255, 255, 255, 0.596) !important;
+
+}
+
+/* .tox .tox-statusbar {
+
+    border: 0 !important;
+
+    display: none !important;
+} */
+
+/* removes the white line at the end of the editor */
+.tox .tox-edit-area__iframe{
+
+background-color: transparent !important;
+
+}
+
+
+/* ----------------------------- */
+   @keyframes rotate {
+       0% {
+           transform: rotate(0deg);
+       }
+
+       100% {
+           transform: rotate(360deg);
+       }
+   }
+
+   .out-top {
+       animation: rotate 20s linear infinite;
+       transform-origin: 13px 25px;
+   }
+
+   .in-top {
+       animation: rotate 10s linear infinite;
+       transform-origin: 13px 25px;
+   }
+
+   .out-bottom {
+       animation: rotate 25s linear infinite;
+       transform-origin: 84px 93px;
+   }
+
+   .in-bottom {
+       animation: rotate 15s linear infinite;
+       transform-origin: 84px 93px;
+   }
+
+   .background-login{
+       position: fixed;
+       top: 10vh;
+       left: 0;
+       width: 100%;
+       height: 100%;
+   }
+
+
+
+
+
+   .login-container{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    row-gap: 3%;
+    width: 28vw;
+    border: 3px solid var(--secondary-bg-color);
+padding: 3%;
+    background-color: var(--primary-bg-color);
+    z-index: 1;
+    border-radius: 10px;
+
+   }
+
+        .login-container p{
+
+            transition: all .2s ease;
+
+        }
+
+        .folder-selection__option{
+
+
+        }
+
+
+        
+/* every p except the error ones */
+   .login-container p:not(.login-container__error){
+
+    font-size: 1.5em;
+    font-weight: bold;
+
+   }
+
+   .login-container__error{
+
+    color: red;
+    font-size: 0.8em;
+    text-decoration: underline;
+
+   }
+
+   .login-page {
+
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       height: 90vh;
+
+   }
+
+/* placeholder color tinymce */
+.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before{
+
+color: #ffffff80;
+
+}
+
+.password-toggle-icon{
+
+position: absolute;
+right: 11px;
+top: 11px;
+cursor: pointer;
+user-select: none;
+}
+
+.password-container{
+
+    position: relative;
+width: 90%;
+
+}
+.password-container input{
+
+width: 100%;
+padding-right: 20%;
+}
+
+
+
+   .gsi-material-button {
+       -moz-user-select: none;
+       -webkit-user-select: none;
+       -ms-user-select: none;
+       -webkit-appearance: none;
+       background-color: #131314;
+       background-image: none;
+       border: 1px solid #747775;
+       -webkit-border-radius: 20px;
+       border-radius: 20px;
+       -webkit-box-sizing: border-box;
+       box-sizing: border-box;
+       color: #e3e3e3;
+       cursor: pointer;
+       font-family: 'Roboto', arial, sans-serif;
+       font-size: 14px;
+       height: 40px;
+       letter-spacing: 0.25px;
+       outline: none;
+       overflow: hidden;
+       padding: 0;
+       position: relative;
+       text-align: center;
+       -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
+       transition: background-color .218s, border-color .218s, box-shadow .218s;
+       vertical-align: middle;
+       white-space: nowrap;
+       width: 40px;
+       max-width: 400px;
+       min-width: min-content;
+       border-color: #8e918f;
+   }
+
+   .gsi-material-button .gsi-material-button-icon {
+       min-width: 20px;
+       width: 20px;
+       margin-left: 9px;
+   }
+
+   .gsi-material-button .gsi-material-button-content-wrapper {
+       -webkit-align-items: center;
+       align-items: center;
+       display: flex;
+       -webkit-flex-direction: row;
+       flex-direction: row;
+       -webkit-flex-wrap: nowrap;
+       flex-wrap: nowrap;
+       height: 100%;
+       justify-content: space-between;
+       position: relative;
+       width: 100%;
+   }
+
+   .gsi-material-button .gsi-material-button-contents {
+       -webkit-flex-grow: 1;
+       flex-grow: 1;
+       font-family: 'Roboto', arial, sans-serif;
+       font-weight: 500;
+       overflow: hidden;
+       text-overflow: ellipsis;
+       vertical-align: top;
+   }
+
+   .gsi-material-button .gsi-material-button-state {
+       -webkit-transition: opacity .218s;
+       transition: opacity .218s;
+       bottom: 0;
+       left: 0;
+       opacity: 0;
+       position: absolute;
+       right: 0;
+       top: 0;
+   }
+
+   .gsi-material-button:disabled {
+       cursor: default;
+       background-color: #13131461;
+       border-color: #8e918f1f;
+   }
+
+   .gsi-material-button:disabled .gsi-material-button-state {
+       background-color: #e3e3e31f;
+   }
+
+   .gsi-material-button:disabled .gsi-material-button-contents {
+       opacity: 38%;
+   }
+
+   .gsi-material-button:disabled .gsi-material-button-icon {
+       opacity: 38%;
+   }
+
+   .gsi-material-button:not(:disabled):active .gsi-material-button-state,
+   .gsi-material-button:not(:disabled):focus .gsi-material-button-state {
+       background-color: white;
+       opacity: 12%;
+   }
+
+   .gsi-material-button:not(:disabled):hover {
+       -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+       box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+   }
+
+   .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
+       background-color: white;
+       opacity: 8%;
+   }
+
+
+   .password-condition {
+
+    font-size: 0.8em;
+    color: var(--tertiary-bg-color-hover);
+    margin-top: -8px;
+    align-self: flex-start;
+
+   }
+
+   .password-condition--red {
+
+    color: red;
+
+   }
+   .password-condition--green {
+
+    color: green;
+
+   }

@@ -1,13 +1,13 @@
 
+import { useNavigate } from "react-router-dom";
+import Login from "./Login";
 import Menu from "./Menu";
 import NoteDisplay from "./NoteDisplay";
 
-import { noteTitleContext } from "./noteTitleContext";
-import { noteBodyContext } from "./noteBodyContext";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const HomePage = ({ modalShowing, setModalShowing }) => {
+const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
 
     /*
     ?"normal" if the menu is not expanded nor hidden; 
@@ -15,33 +15,30 @@ const HomePage = ({ modalShowing, setModalShowing }) => {
     ?"hidden" if the menu hidden. 
     */
     const [menuStatus, setMenuStatus] = useState("expanded");
+    const navigate = useNavigate();
+    
+   
 
-    // the note the user clicked
-    const [currentNote, setCurrentNote] = useState(null);
+    useEffect(()=>{
 
-    // the title of the current note
-    const [noteTitle, setNoteTitle] = useState("");
+        if (isLoggedIn === false) /* can't use !isLoggedIn, it would consider null too */ {
+            navigate("/login");
+        }
 
-    // the body of the current note
-    const [noteBody, setNoteBody] = useState("");
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[isLoggedIn]);
 
-    //|| the noteTitle and noteBody state variables are passed over to the other components via Context.
 
     return (
 
         <div className="home-page">
 
-            <noteTitleContext.Provider value={ [noteTitle, setNoteTitle] }>
-                <noteBodyContext.Provider value={ [noteBody, setNoteBody] }>
-
                     {/* sidemenu */ }
-                    <Menu menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+            <Menu noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
                     {/* the note display */ }
-                    { (currentNote && menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
-
-                </noteBodyContext.Provider>
-            </noteTitleContext.Provider>
+                    { (menuStatus !== "expanded") && <NoteDisplay noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={setMenuStatus} currentNote={ currentNote } /> }
 
         </div>
 

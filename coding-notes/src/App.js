@@ -5,13 +5,14 @@ and connected to a PHP script. The react framework is used.
 */
 
 import Header from "./Header";
-import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
 import Modals from "./Modals";
-
-import { useState } from "react";
+import Login from "./Login";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import $ from "jquery";
+import { URL } from "./utils";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
 
@@ -22,24 +23,75 @@ function App() {
   */
   const [modalShowing, setModalShowing] = useState("none");
 
+  // the note the user clicked
+  const [currentNote, setCurrentNote] = useState(null);
+
+  // the title of the current note
+  const [noteTitle, setNoteTitle] = useState("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  useEffect(()=>{
+
+    if (isLoggedIn === null) {
+      checkLoggedIn();
+    }
+
+  },[isLoggedIn]);
+
+
+  const checkLoggedIn = ()=>{
+
+    $.ajax({
+      url: URL+"?check=login",
+      type: 'GET',
+      xhrFields: {
+        withCredentials: true
+      },
+      success: (res) => {
+        console.log(res);
+        const resParsed = JSON.parse(res);
+        if (resParsed["code"] === 200) {
+          
+          setIsLoggedIn(true);
+          
+        } else {
+          setIsLoggedIn(false);
+
+
+        }
+
+
+
+      },
+      error: (err) => {
+        // console.log(err);
+
+      }
+    });
+  }
+
+
   return (
+    <GoogleOAuthProvider clientId="225902902685-nfk9t53m1894vf4rmi4jj3fpp3o913cp.apps.googleusercontent.com"> 
     <div className="App">
 
       <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-      <Header modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+      <Header isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/>
 
       <BrowserRouter>
         <Routes>
 
-          <Route path="/" element={ <HomePage modalShowing={ modalShowing } setModalShowing={ setModalShowing } /> } />
-          <Route path="login" element={ <LoginPage /> } />
+          <Route path={`/`}  element={ <HomePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} modalShowing={ modalShowing } setModalShowing={ setModalShowing } currentNote={currentNote} setCurrentNote={setCurrentNote} noteTitle={noteTitle} setNoteTitle={setNoteTitle}/> } />
+          <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } setCurrentNote={ setCurrentNote } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } /> } />
 
           {/* //todo: add a <Route path="*" element={<NoPage />} />, create a page for 404// */ }
 
         </Routes>
       </BrowserRouter>
     </div>
+      </GoogleOAuthProvider>
   );
 }
 
