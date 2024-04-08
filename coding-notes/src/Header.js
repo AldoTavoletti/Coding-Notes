@@ -34,8 +34,9 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
         //? the eslint error has got to be disabled cause adding "note" to the dependancy list causes problems
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteTitle]);
+    
     // Handles error and loading state. Without these useSWR doesn't work
-    if (error) return (<div></div>);
+    // if (error) return (<div></div>);
     // if (!note || isLoading || isValidating) return (<div className="header"></div>);
 
     const handleTitleInput = (e) => {
@@ -44,7 +45,6 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
     };
 
    
-header.current && console.log(header.current.offsetWidth);
     return (
 
         <div className="header" ref={header}>

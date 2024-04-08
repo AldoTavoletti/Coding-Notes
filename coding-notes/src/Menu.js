@@ -46,17 +46,24 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                 (
                     
                     <div className="menu__functionalities">
+                    <div className="subheader subheader--normal">
+
                 <button className="text-button" onClick={ () => switchState(menuStatus, setMenuStatus, "expanded") }>expand</button> 
                 <button className="arrow left" onClick={ () => switchState(menuStatus, setMenuStatus, "hidden") }></button> 
                 </div>
+                </div>
+
                 )}
 
                 {/*//? if the menu isn't hidden and show a left arrow, otherwise a right arrow */}
                 { menuStatus === "hidden" &&(
                 <div className="menu__functionalities">
+                    <div className="subheader--small">
 
                     <button className="arrow right" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }></button>
                 </div>
+                </div>
+
                 )
                 }
 
@@ -65,16 +72,13 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                 (
                 <div className="menu__functionalities">
 
-                    <div className="subheader">
-
+                    <div className="subheader--expanded">
 
                         <div className="header__buttons-div">
                                         <button className="text-button" onClick={ () => logout() }>logout</button>
                                         <div className="vert-line"></div>
                                         <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "folder") }>Add a folder +</button>
                                         <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "note") }>Add a note +</button>
-
-
 
                         </div>
                         <button className="arrow left" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }></button> 

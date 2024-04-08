@@ -220,7 +220,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                     <div className="myModal__footer">
 
                         {/* the add button */ }
-                        <button onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) : addFolder(e) } className="primary-button">Add</button>
+                        <button onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) : addFolder(e) } className="primary-button" disabled={folderName.trim() === "" ? true: false}>Add</button>
 
                     </div>
 
