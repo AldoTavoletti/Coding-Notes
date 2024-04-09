@@ -58,7 +58,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                 {/*//? if the menu isn't hidden and show a left arrow, otherwise a right arrow */}
                 { menuStatus === "hidden" &&(
                 <div className="menu__functionalities">
-                    <div className="subheader--small">
+                    <div className="subheader--small" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }>
 
                     <button className="arrow right" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }></button>
                 </div>
