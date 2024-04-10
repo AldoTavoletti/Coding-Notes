@@ -34,6 +34,48 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
             }
         });
     }
+
+    const collapseFolders = ()=>{
+
+         const accordionCollapseDivs = document.querySelectorAll(".show");
+         const accordionButtons = document.querySelectorAll("button.accordion-button");
+        console.log(accordionCollapseDivs);
+        console.log(accordionButtons);
+         const n = accordionCollapseDivs.length;
+         if (n > 0) {
+            
+             for (let i = 0; i < n; i++) {
+                
+                 accordionCollapseDivs[i].classList.remove("show");
+                 accordionButtons[i].classList.add("collapsed");
+
+                
+             }
+            
+         }
+        
+
+
+     }
+
+    const expandFolders = () => {
+
+        const accordionCollapseDivs = document.querySelectorAll(".collapse:not(.show)");
+        const accordionButtons = document.querySelectorAll("button.accordion-button.collapsed");
+        console.log(accordionCollapseDivs);
+        console.log(accordionButtons);
+        const n = accordionButtons.length;
+        if (n > 0) {
+
+        for (let i = 0; i < n; i++) {
+
+            accordionCollapseDivs[i].classList.add("show");
+            accordionButtons[i].classList.remove("collapsed");
+        }
+        }
+
+    }
+
     return (
         
         <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
@@ -79,6 +121,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                                         <div className="vert-line"></div>
                                         <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "folder") }>Add a folder +</button>
                                         <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "note") }>Add a note +</button>
+                            <div className="vert-line"></div>
+
+                            <button className="secondary-button" onClick={ () => expandFolders() }>Expand All</button>
+                            <button className="secondary-button" onClick={ () => collapseFolders() }>Collapse All</button>
+
 
                         </div>
                         <button className="arrow left" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }></button> 

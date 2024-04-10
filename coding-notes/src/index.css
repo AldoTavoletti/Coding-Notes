@@ -224,7 +224,6 @@ display: flex;
     background-color: var(--quaternary-bg-color);
     transition: all 0.2s ease;
 }
-
 .subheader--small:hover {
 
 background-color: var(--secondary-bg-color);
@@ -255,12 +254,57 @@ padding-inline: 5%;
 }
 .header__buttons-div {
     height: 85%;
-    /* padding inline is not 8 because it adds up to the subheader--expanded padding */
-    padding-inline: 7%; 
+    width: fit-content;
+    padding-inline: 21%; 
     column-gap: 8%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+}
+.primary-button {
+    box-sizing: content-box;
+    height: 75%;
+    padding-inline: 15px;
+    font-size: 1.2em;
+
+    color: black;
+    background-color: var(--tertiary-bg-color);
+
+    border: 0;
+    border-radius: 20px;
+    white-space: nowrap;
+
+    transition: all 0.2s ease;
+
+}
+
+.secondary-button{
+
+box-sizing: content-box;
+    height: 75%;
+    padding-inline: 15px;
+    font-size: 1.2em;
+
+    background-color: var(--secondary-bg-color);
+
+    border: 1px solid var(--tertiary-bg-color-active);
+    border-radius: 20px;
+    white-space: nowrap;
+
+    transition: all 0.2s ease;
+
+}
+
+.secondary-button:hover{
+
+background-color: var(--secondary-bg-color-hover);
+
+}
+
+.secondary-button:active {
+
+    background-color: var(--tertiary-bg-color-active);
 
 }
 
@@ -304,23 +348,7 @@ padding-inline: 5%;
 }
 
 
-.primary-button {
 
-    box-sizing: content-box;
-    height: 75%;
-    padding-inline: 15px;
-    font-size: 1.2em;
-
-    color: black;
-    background-color: var(--tertiary-bg-color);
-
-    border: 0;
-    border-radius: 20px;
-    white-space: nowrap;
-
-    transition: all 0.2s ease;
-
-}
 
 .primary-button:hover {
 
