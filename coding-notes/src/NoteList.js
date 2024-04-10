@@ -105,11 +105,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                     <div className="accordion" onContextMenu={ (e) => openMenu(e, contextMenuInfo, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
                         <div className="accordion-item">
                             <h2 className="accordion-header">
-                                <button className="accordion-button" style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                                <button className="accordion-button collapsed" style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                                     { folder.folderName }
                                 </button>
                             </h2>
-                            <div id={ "collapse" + folderIndex } className="accordion-collapse collapse show" data-bs-parent={ "#accordion" + folderIndex }>
+                            <div id={ "collapse" + folderIndex } className="accordion-collapse collapse" data-bs-parent={ "#accordion" + folderIndex }>
                                 <div className="accordion-body">
                                     { /*folder && */folder.notes.length > 0 ? folder.notes.map((note, noteIndex) => (
 

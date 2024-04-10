@@ -14,7 +14,7 @@ const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, 
     ?"expanded" if the menu expanded; 
     ?"hidden" if the menu hidden. 
     */
-    const [menuStatus, setMenuStatus] = useState("expanded");
+    const [menuStatus, setMenuStatus] = useState("normal");
     const navigate = useNavigate();
     
    
