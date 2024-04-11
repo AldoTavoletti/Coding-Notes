@@ -37,7 +37,6 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn }) => {
         setNoteTitle(e.currentTarget.innerText);
     };
 
-   
     return (
 
         <div className="header" ref={header}>

@@ -4,7 +4,7 @@ import Modals from "./Modals";
 import Login from "./Login";
 import Page404 from "./Page404";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { URL } from "./utils";
@@ -50,7 +50,7 @@ function App() {
 
 
     }).then(data => {
-
+      console.log(data);
       data["code"] === 200 ? setIsLoggedIn(true) : setIsLoggedIn(false);
 
 
@@ -59,11 +59,13 @@ function App() {
   };
 
   //? using a useEffect is pointless here
-  if (isLoggedIn === null) /* if the user just got into the website (isLoggedIn is null only at the start)*/ {
+  
+    if (isLoggedIn === null) /* if the user just got into the website (isLoggedIn is null only at the start)*/ {
 
-    checkLoggedIn();
+      checkLoggedIn();
 
-  }
+    }
+ 
 
   return (
     
@@ -72,7 +74,7 @@ function App() {
 
         <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-        <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } />
+        <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={isLoggedIn} />
 
         <BrowserRouter>
           <Routes>
