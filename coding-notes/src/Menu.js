@@ -137,7 +137,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 
                 }
 
-            { menuStatus !== "hidden" && <NoteList noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />}
+            {/* the noteList is always mounted, even if the menu is hidden, so that open folders stay open even if the menu is closed and then reopened */}
+            <NoteList noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
 
         </div>
 

@@ -16,6 +16,9 @@ if (isset($arr["content"])) /* if the content of the note has to be patched */ {
     // execute the query
     $stmt->execute();
 
+    echo json_encode(array("message" => "Content updated!", "code" => 200));
+
+
 } elseif (isset($arr["title"])) /* if the title of the note has to be patched */ {
 
     //prepare the statement
@@ -27,6 +30,9 @@ if (isset($arr["content"])) /* if the content of the note has to be patched */ {
     // execute the query
     $stmt->execute();
 
+    echo json_encode(array("message" => "Title updated!", "code" => 200));
+
+
 } else if (isset($arr["name"], $arr["color"], $arr["folderID"])) /* if a folder has to be patched */ {
 
     //prepare the statement
@@ -37,4 +43,7 @@ if (isset($arr["content"])) /* if the content of the note has to be patched */ {
 
     // execute the query
     $stmt->execute();
+
+    echo json_encode(array("message" => "Folder updated!", "code" => 200));
+
 }

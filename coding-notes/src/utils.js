@@ -50,25 +50,24 @@ export const openMenu = (e, state, setMethod, elementID = null, elementType = nu
 
 };
 
-export const patchAjaxCall = (obj) => {
-    console.log(obj);
-    $.ajax({
-        url: URL,
-        type: 'PATCH',
-        data: JSON.stringify(obj),
-        xhrFields: {
-            withCredentials: true
-        },
-        success: (res) => {
-            console.log('done');
-            console.log(res);
-            
+export const simplePatchCall = (obj) => {
+    fetch(URL, {
 
-        },
-        error: (err) => {
-            console.log(err);
+        method: "PATCH",
+        credentials: "include",
+        body: JSON.stringify(obj)
 
+    }).then(res => {
+
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
         }
-    });
+        return res.json();
+
+
+    }).then(data => {
+
+    }).catch(err => console.log(err));
+    
 
 }

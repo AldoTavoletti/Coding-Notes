@@ -19,6 +19,9 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
     // execute the query
     $stmt->execute();
 
+    echo json_encode(array("message" => "Folder created!", "code" => 200));
+
+
 } else if (isset($arr["title"], $arr["folderID"])) /* if a note is being added */ {
 
     //prepare the statement
@@ -29,6 +32,9 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
 
     // execute the query
     $stmt->execute();
+
+    echo json_encode(array("message" => "Note created!", "code" => 200));
+
 
 } else if (isset($arr["username"], $arr["password"]) && $arr["action"] === "signup") {
 

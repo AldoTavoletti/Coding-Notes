@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "./utils";
-import { patchAjaxCall } from "./utils";
+import { simplePatchCall } from "./utils";
 
 const EditorMCE = ({ currentNote }) => {
 
@@ -28,7 +28,7 @@ const EditorMCE = ({ currentNote }) => {
                 setup: (editor) => {
                     editor.on('change', (e) => {
 
-                        patchAjaxCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+                        simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
 
                     });
                 },

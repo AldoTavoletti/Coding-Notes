@@ -19,7 +19,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     //#region GET FOLDERS AND MUTATE DECLARATION
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
-    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher);
+    // "revalidateIfStale:false" makes sure the noteList does not get revalidated everytime we reopen the menu
+    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher,{revalidateIfStale:false});
     const { mutate } = useSWRConfig();
     console.log(data, error);
     //#endregion
@@ -83,7 +84,6 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
             success: () => {
 
                 mutate(URL + "?retrieve=all");
-                menuStatus !== "expanded" && setMenuStatus("expanded");
                 setCurrentNote(null);
 
                 prevNoteIndex.current = null;
