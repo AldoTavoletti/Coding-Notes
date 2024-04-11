@@ -1,4 +1,3 @@
-import { switchState } from "./utils";
 import useSWR from "swr";
 import $ from "jquery";
 import { useEffect, useState } from "react";
@@ -12,18 +11,21 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     // the selected color in the folders modal
     const [selectedColor, setSelectedColor] = useState("black");
 
-    // the note title in the note modal
+    // the note title in the notes modal
     const [noteTitle, setNoteTitle] = useState("");
 
     // the note's parent folder in the note modal
     const [noteFolderID, setNoteFolderID] = useState("");
 
-    // transform the folderColors object in an array so that I can iterate it with map
+    // get the values from folderColors so that I can iterate it with map
     const colorsArr = Object.values(folderColors);
+
 
     const colorKeysArr = Object.keys(folderColors);
 
-
+    /**
+     * @note reset the states relative to the folders modal
+     */
     const resetStatesFolder = () => {
 
         setFolderName("");
@@ -32,6 +34,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
     };
 
+    /**
+     * @note reset the states relative to the notes modal
+     */
     const resetStatesNote = () => {
 
 
@@ -39,10 +44,10 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         setNoteFolderID({ folderName: folders[0].folderName, folderID: folders[0].folderID });
 
     };
+
     useEffect(() => {
 
         if (typeof modalShowing === "object") /* if it's the modify folder modal*/ {
-            console.log(modalShowing);
             setFolderName(modalShowing.folderName);
             setSelectedColor(modalShowing.folderColor);
         } else if (modalShowing === "none" && folders) /*if the modal gets closed and it's not the first render of the application (&& folders)*/ {
@@ -105,7 +110,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         });
 
         //close the modal
-        switchState(modalShowing, setModalShowing, "none");
+        setModalShowing("none");
 
     };
 
@@ -135,7 +140,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         });
 
         //close the modal
-        switchState(modalShowing, setModalShowing, "none");
+        setModalShowing("none");
 
     };
 
@@ -169,7 +174,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         });
 
         //close the modal
-        switchState(modalShowing, setModalShowing, "none");
+        setModalShowing("none");
     };
 
 
@@ -180,7 +185,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                 // if the modal is showing, make the dim layer visible
                 className={ `modal-container ${modalShowing !== "none" ? "modal-container--visible" : "modal-container--hidden"}` }
                 // if the dim layer is pressed, close the modal and hide the dim layer
-                onClick={ () => switchState(modalShowing, setModalShowing, "none") }
+                onClick={ () => setModalShowing("none") }
             >
                 <div className={ `dim-layer` }></div>
 
@@ -207,7 +212,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                             {
                                 colorsArr.map(({primary,secondary},i) => {
                                     return (
-                                        <div style={ { '--color': primary } } className={ `color-box ${selectedColor === colorKeysArr[i] && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, colorKeysArr[i]) }>{ selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }</div>
+                                        <div style={ { '--color': primary } } className={ `color-box ${selectedColor === colorKeysArr[i] && "color-box--selected"}` } onClick={ () =>setSelectedColor(colorKeysArr[i]) }>{ selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }</div>
                                     );
 
                                 })

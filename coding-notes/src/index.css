@@ -1047,4 +1047,38 @@ padding-right: 20%;
 
 
 
-  
+  .page-404{
+
+display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+
+  }
+
+  .page-404__content-container{
+
+display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    row-gap: 3%;
+    width: 28vw;
+    border: 3px solid var(--secondary-bg-color);
+    padding: 3%;
+    background-color: var(--primary-bg-color);
+    z-index: 1;
+    border-radius: 10px;
+  }
+
+  .page-404__content-container h1{
+
+font-weight: bold;
+
+  }
+
+  .page-404__content-container i{
+    font-size: 5em;
+
+  }

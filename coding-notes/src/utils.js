@@ -46,7 +46,7 @@ export const openMenu = (e, state, setMethod, elementID = null, elementType = nu
     e.preventDefault();
     e.stopPropagation();
 
-    switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName:folderName, folderColor:folderColor });
+    setMethod({ x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName: folderName, folderColor: folderColor });
 
 };
 

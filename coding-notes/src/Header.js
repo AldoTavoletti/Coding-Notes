@@ -5,7 +5,7 @@ import { patchAjaxCall } from "./utils";
 import useSWR from "swr";
 import $ from "jquery";
 import { logDOM } from "@testing-library/react";
-const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, setCurrentNote }) => {
+const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn }) => {
 
     const isPatching = useRef(false);
     const header = useRef();
@@ -41,7 +41,7 @@ const Header = ({ modalShowing, setModalShowing, currentNote, noteTitle, setNote
 
     const handleTitleInput = (e) => {
 
-        switchState(noteTitle, setNoteTitle, e.currentTarget.innerText);
+        setNoteTitle(e.currentTarget.innerText);
     };
 
    

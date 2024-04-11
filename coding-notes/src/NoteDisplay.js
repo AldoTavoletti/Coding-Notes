@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import EditorMCE from "./EditorMCE";
 
-const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle, setMenuStatus }) => {
+const NoteDisplay = ({ menuStatus, currentNote }) => {
 
   const noteDisplayRef = useRef(null);
 
@@ -26,7 +26,6 @@ const NoteDisplay = ({ menuStatus, currentNote, noteTitle, setNoteTitle, setMenu
 
   return (
     <div className={ `${"note-display"} ${(menuStatus === "hidden") && "note-display--expanded"}` } ref={ noteDisplayRef }>
-      {/* <p contentEditable="true" suppressContentEditableWarning={ true } onDragStart={ (e) => e.preventDefault() } data-placeholder="Title..." className="note-display__title" onInput={ (e) => switchState(noteTitle, setNoteTitle, e.currentTarget.innerText) }>{ note.title }</p> */ }
 
       { currentNote ? <EditorMCE currentNote={ currentNote } /> : 
       (

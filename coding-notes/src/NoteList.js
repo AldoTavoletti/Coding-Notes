@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 
 import useSWR, { useSWRConfig } from "swr";
-import { getContrastColor, switchState, openMenu } from "./utils";
+import { getContrastColor, openMenu } from "./utils";
 import { useContext, useRef, useState } from "react";
 import $ from "jquery";
 import { URL, folderColors } from "./utils";
 
 
-const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, modalShowing, setModalShowing, noteTitle, setNoteTitle, userID, setUserID }) => {
+const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle }) => {
 
 
     // the index of the previous note the user navigated to, so that it's value can be settled.
@@ -46,7 +46,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             //    await mutate(URL + `?retrieve=single&note=${note.noteID}`); //maybe i dont even need this line
 
         }
-        switchState(currentNote, setCurrentNote, note.noteID);
+        setCurrentNote(note.noteID);
 
 
         // the noteTitle is changed, and then the mutate for the header is called. This way the noteTitle gets changed only here, and not also in the useEffects in Header.js
@@ -54,13 +54,13 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
         // if i didn't switch the state here, the useEffect in Header.js would have changed the noteTitle to the previous note.title and then to the correct one, since useSWR takes time to fetch.
         // it also makes sure that if I switch to another note immediately after i wrote something in the title, it "gets saved"
         // DO NOT CHANGE THESE LINES
-        switchState(noteTitle, setNoteTitle, note.title);
+        setNoteTitle(note.title);
         mutate(URL + `?retrieve=single&note=${currentNote}`);
 
 
 
         // if the menu isn't already in normal status, set it to be
-        menuStatus !== "normal" && switchState(menuStatus, setMenuStatus, "normal");
+        menuStatus !== "normal" && setMenuStatus("normal");
 
         // save the index of the current note in the prevNoteIndex ref.
         prevNoteIndex.current = [folderIndex, noteIndex];
@@ -83,8 +83,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
             success: () => {
 
                 mutate(URL + "?retrieve=all");
-                menuStatus !== "expanded" && switchState(menuStatus, setMenuStatus, "expanded");
-                switchState(currentNote, setCurrentNote, null);
+                menuStatus !== "expanded" && setMenuStatus("expanded");
+                setCurrentNote(null);
 
                 prevNoteIndex.current = null;
 
@@ -95,7 +95,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
     };
 
     //if the contextMenu is open and the screen is clicked, close the contextMenu
-    document.onclick = () => contextMenuInfo.x && switchState(contextMenuInfo, setContextMenuInfo, { x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
+    document.onclick = () => contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
     return (
         <div className="note-list">
 
@@ -149,7 +149,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, moda
                         <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
 
                             <div className="list-group">
-                                { contextMenuInfo.elementType === "folder" && <button type="button" className="list-group-item list-group-item-action" onClick={ () => switchState(modalShowing, setModalShowing, { elementID: contextMenuInfo.elementID, folderName: contextMenuInfo.folderName, folderColor: contextMenuInfo.folderColor }) }>Modify</button> }
+                                { contextMenuInfo.elementType === "folder" && <button type="button" className="list-group-item list-group-item-action" onClick={ () => setModalShowing({ elementID: contextMenuInfo.elementID, folderName: contextMenuInfo.folderName, folderColor: contextMenuInfo.folderColor }) }>Modify</button> }
                                 { (contextMenuInfo.elementType === "note" || folders.length > 1) && <button type="button" className="list-group-item list-group-item-action" onClick={ () => deleteElement() }>Delete</button> }
                             </div>
 

@@ -7,7 +7,7 @@ import NoteDisplay from "./NoteDisplay";
 
 import { useEffect, useState } from "react";
 
-const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
+const HomePage = ({ setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
 
     /*
     ?"normal" if the menu is not expanded nor hidden; 
@@ -35,10 +35,10 @@ const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, 
         <div className="home-page">
 
                     {/* sidemenu */ }
-            <Menu noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Menu noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={setIsLoggedIn} />
 
                     {/* the note display */ }
-                    { (menuStatus !== "expanded") && <NoteDisplay noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={setMenuStatus} currentNote={ currentNote } /> }
+                    { (menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
 
         </div>
 

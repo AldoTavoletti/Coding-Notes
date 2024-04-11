@@ -1,10 +1,9 @@
 import NoteList from "./NoteList";
 
-import { switchState } from "./utils";
 import $ from "jquery";
 import { URL } from "./utils";
 
-const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalShowing, setModalShowing, noteTitle, setNoteTitle, userID, setUserID, isLoggedIn, setIsLoggedIn }) => {
+const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, setIsLoggedIn }) => {
 
     //|| the status of the menu ("normal","expanded","hidden") is controlled with the menuStatus state variable.
     const logout = () => {
@@ -21,7 +20,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                 console.log(res);
                 const resParsed = JSON.parse(res);
                 if (resParsed["code"] === 200) {
-                    switchState(isLoggedIn, setIsLoggedIn);
+                    setIsLoggedIn(false);
 
                 }
 
@@ -90,8 +89,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                     <div className="menu__functionalities">
                     <div className="subheader subheader--normal">
 
-                <button className="text-button" onClick={ () => switchState(menuStatus, setMenuStatus, "expanded") }>expand</button> 
-                <button className="arrow left" onClick={ () => switchState(menuStatus, setMenuStatus, "hidden") }></button> 
+                <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button> 
+                <button className="arrow left" onClick={ () => setMenuStatus("hidden") }></button> 
                 </div>
                 </div>
 
@@ -100,9 +99,9 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                 {/*//? if the menu isn't hidden and show a left arrow, otherwise a right arrow */}
                 { menuStatus === "hidden" &&(
                 <div className="menu__functionalities">
-                    <div className="subheader--small" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }>
+                    <div className="subheader--small" onClick={ () => setMenuStatus("normal") }>
 
-                    <button className="arrow right" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }></button>
+                    <button className="arrow right"></button>
                 </div>
                 </div>
 
@@ -119,8 +118,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                         <div className="header__buttons-div">
                                         <button className="text-button" onClick={ () => logout() }>logout</button>
                                         <div className="vert-line"></div>
-                                        <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "folder") }>Add a folder +</button>
-                                        <button className="primary-button" onClick={ () => switchState(modalShowing, setModalShowing, "note") }>Add a note +</button>
+                                        <button className="primary-button" onClick={ () => setModalShowing("folder") }>Add a folder +</button>
+                                        <button className="primary-button" onClick={ () => setModalShowing("note") }>Add a note +</button>
                             <div className="vert-line"></div>
 
                             <button className="secondary-button" onClick={ () => expandFolders() }>Expand All</button>
@@ -128,7 +127,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
 
 
                         </div>
-                        <button className="arrow left" onClick={ () => switchState(menuStatus, setMenuStatus, "normal") }></button> 
+                        <button className="arrow left" onClick={ () => setMenuStatus("normal") }></button> 
 
                     </div>
 
@@ -138,7 +137,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, modalSho
                 
                 }
 
-            { menuStatus !== "hidden" && <NoteList userID={ userID } setUserID={ setUserID } noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />}
+            { menuStatus !== "hidden" && <NoteList noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />}
 
         </div>
 
