@@ -8,36 +8,33 @@ import { useEffect, useState } from "react";
 
 const HomePage = ({ setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
 
+    const navigate = useNavigate();
+
     /*
-    ?"normal" if the menu is not expanded nor hidden; 
-    ?"expanded" if the menu expanded; 
-    ?"hidden" if the menu hidden. 
+    "normal" if the menu is not expanded nor hidden; 
+    "expanded" if the menu expanded; 
+    "hidden" if the menu hidden. 
     */
     const [menuStatus, setMenuStatus] = useState("normal");
-    const navigate = useNavigate();
-    
-   
 
-    useEffect(()=>{
+    useEffect(() => {
 
         if (isLoggedIn === false) /* can't use !isLoggedIn, it would consider null too */ {
             navigate("/login");
         }
 
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[isLoggedIn]);
+
+    }, [isLoggedIn, navigate]);
 
 
     return (
 
         <div className="home-page">
 
-                    {/* sidemenu */ }
-            <Menu noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={setIsLoggedIn} />
-
-                    {/* the note display */ }
-                    { (menuStatus !== "expanded") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
+            <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } />
+            
+            {/* the noteDisplay is always mounted, even if the menu is expanded, so that when the menu gets closed EditorMCE doesn't have to reload. Everything is much smoother this way */ }
+            <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } />
 
         </div>
 
