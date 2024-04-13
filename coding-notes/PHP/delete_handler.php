@@ -25,3 +25,5 @@ if ($arr["elementType"] === "note") /* if a note is being deleted */ {
     // execute the query
     $stmt->execute();
 
+echo json_encode(array("message" => "Element deleted!", "code" => 200));
+

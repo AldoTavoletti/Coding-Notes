@@ -4,135 +4,166 @@ import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTitle, setNoteTitle }) => {
 
+    // it's true if the login page is being showed, false if it's the sign up page
     const [wantsLogin, setWantsLogin] = useState(true);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
 
+    // an eventual error is showed using this variable
     const [error, setError] = useState(null);
 
+    // check if the password is long enough
     const [isLongEnough, setIsLongEnough] = useState(null);
 
+    // false if the password is hidden, true if's shown
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
 
     const navigate = useNavigate();
 
-    useEffect(() => {
+    //? I don't need useEffects
+    // reset these state variables
+    isLoggedIn && setIsLoggedIn(false);
+    currentNote && setCurrentNote(null);
+    noteTitle !== "" && setNoteTitle("");
 
-        isLoggedIn && setIsLoggedIn(false);
-        currentNote && setCurrentNote(null);
-        noteTitle && setNoteTitle("");
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
+    /**
+     * @note classic login
+     */
     const logIn = () => {
 
-        if (username === "") {
+
+        if (username === "") /* if the username hasn't been set */ {
+
             setError("Insert a username");
-        } else if (password === "") {
+
+        } else if (password === "") /* if the password hasn't been set */ {
 
             setError("insert a password");
 
-        } else {
-
-            $.ajax({
-                url: URL,
-                type: 'POST',
-                xhrFields: {
-                    withCredentials: true
-                },
-                data: JSON.stringify({ username: username, password: password, action: "login" }),
-
-                success: (res) => {
-                    const resParsed = JSON.parse(res);
-                    if (resParsed["code"] === 200) {
-                        setIsLoggedIn(true);
-                        navigate("/");
-
-                    } else {
-
-                        setError(resParsed["message"]);
-
-                    }
-
-                    console.log(res);
+        } else  /* if it's all good*/ {
 
 
-                },
-                error: (err) => {
-                    // console.log(err);
+            fetch(URL, {
+
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify({ username: username, password: password, action: "login" })
+
+            }).then(res => {
+
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
+
+
+            }).then(data => {
+                console.log(data);
+                if (data["code"] === 200) {
+
+                    // log in
+                    setIsLoggedIn(true);
+                    navigate("/");
+
+                } else {
+
+                    setError(data["message"]);
 
                 }
-            });
+
+
+            }).catch(err => console.log(err));
 
         }
 
     };
 
+    /**
+     * @note classic sign in
+     */
     const signUp = () => {
 
-        if (username === "") {
+        if (username === "") /* if the username hasn't been set */ {
+
             setError("Insert a username");
-        } else if (password === "") {
+
+        } else if (password === "") /* if the password hasn't been set */ {
 
             setError("insert a password");
 
 
-        } else if (password2 !== password) {
+        } else if (password2 !== password) /* if the 2 passwords are not the same */ {
+
             setError("the passwords are not the same");
 
-        } else if (isLongEnough !== true) {
+        } else if (isLongEnough !== true) /* if the password isn't long enough */ {
+
             setError("The password should be at least 8 characters long");
 
         } else {
+            fetch(URL, {
 
-            $.ajax({
-                url: URL,
-                type: 'POST',
-                xhrFields: {
-                    withCredentials: true
-                },
-                data: JSON.stringify({ username: username, password: password, action: "signup" }),
-                success: (res) => {
-                    const resParsed = JSON.parse(res);
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify({ username: username, password: password, action: "signup" })
 
-                   if (resParsed["code"] === 200) {
-                        setIsLoggedIn(true);
-                        navigate("/");
+            }).then(res => {
 
-                    } else {
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
 
-                        setError(resParsed["message"]);
 
-                    }
-                },
-                error: (err) => {
-                    console.log(err);
+            }).then(data => {
+
+                if (data["code"] === 200) {
+
+                    // log in
+                    setIsLoggedIn(true);
+                    navigate("/");
+
+                } else {
+
+                    setError(data["message"]);
 
                 }
-            });
+
+
+            }).catch(err => console.log(err));
+
         }
     };
 
+    /**
+     * @note sign up button click
+     */
     const handleSignUpClick = () => {
 
-        if (wantsLogin) {
+        if (wantsLogin) /* if the user wants to switch from login to signup */ {
 
+            // animation
             titleRef.current.style.opacity = 0;
             setTimeout(() => {
 
                 titleRef.current.style.opacity = 1;
+
+                // the user wants to sign up
                 setWantsLogin(false);
-                setError(null);
+
+                // delete error if there was one
+                error && setError(null);
 
 
             }, 200);
-        } else {
+
+        } else /* if the user wants to sign up */ {
 
             signUp();
 
@@ -140,19 +171,28 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
     };
 
+    /**
+     * @note login button click
+     */
     const handleLoginClick = () => {
-        if (!wantsLogin) {
+        if (!wantsLogin) /* if the user wants to switch from signup to login */ {
+
+            //animation
             titleRef.current.style.opacity = 0;
 
             setTimeout(() => {
 
                 titleRef.current.style.opacity = 1;
+
+                // the user wants to login
                 setWantsLogin(true);
+
+                // delete error if there was one
                 setError(null);
 
 
             }, 200);
-        } else {
+        } else /* if the user wants to log in */ {
 
             logIn();
 
@@ -160,69 +200,98 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
     };
 
+    // ref used for animation
     const titleRef = useRef();
 
+    // ref used for animation
     const confirmPasswordRef = useRef();
 
+    /**
+     * @note google login
+     */
     const googleLogin = useGoogleLogin({
+        // without this line, the codeResponse is different
         flow: "auth-code",
 
+        /**
+         * 
+         * @param {object} codeResponse 
+         */
         onSuccess: (codeResponse) => {
-            console.log(codeResponse);
-            $.ajax({
-                url: URL,
-                type: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                xhrFields: {
-                    withCredentials: true
-                },
-                data: JSON.stringify({ code: codeResponse.code }),
 
-                success: (res) => {
-                    console.log(res);
+            fetch(URL, {
 
-                    const resParsed = JSON.parse(res);
-                    if (resParsed["code"] === 200) {
-                        setIsLoggedIn(true);
-                        navigate("/");
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify({ code: codeResponse.code }),
+                headers: {'Content-Type': 'application/json'}
 
-                    } else {
+            }).then(res => {
 
-                        setError(resParsed["message"]);
-
-                    }
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
 
 
+            }).then(data => {
 
-                },
-                error: (err) => {
-                    // console.log(err);
+                if (data["code"] === 200) {
+
+                    // log in
+                    setIsLoggedIn(true);
+                    navigate("/");
+
+                } else {
+
+                    setError(data["message"]);
 
                 }
-            });
+
+
+            }).catch(err => console.log(err));
 
 
         },
+
         onError: (error) => console.log('Login Failed:', error)
     });
 
+    /**
+     * 
+     * @param {Event} e 
+     * @param {Function} set 
+     * @note used only for the first password, but it's built to be reusable
+     */
     const handlePasswordInput = (e, set) => {
 
+        // set the password state variable to be the content of the password input
         set(e.target.value);
 
-        if (e.target.value.length >= 8 && isLongEnough !== true) {
+        if (e.target.value.length >= 8 && isLongEnough !== true) /* if the password is at least 8 char long and the state variable is not true, set it to be */ {
+        
             setIsLongEnough(true);
-        } else if (e.target.value.length < 8 && isLongEnough !== false) {
+        
+        } else if (e.target.value.length < 8 && isLongEnough !== false) /* if the password isn't at least 8 char long and the state variable is not false, set it to be */ {
 
             setIsLongEnough(false);
-        } else if (e.target.value.length === 0) {
+
+        } else if (e.target.value.length === 0) /* if the password is 0 char long, set the state variable to null (it's useless to check if it already was null since it can't be) */ {
+        
             setIsLongEnough(null);
+        
         }
 
     };
-    const togglePassword = (e, set, state) => {
+
+    /**
+     * 
+     * @param {Function} set 
+     * @param {Boolean} state 
+     * @note it's used to toggle the visibility of the passwords, when the input's eye is clicked
+     */
+    const togglePassword = (set, state) => {
+        
         set(!state);
 
     };
@@ -230,6 +299,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
         <div className="login-page">
 
+            {/* the background */}
             <svg preserveAspectRatio="xMidYMid slice" viewBox="10 10 80 80" className="background-login">
                 <path fill="#ffffff" className="out-top" d="M37-5C25.1-14.7,5.7-19.1-9.2-10-28.5,1.8-32.7,31.1-19.8,49c15.5,21.5,52.6,22,67.2,2.3C59.4,35,53.7,8.5,37-5Z" />
                 <path fill="#232323" className="in-top" d="M20.6,4.1C11.6,1.5-1.9,2.5-8,11.2-16.3,23.1-8.2,45.6,7.4,50S42.1,38.9,41,24.5C40.2,14.1,29.4,6.6,20.6,4.1Z" />
@@ -239,28 +309,64 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
 
             <div className="login-container">
+
                 <p ref={ titleRef }>{ wantsLogin ? "Login" : "Sign up" }</p>
+
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } />
-                <div className="password-container" style={{marginTop:"calc(15.2px + 8px)"}}> {/* 15.2px is the height of password-condition show in devtools*/}
-                    <input type={ showPassword1 ? "text" : "password" } name="password" placeholder="Password..." onChange={ (e) => handlePasswordInput(e, setPassword) } />
-                    <span className="password-toggle-icon" onClick={ (e) => togglePassword(e, setShowPassword1, showPassword1) }>{ showPassword1 ? <FaEyeSlash /> : <FaEye /> }</span>
-                    { !wantsLogin && <span className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` }>At least 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span> }
+
+                {/* password 1 container */}
+                <div className="password-container" style={ { marginTop: "calc(15.2px + 8px)" } }> {/* 15.2px is the height of password-condition show in devtools */ }
+
+                    <input 
+                    type={ showPassword1 ? "text" : "password" }  // using showPassword1 you can toggle the visiblity of the passowrd
+                    placeholder="Password..." 
+                    onChange={ (e) => handlePasswordInput(e, setPassword) } 
+                    />
+
+                    {/* the eye */}
+                    <span 
+                    className="password-toggle-icon" 
+                    onClick={ () => togglePassword(setShowPassword1, showPassword1) }
+                    >{ showPassword1 ? <FaEyeSlash /> : <FaEye /> }</span>
+
+                    {/* the condition (8 char long) */}
+                    { !wantsLogin && 
+                    <span 
+                    className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` } // switch the color based on the length of the password
+                    >At least 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span> }
+              
                 </div>
 
-
+                {/* password 2 container */ }
                 <div className="password-container">
-                {/*the confirm password input gets shown/hidden using an animation, that's why there's no condition on its presence*/ }
-                    <input ref={ confirmPasswordRef } className={ wantsLogin && "input-disappear" } type={ showPassword2 ? "text" : "password" } name="passwordConfirm" placeholder="Confirm Password..." onChange={ (e) => setPassword2(e.target.value) } />
-                    { !wantsLogin && <span className="password-toggle-icon" onClick={ (e) => togglePassword(e, setShowPassword2, showPassword2) }>{ showPassword2 ? <FaEyeSlash /> : <FaEye /> }</span>}
+
+                    {/*the confirm password input gets shown/hidden using an animation, that's why it's always mounted */ }
+                    <input 
+                    ref={ confirmPasswordRef } 
+                    className={ wantsLogin && "input-disappear" } 
+                    type={ showPassword2 ? "text" : "password" } 
+                    placeholder="Confirm Password..." 
+                    onChange={ (e) => setPassword2(e.target.value) } />
+
+                    {/* the eye */}
+                    { !wantsLogin && 
+                    <span 
+                    className="password-toggle-icon" 
+                    onClick={ () => togglePassword(setShowPassword2, showPassword2) }
+                    >{ showPassword2 ? <FaEyeSlash /> : <FaEye /> }</span> }
+                
                 </div>
 
+                {/* if an error is fired, it's shown here */}
                 { error && <p className="login-container__error">{ error }</p> }
+
 
                 <div className="login-container__buttons">
                     <button onClick={ (e) => handleSignUpClick(e) } type="button" className={ !wantsLogin ? "active" : "" }>Sign Up</button>
                     <button onClick={ (e) => handleLoginClick(e) } type="button" className={ wantsLogin ? "active" : "" }>Login</button>
                 </div>
 
+                {/* google button */}
                 <button className="gsi-material-button" onClick={ () => googleLogin() }>
                     <div className="gsi-material-button-state"></div>
                     <div className="gsi-material-button-content-wrapper">
@@ -276,6 +382,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
                         <span style={ { display: "none" } }>Sign in with Google</span>
                     </div>
                 </button>
+
+
             </div>
         </div>
 

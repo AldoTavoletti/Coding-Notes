@@ -790,12 +790,6 @@ hr {
 
 }
 
-/* .tox .tox-statusbar {
-
-    border: 0 !important;
-
-    display: none !important;
-} */
 
 /* removes the white line at the end of the editor */
 .tox .tox-edit-area__iframe {

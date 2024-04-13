@@ -69,7 +69,7 @@ if (isset($_GET["retrieve"]) && $_GET["retrieve"] === "all") {
 
     if (isset($_SESSION["userID"])) {
     
-        echo json_encode(array("message"=>"The user is logged in!", "code"=>200));
+        echo json_encode(array("message"=>"The user is logged in!", "code"=>200, "userID" => $_SESSION["userID"]));
     
     }else{
 
@@ -80,7 +80,6 @@ if (isset($_GET["retrieve"]) && $_GET["retrieve"] === "all") {
 }else if (isset($_GET["logout"]) && $_GET["logout"] === "true") {
 
 unset($_SESSION["userID"]);
-
     echo json_encode(array("message" => "The user has logged out!", "code" => 200));
 
 }

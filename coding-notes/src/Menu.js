@@ -5,140 +5,157 @@ import { URL } from "./utils";
 
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, setIsLoggedIn }) => {
 
-    //|| the status of the menu ("normal","expanded","hidden") is controlled with the menuStatus state variable.
+    /**
+     * @note handles the user's logout
+     */
     const logout = () => {
 
+        fetch(URL + "?logout=true", {
+
+            method: "GET",
+            credentials: "include",
 
 
-        $.ajax({
-            url: URL + "?logout=true",
-            type: 'GET',
-            xhrFields: {
-                withCredentials: true
-            },
-            success: (res) => {
-                console.log(res);
-                const resParsed = JSON.parse(res);
-                if (resParsed["code"] === 200) {
-                    setIsLoggedIn(false);
+        }).then(res => {
 
-                }
-
-
-
-            },
-            error: (err) => {
-                // console.log(err);
-
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
             }
-        });
-    }
-
-    const collapseFolders = ()=>{
-
-         const accordionCollapseDivs = document.querySelectorAll(".show");
-         const accordionButtons = document.querySelectorAll("button.accordion-button");
-        console.log(accordionCollapseDivs);
-        console.log(accordionButtons);
-         const n = accordionCollapseDivs.length;
-         if (n > 0) {
-            
-             for (let i = 0; i < n; i++) {
-                
-                 accordionCollapseDivs[i].classList.remove("show");
-                 accordionButtons[i].classList.add("collapsed");
-
-                
-             }
-            
-         }
-        
+            return res.json();
 
 
-     }
+        }).then(data => {
 
-    const expandFolders = () => {
+            data["code"] === 200 && setIsLoggedIn(false);
 
-        const accordionCollapseDivs = document.querySelectorAll(".collapse:not(.show)");
-        const accordionButtons = document.querySelectorAll("button.accordion-button.collapsed");
-        console.log(accordionCollapseDivs);
-        console.log(accordionButtons);
-        const n = accordionButtons.length;
-        if (n > 0) {
+
+        }).catch(err => console.log(err));
+
+
+    };
+
+    /**
+     * @note collapse all the open folders using classes
+     */
+    const collapseFolders = () => {
+
+        // get all the collapsible divs of open accordions
+        const accordionCollapseDivs = document.querySelectorAll(".show");
+
+        // get all the buttons of open accordions
+        const accordionButtons = document.querySelectorAll("button.accordion-button");
+
+        const n = accordionCollapseDivs.length;
+
 
         for (let i = 0; i < n; i++) {
 
+            // collapse the folder
+            accordionCollapseDivs[i].classList.remove("show");
+
+            // make the accordion button arrow change direction
+            accordionButtons[i].classList.add("collapsed");
+
+
+        }
+
+
+
+    };
+    /**
+    * @note expand all the open folders using classes
+    */
+    const expandFolders = () => {
+
+        // get all the expandible divs of open accordions
+        const accordionCollapseDivs = document.querySelectorAll(".collapse:not(.show)");
+
+        // get all the buttons of closed accordions
+        const accordionButtons = document.querySelectorAll("button.accordion-button.collapsed");
+
+        const n = accordionButtons.length;
+
+        for (let i = 0; i < n; i++) {
+
+            // expand the folder
             accordionCollapseDivs[i].classList.add("show");
+
+            // make the accordion button arrow change direction
             accordionButtons[i].classList.remove("collapsed");
         }
-        }
 
-    }
+    };
 
     return (
-        
+
         <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
-           
-            
 
 
-                {/*//? if the menu is in the normal state, show the expand button */}
-                { menuStatus === "normal" && 
-                (
-                    
-                    <div className="menu__functionalities">
-                    <div className="subheader subheader--normal">
+            <div className="menu__functionalities">
 
-                <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button> 
-                <button className="arrow left" onClick={ () => setMenuStatus("hidden") }></button> 
-                </div>
-                </div>
+                { menuStatus === "normal" &&
+                    (
+                        <div className="subheader subheader--normal">
 
-                )}
-
-                {/*//? if the menu isn't hidden and show a left arrow, otherwise a right arrow */}
-                { menuStatus === "hidden" &&(
-                <div className="menu__functionalities">
-                    <div className="subheader--small" onClick={ () => setMenuStatus("normal") }>
-
-                    <button className="arrow right"></button>
-                </div>
-                </div>
-
-                )
-                }
-
-                {menuStatus === "expanded" &&
-                
-                (
-                <div className="menu__functionalities">
-
-                    <div className="subheader--expanded">
-
-                        <div className="header__buttons-div">
-                                        <button className="text-button" onClick={ () => logout() }>logout</button>
-                                        <div className="vert-line"></div>
-                                        <button className="primary-button" onClick={ () => setModalShowing("folder") }>Add a folder +</button>
-                                        <button className="primary-button" onClick={ () => setModalShowing("note") }>Add a note +</button>
-                            <div className="vert-line"></div>
-
-                            <button className="secondary-button" onClick={ () => expandFolders() }>Expand All</button>
-                            <button className="secondary-button" onClick={ () => collapseFolders() }>Collapse All</button>
-
+                            <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button>
+                            <button className="arrow left" onClick={ () => setMenuStatus("hidden") }></button>
 
                         </div>
-                        <button className="arrow left" onClick={ () => setMenuStatus("normal") }></button> 
-
-                    </div>
-
-                </div>
-
-                )
-                
+                    )
                 }
 
-            {/* the noteList is always mounted, even if the menu is hidden, so that open folders stay open even if the menu is closed and then reopened */}
-            <NoteList noteTitle={noteTitle} setNoteTitle={setNoteTitle} currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+
+
+
+
+
+                { menuStatus === "hidden" &&
+                    (
+                        <div className="subheader--small" onClick={ () => setMenuStatus("normal") }>
+
+                            <button className="arrow right"></button>
+
+                        </div>
+                    )
+                }
+
+
+
+
+
+
+                { menuStatus === "expanded" &&
+                    (
+                        <div className="subheader--expanded">
+
+                            <div className="header__buttons-div">
+
+                                <button className="text-button" onClick={ () => logout() }>logout</button>
+
+                                <div className="vert-line"></div>
+
+                                <button className="primary-button" onClick={ () => setModalShowing("folder") }>Add a folder +</button>
+                                <button className="primary-button" onClick={ () => setModalShowing("note") }>Add a note +</button>
+
+                                <div className="vert-line"></div>
+
+                                <button className="secondary-button" onClick={ () => expandFolders() }>Expand All</button>
+                                <button className="secondary-button" onClick={ () => collapseFolders() }>Collapse All</button>
+
+                            </div>
+                            
+                            <button className="arrow left" onClick={ () => setMenuStatus("normal") }></button>
+
+                        </div>
+                    )
+                }
+
+            </div>
+
+
+
+            {/* the noteList is always mounted, even if the menu is hidden, so that open folders stay open even if the menu is closed and then reopened */ }
+            <NoteList noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
 
         </div>
 

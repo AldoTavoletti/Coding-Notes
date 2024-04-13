@@ -29,7 +29,7 @@ function App() {
   // checks wether the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  
+
   /**
    * @note check if the user is logged in (checks if $_SESSION["userID"] is set)
    */
@@ -59,29 +59,29 @@ function App() {
   };
 
   //? using a useEffect is pointless here
-  
-    if (isLoggedIn === null) /* if the user just got into the website (isLoggedIn is null only at the start)*/ {
 
-      checkLoggedIn();
+  if (isLoggedIn === null) /* if the user just got into the website (isLoggedIn is null only at the start)*/ {
 
-    }
- 
+    checkLoggedIn();
+
+  }
+
 
   return (
-    
+
     <GoogleOAuthProvider clientId="225902902685-nfk9t53m1894vf4rmi4jj3fpp3o913cp.apps.googleusercontent.com">
       <div className="App">
 
         <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-        <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={isLoggedIn} />
+        <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />
 
         <BrowserRouter>
           <Routes>
 
             <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } setModalShowing={ setModalShowing } currentNote={ currentNote } setCurrentNote={ setCurrentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } /> } />
             <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } setCurrentNote={ setCurrentNote } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } /> } />
-            <Route path="*" element={<Page404 />} />
+            <Route path="*" element={ <Page404 /> } />
 
           </Routes>
         </BrowserRouter>

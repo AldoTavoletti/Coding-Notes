@@ -72,7 +72,7 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
 
 
         $_SESSION["userID"] = $userID;
-        echo json_encode(array("message" => "Signed up!", "userID" => $_SESSION["userID"],'$passwordHash'=>$passwordHash));
+        echo json_encode(array("message" => "Signed up!", 'code' => 200 ));
 
 
     }
@@ -90,7 +90,7 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
         if (password_verify($arr["password"], $result["password"])) {
 
             $_SESSION["userID"] = $userID;
-            echo json_encode(array("message"=> "Access granted!","code"=>200));
+            echo json_encode(array("message"=> "Access granted!","code"=>200,"userID"=> $_SESSION["userID"]));
             
         } else{
 
@@ -209,6 +209,6 @@ if (isset($arr["color"], $arr["name"])) /* if a folder is being added */ {
 
     $_SESSION["userID"] = $userID;
 
-    echo json_encode(array("message" => "Access granted!", "code" => 200));
+    echo json_encode(array("message" => "Access granted!", "code" => 200, "userID" => $_SESSION["userID"]));
 
 }

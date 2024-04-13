@@ -41,7 +41,7 @@ export const getContrastColor = (backgroundColor) => {
  * @param {string} elementType 
  * @note it open the context menu
  */
-export const openMenu = (e, state, setMethod, elementID = null, elementType = null, folderName=null, folderColor = null) => {
+export const openMenu = (e, setMethod, elementID, elementType, folderName=null, folderColor = null) => {
     
     e.preventDefault();
     e.stopPropagation();
@@ -51,6 +51,7 @@ export const openMenu = (e, state, setMethod, elementID = null, elementType = nu
 };
 
 export const simplePatchCall = (obj) => {
+    console.log(obj);
     fetch(URL, {
 
         method: "PATCH",

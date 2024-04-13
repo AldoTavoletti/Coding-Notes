@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "./utils";
@@ -6,11 +6,20 @@ import { simplePatchCall } from "./utils";
 
 const EditorMCE = ({ currentNote }) => {
 
-    const editorRef = useRef(null);
+    
     const correspondingNoteID = useRef(null);
-    //this prevents the duplication of note contents. Even if the currentNote changed during the "change" event, it would still remain the same value. If I didn't use this ref, switching between notes fast could cause content duplication, since the currentNote could change right before sending the object to ajaxPatchCall.
+
+    /*
+    This prevents the duplication of note contents. 
+    Even if the currentNote changed during the "change" event, it would still remain the same value. 
+    If I didn't use this ref, switching between notes fast could cause content duplication, since the currentNote could change right before sending the object to simplePatchCall.
+    Running some test I discovered that correspondingNoteID.current stays the same during the execution of the change event, while currentNote changes.
+    As a matter of fact, if the change event is fired by clicking on another note, "correspondingNoteID.current = currentNote" gets executed after the end of the event function, while currentNote changes instantly.
+    
+    */
     correspondingNoteID.current = currentNote;
 
+    // retrieve data relative to the currentNote
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher, { revalidateOnFocus: false });
 
@@ -20,25 +29,22 @@ const EditorMCE = ({ currentNote }) => {
     return (
         <Editor
             apiKey='ih58dcotk63myxm6muyk1j8f9skgkvv956m39ggamsqe25ui'
-            onInit={ (e, editor) => {
-                editorRef.current = editor;
-            } }
             initialValue={ note.content }
             init={ {
                 setup: (editor) => {
                     editor.on('change', (e) => {
-
+                        // save content changes in db
                         simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
 
                     });
                 },
                 placeholder: "Write something...",
-                branding: false,
+                branding: false, // gets rid of tinyMCE watermark at the end of the editor
                 menubar: true,
-                toolbar_sticky: true,
-                ui_mode: "split",
-                content_css: ['index.css', 'dark'],
-                skin: "oxide-dark",
+                toolbar_sticky: true, // makes the toolbar sticky when scrolling, it's a little buggy but I handled it
+                ui_mode: "split", // without this toolbar_sticky doesn't work
+                content_css: ['index.css'],
+                skin: "oxide-dark", //makes the toolbar text of the right colors
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace',
@@ -48,12 +54,13 @@ const EditorMCE = ({ currentNote }) => {
                     'bold italic forecolor backcolor codesample | alignleft aligncenter ' +
                     'alignright alignjustify indent | accordion bullist numlist media | charmap removeformat',
              
-                    //i use content_styke caus these instructions don't work if put in the index.css file, they refer only to the tinymce editor
+                    // I use content_style because these instructions don't work if put in the index.css file, they refer only to the tinyMCE editor
                     content_style: `
                 body { 
                     font-family:Helvetica,Arial,sans-serif; 
                     font-size:14pt;
-                    background-color: #1b1b1b
+                    background-color: #1b1b1b;
+                    color: white;
                 }
 
                 /* width */
@@ -75,14 +82,14 @@ const EditorMCE = ({ currentNote }) => {
                 ::-webkit-scrollbar-thumb:hover {
                     background-color: #555;
                 }
+                /* Changes the color of the placeholder */
                 .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
-  color: #ffffff80;
-}
+                    color: #ffffff80;
+                }
                 `,
-                statusbar: false,
-                min_height: 700,
-                quickbars_insert_toolbar: false,
-                quickbars_selection_toolbar: 'bold italic forecolor backcolor'
+                statusbar: false, // removes a line at the end of the editor
+                quickbars_insert_toolbar: false, // gets rid of the inline toolbar shown when just clicking on an empty line, I only want the selection toolbar activated
+                quickbars_selection_toolbar: 'bold italic forecolor backcolor' // inline toolbar shown on selection
             } }
         />
 
