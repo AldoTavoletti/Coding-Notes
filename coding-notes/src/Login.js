@@ -26,11 +26,17 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
     const navigate = useNavigate();
 
-    //? I don't need useEffects
-    // reset these state variables
-    isLoggedIn && setIsLoggedIn(false);
-    currentNote && setCurrentNote(null);
-    noteTitle !== "" && setNoteTitle("");
+    //? I need useEffect, otherwise an error is called
+    useEffect(()=>{
+
+        // reset these state variables
+        isLoggedIn && setIsLoggedIn(false);
+        currentNote && setCurrentNote(null);
+        noteTitle !== "" && setNoteTitle("");
+
+    });
+
+   
 
     /**
      * @note classic login
@@ -60,13 +66,13 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
                 if (!res.ok) {
                     throw new Error("Network response was not ok");
                 }
+                //?res.text() to see php error
                 return res.json();
 
 
             }).then(data => {
                 console.log(data);
                 if (data["code"] === 200) {
-
                     // log in
                     setIsLoggedIn(true);
                     navigate("/");
@@ -235,7 +241,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
 
             }).then(data => {
-
+                console.log(data);
                 if (data["code"] === 200) {
 
                     // log in
