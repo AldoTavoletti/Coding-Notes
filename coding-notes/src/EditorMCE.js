@@ -3,10 +3,8 @@ import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "./utils";
 import { simplePatchCall } from "./utils";
-
 const EditorMCE = ({ currentNote }) => {
 
-    
     const correspondingNoteID = useRef(null);
 
     /*
@@ -28,7 +26,7 @@ const EditorMCE = ({ currentNote }) => {
 
     return (
         <Editor
-            apiKey='ih58dcotk63myxm6muyk1j8f9skgkvv956m39ggamsqe25ui'
+            apiKey={ process.env.REACT_APP_TINYMCE_API_KEY } // I use an .env file to store the tiny mce api key, so that it's secure
             initialValue={ note.content }
             init={ {
                 setup: (editor) => {

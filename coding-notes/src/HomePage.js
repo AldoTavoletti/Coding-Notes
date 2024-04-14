@@ -23,8 +23,6 @@ const HomePage = ({ setModalShowing, currentNote, setCurrentNote, noteTitle, set
 
     useEffect(() => {
 
-        console.log("ciao");
-
         if (isLoggedIn === false) /* can't use !isLoggedIn, it would consider null too */ {
 
             navigate("/login");
