@@ -99,7 +99,11 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
             setError("Insert a username");
 
-        } else if (password === "") /* if the password hasn't been set */ {
+        } else if (/\s/g.test(username)) {
+
+            setError("The username can't contain white spaces") 
+            
+        }else if (password === "") /* if the password hasn't been set */ {
 
             setError("insert a password");
 

@@ -218,7 +218,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
                     <div className="myModal__body">
 
-                        <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } />
+                        <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } autoComplete="off" />
 
                         <div className="flex-container">
                             {
@@ -264,7 +264,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                     <div className="myModal__body">
 
 
-                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } />
+                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } autoComplete="off"/>
 
                         <select name="folder-selection" onChange={ (e) => setnoteFolderID(e.target.value) }>
                             { folders.map((folder, i) => (
