@@ -1105,3 +1105,68 @@ input[data-autocompleted] {
     
 }
 
+/* toolbar and menubar buttons background */
+.tox .tox-mbtn, .tox .tox-tbtn{
+
+background: var(--primary-bg-color) !important;
+
+}
+
+/* toolbar active buttons background */
+.tox-tbtn.tox-tbtn--enabled{
+
+background: var(--secondary-bg-color-hover) !important;
+
+}
+
+/*  gets rid of the white border around the editor */
+.tox .tox-edit-area::before{
+
+border: 0 !important;
+
+}
+
+/* the menubar buttons'labels */
+.tox .tox-mbtn__select-label{
+
+    cursor:  pointer !important;
+}
+
+/* popup toolbar */
+.tox-toolbar{
+
+background-color: var(--secondary-bg-color) !important;
+
+}
+
+/* popup toolbar */
+.tox .tox-pop__dialog{
+
+background-color: var(--secondary-bg-color) !important;
+
+border: 0 !important;
+
+}
+
+/* make the the popup toolbar's arrow of the right color */
+.tox .tox-pop.tox-pop--top::before, .tox .tox-pop.tox-pop--top::after{
+
+border-color:  transparent transparent var(--secondary-bg-color) transparent !important;
+
+}
+
+.tox .tox-collection--list .tox-collection__item--active {
+    background-color: var(--secondary-bg-color-hover) !important;
+}
+
+.tox-menu.tox-collection.tox-collection--list, .tox-menu.tox-collection.tox-collection--list.tox-selected-menu{
+
+background-color: var(--secondary-bg-color);
+
+}
+
+.tox .tox-collection--list .tox-collection__item--enabled{
+
+background-color: var(--secondary-bg-color-hover) !important;
+
+}

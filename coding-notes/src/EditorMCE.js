@@ -26,7 +26,7 @@ const EditorMCE = ({ currentNote }) => {
 
     return (
         <Editor
-            apiKey={ process.env.REACT_APP_TINYMCE_API_KEY } // I use an .env file to store the tiny mce api key, so that it's secure
+            tinymceScriptSrc={ process.env.PUBLIC_URL + '/tinymce/tinymce.min.js' }
             initialValue={ note.content }
             init={ {
                 setup: (editor) => {
@@ -36,6 +36,8 @@ const EditorMCE = ({ currentNote }) => {
 
                     });
                 },
+                license_key: 'gpl',
+                promotion: false, // get rid of "upgrade" button
                 placeholder: "Write something...",
                 branding: false, // gets rid of tinyMCE watermark at the end of the editor
                 menubar: true,
