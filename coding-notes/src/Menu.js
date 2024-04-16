@@ -95,10 +95,10 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                 { menuStatus === "normal" &&
                     (
-                        <div className="subheader subheader--normal">
+                        <div className="subheader--normal">
 
                             <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button>
-                            <button className="arrow left" onClick={ () => setMenuStatus("hidden") }></button>
+                            <i class="bi bi-arrow-bar-left" onClick={ () => setMenuStatus("hidden") }></i>
 
                         </div>
                     )
@@ -143,8 +143,9 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                                 <button className="secondary-button" onClick={ () => collapseFolders() }>Collapse All</button>
 
                             </div>
-                            
-                            <button className="arrow left" onClick={ () => setMenuStatus("normal") }></button>
+
+                            <i class="bi bi-arrow-bar-left" onClick={ () => setMenuStatus("normal") }></i>
+
 
                         </div>
                     )

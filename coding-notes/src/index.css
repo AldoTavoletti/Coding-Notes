@@ -1155,6 +1155,12 @@ border-color:  transparent transparent var(--secondary-bg-color) transparent !im
 
 }
 
+.subheader--normal i, .subheader--expanded i{
+
+font-size: 1.5em;
+
+}
+
 .tox .tox-collection--list .tox-collection__item--active {
     background-color: var(--secondary-bg-color-hover) !important;
 }
