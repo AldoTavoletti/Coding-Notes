@@ -26,7 +26,7 @@ const EditorMCE = ({ currentNote }) => {
 
     return (
         <Editor
-            tinymceScriptSrc={ process.env.PUBLIC_URL + '/tinymce/tinymce.min.js' }
+            tinymceScriptSrc='/tinymce/tinymce.min.js'
             initialValue={ note.content }
             init={ {
                 setup: (editor) => {
