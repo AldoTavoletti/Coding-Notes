@@ -1,8 +1,6 @@
-import { switchState } from "./utils";
 import useSWR from "swr";
-import $ from "jquery";
 import { useEffect, useState } from "react";
-import { URL } from "./utils";
+import { URL, folderColors } from "./utils";
 
 const Modals = ({ modalShowing, setModalShowing }) => {
 
@@ -10,96 +8,121 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     const [folderName, setFolderName] = useState("");
 
     // the selected color in the folders modal
-    const [selectedColor, setSelectedColor] = useState("#383737");
+    const [selectedColor, setSelectedColor] = useState("black");
 
-    // the note title in the note modal
+    // the note title in the notes modal
     const [noteTitle, setNoteTitle] = useState("");
 
-    // the note's parent folder in the note modal
-    const [noteFolderID, setNoteFolderID] = useState("General");
+    /* 
+     * the note's parent folder ID in the note modal
+     * it's initial value is set in a useEffect after the folders' fetch. It cannot be set now since folders would be undefined, and it cannot be declared later since Hooks cannot be declared after "if (error) return (<div></div>);"
+     */
+    const [noteFolderID, setnoteFolderID] = useState("");
 
-    const resetStatesFolder = () => {
+    // get the values from folderColors so that I can iterate it with map
+    const colorsArr = Object.values(folderColors);
 
-        setFolderName("");
-        setSelectedColor("#383737");
+
+    const colorKeysArr = Object.keys(folderColors);
+
+    /**
+     * @note reset the states relative to the folders modal
+     */
+    const resetFolderStates = () => {
+
+        folderName !== "" && setFolderName("");
+        selectedColor !== "black" && setSelectedColor("black");
 
 
     };
 
-    const resetStatesNote = () => {
+    /**
+     * @note reset the states relative to the notes modal
+     */
+    const resetNoteStates = () => {
 
 
-        setNoteTitle("");
-        setNoteFolderID({ folderName: folders[0].folderName, folderID: folders[0].folderID });
+        noteTitle !== "" && setNoteTitle("");
+        noteFolderID.folderID !== folders[0].folderID && setnoteFolderID(folders[0].folderID);
 
     };
-    useEffect(()=>{
 
-        if (typeof modalShowing === "object") /* if it's the modify folder modal*/ {
-            console.log(modalShowing);
-            setFolderName(modalShowing.folderName);
-            setSelectedColor(modalShowing.folderColor); 
-        }else if (modalShowing === "none" && folders) /*if the modal gets closed and it's not the first render of the application (&& folders)*/{
-           resetStatesFolder();
-           resetStatesNote();
-
-        }
-        
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[modalShowing]);
-
-    //#region
-
-    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
-
-    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, {revalidateOnFocus:false, revalidateIfStale:false});
-
-    //#endregion
     useEffect(() => {
 
-        if (folders  && folders.length > 0) {
-            setNoteFolderID({ folderName: folders[0].folderName, folderID: folders[0].folderID});
+        if (folders) /* if the user's folders have been fetched */ {
+
+            if (typeof modalShowing === "object") /* if it's the modify-folder modal */ {
+
+                // show data relative to the folder to modify
+                setFolderName(modalShowing.folderName);
+                setSelectedColor(modalShowing.folderColor);
+
+            } else if (modalShowing === "none") /*if the modal gets closed and it's not the first render of the application (&& folders)*/ {
+
+                resetFolderStates();
+                resetNoteStates();
+
+            }
         }
 
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalShowing]);
+
+    // retrieve all the folders
+    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
+
+    // I try to revalidate the least possible
+    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, { revalidateOnFocus: false, revalidateIfStale: false });
+
+
+    //|| this useEffect cannot be put elsewhere
+    useEffect(() => {
+
+        // set the note's parent folder to be the first of the list
+        folders && folders.length > 0 && setnoteFolderID(folders[0].folderID);
+
+
     }, [folders]);
-    // Handles error and loading state. Without these useSWR doesn't work
+
+
+    // Handles error and loading state. Without these useSWR wouldn't work
     if (error) return (<div></div>);
     if (isValidating) return (<div></div>);
-
-   
 
     /**
      * 
      * @param {Event} e 
      */
-    const addFolder = async (e) => {
+    const addFolder = (e) => {
 
         // the folder to post
         const newFolder = { name: folderName, color: selectedColor };
 
-        $.ajax({
-            url: URL,
-            type: 'POST',
-            data: JSON.stringify(newFolder),
-            xhrFields: {
-                withCredentials: true
-            },
-            success: (msg) => {
-                console.log(msg);
-                //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL);
+        fetch(URL, {
 
-            },
-            error: (err)=>{
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(newFolder)
 
-                    console.log(err);
 
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
             }
-        });
+            return res.json();
+
+
+        }).then(msg => {
+
+            mutate();
+
+
+        }).catch(err => console.log(err));
 
         //close the modal
-        switchState(modalShowing, setModalShowing, "none");
+        setModalShowing("none");
 
     };
 
@@ -107,29 +130,36 @@ const Modals = ({ modalShowing, setModalShowing }) => {
      * 
      * @param {Event} e 
      */
-    const modifyFolder = async (e) => {
+    const modifyFolder = (e) => {
 
         // the folder to patch
         const folder = { name: folderName, color: selectedColor, folderID: modalShowing.elementID };
 
-        $.ajax({
-            url: URL,
-            type: 'PATCH',
-            data: JSON.stringify(folder),
-            xhrFields: {
-                withCredentials: true
-            },
-            success: (res) => {
-                console.log(res);
+        fetch(URL, {
 
-                //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL+"?retrieve=all");
+            method: "PATCH",
+            credentials: "include",
+            body: JSON.stringify(folder)
 
-            },
-        });
+
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+
+
+        }).then(msg => {
+
+            mutate();
+
+
+        }).catch(err => console.log(err));
+
 
         //close the modal
-        switchState(modalShowing, setModalShowing, "none");
+        setModalShowing("none");
 
     };
 
@@ -142,102 +172,101 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         // the note to add
         const newNote = { title: noteTitle, folderID: noteFolderID };
 
-        $.ajax({
-            url: URL,
-            type: 'POST',
-            data: JSON.stringify(newNote),
-            xhrFields: {
-                withCredentials: true
-            },
-            success: (res) => {
-                console.log(res);
-                //? if it is positioned outside of this function, it doesn't work all the time 
-                mutate(URL);
 
-            },
-            error: (err)=>{
+        fetch(URL, {
 
-                console.log(err);
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(newNote)
 
+
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
             }
-        });
+            return res.json();
+
+
+        }).then(msg => {
+
+            mutate();
+
+
+        }).catch(err => console.log(err));
+
 
         //close the modal
-        switchState(modalShowing, setModalShowing, "none");
+        setModalShowing("none");
     };
 
-    
-
     return (
-<>
-        <div
-            // if the modal is showing, make the dim layer visible
-                className={ `modal-container ${modalShowing !== "none" ? "modal-container--visible" : "modal-container--hidden"}` }
-            // if the dim layer is pressed, close the modal and hide the dim layer
-            onClick={ () => switchState(modalShowing, setModalShowing, "none") }
-            >
-                <div className={`dim-layer` }></div>
+        <>
+            <div className={ `modal-container ${modalShowing !== "none" ? "modal-container--visible" : "modal-container--hidden"}` } onClick={ () => setModalShowing("none") }>
 
-            {/* add folder modal */ }
-            <div
+                {/* the black layer behind the modal */ }
+                <div className={ `dim-layer` }></div>
+
+                {/* add folder modal */ }
+                <div
                     className={ `${"myModal"} ${modalShowing === "folder" || typeof modalShowing === "object" ? "myModal--visible" : "myModal--hidden"}` }
-                // when the modal is clicked, don't make the dim layer onClick get triggered
-                onClick={ (e) => e.stopPropagation() }
-            >
+                    // when the modal is clicked, don't make the dim layer onClick get triggered
+                    onClick={ (e) => e.stopPropagation() }
+                >
 
-                {/* the title of the modal */ }
-                <div className="myModal__title">FOLDER</div>
+                    <div className="myModal__title">FOLDER</div>
 
-                {/* the body of the modal */ }
-                <div className="myModal__body">
+                    <div className="myModal__body">
 
-                    {/* the name of the folder */ }
+                        <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } autoComplete="off" />
 
-                        <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } />
+                        <div className="flex-container">
+                            {
+                                colorsArr.map((color, i) => {
+                                    return (
+                                        <div
+                                            style={ { '--color': color.primary } } // create a css variable with the primary color of the folder
+                                            className={ `color-box ${selectedColor === colorKeysArr[i] && "color-box--selected"}` }
+                                            onClick={ () => setSelectedColor(colorKeysArr[i]) }>
+                                            { selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }
+                                        </div>
+                                    );
 
+                                })
+                            }
+                        </div>
 
-                    {/* the color of the folder */ }
-                    <div className="flex-container">
-                        <div className={ `color-box color-box--black ${selectedColor === "#383737" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#383737") }>{ selectedColor === "#383737" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--green ${selectedColor === "#03b703" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#03b703") }>{ selectedColor === "#03b703" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--red ${selectedColor === "#ff0000" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#ff0000") }>{ selectedColor === "#ff0000" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--blue ${selectedColor === "#4d94ff" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#4d94ff") }>{ selectedColor === "#4d94ff" && <i className="bi bi-check-lg"></i> }</div>
-                        <div className={ `color-box color-box--yellow ${selectedColor === "#e7e731" && "color-box--selected"}` } onClick={ () => switchState(selectedColor, setSelectedColor, "#e7e731") }>{ selectedColor === "#e7e731" && <i className="bi bi-check-lg"></i> }</div>
+                    </div>
+
+                    <div className="myModal__footer">
+
+                        <button
+                            onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) : addFolder(e) }
+                            className="primary-button"
+                            disabled={ folderName.trim() === "" ? true : false } // if the folderName field is empty disable the button
+                            >Add</button>
+
                     </div>
 
                 </div>
 
-                {/* the footer of the modal */ }
-                <div className="myModal__footer">
-
-                    {/* the add button */ }
-                        <button onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) :addFolder(e) } className="primary-button">Add</button>
-
-                </div>
-
-            </div>
 
 
 
+                {/* note modal */ }
+                <div
+                    className={ `${"myModal"} ${modalShowing === "note" ? "myModal--visible" : "myModal--hidden"}` }
+                    // when the modal is clicked, don't make the dim layer onClick get triggered
+                    onClick={ (e) => e.stopPropagation() }
+                >
+                    <div className="myModal__title">NOTE</div>
 
-            {/* note modal */ }
-            <div
-                className={ `${"myModal"} ${modalShowing === "note" ? "myModal--visible" : "myModal--hidden"}` }
-                // when the modal is clicked, don't make the dim layer onClick get triggered
-                onClick={ (e) => e.stopPropagation() }
-            >
-                {/* the title of the modal */ }
-                <div className="myModal__title">NOTE</div>
+                    <div className="myModal__body">
 
-                {/* the body of the modal */ }
-                <div className="myModal__body">
 
-                    {/* the title of the note */ }
+                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } autoComplete="off"/>
 
-                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } />
-
-                        {/* the folder where the note has to be inserted.*/ }
-                        <select name="folder-selection" onChange={ (e) => setNoteFolderID(e.target.value) }>
+                        <select name="folder-selection" onChange={ (e) => setnoteFolderID(e.target.value) }>
                             { folders.map((folder, i) => (
 
                                 <option key={ folder.folderID } value={ folder.folderID } className="folder-selection__option">{ folder.folderName }</option>
@@ -247,20 +276,18 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
                         </select>
 
+                    </div>
+
+                    <div className="myModal__footer">
+
+                        <button className="primary-button" onClick={ (e) => addNote(e) }>Add</button>
+
+                    </div>
+
                 </div>
 
-                {/* the footer of the modal */ }
-                <div className="myModal__footer">
-
-                    {/* the add button */ }
-                    <button className="primary-button" onClick={ (e) => addNote(e) }>Add</button>
-
-                </div>
 
             </div>
-
-
-        </div>
         </>
     );
 };

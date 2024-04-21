@@ -1,44 +1,54 @@
 
 import { useNavigate } from "react-router-dom";
-import Login from "./Login";
 import Menu from "./Menu";
 import NoteDisplay from "./NoteDisplay";
-
+import { URL } from "./utils";
+import { useSWRConfig } from "swr";
 
 import { useEffect, useState } from "react";
 
-const HomePage = ({ modalShowing, setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
+const HomePage = ({ setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
+
+    const navigate = useNavigate();
 
     /*
-    ?"normal" if the menu is not expanded nor hidden; 
-    ?"expanded" if the menu expanded; 
-    ?"hidden" if the menu hidden. 
+    "normal" if the menu is not expanded nor hidden; 
+    "expanded" if the menu expanded; 
+    "hidden" if the menu hidden. 
     */
-    const [menuStatus, setMenuStatus] = useState("expanded");
-    const navigate = useNavigate();
-    
-   
+    const [menuStatus, setMenuStatus] = useState("normal");
 
-    useEffect(()=>{
+    // this mutate is global, meaning I can mutate other URLs (in this case, it's used to refresh the notes list)
+    const { mutate } = useSWRConfig();
+
+    useEffect(() => {
 
         if (isLoggedIn === false) /* can't use !isLoggedIn, it would consider null too */ {
+
             navigate("/login");
+
+        } else if (isLoggedIn) {
+
+            /* 
+            When a user logs in, the note list has to be refreshed, since "revalidateIfStale:false" was set due to performance reasons. 
+            If this is taken out, there are some cases where the previous' user notes are shown, or no notes are shown.
+            */
+            mutate(URL + "?retrieve=all");
+
         }
 
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[isLoggedIn]);
+
+    }, [isLoggedIn, mutate, navigate]);
 
 
     return (
 
         <div className="home-page">
 
-                    {/* sidemenu */ }
-            <Menu noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
+            <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } />
 
-                    {/* the note display */ }
-                    { (menuStatus !== "expanded") && <NoteDisplay noteTitle={noteTitle} setNoteTitle={setNoteTitle} menuStatus={ menuStatus } setMenuStatus={setMenuStatus} currentNote={ currentNote } /> }
+            {/* the noteDisplay is always mounted, even if the menu is expanded, so that when the menu gets closed EditorMCE doesn't have to reload. Everything is much smoother this way */ }
+            <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } />
 
         </div>
 

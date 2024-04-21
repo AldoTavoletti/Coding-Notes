@@ -1,5 +1,4 @@
 <?php
-require_once "db_connection.php";
 
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -19,26 +18,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
+require_once "db_connection.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
     case "GET":
 
-        include "get_handler.php";
+        include_once "get_handler.php";
         break;
 
     case "POST":
 
-        include "post_handler.php";
+        include_once "post_handler.php";
         break;
 
     case "PATCH":
 
-        include "patch_handler.php";
+        include_once "patch_handler.php";
         break;
 
     case "DELETE":
 
-        include "delete_handler.php";
+        include_once "delete_handler.php";
         break;
     
     default:

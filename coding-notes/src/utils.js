@@ -3,6 +3,7 @@ import $ from "jquery";
 
 export const URL = "http://localhost/CodingNotesRepo/coding-notes/PHP/index.php";
 
+export const folderColors = { black: { primary: "#202020", secondary: "#2b2a2a" }, green: { primary: "#03b703", secondary: "#5cad5c" }, red: { primary: "#ff0000", secondary: "#ff4b4b" }, blue: { primary: "#4d94ff", secondary: "#6ca7ff" }, yellow: { primary: "#e7e731", secondary:"#dfdf77"}};
 
 /**
  * 
@@ -40,34 +41,34 @@ export const getContrastColor = (backgroundColor) => {
  * @param {string} elementType 
  * @note it open the context menu
  */
-export const openMenu = (e, state, setMethod, elementID = null, elementType = null, folderName=null, folderColor = null) => {
+export const openMenu = (e, setMethod, elementID, elementType, folderName=null, folderColor = null) => {
     
     e.preventDefault();
     e.stopPropagation();
 
-    switchState(state, setMethod, { x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName:folderName, folderColor:folderColor });
+    setMethod({ x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName: folderName, folderColor: folderColor });
 
 };
 
-export const patchAjaxCall = (obj) => {
+export const simplePatchCall = (obj) => {
     console.log(obj);
-    $.ajax({
-        url: URL,
-        type: 'PATCH',
-        data: JSON.stringify(obj),
-        xhrFields: {
-            withCredentials: true
-        },
-        success: (res) => {
-            console.log('done');
-            console.log(res);
-            
+    fetch(URL, {
 
-        },
-        error: (err) => {
-            console.log(err);
+        method: "PATCH",
+        credentials: "include",
+        body: JSON.stringify(obj)
 
+    }).then(res => {
+
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
         }
-    });
+        return res.json();
+
+
+    }).then(data => {
+
+    }).catch(err => console.log(err));
+    
 
 }

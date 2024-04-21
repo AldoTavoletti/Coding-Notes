@@ -19,9 +19,11 @@ if ($arr["elementType"] === "note") /* if a note is being deleted */ {
     
 }
 
-    // bind the parameters
+    // bind the parameter
     $stmt->bind_param("i", $arr["elementID"]);
 
     // execute the query
     $stmt->execute();
+
+echo json_encode(array("message" => "Element deleted!", "code" => 200));
 
