@@ -359,15 +359,6 @@ button {
 
 }
 
-<<<<<<< Updated upstream
-=======
-.header__buttons-div {
-    height: 100%;
-    gap: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
->>>>>>> Stashed changes
 
 
 
@@ -698,7 +689,6 @@ hr {
 
 /* login page */
 
-<<<<<<< Updated upstream
 
 
 
@@ -709,25 +699,6 @@ hr {
 
 }
 
-=======
-.login-page {
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 90vh;
-
-}
-
-
-.form-container {
-
-    background-color: var(--primary-bg-color);
-    height: 60vh;
-
-}
-
->>>>>>> Stashed changes
 .list-group-item[name="bold"] {
 
     font-weight: bold;
