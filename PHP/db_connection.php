@@ -1,8 +1,8 @@
 <?php 
 
-$servername = "localhost"; 
-$username = "root"; 
-$password = ""; 
+$servername = "codingnotes.c9isugac825d.eu-north-1.rds.amazonaws.com"; 
+$username = "aldotavoletti"; 
+$password = 'KSd{{eY40DyMv$RvK7}s0i_Pf0NB';
 $dbname = "codingnotesdb"; 
  
 // Create connection 
