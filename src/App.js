@@ -46,6 +46,7 @@ function App() {
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
+      console.log(window.location.href);
       return res.json();
 
 
