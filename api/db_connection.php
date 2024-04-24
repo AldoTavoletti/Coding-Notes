@@ -1,6 +1,6 @@
 <?php 
 
-$servername = "codingnotes.c9isugac825d.eu-north-1.rds.amazonaws.com"; 
+$servername = "a"; 
 $username = "aldotavoletti"; 
 $password = 'KSd{{eY40DyMv$RvK7}s0i_Pf0NB';
 $dbname = "codingnotesdb"; 
