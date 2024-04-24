@@ -1,7 +1,7 @@
 import { getLuminance } from 'polished';
 import $ from "jquery";
 
-export const URL =  "http://localhost/CodingNotesRepo/api/index.php";
+export const URL =  "/CodingNotesRepo/api/index.php";
 
 export const folderColors = { black: { primary: "#202020", secondary: "#2b2a2a" }, green: { primary: "#03b703", secondary: "#5cad5c" }, red: { primary: "#ff0000", secondary: "#ff4b4b" }, blue: { primary: "#4d94ff", secondary: "#6ca7ff" }, yellow: { primary: "#e7e731", secondary:"#dfdf77"}};
 
