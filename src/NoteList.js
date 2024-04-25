@@ -17,7 +17,12 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
     // "revalidateIfStale:false" makes sure the noteList does not get revalidated everytime we reopen the menu
-    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher, { revalidateIfStale: false });
+    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher, {
+        revalidateIfStale: false, headers: {
+            'Accept': 'application/json',
+            'SameSite': 'None', // Set the SameSite attribute
+            'Sec-Fetch-Site': 'cross-site' // Indicates that this is a cross-site request
+        } });
 
     // this mutate is global, meaning I can mutate other URLs (in this case, the one that retrieves data relative to the current note)
     const { mutate } = useSWRConfig();

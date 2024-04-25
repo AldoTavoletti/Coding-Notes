@@ -38,7 +38,8 @@ function App() {
     fetch(URL + "?check=login", {
 
       method: "GET",
-      credentials: "include",
+      credentials: "include"
+      
 
 
     }).then(res => {
