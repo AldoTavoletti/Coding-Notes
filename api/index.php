@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: https://codingnotes.onrender.com");
