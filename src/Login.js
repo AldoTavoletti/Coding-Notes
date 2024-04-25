@@ -60,11 +60,6 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify({ username: username, password: password, action: "login" }),
-                headers: {
-                    'Accept': 'application/json',
-                    'SameSite': 'None', // Set the SameSite attribute
-                    'Sec-Fetch-Site': 'cross-site' // Indicates that this is a cross-site request
-                }
 
             }).then(res => {
 
