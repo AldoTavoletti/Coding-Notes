@@ -29,7 +29,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
     // copy the data read-only array to create a modifiable folders array
     const folders = [...data];
-
+    console.log(folders);
     /**
      * 
      * @param {object} note 
