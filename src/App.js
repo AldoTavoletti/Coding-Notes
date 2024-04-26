@@ -75,7 +75,7 @@ function App() {
 
         <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-        <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />
+        {isLoggedIn && <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />}
 
         <BrowserRouter>
           <Routes>
