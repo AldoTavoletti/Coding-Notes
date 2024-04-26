@@ -1,7 +1,9 @@
 import { getLuminance } from 'polished';
 import $ from "jquery";
 
-export const URL =  "https://codingnotesbackend.000webhostapp.com/api/index.php";
+// export const URL =  "https://codingnotesbackend.000webhostapp.com/api/index.php";
+export const URL = "https://coding-notes-backend.onrender.com";
+
 // export const URL = "https://codingnotes-backend.onrender.com/index.php";
 
 
