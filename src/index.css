@@ -9,6 +9,11 @@
     --tertiary-bg-color-hover: #ffffffc9;
     --tertiary-bg-color-active: #ffffff8f;
     --quaternary-bg-color: #1e1e1e;
+    /* --purple:#5f5fde; */
+    --purple:#5941df;
+    --purple-light: #7e64ff;
+    --purple-hover:#4a33ce;
+    --purple-active:#3f2da5;
 
     /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
     --light: 80;
@@ -106,7 +111,7 @@ button {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background-color: #2f2f2f;
+    background-color:var(--secondary-bg-color);
 }
 
 /* Handle on hover */
@@ -192,8 +197,8 @@ button {
     transition: all 0.2s ease;
     overflow-y: auto;
     border-right: 3px solid var(--secondary-bg-color);
-    scrollbar-width: none;
     /* for firefox */
+    scrollbar-width: none;
 }
 
 .menu--expanded {
@@ -214,7 +219,6 @@ button {
 }
 
 .menu__functionalities {
-
     position: sticky;
     z-index: 3;
     top: 0;
@@ -230,13 +234,13 @@ button {
     cursor: pointer;
     width: 100%;
     height: 90vh;
-    background-color: var(--quaternary-bg-color);
     transition: all 0.2s ease;
 }
 
 .subheader--small:hover {
 
     background-color: var(--secondary-bg-color);
+
 
 }
 
@@ -281,9 +285,8 @@ button {
     padding-inline: 15px;
     font-size: 1.2em;
 
-    color: black;
-    background-color: var(--tertiary-bg-color);
-
+    /* color: black; */
+    background-color: var(--purple);
     border: 0;
     border-radius: 20px;
     white-space: nowrap;
@@ -301,17 +304,18 @@ button {
 
     background-color: var(--secondary-bg-color);
 
-    border: 1px solid var(--tertiary-bg-color-active);
+    border: 2px solid var(--tertiary-bg-color-active);
     border-radius: 20px;
     white-space: nowrap;
 
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 
 }
 
 .secondary-button:hover {
 
-    background-color: var(--secondary-bg-color-hover);
+    background-color: var(--tertiary-bg-color);
+    color: black;
 
 }
 
@@ -332,6 +336,8 @@ button {
 .text-button:hover {
 
     text-decoration: underline;
+    color: var(--purple-light);
+    font-weight: bold;
 
 }
 
@@ -342,6 +348,7 @@ button {
 
     display: flex;
     background-color: var(--primary-bg-color);
+
     overflow-x: auto;
     justify-content: space-between;
     align-items: center;
@@ -365,13 +372,13 @@ button {
 
 .primary-button:hover {
 
-    background-color: var(--tertiary-bg-color-hover);
+    background-color: var(--purple-hover);
 
 }
 
 .primary-button:active {
 
-    background-color: var(--tertiary-bg-color-active);
+    background-color: var(--purple-active);
 
 }
 
@@ -616,7 +623,6 @@ button {
 hr {
 
     width: 100%;
-    background-color: #2b2a2a;
 }
 
 
@@ -647,14 +653,14 @@ hr {
 
 .note-list__note {
     width: 100% !important;
-    height: 12vh;
+    height: 10vh;
     display: flex;
     padding-inline: 10px;
     justify-content: center;
     align-items: center;
     border: 2px solid rgba(0, 0, 0, 0.178);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .note-list__note:hover {
@@ -662,6 +668,7 @@ hr {
     background-color: var(--hover-color) !important;
     border: 3px solid rgba(0, 0, 0, 0.178);
 }
+
 
 .note-list__note p {
     padding: 0;
@@ -784,6 +791,7 @@ hr {
     border: 0 !important;
 
 }
+
 
 .tox .tox-tbtn svg {
 
@@ -1104,16 +1112,72 @@ input[data-autocompleted] {
 /* toolbar and menubar buttons background */
 .tox .tox-mbtn, .tox .tox-tbtn{
 
-background: var(--primary-bg-color) !important;
+background: transparent !important;
 
 }
 
 /* toolbar active buttons background */
 .tox-tbtn.tox-tbtn--enabled{
 
-background: var(--secondary-bg-color-hover) !important;
+background: var(--purple) !important;
 
 }
+
+.tox-textfield{
+
+background: var(--secondary-bg-color-hover) !important;
+border: 0 !important;
+
+}
+
+.tox-dialog-wrap__backdrop{
+
+background-color: var(--secondary-bg-color) !important;
+opacity: 0.7;
+}
+
+.tox-collection__item:hover{
+
+background-color: var(--purple-hover) !important;
+
+}
+.tox-button{
+
+background-color: var(--purple) !important;
+border: 0 !important;
+}
+
+
+.tox-dialog__header{
+
+background: var(--secondary-bg-color) !important;
+
+}
+
+.tox-dialog__body{
+
+background: var(--secondary-bg-color) !important;
+
+}
+
+.tox-dialog__footer{
+
+background: var(--purple-active) !important;
+
+}
+
+.tox-textarea{
+
+background: var(--quaternary-bg-color) !important;
+
+}
+
+.tox-listbox.tox-listbox--select{
+
+background: var(--quaternary-bg-color) !important;
+
+}
+
 
 /*  gets rid of the white border around the editor */
 .tox .tox-edit-area::before{
@@ -1131,14 +1195,14 @@ border: 0 !important;
 /* popup toolbar */
 .tox-toolbar{
 
-background-color: var(--secondary-bg-color) !important;
+background-color: var(--purple-active) !important;
 
 }
 
 /* popup toolbar */
 .tox .tox-pop__dialog{
 
-background-color: var(--secondary-bg-color) !important;
+background-color: var(--purple-active) !important;
 
 border: 0 !important;
 
@@ -1147,7 +1211,7 @@ border: 0 !important;
 /* make the the popup toolbar's arrow of the right color */
 .tox .tox-pop.tox-pop--top::before, .tox .tox-pop.tox-pop--top::after{
 
-border-color:  transparent transparent var(--secondary-bg-color) transparent !important;
+border-color:  transparent transparent var(--purple-active) transparent !important;
 
 }
 
@@ -1159,20 +1223,21 @@ cursor: pointer;
 }
 
 .tox .tox-collection--list .tox-collection__item--active {
-    background-color: var(--secondary-bg-color-hover) !important;
+    background-color: var(--purple) !important;
 }
 
 .tox-menu.tox-collection.tox-collection--list, .tox-menu.tox-collection.tox-collection--list.tox-selected-menu{
 
-background-color: var(--secondary-bg-color);
+background-color: var(--purple-active);
 
 }
 
 .tox .tox-collection--list .tox-collection__item--enabled{
 
-background-color: var(--secondary-bg-color-hover) !important;
+background-color: var(--purple-hover) !important;
 
 }
+
 
 
 
@@ -1195,17 +1260,17 @@ background-color: var(--secondary-bg-color-hover) !important;
 
 .sponsor--purple{
 
-color: #5f5fde;
+color: var(--purple);
 
 /* make it even bolder */
-text-shadow: 0.5px 0 #5f5fde, -0.5px 0 #5f5fde, 0 0.5px #5f5fde, 0 -0.5px #5f5fde,
-        0.5px 0.5px #5f5fde, -0.5px -0.5px #5f5fde, 0.5px -0.5px #5f5fde, -0.5px 0.5px #5f5fde;
+text-shadow: 0.5px 0 var(--purple), -0.5px 0 var(--purple), 0 0.5px var(--purple), 0 -0.5px var(--purple),
+        0.5px 0.5px var(--purple), -0.5px -0.5px var(--purple), 0.5px -0.5px var(--purple), -0.5px 0.5px var(--purple);
 }
 
 .circle {
     position: absolute;
     border-radius: 50%;
-    background: #5f5fde;
+    background: var(--purple);
     animation: ripple 15s infinite;
 }
 
