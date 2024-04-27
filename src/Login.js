@@ -27,7 +27,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
     const navigate = useNavigate();
 
     //? I need useEffect, otherwise an error is called
-    useEffect(()=>{
+    useEffect(() => {
 
         // reset these state variables
         isLoggedIn && setIsLoggedIn(false);
@@ -36,7 +36,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
     });
 
-   
+
 
     /**
      * @note classic login
@@ -101,9 +101,9 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
         } else if (/\s/g.test(username)) {
 
-            setError("The username can't contain white spaces") 
-            
-        }else if (password === "") /* if the password hasn't been set */ {
+            setError("The username can't contain white spaces");
+
+        } else if (password === "") /* if the password hasn't been set */ {
 
             setError("insert a password");
 
@@ -234,7 +234,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify({ code: codeResponse.code }),
-                headers: {'Content-Type': 'application/json'}
+                headers: { 'Content-Type': 'application/json' }
 
             }).then(res => {
 
@@ -279,17 +279,17 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
         set(e.target.value);
 
         if (e.target.value.length >= 8 && isLongEnough !== true) /* if the password is at least 8 char long and the state variable is not true, set it to be */ {
-        
+
             setIsLongEnough(true);
-        
+
         } else if (e.target.value.length < 8 && isLongEnough !== false) /* if the password isn't at least 8 char long and the state variable is not false, set it to be */ {
 
             setIsLongEnough(false);
 
         } else if (e.target.value.length === 0) /* if the password is 0 char long, set the state variable to null (it's useless to check if it already was null since it can't be) */ {
-        
+
             setIsLongEnough(null);
-        
+
         }
 
     };
@@ -301,7 +301,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
      * @note it's used to toggle the visibility of the passwords, when the input's eye is clicked
      */
     const togglePassword = (set, state) => {
-        
+
         set(!state);
 
     };
@@ -309,13 +309,15 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
         <div className="login-page">
 
-            {/* the background */}
+            {/* the background
             <svg preserveAspectRatio="xMidYMid slice" viewBox="10 10 80 80" className="background-login">
                 <path fill="#ffffff" className="out-top" d="M37-5C25.1-14.7,5.7-19.1-9.2-10-28.5,1.8-32.7,31.1-19.8,49c15.5,21.5,52.6,22,67.2,2.3C59.4,35,53.7,8.5,37-5Z" />
                 <path fill="#232323" className="in-top" d="M20.6,4.1C11.6,1.5-1.9,2.5-8,11.2-16.3,23.1-8.2,45.6,7.4,50S42.1,38.9,41,24.5C40.2,14.1,29.4,6.6,20.6,4.1Z" />
                 <path fill="#3e3d3d" className="out-bottom" d="M105.9,48.6c-12.4-8.2-29.3-4.8-39.4.8-23.4,12.8-37.7,51.9-19.1,74.1s63.9,15.3,76-5.6c7.6-13.3,1.8-31.1-2.3-43.8C117.6,63.3,114.7,54.3,105.9,48.6Z" />
                 <path fill="#ffffffc9" className="in-bottom" d="M102,67.1c-9.6-6.1-22-3.1-29.5,2-15.4,10.7-19.6,37.5-7.6,47.8s35.9,3.9,44.5-12.5C115.5,92.6,113.9,74.6,102,67.1Z" />
-            </svg>
+            </svg> */}
+
+
 
 
             <div className="login-container">
@@ -324,50 +326,50 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } />
 
-                {/* password 1 container */}
+                {/* password 1 container */ }
                 <div className="password-container" style={ { marginTop: "calc(15.2px + 8px)" } }> {/* 15.2px is the height of password-condition show in devtools */ }
 
-                    <input 
-                    type={ showPassword1 ? "text" : "password" }  // using showPassword1 you can toggle the visiblity of the passowrd
-                    placeholder="Password..." 
-                    onChange={ (e) => handlePasswordInput(e, setPassword) } 
+                    <input
+                        type={ showPassword1 ? "text" : "password" }  // using showPassword1 you can toggle the visiblity of the passowrd
+                        placeholder="Password..."
+                        onChange={ (e) => handlePasswordInput(e, setPassword) }
                     />
 
-                    {/* the eye */}
-                    <span 
-                    className="password-toggle-icon" 
-                    onClick={ () => togglePassword(setShowPassword1, showPassword1) }
+                    {/* the eye */ }
+                    <span
+                        className="password-toggle-icon"
+                        onClick={ () => togglePassword(setShowPassword1, showPassword1) }
                     >{ showPassword1 ? <FaEyeSlash /> : <FaEye /> }</span>
 
-                    {/* the condition (8 char long) */}
-                    { !wantsLogin && 
-                    <span 
-                    className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` } // switch the color based on the length of the password
-                    >At least 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span> }
-              
+                    {/* the condition (8 char long) */ }
+                    { !wantsLogin &&
+                        <span
+                            className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` } // switch the color based on the length of the password
+                        >At least 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span> }
+
                 </div>
 
                 {/* password 2 container */ }
                 <div className="password-container">
 
                     {/*the confirm password input gets shown/hidden using an animation, that's why it's always mounted */ }
-                    <input 
-                    ref={ confirmPasswordRef } 
-                    className={ wantsLogin && "input-disappear" } 
-                    type={ showPassword2 ? "text" : "password" } 
-                    placeholder="Confirm Password..." 
-                    onChange={ (e) => setPassword2(e.target.value) } />
+                    <input
+                        ref={ confirmPasswordRef }
+                        className={ wantsLogin && "input-disappear" }
+                        type={ showPassword2 ? "text" : "password" }
+                        placeholder="Confirm Password..."
+                        onChange={ (e) => setPassword2(e.target.value) } />
 
-                    {/* the eye */}
-                    { !wantsLogin && 
-                    <span 
-                    className="password-toggle-icon" 
-                    onClick={ () => togglePassword(setShowPassword2, showPassword2) }
-                    >{ showPassword2 ? <FaEyeSlash /> : <FaEye /> }</span> }
-                
+                    {/* the eye */ }
+                    { !wantsLogin &&
+                        <span
+                            className="password-toggle-icon"
+                            onClick={ () => togglePassword(setShowPassword2, showPassword2) }
+                        >{ showPassword2 ? <FaEyeSlash /> : <FaEye /> }</span> }
+
                 </div>
 
-                {/* if an error is fired, it's shown here */}
+                {/* if an error is fired, it's shown here */ }
                 { error && <p className="login-container__error">{ error }</p> }
 
 
@@ -376,7 +378,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
                     <button onClick={ (e) => handleLoginClick(e) } type="button" className={ wantsLogin ? "active" : "" }>Login</button>
                 </div>
 
-                {/* google button */}
+                {/* google button */ }
                 <button className="gsi-material-button" onClick={ () => googleLogin() }>
                     <div className="gsi-material-button-state"></div>
                     <div className="gsi-material-button-content-wrapper">
@@ -392,6 +394,19 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
                         <span style={ { display: "none" } }>Sign in with Google</span>
                     </div>
                 </button>
+
+
+            </div>
+            <div className="ripple-background">
+
+                <div className="circle xxlarge shade1"></div>
+                <div className="circle xlarge shade2"></div>
+
+                <div className="circle large shade3"></div>
+                <div className="circle medium shade4"></div>
+                <div className="circle small shade5"></div>
+
+                <p className="sponsor"><span className="sponsor--purple">Coding Notes</span><br></br>what you really need.</p>
 
 
             </div>
