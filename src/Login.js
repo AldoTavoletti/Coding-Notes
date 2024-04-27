@@ -241,7 +241,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
                 if (!res.ok) {
                     throw new Error("Network response was not ok");
                 }
-                return res.json();
+                return res.text();
 
 
             }).then(data => {
