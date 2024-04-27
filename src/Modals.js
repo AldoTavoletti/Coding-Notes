@@ -17,7 +17,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
      * the note's parent folder ID in the note modal
      * it's initial value is set in a useEffect after the folders' fetch. It cannot be set now since folders would be undefined, and it cannot be declared later since Hooks cannot be declared after "if (error) return (<div></div>);"
      */
-    const [noteFolderID, setnoteFolderID] = useState("");
+    const [noteFolderID, setnoteFolderID] = useState(null);
 
     // get the values from folderColors so that I can iterate it with map
     const colorsArr = Object.values(folderColors);
@@ -43,7 +43,8 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
 
         noteTitle !== "" && setNoteTitle("");
-        noteFolderID.folderID !== folders[0].folderID && setnoteFolderID(folders[0].folderID);
+        // if I don't check folders[0], moving from login to homepage etc. in the URL could mess things up apparently 
+        (folders[0] && noteFolderID !== folders[0].folderID) && setnoteFolderID(folders[0].folderID);
 
     };
 

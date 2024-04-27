@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { URL } from "./utils";
-import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTitle, setNoteTitle }) => {
+const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
     // it's true if the login page is being showed, false if it's the sign up page
     const [wantsLogin, setWantsLogin] = useState(true);
@@ -29,10 +28,9 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
     //? I need useEffect, otherwise an error is called
     useEffect(() => {
 
-        // reset these state variables
+        // reset this variable in case the user was logged in but decided to access the login page from the url
         isLoggedIn && setIsLoggedIn(false);
-        currentNote && setCurrentNote(null);
-        noteTitle !== "" && setNoteTitle("");
+
 
     });
 

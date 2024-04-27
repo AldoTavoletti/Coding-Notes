@@ -9,9 +9,15 @@ import Modals from "./Modals";
 
 import { useEffect, useState } from "react";
 
-const HomePage = ({ currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
+const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
 
     const navigate = useNavigate();
+
+    // the noteID of the note clicked by the user
+    const [currentNote, setCurrentNote] = useState(null);
+
+    // the title of the current note
+    const [noteTitle, setNoteTitle] = useState("");
 
     /*
     "normal" if the menu is not expanded nor hidden; 
@@ -29,7 +35,8 @@ const HomePage = ({ currentNote, setCurrentNote, noteTitle, setNoteTitle, isLogg
     useEffect(() => {
 
         if (isLoggedIn === false) /* can't use !isLoggedIn, it would consider null too */ {
-
+            currentNote && setCurrentNote(null);
+            noteTitle !== "" && setNoteTitle("");
             navigate("/login");
 
         } else if (isLoggedIn) {

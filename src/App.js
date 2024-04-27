@@ -18,11 +18,7 @@ function App() {
   "note" if it's the note modal. 
   */
 
-  // the noteID of the note clicked by the user
-  const [currentNote, setCurrentNote] = useState(null);
 
-  // the title of the current note
-  const [noteTitle, setNoteTitle] = useState("");
 
   // checks wether the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -78,8 +74,8 @@ function App() {
         <BrowserRouter>
           <Routes>
 
-            <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } currentNote={ currentNote } setCurrentNote={ setCurrentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle }/> } />
-            <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } setCurrentNote={ setCurrentNote } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } /> } />
+            <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn }/> } />
+            <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn }/> } />
             <Route path="*" element={ <Page404 /> } />
 
           </Routes>
