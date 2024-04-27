@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import EditorMCE from "./EditorMCE";
+import LoadingScreen from "./LoadingScreen";
 
 const NoteDisplay = ({ menuStatus, currentNote }) => {
 

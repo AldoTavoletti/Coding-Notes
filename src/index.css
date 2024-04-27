@@ -1208,10 +1208,27 @@ border: 0 !important;
 
 }
 
-/* make the the popup toolbar's arrow of the right color */
+.center-container{
+
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100%;
+
+}
+
+/* make the the popup toolbar's arrow facing top of the right color */
 .tox .tox-pop.tox-pop--top::before, .tox .tox-pop.tox-pop--top::after{
 
 border-color:  transparent transparent var(--purple-active) transparent !important;
+
+}
+
+/* make the the popup toolbar's arrow facing bottom of the right color */
+.tox .tox-pop.tox-pop--bottom::before,
+.tox .tox-pop.tox-pop--bottom::after {
+
+    border-color:  var(--purple-active) transparent transparent transparent !important;
 
 }
 

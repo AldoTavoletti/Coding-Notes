@@ -305,6 +305,18 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
         set(!state);
 
     };
+
+    // to login/signup pressing "Enter"
+    window.onkeyup = (e)=>{
+
+        if (e.key !== "Enter") {
+            return;
+        }
+
+        wantsLogin ? handleLoginClick(): handleSignUpClick();
+
+    }
+
     return (
 
         <div className="login-page">
@@ -374,8 +386,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn, setCurrentNote, currentNote, noteTit
 
 
                 <div className="login-container__buttons">
-                    <button onClick={ (e) => handleSignUpClick(e) } type="button" className={ !wantsLogin ? "active" : "" }>Sign Up</button>
-                    <button onClick={ (e) => handleLoginClick(e) } type="button" className={ wantsLogin ? "active" : "" }>Login</button>
+                    <button onClick={ () => handleSignUpClick() } type="button" className={ !wantsLogin ? "active" : "" }>Sign Up</button>
+                    <button onClick={ () => handleLoginClick() } type="button" className={ wantsLogin ? "active" : "" }>Login</button>
                 </div>
 
                 {/* google button */ }

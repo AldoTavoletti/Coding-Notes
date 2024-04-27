@@ -1,8 +1,7 @@
-import Header from "./Header";
 import HomePage from "./HomePage";
-import Modals from "./Modals";
 import Login from "./Login";
 import Page404 from "./Page404";
+import { Suspense } from "react";
 
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -10,7 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { URL } from "./utils";
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import LoadingScreen from "./LoadingScreen";
 function App() {
 
   /* 
@@ -18,7 +17,6 @@ function App() {
   "folder" if the folder modal is showing; 
   "note" if it's the note modal. 
   */
-  const [modalShowing, setModalShowing] = useState("none");
 
   // the noteID of the note clicked by the user
   const [currentNote, setCurrentNote] = useState(null);
@@ -71,16 +69,16 @@ function App() {
   return (
 
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} /* this could be public but I decided to put it in the .env file anyway */>
+
+
       <div className="App">
 
-        <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
-
-        {isLoggedIn && <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />}
+        
 
         <BrowserRouter>
           <Routes>
 
-            <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } setModalShowing={ setModalShowing } currentNote={ currentNote } setCurrentNote={ setCurrentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } /> } />
+            <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } currentNote={ currentNote } setCurrentNote={ setCurrentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle }/> } />
             <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } setCurrentNote={ setCurrentNote } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } /> } />
             <Route path="*" element={ <Page404 /> } />
 

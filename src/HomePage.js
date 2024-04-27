@@ -4,10 +4,12 @@ import Menu from "./Menu";
 import NoteDisplay from "./NoteDisplay";
 import { URL } from "./utils";
 import { useSWRConfig } from "swr";
+import Header from "./Header";
+import Modals from "./Modals";
 
 import { useEffect, useState } from "react";
 
-const HomePage = ({ setModalShowing, currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
+const HomePage = ({ currentNote, setCurrentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn }) => {
 
     const navigate = useNavigate();
 
@@ -17,6 +19,9 @@ const HomePage = ({ setModalShowing, currentNote, setCurrentNote, noteTitle, set
     "hidden" if the menu hidden. 
     */
     const [menuStatus, setMenuStatus] = useState("normal");
+
+    const [modalShowing, setModalShowing] = useState("none");
+
 
     // this mutate is global, meaning I can mutate other URLs (in this case, it's used to refresh the notes list)
     const { mutate } = useSWRConfig();
@@ -42,16 +47,21 @@ const HomePage = ({ setModalShowing, currentNote, setCurrentNote, noteTitle, set
 
 
     return (
+        <>
+            <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-        <div className="home-page">
+            <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />
+            
+            
+            <div className="home-page">
 
-            <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } />
+                <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } />
 
-            {/* the noteDisplay is always mounted, even if the menu is expanded, so that when the menu gets closed EditorMCE doesn't have to reload. Everything is much smoother this way */ }
-            <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } />
+                {/* the noteDisplay is always mounted, even if the menu is expanded, so that when the menu gets closed EditorMCE doesn't have to reload. Everything is much smoother this way */ }
+                <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } />
 
-        </div>
-
+            </div>
+        </>
     );
 };
 

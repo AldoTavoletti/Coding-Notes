@@ -25,12 +25,14 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
 
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
-    if (isValidating) return (< div className="note-list"><div className="spinner-border" role="status"><span className="visually-hidden">Loading...</span></div></div>);
+    if (isValidating) return (<div class="center-container">
+        <div class="spinner-grow" role="status">
+        </div>
+    </div>);
 
 
     // copy the data read-only array to create a modifiable folders array
     const folders = [...data];
-    console.log(folders);
     /**
      * 
      * @param {object} note 

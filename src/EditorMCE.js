@@ -22,7 +22,14 @@ const EditorMCE = ({ currentNote }) => {
     const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher, { revalidateOnFocus: false });
 
     if (error) return (<div></div>);
-    if (!note || isLoading || isValidating) return (<div></div>);
+    if (!note || isLoading || isValidating) return (
+    
+    <div class="center-container">
+            <div class="spinner-grow" role="status">
+        </div>
+    </div>
+    
+);
 
     return (
         <Editor
