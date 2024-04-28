@@ -1274,6 +1274,16 @@ background-color: var(--purple-hover) !important;
     font-weight: bold;
     text-align: right;
 }
+.tox .tox-collection--toolbar .tox-collection__item--enabled{
+
+background-color: var(--purple-active) !important;
+
+}
+.tox .tox-menu{
+
+background-color: var(--purple) !important;
+
+}
 
 .sponsor--purple{
 

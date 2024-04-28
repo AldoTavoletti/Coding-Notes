@@ -50,6 +50,7 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
         }
 
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn, mutate, navigate]);
 
 

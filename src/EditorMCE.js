@@ -5,6 +5,7 @@ import { URL } from "./utils";
 import { simplePatchCall } from "./utils";
 const EditorMCE = ({ currentNote }) => {
 
+
     const correspondingNoteID = useRef(null);
 
     /*
@@ -59,7 +60,7 @@ const EditorMCE = ({ currentNote }) => {
                 ],
                 toolbar: 'undo redo | fontsize  |' +
                     'bold italic forecolor backcolor codesample | alignleft aligncenter ' +
-                    'alignright alignjustify indent | accordion bullist numlist media | charmap removeformat',
+                    'alignright alignjustify indent | accordion bullist numlist | charmap removeformat',
              
                     // I use content_style because these instructions don't work if put in the index.css file, they refer only to the tinyMCE editor
                     content_style: `
