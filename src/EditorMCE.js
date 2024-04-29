@@ -5,9 +5,10 @@ import { URL } from "./utils";
 import { simplePatchCall } from "./utils";
 const EditorMCE = ({ currentNote }) => {
 
+    // used to keep track of the saved content and decide wether a patch call should be executed
+    const content = useRef(null);
 
     const correspondingNoteID = useRef(null);
-
     /*
     This prevents the duplication of note contents. 
     Even if the currentNote changed during the "change" event, it would still remain the same value. 
@@ -31,18 +32,37 @@ const EditorMCE = ({ currentNote }) => {
     </div>
     
 );
-
+    // the content ref is set here cause note is undefined before useSWR
+    content.current = note.content;
+    
     return (
         <Editor
             tinymceScriptSrc='/tinymce/tinymce.min.js'
             initialValue={ note.content }
             init={ {
                 setup: (editor) => {
-                    editor.on('change', (e) => {
-                        // save content changes in db
-                        simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+                    editor.on('storeDraft', (e) => {
+                        // save content changes in db (fired every 1s, it gets executed only if the editor's content is different from the last one saved)
+                        if (content.current !== editor.getContent()) {
+
+                            simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+                            content.current = editor.getContent();
+                        }
 
                     });
+
+                    editor.on('change', (e) => {
+                        // save content changes in db (fired only if the user unfocuses from the editor, it gets executed only if the editor's content is different from the last one saved)
+                        if (content.current !== editor.getContent()) {
+                            
+                            simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+                            content.current = editor.getContent();
+                        }
+
+                    });
+
+                    
+
                 },
                 license_key: 'gpl',
                 promotion: false, // get rid of "upgrade" button
@@ -53,6 +73,9 @@ const EditorMCE = ({ currentNote }) => {
                 ui_mode: "split", // without this toolbar_sticky doesn't work
                 content_css: ['index.css'],
                 skin: "oxide-dark", //makes the toolbar text of the right colors
+                autosave_interval:"1s",
+                autosave_retention: '1m',
+                autosave_ask_before_unload:true,
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace',
