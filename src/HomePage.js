@@ -8,6 +8,7 @@ import Header from "./Header";
 import Modals from "./Modals";
 
 import { useEffect, useState } from "react";
+import LoadingScreen from "./LoadingScreen";
 
 const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
 
@@ -50,9 +51,16 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
         }
 
 
+
+
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn, mutate, navigate]);
 
+
+    if (isLoggedIn === null) /* loading screen as soon as you get into the website */{
+        return (<div className="home-page"><LoadingScreen /></div>);
+    }
 
     return (
         <>

@@ -389,17 +389,17 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                     { !wantsLogin &&
                         <span
                             className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` } // switch the color based on the length of the password
-                        >- 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span> }
+                        >• 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span> }
 
                     { !wantsLogin &&
                         <span
                             className={ `password-condition ${hasCapital === true ? "password-condition--green" : hasCapital === false && "password-condition--red"}` } // switch the color based on the length of the password
-                        >- A capital letter { hasCapital === true ? "✓" : hasCapital === false && "✕" }</span> }
+                        >• 1 capital letter { hasCapital === true ? "✓" : hasCapital === false && "✕" }</span> }
 
                     { !wantsLogin &&
                         <span
                             className={ `password-condition ${hasSymbol === true ? "password-condition--green" : hasSymbol === false && "password-condition--red"}` } // switch the color based on the length of the password
-                        >- A symbol { hasSymbol === true ? "✓" : hasSymbol === false && "✕" }</span> }
+                        >• 1 symbol { hasSymbol === true ? "✓" : hasSymbol === false && "✕" }</span> }
 
                 </div>
 

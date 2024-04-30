@@ -1,15 +1,13 @@
 import HomePage from "./HomePage";
 import Login from "./Login";
 import Page404 from "./Page404";
-import { Suspense } from "react";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { URL } from "./utils";
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import LoadingScreen from "./LoadingScreen";
 function App() {
 
   /* 
