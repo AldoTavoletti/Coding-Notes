@@ -484,6 +484,26 @@ button {
     transition: all .2s ease;
 }
 
+.password-condition {
+
+    font-size: 0.8em;
+    color: var(--tertiary-bg-color-hover);
+    align-self: flex-start;
+
+}
+
+.password-condition--red {
+
+    color: red;
+
+}
+
+.password-condition--green {
+
+    color: green;
+
+}
+
 .input-disappear {
 
     height: 0 !important;
@@ -525,17 +545,18 @@ button {
 
 }
 
-.login-container__buttons button:hover {
+.login-container__buttons button.active:hover {
 
-    background-color: rgb(113, 113, 248);
+    background-color: var(--purple);
+    color: white;
 }
 
-.login-container__buttons :not(.active):hover {
+.login-container__buttons button:not(.active):hover {
 
     background-color: var(--tertiary-bg-color-hover);
 }
 
-.login-container__buttons :not(.active) {
+.login-container__buttons button:not(.active) {
 
     background-color: var(--tertiary-bg-color-active);
 }
@@ -856,7 +877,7 @@ hr {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    row-gap: 3%;
+    row-gap: 1%;
     width: 35vw;
     padding: 3%;
     background-color: var(--primary-bg-color);
@@ -914,8 +935,17 @@ hr {
     user-select: none;
 }
 
+.password-toggle-icon:hover *{
+
+color: var(--purple);
+
+}
+
 .password-container {
 
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
     position: relative;
     width: 90%;
 
@@ -1038,26 +1068,7 @@ hr {
 }
 
 
-.password-condition {
 
-    font-size: 0.8em;
-    color: var(--tertiary-bg-color-hover);
-    margin-top: -8px;
-    align-self: flex-start;
-
-}
-
-.password-condition--red {
-
-    color: red;
-
-}
-
-.password-condition--green {
-
-    color: green;
-
-}
 
 
 
