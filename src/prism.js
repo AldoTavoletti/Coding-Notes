@@ -244,7 +244,7 @@ var Prism = (function (_self) {
 					if (src) {
 						var scripts = document.getElementsByTagName('script');
 						for (var i in scripts) {
-							if (scripts[i].src == src) {
+							if (scripts[i].src === src) {
 								return scripts[i];
 							}
 						}
@@ -427,7 +427,7 @@ var Prism = (function (_self) {
 				for (var token in grammar) {
 					if (grammar.hasOwnProperty(token)) {
 
-						if (token == before) {
+						if (token === before) {
 							for (var newToken in insert) {
 								if (insert.hasOwnProperty(newToken)) {
 									ret[newToken] = insert[newToken];
@@ -447,7 +447,7 @@ var Prism = (function (_self) {
 
 				// Update references in other language definitions
 				_.languages.DFS(_.languages, function (key, value) {
-					if (value === old && key != inside) {
+					if (value === old && key !== inside) {
 						this[key] = ret;
 					}
 				});
@@ -923,7 +923,7 @@ var Prism = (function (_self) {
 			patterns = Array.isArray(patterns) ? patterns : [patterns];
 
 			for (var j = 0; j < patterns.length; ++j) {
-				if (rematch && rematch.cause == token + ',' + j) {
+				if (rematch && rematch.cause === token + ',' + j) {
 					return;
 				}
 
@@ -1189,7 +1189,7 @@ var Prism = (function (_self) {
 		// been loaded when Prism.highlightAll() is executed, depending on how fast resources are loaded.
 		// See https://github.com/PrismJS/prism/issues/2102
 		var readyState = document.readyState;
-		if (readyState === 'loading' || readyState === 'interactive' && script && script.defer) {
+		if ((readyState === 'loading' || readyState === 'interactive') && script && script.defer) {
 			document.addEventListener('DOMContentLoaded', highlightAutomaticallyCallback);
 		} else {
 			if (window.requestAnimationFrame) {
@@ -2953,7 +2953,7 @@ Prism.languages.py = Prism.languages.python;
 		/<\/?(?:[\w.:-]+(?:<S>+(?:[\w.:$-]+(?:=(?:"(?:\\[\s\S]|[^\\"])*"|'(?:\\[\s\S]|[^\\'])*'|[^\s{'"/>=]+|<BRACES>))?|<SPREAD>))*<S>*\/?)?>/.source
 	);
 
-	Prism.languages.jsx.tag.inside['tag'].pattern = /^<\/?[^\s>\/]*/;
+	Prism.languages.jsx.tag.inside['tag'].pattern = /^<\/?[^\s>/]*/;
 	Prism.languages.jsx.tag.inside['attr-value'].pattern = /=(?!\{)(?:"(?:\\[\s\S]|[^\\"])*"|'(?:\\[\s\S]|[^\\'])*'|[^\s'">]+)/;
 	Prism.languages.jsx.tag.inside['tag'].inside['class-name'] = /^[A-Z]\w*(?:\.[A-Z]\w*)*$/;
 	Prism.languages.jsx.tag.inside['comment'] = javascript['comment'];
