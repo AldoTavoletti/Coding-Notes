@@ -2,6 +2,7 @@ import NoteList from "./NoteList";
 
 import $ from "jquery";
 import { URL } from "./utils";
+import DarkMode from "./DarkMode";
 
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, setIsLoggedIn }) => {
 
@@ -141,6 +142,10 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                                 <button className="secondary-button" onClick={ () => expandFolders() }>Expand All</button>
                                 <button className="secondary-button" onClick={ () => collapseFolders() }>Collapse All</button>
+
+                            <div className="vert-line"></div>
+
+                            <DarkMode />
 
                             </div>
 

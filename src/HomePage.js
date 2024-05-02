@@ -59,7 +59,7 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
 
 
     if (isLoggedIn === null) /* loading screen as soon as you get into the website */{
-        return (<div className="home-page"><LoadingScreen /></div>);
+        return (<div className="full-height-container"><LoadingScreen /></div>);
     }
 
     return (

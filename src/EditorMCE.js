@@ -3,10 +3,13 @@ import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "./utils";
 import { simplePatchCall } from "./utils";
+import "./prism";
+import "./prism.css";
 const EditorMCE = ({ currentNote }) => {
 
     // used to keep track of the saved content and decide wether a patch call should be executed
     const content = useRef(null);
+
 
     const correspondingNoteID = useRef(null);
     /*
@@ -25,16 +28,15 @@ const EditorMCE = ({ currentNote }) => {
 
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (
-    
-    <div class="center-container">
+
+        <div class="center-container">
             <div class="spinner-grow" role="status">
+            </div>
         </div>
-    </div>
-    
-);
+
+    );
     // the content ref is set here cause note is undefined before useSWR
     content.current = note.content;
-    
     return (
         <Editor
             tinymceScriptSrc='/tinymce/tinymce.min.js'
@@ -51,17 +53,41 @@ const EditorMCE = ({ currentNote }) => {
 
                     });
 
+                    editor.on("preinit", () => {
+
+
+                        document.querySelector('iframe').contentDocument.body.setAttribute("data-theme", document.body.getAttribute("data-theme"));
+
+                    });
+
+                    editor.on("FullScreenStateChanged", (isFullscreen) => {
+
+                        const editorHeader = editor.container.querySelector(".tox-editor-header");
+                        if (isFullscreen.state) {
+                            document.querySelector(".header").style.display = "none";
+                            editorHeader.classList.add("my-tox-header-sticky--fullscreen");
+
+
+                        }else{
+                            editorHeader.classList.remove("my-tox-header-sticky--fullscreen");
+                            document.querySelector(".header").style.display = "flex";
+
+
+                        }
+
+                    });
+
                     editor.on('change', (e) => {
                         // save content changes in db (fired only if the user unfocuses from the editor, it gets executed only if the editor's content is different from the last one saved)
                         if (content.current !== editor.getContent()) {
-                            
+
                             simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
                             content.current = editor.getContent();
                         }
 
                     });
 
-                    
+
 
                 },
                 license_key: 'gpl',
@@ -71,28 +97,70 @@ const EditorMCE = ({ currentNote }) => {
                 menubar: true,
                 toolbar_sticky: true, // makes the toolbar sticky when scrolling, it's a little buggy but I handled it
                 ui_mode: "split", // without this toolbar_sticky doesn't work
-                content_css: ['index.css'],
-                skin: "oxide-dark", //makes the toolbar text of the right colors
-                autosave_interval:"1s",
+                autosave_interval: "1s",
                 autosave_retention: '1m',
-                autosave_ask_before_unload:true,
+                fullscreen_native:true,
+                skin: localStorage.getItem("selectedTheme") === "dark" ? "oxide-dark" : "oxide", //makes sue codesample and other menu's text color is right
+                autosave_ask_before_unload: true,
                 plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                    'anchor', 'searchreplace',
-                    'insertdatetime', 'media', 'table', 'wordcount', 'autosave', 'autoresize', 'codesample', 'quickbars', 'accordion'
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                    'searchreplace', 'insertdatetime', 'media', 'table', 'wordcount', 'autosave', 'autoresize', 'codesample', 'quickbars', 'accordion', 'fullscreen'
                 ],
                 toolbar: 'undo redo | fontsize  |' +
                     'bold italic forecolor backcolor codesample | alignleft aligncenter ' +
-                    'alignright alignjustify indent | accordion bullist numlist | charmap removeformat',
-             
-                    // I use content_style because these instructions don't work if put in the index.css file, they refer only to the tinyMCE editor
-                    content_style: `
-                body { 
-                    font-family:Helvetica,Arial,sans-serif; 
-                    font-size:14pt;
-                    background-color: #1b1b1b;
-                    color: white;
-                }
+                    'alignright alignjustify indent | accordion bullist numlist | charmap removeformat | fullscreen',
+
+                // I use content_style because these instructions don't work if put in the index.css file, they refer only to the tinyMCE editor
+                content_style: `
+                
+
+:root {
+
+    --primary-bg-color: #1b1b1b;
+    --secondary-bg-color: #232323;
+    --secondary-bg-color-hover: #3e3d3d;
+    --tertiary-bg-color: #ffffff;
+    --tertiary-bg-color-hover: #ffffffc9;
+    --tertiary-bg-color-active: #ffffff8f;
+    --quaternary-bg-color: #1d1d1d;
+    /* --purple:#5f5fde; */
+    --purple: #5941df;
+    --purple-light: #7e64ff;
+    --purple-hover: #4a33ce;
+    --purple-active: #3f2da5;
+    --text-color:white;
+    --text-color-secondary:black;
+    --editor-bg-color: #1f1f1f;
+    /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
+    --light: 80;
+    /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
+    --threshold: 60;
+}
+
+[data-theme="light"] {
+
+    --primary-bg-color: #efefef;
+    --secondary-bg-color: #e2e2e2;
+    --secondary-bg-color-hover: #ffffff8f;
+    --tertiary-bg-color: #1b1b1b;
+    --tertiary-bg-color-hover: #232323;
+    --tertiary-bg-color-active: #3e3d3d;
+    --quaternary-bg-color: #d7d7d7;
+    --text-color: black;
+    --text-color-secondary: white;
+    --editor-bg-color:white;
+}
+                   /* Changes the color of the placeholder */
+                    .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+                    color: var(--tertiary-bg-color-active);
+                    }
+
+                    body {
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-size: 14pt;
+                        background-color: var(--editor-bg-color);
+                        color: var(--text-color);
+                    }
 
                 /* width */
                 ::-webkit-scrollbar {
@@ -113,11 +181,30 @@ const EditorMCE = ({ currentNote }) => {
                 ::-webkit-scrollbar-thumb:hover {
                     background-color: #555;
                 }
-                /* Changes the color of the placeholder */
-                .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
-                    color: #ffffff80;
+
+                :not(pre)>code[class*=language-], pre[class*=language-]{
+
+                    background-color:var(--secondary-bg-color);
+
                 }
+
+                
                 `,
+                codesample_global_prismjs: true,
+                codesample_languages: [
+                    { text: "HTML/XML", value: "markup" },
+                    { text: "CSS", value: "css" },
+                    { text: "JavaScript", value: "javascript" },
+                    { text: "JSON", value: "json" },
+                    { text: "JSX", value: "jsx" },
+                    { text: "PHP", value: "php" },
+                    { text: "Java", value: "java" },
+                    { text: "Python", value: "python" },
+                    { text: "C++", value: "cpp" },
+                    { text: "C", value: "c" },
+                    { text: "SQL", value: "sql" },
+                    { text: "Docker", value: "docker" },
+                ],
                 statusbar: false, // removes a line at the end of the editor
                 quickbars_insert_toolbar: false, // gets rid of the inline toolbar shown when just clicking on an empty line, I only want the selection toolbar activated
                 quickbars_selection_toolbar: 'bold italic forecolor backcolor' // inline toolbar shown on selection

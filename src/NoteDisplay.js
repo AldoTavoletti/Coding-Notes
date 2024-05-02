@@ -1,6 +1,5 @@
-import { Suspense, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import EditorMCE from "./EditorMCE";
-import LoadingScreen from "./LoadingScreen";
 
 const NoteDisplay = ({ menuStatus, currentNote }) => {
 
@@ -42,9 +41,10 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
   return (
     <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"} ${menuStatus === "expanded" && "note-display--hidden"}` } ref={ noteDisplayRef }>
 
-      { currentNote ?
+{/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */}
+      { currentNote && menuStatus !== "expanded" ?
 
-        <EditorMCE currentNote={ currentNote } />
+        <EditorMCE currentNote={ currentNote }/>
         :
         (
           <div className="note-display__message">

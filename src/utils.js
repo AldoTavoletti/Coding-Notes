@@ -74,3 +74,36 @@ export const simplePatchCall = (obj) => {
     
 
 }
+
+
+export const setDarkMode = () => {
+
+    document.body.setAttribute("data-theme", "dark");
+
+    const iframe = document.querySelector('iframe');
+
+    iframe && iframe.contentDocument.body.setAttribute("data-theme", "dark");
+
+    localStorage.setItem("selectedTheme", "dark");
+
+};
+
+export const setLightMode = () => {
+
+    document.body.setAttribute("data-theme", "light");
+    const iframe = document.querySelector('iframe');
+
+    iframe && iframe.contentDocument.body.setAttribute("data-theme", "light");
+    localStorage.setItem("selectedTheme", "light");
+
+};
+
+export const setUserTheme = ()=>{
+
+    const selectedTheme = localStorage.getItem("selectedTheme");
+
+    if (selectedTheme === "light") {
+        setLightMode();
+    }
+
+}

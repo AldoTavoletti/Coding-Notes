@@ -8,22 +8,38 @@
     --tertiary-bg-color: #ffffff;
     --tertiary-bg-color-hover: #ffffffc9;
     --tertiary-bg-color-active: #ffffff8f;
-    --quaternary-bg-color: #1e1e1e;
+    --quaternary-bg-color: #1d1d1d;
     /* --purple:#5f5fde; */
-    --purple:#5941df;
+    --purple: #5941df;
     --purple-light: #7e64ff;
-    --purple-hover:#4a33ce;
-    --purple-active:#3f2da5;
-
+    --purple-hover: #4a33ce;
+    --purple-active: #3f2da5;
+    --text-color:white;
+    --text-color-secondary:black;
+    --editor-bg-color: #1f1f1f;
     /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
     --light: 80;
     /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
     --threshold: 60;
 }
 
+[data-theme="light"] {
+
+    --primary-bg-color: #efefef;
+    --secondary-bg-color: #e2e2e2;
+    --secondary-bg-color-hover: #ffffff8f;
+    --tertiary-bg-color: #1b1b1b;
+    --tertiary-bg-color-hover: #232323;
+    --tertiary-bg-color-active: #3e3d3d;
+    --quaternary-bg-color: #d7d7d7;
+    --text-color: black;
+    --text-color-secondary: white;
+    --editor-bg-color:white;
+}
+
 * {
     font-family: Work Sans;
-    color: white;
+    color: var(--text-color);
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -34,7 +50,7 @@ body {
     overflow: hidden;
     margin: 0;
     /* so that when the menu is getting extended, the white background color is not seen */
-    background-color: var(--primary-bg-color);
+    background-color: var(--editor-bg-color);
 
 }
 
@@ -45,7 +61,7 @@ button {
 }
 
 .arrow {
-    border: solid rgb(255, 255, 255);
+    border: solid var(--tertiary-bg-color);
     background-color: transparent;
     height: 15px;
     width: 15px;
@@ -111,7 +127,7 @@ button {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background-color:var(--secondary-bg-color);
+    background-color: var(--secondary-bg-color);
 }
 
 /* Handle on hover */
@@ -119,12 +135,16 @@ button {
     background-color: #555;
 }
 
+.tox-collection__item-label *{
 
+background-color: transparent !important;
+
+}
 
 
 
 .note-display {
-    background-color: var(--primary-bg-color);
+        background-color: var(--editor-bg-color);
     flex-basis: 74%;
     /* padding: 1.5% 3%; */
     transition: flex-basis 0.2s ease;
@@ -135,8 +155,8 @@ button {
 .note-display--hidden {
 
     flex-basis: 0;
-    
-    /* used to make sure the editorMCE stickybar isn't shown over the expanded menu, this update doesn't have to be effected by transition */
+
+    /* used to make sure the editorMCE stickybar isn't shown over the expanded menu and to not see the editor shrink to the right, this update doesn't have to be effected by transition */
     visibility: hidden;
 
 }
@@ -157,14 +177,14 @@ button {
 .list-group-item {
 
     background-color: var(--primary-bg-color);
-    color: white;
+    color: var(--text-color);
 
 }
 
 .list-group-item:hover {
 
     background-color: var(--secondary-bg-color);
-    color: white;
+    color: var(--text-color);
 
 }
 
@@ -193,7 +213,7 @@ button {
 .menu {
     flex-basis: 26%;
     /* padding: 1% 1.5%; */
-    /* background-color: var(--primary-bg-color); */
+    background-color: var(--primary-bg-color);
     transition: all 0.2s ease;
     overflow-y: auto;
     border-right: 3px solid var(--secondary-bg-color);
@@ -218,14 +238,7 @@ button {
     flex-basis: 4%;
 }
 
-.menu__functionalities {
-    position: sticky;
-    z-index: 3;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+
 
 .subheader--small {
     display: flex;
@@ -234,6 +247,7 @@ button {
     cursor: pointer;
     width: 100%;
     height: 90vh;
+    background-color: var(--primary-bg-color);
     transition: all 0.2s ease;
 }
 
@@ -247,7 +261,7 @@ button {
 .subheader--normal {
 
     padding-inline: 5%;
-    padding-block: 2.5%;
+        height: 12.8vh;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -255,6 +269,12 @@ button {
     border-bottom: 1px solid var(--secondary-bg-color-hover);
     background-color: var(--quaternary-bg-color);
 
+}
+
+.menu__functionalities {
+    position: sticky;
+    z-index: 3;
+    top: 0;
 }
 
 .subheader--expanded {
@@ -263,7 +283,9 @@ button {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 10vh;
+    height: 12.8vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
     padding-inline: 1%;
     border-bottom: 1px solid var(--secondary-bg-color-hover);
 }
@@ -271,11 +293,10 @@ button {
 .header__buttons-div {
     height: 85%;
     width: fit-content;
-    padding-inline: 21%;
-    column-gap: 8%;
+    padding-left: 1%;
+    column-gap: 10%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
 
 }
 
@@ -285,7 +306,7 @@ button {
     padding-inline: 15px;
     font-size: 1.2em;
 
-    /* color: black; */
+    color: white;
     background-color: var(--purple);
     border: 0;
     border-radius: 20px;
@@ -315,7 +336,7 @@ button {
 .secondary-button:hover {
 
     background-color: var(--tertiary-bg-color);
-    color: black;
+    color: var(--text-color-secondary);
 
 }
 
@@ -330,6 +351,7 @@ button {
     background-color: transparent;
     border: 0;
     font-size: 1.2em;
+    transition: none;
 
 }
 
@@ -348,14 +370,14 @@ button {
 
     display: flex;
     background-color: var(--primary-bg-color);
-
     overflow-x: auto;
     justify-content: space-between;
     align-items: center;
     height: 10vh;
     width: 100%;
     padding: 0.5% 2%;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid var(--tertiary-bg-color);
+    transition: background-color 0.2s ease, color 0.2s ease;
 
 }
 
@@ -433,9 +455,9 @@ button {
     row-gap: 2%;
     flex-direction: column;
 
-    background-color: var(--primary-bg-color);
+    background-color: var(--quaternary-bg-color);
 
-    border: 2px solid white;
+    border: 2px solid var(--tertiary-bg-color);
     border-radius: 10px;
 
     transition: all 0.2s ease;
@@ -477,7 +499,8 @@ button {
     border: 0;
     width: 90%;
     padding-inline: 6%;
-    height: 7vh;
+    /* height: 7vh; */
+    line-height: 2.4em;
     font-size: 1.2em;
     background-color: var(--secondary-bg-color);
     border-radius: 10px;
@@ -489,7 +512,7 @@ button {
     font-size: 0.8em;
     color: var(--tertiary-bg-color-hover);
     align-self: flex-start;
-
+    transition: all .2s ease;
 }
 
 .password-condition--red {
@@ -504,9 +527,9 @@ button {
 
 }
 
-.input-disappear {
+.disappear {
 
-    height: 0 !important;
+    opacity: 0 !important;
 
 }
 
@@ -518,29 +541,36 @@ button {
     height: 10vh;
     width: 100%;
     margin-top: auto;
-    border-top: 2px solid white;
+    border-top: 2px solid var(--tertiary-bg-color);
+
+}
+
+.login-container__buttons div{
+text-align: center;
+width: 100%;
 
 }
 
 .login-container__buttons {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     width: 100%;
     margin-top: auto;
-    column-gap: 2%;
+    row-gap: 10px;
     user-select: none;
 
 }
 
 .myModal__footer button,
-.login-container__buttons button {
+.login-container__buttons button:not(.gsi-material-button) {
     font-size: 1.2em;
     border: 0;
-    background-color: white;
-    height: 6vh;
+    background-color: var(--tertiary-bg-color);
+    line-height: 2.4em;
     width: 30%;
-    color: black;
-    border-radius: 10px;
+    color: var(--text-color-secondary) !important;
     transition: all .2s ease;
 
 }
@@ -548,15 +578,15 @@ button {
 .login-container__buttons button.active:hover {
 
     background-color: var(--purple);
-    color: white;
+    color: var(--text-color) !important;
 }
 
-.login-container__buttons button:not(.active):hover {
+.login-container__buttons button:not(.active,.gsi-material-button):hover {
 
     background-color: var(--tertiary-bg-color-hover);
 }
 
-.login-container__buttons button:not(.active) {
+.login-container__buttons button:not(.active,.gsi-material-button) {
 
     background-color: var(--tertiary-bg-color-active);
 }
@@ -617,10 +647,15 @@ button {
 }
 
 .color-box--selected {
-    border: 4px solid #4e9eff;
+    border: 4px solid var(--purple);
 
 }
 
+.bi.bi-check-lg{
+
+color: var(--primary-bg-color);
+
+}
 
 .flex-container {
 
@@ -642,7 +677,7 @@ button {
 }
 
 hr {
-
+    border-color: var(--tertiary-bg-color);
     width: 100%;
 }
 
@@ -673,7 +708,7 @@ hr {
 }
 
 .note-list__note {
-    width: 100% !important;
+    width: 100%;
     height: 10vh;
     display: flex;
     padding-inline: 10px;
@@ -684,6 +719,23 @@ hr {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+.tox .tox-collection__item-icon svg{
+
+    fill: white !important;
+
+}
+
+.tox-collection__item{
+
+    color: var(--text-color) !important;
+
+}
+
+.tox .tox-collection__item-label, .tox .tox-collection__item-accessory{
+
+color: white !important;
+
+}
 .note-list__note:hover {
 
     background-color: var(--hover-color) !important;
@@ -697,7 +749,7 @@ hr {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: inherit;
+    color: white !important;
     font-weight: bold;
     font-size: 1.3em;
 
@@ -742,7 +794,7 @@ hr {
 
 .tox-editor-header {
 
-    background-color: var(--primary-bg-color) !important;
+    background-color: var(--quaternary-bg-color) !important;
 
 }
 
@@ -751,6 +803,14 @@ hr {
     left: 4% !important;
     /* 95.3 and not 96 to make the scrollbar visible */
     width: 95.3vw !important;
+
+}
+
+/* using higher specificity it makes these rule more important than the others, overriding .my-tox-header-sticky--expanded and .my-tox-header-sticky--normal */
+div.tox-editor-header.my-tox-header-sticky--fullscreen{
+
+width: 100vw !important;
+left: 0 !important;
 
 }
 
@@ -764,17 +824,17 @@ hr {
 
 .tox-toolbar-overlord {
 
-    background-color: var(--primary-bg-color) !important;
+    background-color: var(--quaternary-bg-color) !important;
 }
 
 .tox-toolbar__primary {
 
-    background-color: var(--primary-bg-color) !important;
+    background-color: var(--quaternary-bg-color) !important;
 }
 
 .tox-menubar {
 
-    background-color: var(--primary-bg-color) !important;
+    background-color: var(--quaternary-bg-color) !important;
 
 }
 
@@ -787,7 +847,8 @@ hr {
 .tox-tinymce {
 
     border: 0 !important;
-    animation: load-note-animation 0.2s ease-in;
+    animation: load-note-animation 0.5s ease-in;
+    border-radius: 0 !important;
 }
 
 @keyframes load-note-animation {
@@ -798,6 +859,11 @@ hr {
 
     }
 
+    50%{
+
+        opacity: 0.1;
+
+    }
 
     100% {
 
@@ -813,20 +879,28 @@ hr {
 
 }
 
+.tox:not(.tox-tinymce-inline) .tox-editor-header{
 
-.tox .tox-tbtn svg {
-
-    fill: rgba(255, 255, 255, 0.596) !important;
+box-shadow: none !important;
 
 }
+.tox .tox-tbtn--enabled svg{
+
+fill: white !important;
+
+}
+
 
 
 /* removes the white line at the end of the editor */
 .tox .tox-edit-area__iframe {
 
-    background-color: transparent !important;
-
+    background-color: var(--primary-bg-color) !important;
+    
 }
+
+
+
 
 
 /* ----------------------------- */
@@ -935,9 +1009,9 @@ hr {
     user-select: none;
 }
 
-.password-toggle-icon:hover *{
+.password-toggle-icon:hover * {
 
-color: var(--purple);
+    color: var(--purple);
 
 }
 
@@ -958,7 +1032,6 @@ color: var(--purple);
 }
 
 
-
 .gsi-material-button {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -967,8 +1040,8 @@ color: var(--purple);
     background-color: #131314;
     background-image: none;
     border: 1px solid #747775;
-    -webkit-border-radius: 20px;
-    border-radius: 20px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     color: #e3e3e3;
@@ -979,23 +1052,24 @@ color: var(--purple);
     letter-spacing: 0.25px;
     outline: none;
     overflow: hidden;
-    padding: 0;
+    padding: 0 12px;
     position: relative;
     text-align: center;
     -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
     transition: background-color .218s, border-color .218s, box-shadow .218s;
     vertical-align: middle;
     white-space: nowrap;
-    width: 40px;
+    width: auto;
     max-width: 400px;
     min-width: min-content;
     border-color: #8e918f;
 }
 
 .gsi-material-button .gsi-material-button-icon {
+    height: 20px;
+    margin-right: 12px;
     min-width: 20px;
     width: 20px;
-    margin-left: 9px;
 }
 
 .gsi-material-button .gsi-material-button-content-wrapper {
@@ -1070,8 +1144,6 @@ color: var(--purple);
 
 
 
-
-
 .page-404 {
 
     display: flex;
@@ -1117,122 +1189,136 @@ input:-webkit-autofill:focus {
 
 input[data-autocompleted] {
     background-color: transparent !important;
-    
+
 }
 
 /* toolbar and menubar buttons background */
-.tox .tox-mbtn, .tox .tox-tbtn{
-
-background: transparent !important;
+.tox .tox-mbtn,
+.tox .tox-tbtn {
+    color: var(--text-color) !important;
+    background: transparent !important;
 
 }
 
 /* toolbar active buttons background */
-.tox-tbtn.tox-tbtn--enabled{
+.tox-tbtn.tox-tbtn--enabled {
 
-background: var(--purple) !important;
-
-}
-
-.tox-textfield{
-
-background: var(--secondary-bg-color-hover) !important;
-border: 0 !important;
+    background: var(--purple) !important;
 
 }
 
-.tox-dialog-wrap__backdrop{
+.tox-textfield {
 
-background-color: var(--secondary-bg-color) !important;
-opacity: 0.7;
-}
-
-.tox-collection__item:hover{
-
-background-color: var(--purple-hover) !important;
-
-}
-.tox-button{
-
-background-color: var(--purple) !important;
-border: 0 !important;
-}
-
-
-.tox-dialog__header{
-
-background: var(--secondary-bg-color) !important;
+    background: var(--secondary-bg-color-hover) !important;
+    border: 0 !important;
 
 }
 
-.tox-dialog__body{
+.tox-dialog-wrap__backdrop {
 
-background: var(--secondary-bg-color) !important;
+    background-color: var(--secondary-bg-color) !important;
+    opacity: 0.7;
+}
+
+.tox-collection__item:hover {
+
+    background-color: var(--purple-hover) !important;
 
 }
 
-.tox-dialog__footer{
+.tox-button {
 
-background: var(--purple-active) !important;
+    background-color: var(--purple) !important;
+    border: 0 !important;
+}
+
+
+.tox-dialog__header {
+
+    background: var(--secondary-bg-color) !important;
+    color: var(--text-color) !important;
 
 }
 
-.tox-textarea{
+.tox-dialog__body {
 
-background: var(--quaternary-bg-color) !important;
+    background: var(--secondary-bg-color) !important;
+
+    color: var(--text-color) !important;
+    }
+
+.tox-dialog__footer {
+
+    background: var(--purple-active) !important;
+    color: var(--text-color) !important;
+}
+
+.tox-textarea {
+
+    background: var(--quaternary-bg-color) !important;
 
 }
 
-.tox-listbox.tox-listbox--select{
+.tox-listbox.tox-listbox--select {
 
-background: var(--quaternary-bg-color) !important;
+    background: var(--quaternary-bg-color) !important;
 
 }
 
 
 /*  gets rid of the white border around the editor */
-.tox .tox-edit-area::before{
+.tox .tox-edit-area::before {
 
-border: 0 !important;
+    border: 0 !important;
 
 }
 
 /* the menubar buttons'labels */
-.tox .tox-mbtn__select-label{
+.tox .tox-mbtn__select-label {
 
-    cursor:  pointer !important;
+    cursor: pointer !important;
 }
 
 /* popup toolbar */
-.tox-toolbar{
+.tox-toolbar {
 
-background-color: var(--purple-active) !important;
-
-}
-
-/* popup toolbar */
-.tox .tox-pop__dialog{
-
-background-color: var(--purple-active) !important;
-
-border: 0 !important;
+    background-color: var(--purple-light) !important;
 
 }
 
-.center-container{
+.tox .tox-pop__dialog {
 
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100%;
-width: 100%;
+    background-color: var(--purple-light) !important;
+
+    border: 0 !important;
 
 }
 
+.full-height-container{
+
+height: 100vh;
+
+}
+
+.center-container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+}
+.tox .tox-button--secondary{
+
+color: var(--quaternary-bg-color) !important;
+
+}
 /* make the the popup toolbar's arrow facing top of the right color */
-.tox .tox-pop.tox-pop--top::before, .tox .tox-pop.tox-pop--top::after{
+.tox .tox-pop.tox-pop--top::before,
+.tox .tox-pop.tox-pop--top::after {
 
-border-color:  transparent transparent var(--purple-active) transparent !important;
+    border-color: transparent transparent var(--purple-light) transparent !important;
 
 }
 
@@ -1240,30 +1326,33 @@ border-color:  transparent transparent var(--purple-active) transparent !importa
 .tox .tox-pop.tox-pop--bottom::before,
 .tox .tox-pop.tox-pop--bottom::after {
 
-    border-color:  var(--purple-active) transparent transparent transparent !important;
+    border-color: var(--purple-light) transparent transparent transparent !important;
 
 }
 
-.subheader--normal i, .subheader--expanded i{
+.subheader--normal i,
+.subheader--expanded i {
 
-font-size: 1.5em;
-cursor: pointer;
+    font-size: 1.5em;
+    cursor: pointer;
 
 }
 
 .tox .tox-collection--list .tox-collection__item--active {
-    background-color: var(--purple) !important;
+    background-color: var(--purple-hover) !important;
+    
 }
 
-.tox-menu.tox-collection.tox-collection--list, .tox-menu.tox-collection.tox-collection--list.tox-selected-menu{
+.tox-menu.tox-collection.tox-collection--list,
+.tox-menu.tox-collection.tox-collection--list.tox-selected-menu {
 
-background-color: var(--purple-active);
+    background-color: var(--purple-active);
 
 }
 
-.tox .tox-collection--list .tox-collection__item--enabled{
+.tox .tox-collection--list .tox-collection__item--enabled {
 
-background-color: var(--purple-hover) !important;
+    background-color: var(--purple-hover) !important;
 
 }
 
@@ -1281,28 +1370,30 @@ background-color: var(--purple-hover) !important;
     background: var(--quaternary-bg-color);
 }
 
-.sponsor{
+.sponsor {
     font-size: 3.5em;
     font-weight: bold;
     text-align: right;
 }
-.tox .tox-collection--toolbar .tox-collection__item--enabled{
 
-background-color: var(--purple-active) !important;
+.tox .tox-collection--toolbar .tox-collection__item--enabled {
 
-}
-.tox .tox-menu{
-
-background-color: var(--purple) !important;
+    background-color: var(--purple-active) !important;
 
 }
 
-.sponsor--purple{
+.tox .tox-menu {
 
-color: var(--purple);
+    background-color: var(--purple) !important;
 
-/* make it even bolder */
-text-shadow: 0.5px 0 var(--purple), -0.5px 0 var(--purple), 0 0.5px var(--purple), 0 -0.5px var(--purple),
+}
+
+.sponsor--purple {
+
+    color: var(--purple);
+
+    /* make it even bolder */
+    text-shadow: 0.5px 0 var(--purple), -0.5px 0 var(--purple), 0 0.5px var(--purple), 0 -0.5px var(--purple),
         0.5px 0.5px var(--purple), -0.5px -0.5px var(--purple), 0.5px -0.5px var(--purple), -0.5px 0.5px var(--purple);
 }
 
@@ -1380,4 +1471,84 @@ text-shadow: 0.5px 0 var(--purple), -0.5px 0 var(--purple), 0 0.5px var(--purple
     100% {
         transform: scale(0.6);
     }
+}
+
+
+
+
+
+.dark_mode {
+    margin-top: -20px;
+    margin-left: 10px;
+}
+
+.dark_mode_label {
+    width: 65px;
+    height: 30px;
+    position: relative;
+    display: block;
+    background: var(--secondary-bg-color);
+    border-radius: 200px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dark_mode_label:after {
+    content: "";
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    background: linear-gradient(180deg, #ffcc89, #d8ca0b);
+    border-radius: 180px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.dark_mode_input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.dark_mode_input:checked+.dark_mode_label {
+    background: #242424;
+}
+
+.dark_mode_input:checked+.dark_mode_label:after {
+    left: 62px;
+    transform: translateX(-100%);
+    background: linear-gradient(180deg, #777, #3a3a3a);
+}
+
+.dark_mode_label:active:after {
+    width: 30px;
+}
+
+.dark_mode_label svg {
+    position: absolute;
+    width: 20px;
+    top: 5px;
+    z-index: 100;
+}
+
+.dark_mode_label svg.sun {
+    left: 5px;
+    fill: #fff;
+    transition: 0.3s;
+}
+
+.dark_mode_label svg.moon {
+    left: 40px;
+    fill: #7e7e7e;
+    transition: 0.3s;
+}
+
+.dark_mode_input:checked+.dark_mode_label svg.sun {
+    fill: #7e7e7e;
+}
+
+.dark_mode_input:checked+.dark_mode_label svg.moon {
+    fill: #fff;
 }
