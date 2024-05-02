@@ -1,7 +1,7 @@
 import HomePage from "./HomePage";
 import Login from "./Login";
 import Page404 from "./Page404";
-import { setLightMode, setDarkMode, setUserTheme } from "./utils";
+import { setUserTheme } from "./utils";
 
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";

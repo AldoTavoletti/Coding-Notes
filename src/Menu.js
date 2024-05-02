@@ -1,6 +1,5 @@
 import NoteList from "./NoteList";
 
-import $ from "jquery";
 import { URL } from "./utils";
 import DarkMode from "./DarkMode";
 
