@@ -3,8 +3,8 @@ import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "./utils";
 import { simplePatchCall } from "./utils";
-import "./prism";
-import "./prism.css";
+import "../public/prism";
+import "../public/prism.css";
 const EditorMCE = ({ currentNote }) => {
 
     // used to keep track of the saved content and decide wether a patch call should be executed
