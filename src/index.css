@@ -575,6 +575,13 @@ width: 100%;
 
 }
 
+.gsi-material-button{
+
+width: 60% !important;
+
+}
+
+
 .login-container__buttons button.active:hover {
 
     background-color: var(--purple);
