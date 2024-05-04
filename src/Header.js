@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { URL } from "./utils";
 import { simplePatchCall } from "./utils";
 import useSWR from "swr";
-const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn }) => {
+const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, menuStatus, setMenuStatus }) => {
 
     // I use an header ref to get its offsetWidth
     const header = useRef();
@@ -30,6 +30,10 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn }) => {
 
         <div className="header" ref={ header }>
 
+
+            
+
+
             {/* if no note has been selected or if the login page is shown */ }
             { (!isLoggedIn || (!note && !isValidating && !isLoading)) && <p>Coding Notes</p> }
 
@@ -48,7 +52,11 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn }) => {
                     onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
                 >{ note.title }</p> }
 
+            { window.innerWidth < 769 && menuStatus === "normal" &&
 
+                <i class="bi bi-list" onClick={ () => setMenuStatus("expanded") }></i>
+
+            }
         </div>
 
     );

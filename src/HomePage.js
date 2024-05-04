@@ -66,7 +66,7 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
         <>
             <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-            <Header currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />
+            <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />
             
             
             <div className="home-page">
@@ -74,7 +74,7 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
                 <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } />
 
                 {/* the noteDisplay is always mounted, even if the menu is expanded, so that when the menu gets closed EditorMCE doesn't have to reload. Everything is much smoother this way */ }
-                <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } />
+                {menuStatus !== "expanded" && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } />}
 
             </div>
         </>

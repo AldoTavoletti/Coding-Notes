@@ -96,10 +96,13 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 { menuStatus === "normal" &&
                     (
                         <div className="subheader--normal">
-
+                            {window.innerWidth > 768 
+                            &&
+                            <>
                             <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button>
                             <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
-
+                            </>
+                            }
                         </div>
                     )
                 }
@@ -109,7 +112,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-                { menuStatus === "hidden" &&
+                { menuStatus === "hidden" && window.innerWidth > 767 &&
                     (
                         <div className="subheader--small" onClick={ () => setMenuStatus("normal") }>
 
@@ -134,18 +137,25 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <DarkMode />
                             <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("normal") }></i>
                             </div>
-                                {/* <div className="vert-line"></div> */}
 
                                 <button onClick={ () => setModalShowing("folder") }>Add a folder +</button>
                                 <button onClick={ () => setModalShowing("note") }>Add a note +</button>
                             <hr />
 
-                                {/* <div className="vert-line"></div> */}
-                            <div className="button-group">
-                                <button onClick={ () => expandFolders() }>Expand All</button>
-                                <button onClick={ () => collapseFolders() }>Collapse All</button>
-                            </div>
-                            {/* <div className="vert-line"></div> */}
+                        {window.innerWidth > 767 ? 
+                        
+                                <div className="button-group">
+                                    <button onClick={ () => expandFolders() }>Expand All</button>
+                                    <button onClick={ () => collapseFolders() }>Collapse All</button>
+                                </div>
+                        
+                        :
+                        <>
+                        <button onClick={ () => expandFolders() }>Expand All</button>
+                        <button onClick={ () => collapseFolders() }>Collapse All</button>
+                                </>
+                        }
+                            
 
 
                             <hr />

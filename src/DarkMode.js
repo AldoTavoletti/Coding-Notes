@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReactComponent as Sun } from "./Sun.svg";
 import { ReactComponent as Moon } from "./Moon.svg";
 import { setLightMode,setDarkMode, setUserTheme } from "./utils";
 const DarkMode = () => {
 
-    const selectedTheme = localStorage.getItem("selectedTheme");
+    const [selectedTheme,setSelectedTheme] = useState(localStorage.getItem("selectedTheme"));
 
     const toggleTheme = (e)=>{
-
-        e.target.checked ? setDarkMode() : setLightMode();
-
+        if (e.target.checked) {
+            setDarkMode()  
+            setSelectedTheme("dark"); 
+        }else{
+         setLightMode();
+         setSelectedTheme("light");
+        }
     }
 
     setUserTheme();
@@ -24,8 +28,8 @@ const DarkMode = () => {
                 onChange={(e)=>toggleTheme(e)}
             />
             <label className='dark_mode_label' for='darkmode-toggle'>
-                <Sun />
-                <Moon />
+                { selectedTheme === "dark" ? <Moon /> : <Sun />}
+                
             </label>
         </div>
     );
