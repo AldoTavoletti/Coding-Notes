@@ -67,7 +67,7 @@ function App() {
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} /* this could be public but I decided to put it in the .env file anyway */>
 
 
-      <div className="App">
+      <div className="app">
 
         
 

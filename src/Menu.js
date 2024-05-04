@@ -98,7 +98,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                         <div className="subheader--normal">
 
                             <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button>
-                            <i class="bi bi-arrow-bar-left" onClick={ () => setMenuStatus("hidden") }></i>
+                            <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
 
                         </div>
                     )
@@ -130,25 +130,30 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                             <div className="header__buttons-div">
 
-                                <button className="text-button" onClick={ () => logout() }>logout</button>
-
-                                <div className="vert-line"></div>
-
-                                <button className="primary-button" onClick={ () => setModalShowing("folder") }>Add a folder +</button>
-                                <button className="primary-button" onClick={ () => setModalShowing("note") }>Add a note +</button>
-
-                                <div className="vert-line"></div>
-
-                                <button className="secondary-button" onClick={ () => expandFolders() }>Expand All</button>
-                                <button className="secondary-button" onClick={ () => collapseFolders() }>Collapse All</button>
-
-                            <div className="vert-line"></div>
-
+                        <div className="button-group" style={{marginTop:"10px"}}>
                             <DarkMode />
+                            <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("normal") }></i>
+                            </div>
+                                {/* <div className="vert-line"></div> */}
+
+                                <button onClick={ () => setModalShowing("folder") }>Add a folder +</button>
+                                <button onClick={ () => setModalShowing("note") }>Add a note +</button>
+                            <hr />
+
+                                {/* <div className="vert-line"></div> */}
+                            <div className="button-group">
+                                <button onClick={ () => expandFolders() }>Expand All</button>
+                                <button onClick={ () => collapseFolders() }>Collapse All</button>
+                            </div>
+                            {/* <div className="vert-line"></div> */}
+
+
+                            <hr />
+
+                                <button onClick={ () => logout() }>logout</button>
 
                             </div>
 
-                            <i class="bi bi-arrow-bar-left" onClick={ () => setMenuStatus("normal") }></i>
 
 
                         </div>

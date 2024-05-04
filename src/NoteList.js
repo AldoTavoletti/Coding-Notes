@@ -113,7 +113,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
             { folders && folders.map((folder, folderIndex) => (
 
                 <>
-                    <div className="accordion" onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } key={ folder.folderID } id={ "accordion" + folderIndex } style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } >
+                    <div className="accordion" onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } key={ folder.folderID } id={ "accordion" + folderIndex } >
                         <div className="accordion-item">
 
                             <h2 className="accordion-header">
@@ -163,7 +163,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                     </div>
 
                     {/* a horizontal line between folders */ }
-                    { folderIndex !== folders.length - 1 && <hr style={ menuStatus === "expanded" ? { maxWidth: "50%" } : {} } /> }
+                    { folderIndex !== folders.length - 1 && <hr/> }
 
 
                 </>

@@ -384,7 +384,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                         className="password-toggle-icon"
                         onClick={ () => togglePassword(setShowPassword1, showPassword1) }
                     >{ showPassword1 ? <FaEyeSlash /> : <FaEye /> }</span>
-
+                    </div>
+        <div className="conditions-container">
                     {/* the condition (8 char long) */ }
                         <span
                             className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"} ${wantsLogin && "disappear" }` } // switch the color based on the length of the password
@@ -399,7 +400,6 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                         >• 1 symbol { hasSymbol === true ? "✓" : hasSymbol === false && "✕" }</span>
 
                 </div>
-
                 {/* password 2 container */ }
                 <div className="password-container">
 
