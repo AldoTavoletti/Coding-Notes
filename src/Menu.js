@@ -96,13 +96,10 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 { menuStatus === "normal" &&
                     (
                         <div className="subheader--normal">
-                            {window.innerWidth > 768 
-                            &&
-                            <>
+                            
+                            
                             <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button>
                             <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
-                            </>
-                            }
                         </div>
                     )
                 }
@@ -112,7 +109,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-                { menuStatus === "hidden" && window.innerWidth > 767 &&
+                { menuStatus === "hidden" &&
                     (
                         <div className="subheader--small" onClick={ () => setMenuStatus("normal") }>
 
@@ -135,7 +132,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                         <div className="button-group" style={{marginTop:"10px"}}>
                             <DarkMode />
-                            <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("normal") }></i>
+                            <i class="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger":"normal") }></i>
                             </div>
 
                                 <button onClick={ () => setModalShowing("folder") }>Add a folder +</button>

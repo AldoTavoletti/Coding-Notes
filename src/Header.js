@@ -52,7 +52,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, menuStatus, 
                     onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
                 >{ note.title }</p> }
 
-            { window.innerWidth < 769 && menuStatus === "normal" &&
+            { menuStatus === "hamburger" &&
 
                 <i class="bi bi-list" onClick={ () => setMenuStatus("expanded") }></i>
 

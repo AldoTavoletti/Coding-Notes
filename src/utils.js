@@ -104,6 +104,9 @@ export const setUserTheme = ()=>{
 
     if (selectedTheme === "light") {
         setLightMode();
-    }
+    }else if (!selectedTheme) {
+        
+        setDarkMode();
 
+    }
 }

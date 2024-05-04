@@ -25,7 +25,7 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
     "expanded" if the menu expanded; 
     "hidden" if the menu hidden. 
     */
-    const [menuStatus, setMenuStatus] = useState("normal");
+    const [menuStatus, setMenuStatus] = useState(window.innerWidth < 769 ? "hamburger":"normal");
 
     const [modalShowing, setModalShowing] = useState("none");
 
@@ -61,6 +61,22 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
     if (isLoggedIn === null) /* loading screen as soon as you get into the website */{
         return (<div className="full-height-container"><LoadingScreen /></div>);
     }
+
+    window.addEventListener("resize", ()=>{
+
+
+        if(window.innerWidth < 769){
+
+            menuStatus !== "hamburger" && setMenuStatus("hamburger");
+
+        }else{
+
+            menuStatus === "hamburger" && setMenuStatus("hidden");
+
+
+        }
+
+    });
 
     return (
         <>

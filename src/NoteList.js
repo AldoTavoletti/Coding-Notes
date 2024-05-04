@@ -62,7 +62,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         mutate(URL + `?retrieve=single&note=${currentNote}`);
 
         // if the menu isn't already in normal status, set it to be
-        menuStatus !== "normal" && setMenuStatus("normal");
+        menuStatus !== "normal" && setMenuStatus(window.innerWidth < 769 ? "hamburger":"normal");
 
         // save the index of the current note in the prevNoteIndex ref
         prevNoteIndex.current = [folderIndex, noteIndex];
@@ -77,7 +77,6 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
         // the folder/note to delete.
         const elementToDelete = { elementID: contextMenuInfo.elementID, elementType: contextMenuInfo.elementType };
-
 
         fetch(URL, {
 
