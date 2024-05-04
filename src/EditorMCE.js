@@ -98,7 +98,8 @@ const EditorMCE = ({ currentNote }) => {
                 toolbar_sticky: true, // makes the toolbar sticky when scrolling, it's a little buggy but I handled it
                 ui_mode: "split", // without this toolbar_sticky doesn't work
                 autosave_interval: "1s",
-                autosave_retention: '1m',
+                autosave_retention: '1m', //not working i think
+                autosave_prefix:'tinymce-autosave-'+note.noteID,
                 fullscreen_native:true,
                 skin: localStorage.getItem("selectedTheme") === "dark" ? "oxide-dark" : "oxide", //makes sue codesample and other menu's text color is right
                 autosave_ask_before_unload: true,

@@ -263,7 +263,7 @@ button {
     color: white;
     background-color: var(--purple);
     border: 0;
-    border-radius: 20px;
+    border-radius: 0.5em;
     white-space: nowrap;
 
     transition: all 0.2s ease;
@@ -400,6 +400,7 @@ button {
 
     height: 80vh;
     width: 30vw;
+    min-width: 300px;
     padding: 2%;
     display: flex;
     align-items: center;
