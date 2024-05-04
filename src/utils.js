@@ -1,6 +1,6 @@
 import { getLuminance } from 'polished';
 
-export const URL = "https://coding-notes-backend.onrender.com";
+export const URL = "https://coding-notes-backend.onrender.com/index.php";
 
 
 

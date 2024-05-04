@@ -624,7 +624,7 @@ button {
 
 .bi.bi-check-lg {
 
-    color: var(--primary-bg-color);
+    color: var(--tertiary-bg-color);
 
 }
 
@@ -1039,7 +1039,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     row-gap: 1%;
     width: 35vw;
     padding: 3%;
@@ -1077,7 +1077,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     display: flex;
     align-items: center;
     justify-content: left;
-    height: 100vh;
+    height: 100dvh;
 
 }
 
