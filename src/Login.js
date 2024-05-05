@@ -56,12 +56,13 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
         } else  /* if it's all good*/ {
 
+            const rememberMe = document.getElementById("rememberme");
 
             fetch(URL, {
 
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify({ username: username, password: password, action: "login" }),
+                body: JSON.stringify({ username: username, password: password, remember:rememberMe.checked,action: "login" }),
 
             }).then(res => {
 
@@ -418,6 +419,11 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                             onClick={ () => togglePassword(setShowPassword2, showPassword2) }
                         >{ showPassword2 ? <FaEyeSlash /> : <FaEye /> }</span> }
 
+                </div>
+
+                <div className="checkbox-container">
+                <input type="checkbox" id="rememberme"/>
+                <label htmlFor="rememberme">Remember me</label>
                 </div>
 
                 {/* if an error is fired, it's shown here */ }

@@ -231,6 +231,19 @@ button {
     min-width: 50px;
 }
 
+.checkbox-container{
+
+display: flex;
+align-items: center;
+justify-content: left;
+width: 90%;
+}
+
+.checkbox-container input[type=checkbox]{
+
+width: fit-content;
+
+}
 
 
 .subheader--small {
