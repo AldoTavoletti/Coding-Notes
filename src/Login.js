@@ -386,28 +386,27 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                         onClick={ () => togglePassword(setShowPassword1, showPassword1) }
                     >{ showPassword1 ? <FaEyeSlash /> : <FaEye /> }</span>
                     </div>
-        <div className="conditions-container">
+        <div className={`conditions-container ${wantsLogin && "disappear" }`}>
                     {/* the condition (8 char long) */ }
                         <span
-                            className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"} ${wantsLogin && "disappear" }` } // switch the color based on the length of the password
+                            className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` } // switch the color based on the length of the password
                         >• 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span>
 
                         <span
-                            className={ `password-condition ${hasCapital === true ? "password-condition--green" : hasCapital === false && "password-condition--red"} ${ wantsLogin && "disappear" }` } // switch the color based on the length of the password
+                            className={ `password-condition ${hasCapital === true ? "password-condition--green" : hasCapital === false && "password-condition--red"}` } // switch the color based on the length of the password
                         >• 1 capital letter { hasCapital === true ? "✓" : hasCapital === false && "✕" }</span> 
 
                         <span
-                            className={ `password-condition ${hasSymbol === true ? "password-condition--green" : hasSymbol === false && "password-condition--red"} ${ wantsLogin && "disappear" }` } // switch the color based on the length of the password
+                            className={ `password-condition ${hasSymbol === true ? "password-condition--green" : hasSymbol === false && "password-condition--red"}` } // switch the color based on the length of the password
                         >• 1 symbol { hasSymbol === true ? "✓" : hasSymbol === false && "✕" }</span>
 
                 </div>
                 {/* password 2 container */ }
-                <div className="password-container">
+                <div className={`password-container ${ wantsLogin && "disappear" }`}>
 
                     {/*the confirm password input gets shown/hidden using an animation, that's why it's always mounted */ }
                     <input
                         ref={ confirmPasswordRef }
-                        className={ wantsLogin && "disappear" }
                         type={ showPassword2 ? "text" : "password" }
                         placeholder="Confirm Password..."
                         onChange={ (e) => setPassword2(e.target.value) } />

@@ -483,6 +483,8 @@ width: fit-content;
     display: flex;
     flex-direction: column;
     width: 90%;
+    height: 10%;
+    transition: height .2s ease;
 }
 
 .password-condition {
@@ -490,7 +492,6 @@ width: fit-content;
     font-size: 0.8em;
     color: var(--tertiary-bg-color-hover);
     align-self: flex-start;
-    transition: all .2s ease;
 }
 
 .password-condition--red {
@@ -507,7 +508,15 @@ width: fit-content;
 
 .disappear {
 
-    opacity: 0 !important;
+    height: 0;
+    width: 0;
+
+}
+
+.disappear *{
+
+opacity: 0;
+    width: 0;
 
 }
 
@@ -648,7 +657,7 @@ width: fit-content;
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
-
+transition: all 0.2 ease;
 }
 
 .note-list {
@@ -1130,10 +1139,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 }
 
+
 .password-container input {
 
     width: 100%;
     padding-right: 20%;
+    transition: all 0.2s ease;
 }
 
 
