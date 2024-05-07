@@ -236,6 +236,7 @@ button {
 display: flex;
 align-items: center;
 justify-content: left;
+column-gap: 1%;
 width: 90%;
 }
 
