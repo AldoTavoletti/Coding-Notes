@@ -240,12 +240,13 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
          * @param {object} codeResponse 
          */
         onSuccess: (codeResponse) => {
+            const rememberMe = document.getElementById("rememberme");
 
             fetch(URL, {
 
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify({ code: codeResponse.code }),
+                body: JSON.stringify({ code: codeResponse.code, remember: rememberMe.checked}),
                 headers: { 'Content-Type': 'application/json' }
 
             }).then(res => {
