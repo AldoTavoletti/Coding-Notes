@@ -510,6 +510,7 @@ width: fit-content;
 
     height: 0;
     width: 0;
+    z-index: -1;
 
 }
 
