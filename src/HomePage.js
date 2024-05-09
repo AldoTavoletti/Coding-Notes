@@ -7,10 +7,10 @@ import { useSWRConfig } from "swr";
 import Header from "./Header";
 import Modals from "./Modals";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
 
-const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
+const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
     "expanded" if the menu expanded; 
     "hidden" if the menu hidden. 
     */
-    const [menuStatus, setMenuStatus] = useState(window.innerWidth < 769 ? "hamburger":"normal");
+    const [menuStatus, setMenuStatus] = useState(()=>window.innerWidth < 769 ? "hamburger" : "normal");
 
     const [modalShowing, setModalShowing] = useState("none");
 
@@ -54,27 +54,40 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
 
 
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn, mutate, navigate]);
 
+    const timeoutID = useRef(); 
 
-    if (isLoggedIn === null) /* loading screen as soon as you get into the website */{
+    useEffect(() => {
+
+        console.log(menuStatus);
+
+
+    }, [menuStatus]);
+
+    if (isLoggedIn === null) /* loading screen as soon as you get into the website */ {
         return (<div className="full-height-container"><LoadingScreen /></div>);
     }
 
-    window.addEventListener("resize", ()=>{
 
+    window.addEventListener("resize", () => {
+    clearTimeout(timeoutID.current);
+    timeoutID.current = setTimeout(() => {
+        
+        console.log(menuStatus, window.innerWidth);
+        
+        if (window.innerWidth < 769) {
+            
+                menuStatus !== "hamburger" && setMenuStatus("hamburger");
+                
+            } else {
 
-        if(window.innerWidth < 769){
-
-            menuStatus !== "hamburger" && setMenuStatus("hamburger");
-
-        }else{
-
-            menuStatus === "hamburger" && setMenuStatus("hidden");
-
-
-        }
+                menuStatus === "hamburger" && setMenuStatus("hidden");
+                
+                
+            }
+        }, 200);
 
     });
 
@@ -83,14 +96,14 @@ const HomePage = ({isLoggedIn, setIsLoggedIn }) => {
             <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
             <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />
-            
-            
+
+
             <div className="home-page">
 
                 <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } />
 
                 {/* the noteDisplay is always mounted, even if the menu is expanded, so that when the menu gets closed EditorMCE doesn't have to reload. Everything is much smoother this way */ }
-                {menuStatus !== "expanded" && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } />}
+                { menuStatus !== "expanded" && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
 
             </div>
         </>

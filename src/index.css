@@ -713,7 +713,7 @@ transition: all 0.2 ease;
 .subheader--normal {
 
     padding-inline: 5%;
-    height: 12.8dvh;
+    height: 88.6px;
     width: 100%;
     display: flex;
     justify-content: space-between;
