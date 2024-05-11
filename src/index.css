@@ -13,7 +13,7 @@
     --purple: #5941df;
     --purple-light: #7e64ff;
     --purple-hover: #4a33ce;
-    --purple-active: #3f2da5;
+    --purple-active: #3f2da5ae;
     --text-color: white;
     --text-color-secondary: black;
     --editor-bg-color: #1f1f1f;
@@ -31,7 +31,7 @@
     --tertiary-bg-color: #1b1b1b;
     --tertiary-bg-color-hover: #232323;
     --tertiary-bg-color-active: #3e3d3d;
-    --quaternary-bg-color: #d7d7d7;
+    --quaternary-bg-color: #c0c0c0;
     --text-color: black;
     --text-color-secondary: white;
     --editor-bg-color: white;
@@ -336,14 +336,14 @@ width: fit-content;
 .header {
 
     display: flex;
-    background-color: var(--primary-bg-color);
+    background-color: #1b1b1b;
     overflow-x: auto;
     justify-content: space-between;
     align-items: center;
     height: 10dvh;
     width: 100%;
     padding: 0.5% 2%;
-    border-bottom: 1px solid var(--tertiary-bg-color);
+    border-bottom: 4px solid var(--purple-active);
     transition: background-color 0.2s ease, color 0.2s ease;
 
 }
@@ -353,7 +353,7 @@ width: fit-content;
     font-size: 1.5em;
     font-weight: bold;
     animation: load-note-animation 0.5s ease-in;
-
+    color: white;
 }
 
 
@@ -362,13 +362,14 @@ width: fit-content;
 .primary-button:hover {
 
     background-color: var(--purple-hover);
+    color: white;
 
 }
 
 .primary-button:active {
 
     background-color: var(--purple-active);
-
+    color: white;
 }
 
 .dim-layer {
@@ -559,7 +560,7 @@ opacity: 0;
     background-color: var(--tertiary-bg-color);
     line-height: 2.4em;
     width: 30%;
-    color: var(--text-color-secondary) !important;
+    color: var(--text-color-secondary);
     transition: all .2s ease;
 
 }
@@ -708,6 +709,7 @@ transition: all 0.2 ease;
 .menu--expanded .menu__functionalities {
 
     width: 30%;
+    background-color: rgba(32, 32, 32, 0.783);
 }
 
 .subheader--normal {
@@ -760,6 +762,7 @@ transition: all 0.2 ease;
     background-color: var(--purple);
     border: 2px solid var(--purple-light);
     font-size: 1.3em;
+    color: white;
     line-height: 2.6em;
     transition: all 0.2s ease;
 }
@@ -785,6 +788,13 @@ hr {
     border-color: var(--tertiary-bg-color);
     width: 100%;
 }
+
+.subheader--expanded hr{
+
+border-color: white;
+
+}
+
 
 .menu--expanded .note-list .accordion,
 .menu--expanded .note-list hr {
@@ -1451,6 +1461,13 @@ input[data-autocompleted] {
 
     font-size: 1.5em;
     cursor: pointer;
+    
+}
+
+.subheader--expanded i{
+    
+    color: white;
+
 
 }
 
