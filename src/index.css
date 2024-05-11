@@ -468,7 +468,6 @@ width: fit-content;
     border: 0;
     width: 90%;
     padding-inline: 6%;
-    /* height: 7dvh; */
     line-height: 2.4em;
     font-size: 1.2em;
     background-color: var(--secondary-bg-color);
@@ -478,6 +477,7 @@ width: fit-content;
 
 .myModal__body select {
     height: 2.4em;
+    appearance: none;
 }
 
 .conditions-container {
