@@ -1455,7 +1455,11 @@ input[data-autocompleted] {
     border-color: var(--purple-light) transparent transparent transparent !important;
 
 }
+.header i{
 
+color: white;
+
+}
 .subheader--normal i,
 .subheader--expanded i {
 
