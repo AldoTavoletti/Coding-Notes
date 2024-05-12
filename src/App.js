@@ -11,20 +11,11 @@ import { URL } from "./utils";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
 
-  /* 
-  "none" if no modal is showing; 
-  "folder" if the folder modal is showing; 
-  "note" if it's the note modal. 
-  */
-
-
-
   // checks wether the user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-
   /**
-   * @note check if the user is logged in (checks if $_SESSION["userID"] is set)
+   * @note check if the user is logged in (checks if $_SESSION["userID"]  or a rememberme cookie is set)
    */
   const checkLoggedIn = () => {
 
@@ -32,8 +23,6 @@ function App() {
 
       method: "GET",
       credentials: "include"
-      
-
 
     }).then(res => {
       console.log(res);
@@ -44,7 +33,6 @@ function App() {
 
 
     }).then(data => {
-      console.log(data);
       data["code"] === 200 ? setIsLoggedIn(true) : setIsLoggedIn(false);
 
 
@@ -68,8 +56,6 @@ function App() {
 
 
       <div className="app">
-
-        
 
         <BrowserRouter>
           <Routes>

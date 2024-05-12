@@ -24,9 +24,15 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     "normal" if the menu is not expanded nor hidden; 
     "expanded" if the menu expanded; 
     "hidden" if the menu hidden. 
+    When the width goes under 769 pixels its value is set to hamburger
     */
-    const [menuStatus, setMenuStatus] = useState(()=>window.innerWidth < 769 ? "hamburger" : "normal");
+    const [menuStatus, setMenuStatus] = useState(() => window.innerWidth < 769 ? "hamburger" : "normal");
 
+    /*
+  "none" if no modal is showing; 
+  "folder" if the folder modal is showing; 
+  "note" if it's the note modal. 
+  */
     const [modalShowing, setModalShowing] = useState("none");
 
 
@@ -44,27 +50,16 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             /* 
             When a user logs in, the note list has to be refreshed, since "revalidateIfStale:false" was set due to performance reasons. 
-            If this is taken out, there are some cases where the previous' user notes are shown, or no notes are shown.
+            If this is taken out, there would be some cases where the previous' user notes are shown, or no notes are shown.
             */
             mutate(URL + "?retrieve=all");
 
         }
 
-
-
-
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn, mutate, navigate]);
 
-    const timeoutID = useRef(); 
-
-    useEffect(() => {
-
-        console.log(menuStatus);
-
-
-    }, [menuStatus]);
+    const timeoutID = useRef();
 
     if (isLoggedIn === null) /* loading screen as soon as you get into the website */ {
         return (<div className="full-height-container"><LoadingScreen /></div>);
@@ -72,20 +67,20 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
     window.addEventListener("resize", () => {
-    clearTimeout(timeoutID.current);
-    timeoutID.current = setTimeout(() => {
-        
-        console.log(menuStatus, window.innerWidth);
-        
-        if (window.innerWidth < 769) {
-            
+        clearTimeout(timeoutID.current);
+        timeoutID.current = setTimeout(() => {
+
+            console.log(menuStatus, window.innerWidth);
+
+            if (window.innerWidth < 769) {
+
                 menuStatus !== "hamburger" && setMenuStatus("hamburger");
-                
+
             } else {
 
                 menuStatus === "hamburger" && setMenuStatus("hidden");
-                
-                
+
+
             }
         }, 200);
 

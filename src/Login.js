@@ -12,18 +12,19 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
+    const rememberMe = useRef();
 
     // an eventual error is showed using this variable
     const [error, setError] = useState(null);
 
-    // check if the password is long enough
+    // conditions
     const [isLongEnough, setIsLongEnough] = useState(null);
 
     const [hasCapital, setHasCapital] = useState(null);
 
     const [hasSymbol, setHasSymbol] = useState(null);
 
-    // false if the password is hidden, true if's shown
+    // false if the password is hidden, true if it's shown
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
 
@@ -56,13 +57,12 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
         } else  /* if it's all good*/ {
 
-            const rememberMe = document.getElementById("rememberme");
 
             fetch(URL, {
 
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify({ username: username, password: password, remember:rememberMe.checked,action: "login" }),
+                body: JSON.stringify({ username: username, password: password, remember:rememberMe.current.checked,action: "login" }),
 
             }).then(res => {
 
@@ -240,13 +240,12 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
          * @param {object} codeResponse 
          */
         onSuccess: (codeResponse) => {
-            const rememberMe = document.getElementById("rememberme");
 
             fetch(URL, {
 
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify({ code: codeResponse.code, remember: rememberMe.checked}),
+                body: JSON.stringify({ code: codeResponse.code, remember: rememberMe.current.checked}),
                 headers: { 'Content-Type': 'application/json' }
 
             }).then(res => {
@@ -312,7 +311,10 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
             setHasSymbol(null);
             return;
         }
-        /[\W_]/.test(string) ? hasSymbol !== true && setHasSymbol(true) : hasSymbol !== false && setHasSymbol(false);
+        /[\W_]/.test(string) ? 
+        hasSymbol !== true && setHasSymbol(true) 
+        : 
+        hasSymbol !== false && setHasSymbol(false);
 
 
 
@@ -422,7 +424,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                 </div>
 
                 <div className="checkbox-container">
-                <input type="checkbox" id="rememberme"/>
+                <input type="checkbox" id="rememberme" ref={rememberMe}/>
                 <label htmlFor="rememberme">Remember me</label>
                 </div>
 
