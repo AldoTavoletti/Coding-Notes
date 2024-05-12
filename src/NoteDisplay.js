@@ -23,13 +23,22 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
 
         // shrink the sticky toolbar
         editorHeader.classList.remove("my-tox-header-sticky--expanded");
+        editorHeader.classList.remove("my-tox-header-sticky--hamburger");
         editorHeader.classList.add("my-tox-header-sticky--normal");
 
       } else if (menuStatus === "hidden") {
 
         // expand the sticky toolbar
         editorHeader.classList.remove("my-tox-header-sticky--normal");
+        editorHeader.classList.remove("my-tox-header-sticky--hamburger");
         editorHeader.classList.add("my-tox-header-sticky--expanded");
+
+      }else if (menuStatus === "hamburger") {
+        
+        // expand the sticky toolbar
+        editorHeader.classList.remove("my-tox-header-sticky--normal");
+        editorHeader.classList.remove("my-tox-header-sticky--expanded");
+        editorHeader.classList.add("my-tox-header-sticky--hamburger");
 
       }
 

@@ -124,7 +124,8 @@ button {
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 0.71vw;
+    min-width: 10px;
 }
 
 /* Track */
@@ -914,7 +915,12 @@ border-color: white;
     font-style: italic;
 
 }
+.my-tox-header-sticky--hamburger{
 
+/* 99.3 and not 100 to make the scrollbar visible */
+    width: 99.3vw !important;
+
+}
 .tox-editor-header {
 
     background-color: var(--quaternary-bg-color) !important;
