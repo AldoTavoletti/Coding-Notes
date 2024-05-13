@@ -1705,6 +1705,11 @@ color: white;
 
   }
 
+      ::-webkit-scrollbar {
+          appearance: none;
+      
+  }
+
 }
 
 
