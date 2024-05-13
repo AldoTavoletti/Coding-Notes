@@ -1707,6 +1707,7 @@ color: white;
 
       ::-webkit-scrollbar {
           appearance: none;
+    min-width: 10px;
       
   }
 
