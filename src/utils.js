@@ -5,7 +5,7 @@ export const URL = "https://coding-notes-backend.onrender.com/index.php";
 
 
 
-export const folderColors = { black: { primary: "#202020", secondary: "#2b2a2a" }, green: { primary: "#03b703", secondary: "#5cad5c" }, red: { primary: "#ff0000", secondary: "#ff4b4b" }, blue: { primary: "#4d94ff", secondary: "#6ca7ff" }, yellow: { primary: "#e7e731", secondary:"#dfdf77"}};
+export const folderColors = { black: { primary: "#202020", secondary: "#2b2a2a" }, green: { primary: "#03b703", secondary: "#5cad5c" }, red: { primary: "#c21a1a", secondary: "#ff4b4b" }, blue: { primary: "#4d94ff", secondary: "#6ca7ff" }, yellow: { primary: "#e7e731", secondary:"#dfdf77"}};
 
 /**
  * 
@@ -31,7 +31,7 @@ export const getContrastColor = (backgroundColor) => {
     const backgroundLuminance = getLuminance(backgroundColor);
 
     // Determine whether to use light or dark text based on the threshold
-    return backgroundLuminance > threshold ? '#000' : '#fff';
+    return backgroundLuminance > threshold ? '#000000' : '#ffffff';
 };
 
 /**

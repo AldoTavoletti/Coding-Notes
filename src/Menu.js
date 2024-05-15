@@ -98,7 +98,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                         <div className="subheader--normal">
                             
                             
-                            <button className="text-button" onClick={ () => setMenuStatus("expanded") }>expand</button>
+                            <button className="primary-button" onClick={ () => setMenuStatus("expanded") }>manage</button>
                             <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
                         </div>
                     )

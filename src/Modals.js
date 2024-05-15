@@ -52,16 +52,28 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
         if (folders) /* if the user's folders have been fetched */ {
 
-            if (typeof modalShowing === "object") /* if it's the modify-folder modal */ {
+            if (typeof modalShowing === "object") {
 
-                // show data relative to the folder to modify
-                setFolderName(modalShowing.folderName);
-                setSelectedColor(modalShowing.folderColor);
+                if ("folderName" in modalShowing) /* if it's the modify-folder modal */ {
+
+                    // show data relative to the folder to modify
+                    setFolderName(modalShowing.folderName);
+                    setSelectedColor(modalShowing.folderColor);
+
+                } else if ("noteFolderID" in modalShowing) /* if it's the add note from the folder button */ {
+
+                    setnoteFolderID(modalShowing.noteFolderID);
+
+                }
 
             } else if (modalShowing === "none") /*if the modal gets closed and it's not the first render of the application (&& folders)*/ {
 
                 resetFolderStates();
                 resetNoteStates();
+
+            }else if(modalShowing === "note"){
+
+                !noteFolderID && setnoteFolderID(folders[0].folderID);
 
             }
         }
@@ -80,8 +92,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
     //|| this useEffect cannot be put elsewhere
     useEffect(() => {
 
-        // set the note's parent folder to be the first of the list
-        folders && folders.length > 0 && setnoteFolderID(folders[0].folderID);
+        
 
 
     }, [folders]);
@@ -210,7 +221,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
                 {/* add folder modal */ }
                 <div
-                    className={ `${"myModal"} ${modalShowing === "folder" || typeof modalShowing === "object" ? "myModal--visible" : "myModal--hidden"}` }
+                    className={ `${"myModal"} ${modalShowing === "folder" || (typeof modalShowing === "object" && "folderName" in modalShowing)  ? "myModal--visible" : "myModal--hidden"}` }
                     // when the modal is clicked, don't make the dim layer onClick get triggered
                     onClick={ (e) => e.stopPropagation() }
                 >
@@ -245,7 +256,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                             onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) : addFolder(e) }
                             className="primary-button"
                             disabled={ folderName.trim() === "" ? true : false } // if the folderName field is empty disable the button
-                            >Add</button>
+                        >Add</button>
 
                     </div>
 
@@ -256,7 +267,7 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
                 {/* note modal */ }
                 <div
-                    className={ `${"myModal"} ${modalShowing === "note" ? "myModal--visible" : "myModal--hidden"}` }
+                    className={ `${"myModal"} ${modalShowing === "note" || (typeof modalShowing === "object" && "noteFolderID" in modalShowing) ? "myModal--visible" : "myModal--hidden"}` }
                     // when the modal is clicked, don't make the dim layer onClick get triggered
                     onClick={ (e) => e.stopPropagation() }
                 >
@@ -265,9 +276,9 @@ const Modals = ({ modalShowing, setModalShowing }) => {
                     <div className="myModal__body">
 
 
-                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } autoComplete="off"/>
+                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } autoComplete="off" />
 
-                        <select name="folder-selection" onChange={ (e) => setnoteFolderID(e.target.value) }>
+                        <select name="folder-selection" value={noteFolderID} onChange={ (e) => setnoteFolderID(e.target.value) }>
                             { folders.map((folder, i) => (
 
                                 <option key={ folder.folderID } value={ folder.folderID } className="folder-selection__option">{ folder.folderName }</option>
