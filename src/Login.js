@@ -77,7 +77,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                 console.log(data);
                 if (data["code"] === 200) {
                     // log in
-                    setIsLoggedIn(true);
+                    setIsLoggedIn(data["username"]);
                     navigate("/");
 
                 } else {
@@ -148,7 +148,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                 if (data["code"] === 200) {
 
                     // log in
-                    setIsLoggedIn(true);
+                    setIsLoggedIn(data["username"]);
                     navigate("/");
 
                 } else {
@@ -261,7 +261,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                 if (data["code"] === 200) {
 
                     // log in
-                    setIsLoggedIn(true);
+                    setIsLoggedIn(data["username"]);
                     navigate("/");
 
                 } else {

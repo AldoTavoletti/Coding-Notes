@@ -1491,8 +1491,8 @@ input[data-autocompleted] {
 
 }
 
-.subheader--normal i,
-.subheader--expanded i {
+.subheader--normal .bi.bi-arrow-left,
+.subheader--expanded .bi.bi-arrow-left {
 
     font-size: 1.5em;
     cursor: pointer;

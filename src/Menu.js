@@ -3,7 +3,7 @@ import NoteList from "./NoteList";
 import { URL } from "./utils";
 import DarkMode from "./DarkMode";
 
-const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, setIsLoggedIn }) => {
+const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, setIsLoggedIn, isLoggedIn }) => {
 
     /**
      * @note handles the user's logout
@@ -96,8 +96,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 { menuStatus === "normal" &&
                     (
                         <div className="subheader--normal">
-                            
-                            
+
+
                             <button className="primary-button" onClick={ () => setMenuStatus("expanded") }>manage</button>
                             <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
                         </div>
@@ -130,33 +130,33 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                             <div className="header__buttons-div">
 
-                        <div className="button-group" style={{marginTop:"10px"}}>
-                            <DarkMode />
-                            <i class="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger":"normal") }></i>
-                            </div>
-
-                                <button onClick={ () => setModalShowing("folder") }>Add a folder +</button>
-                                <button onClick={ () => setModalShowing("note") }>Add a note +</button>
-                            <hr />
-
-                        {window.innerWidth > 767 ? 
-                        
-                                <div className="button-group">
-                                    <button onClick={ () => expandFolders() }>Expand All</button>
-                                    <button onClick={ () => collapseFolders() }>Collapse All</button>
+                                <div className="button-group" style={ { marginTop: "10px" } }>
+                                    <DarkMode />
+                                    <i class="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                                 </div>
-                        
-                        :
-                        <>
-                        <button onClick={ () => expandFolders() }>Expand All</button>
-                        <button onClick={ () => collapseFolders() }>Collapse All</button>
-                                </>
-                        }
-                            
+
+                                <button onClick={ () => setModalShowing("folder") }>Add a folder <i class="bi bi-folder-plus"></i></button>
+                            <button onClick={ () => setModalShowing("note") }>Add a note <i class="bi bi-file-plus"></i></button>
+                                <hr />
+
+                                { window.innerWidth > 767 ?
+
+                                    <div className="button-group">
+                                        <button onClick={ () => expandFolders() }>Expand All</button>
+                                        <button onClick={ () => collapseFolders() }>Collapse All</button>
+                                    </div>
+
+                                    :
+                                    <>
+                                        <button onClick={ () => expandFolders() }>Expand All</button>
+                                        <button onClick={ () => collapseFolders() }>Collapse All</button>
+                                    </>
+                                }
 
 
-                            <hr />
 
+                                <hr />
+                                <p>Hi {isLoggedIn}!</p>
                                 <button onClick={ () => logout() }>logout</button>
 
                             </div>

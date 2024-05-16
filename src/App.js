@@ -33,7 +33,9 @@ function App() {
 
 
     }).then(data => {
-      data["code"] === 200 ? setIsLoggedIn(true) : setIsLoggedIn(false);
+      console.log(data);
+      
+      data["code"] === 200 ? setIsLoggedIn(data["username"]) : setIsLoggedIn(false);
 
 
     }).catch(err => console.log(err));
