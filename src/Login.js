@@ -240,7 +240,6 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
          * @param {object} codeResponse 
          */
         onSuccess: (codeResponse) => {
-
             fetch(URL, {
 
                 method: "POST",
