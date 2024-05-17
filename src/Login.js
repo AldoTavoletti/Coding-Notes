@@ -371,7 +371,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 <p ref={ titleRef }>{ wantsLogin ? "Login" : "Sign up" }</p>
 
-                <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } />
+                <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } maxLength="255" />
 
                 {/* password 1 container */ }
                 <div className="password-container" style={ { marginTop: "24.85px" } }> {/* 15.2px is the height of password-condition show in devtools */ }
@@ -380,6 +380,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                         type={ showPassword1 ? "text" : "password" }  // using showPassword1 you can toggle the visiblity of the passowrd
                         placeholder="Password..."
                         onChange={ (e) => handlePasswordInput(e, setPassword) }
+                        maxLength="255"
                     />
 
                     {/* the eye */ }
@@ -411,7 +412,10 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                         ref={ confirmPasswordRef }
                         type={ showPassword2 ? "text" : "password" }
                         placeholder="Confirm Password..."
-                        onChange={ (e) => setPassword2(e.target.value) } />
+                        onChange={ (e) => setPassword2(e.target.value) } 
+                        maxLength="255"
+                        />
+                        
 
                     {/* the eye */ }
                     { !wantsLogin &&

@@ -59,9 +59,58 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
         }
 
-
+        
 
     };
+
+    const deleteAccount = () => {
+
+        fetch(URL, {
+
+            method: "DELETE",
+            body:JSON.stringify({deleteUser:true}),
+            credentials: "include",
+
+
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+
+
+        }).then(data => {
+            if (data["code"] === 200) {
+                
+                fetch(URL + "?logout=true", {
+                    
+                    method: "GET",
+                    credentials: "include",
+                    
+                    
+                }).then(res => {
+                    
+                    if (!res.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return res.json();
+                    
+                    
+                }).then(data => {
+                    
+                data["code"] === 200 && setIsLoggedIn(false);
+                
+                
+            }).catch(err => console.log(err));
+        }
+            
+            
+        }).catch(err => console.log(err));
+
+    };
+
+
     /**
     * @note expand all the open folders using classes
     */
@@ -136,7 +185,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                                 </div>
 
                                 <button onClick={ () => setModalShowing("folder") }>Add a folder <i class="bi bi-folder-plus"></i></button>
-                            <button onClick={ () => setModalShowing("note") }>Add a note <i class="bi bi-file-plus"></i></button>
+                                <button onClick={ () => setModalShowing("note") }>Add a note <i class="bi bi-file-plus"></i></button>
                                 <hr />
 
                                 { window.innerWidth > 767 ?
@@ -156,8 +205,10 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
                                 <hr />
-                                <p>Hi {isLoggedIn}!</p>
+                                <p className="greeting">Hi { isLoggedIn }!</p>
                                 <button onClick={ () => logout() }>logout</button>
+                                <button onClick={ () => deleteAccount() }>Delete this account</button>
+
 
                             </div>
 
