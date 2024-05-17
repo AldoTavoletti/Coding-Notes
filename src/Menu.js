@@ -207,7 +207,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                                 <hr />
                                 <p className="greeting">Hi { isLoggedIn }!</p>
                                 <button onClick={ () => logout() }>logout</button>
-                                <button onClick={ () => deleteAccount() }>Delete this account</button>
+                                <button onClick={ () => deleteAccount() }>Delete account</button>
 
 
                             </div>
