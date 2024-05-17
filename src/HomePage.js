@@ -70,7 +70,6 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
         clearTimeout(timeoutID.current);
         timeoutID.current = setTimeout(() => {
 
-            console.log(menuStatus, window.innerWidth);
 
             if (window.innerWidth < 769) {
 
@@ -78,7 +77,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             } else {
 
-                menuStatus === "hamburger" && setMenuStatus("hidden");
+                menuStatus === "hamburger" && setMenuStatus("expanded");
 
 
             }

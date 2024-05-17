@@ -1701,7 +1701,6 @@ input[data-autocompleted] {
 
     }
 
-    .
 
     .ripple-background .sponsor {
 
@@ -1725,7 +1724,7 @@ input[data-autocompleted] {
     .menu:not(.menu--expanded) {
 
         flex-basis: 0%;
-        visibility: hidden;
+
     }
 
     .menu--expanded {
