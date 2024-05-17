@@ -60,6 +60,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     }, [isLoggedIn, mutate, navigate]);
 
     const timeoutID = useRef();
+    const lastCheckedWidth = useRef();
 
     if (isLoggedIn === null) /* loading screen as soon as you get into the website */ {
         return (<div className="full-height-container"><LoadingScreen /></div>);
@@ -73,7 +74,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             if (window.innerWidth < 769) {
 
-                menuStatus !== "hamburger" && setMenuStatus("expanded");
+                menuStatus !== "hamburger" && lastCheckedWidth.current !== window.innerWidth && setMenuStatus("hamburger");
 
             } else {
 
@@ -81,6 +82,8 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
             }
+            lastCheckedWidth.current = window.innerWidth;
+
         }, 200);
 
     });
