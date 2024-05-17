@@ -73,11 +73,11 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             if (window.innerWidth < 769) {
 
-                menuStatus !== "hamburger" && setMenuStatus("hamburger");
+                menuStatus !== "hamburger" && setMenuStatus("expanded");
 
             } else {
 
-                menuStatus === "hamburger" && setMenuStatus("expanded");
+                menuStatus === "hamburger" && setMenuStatus("hidden");
 
 
             }
