@@ -77,16 +77,18 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
         clearTimeout(timeoutID.current);
         timeoutID.current = setTimeout(() => {
 
-
-            if (window.innerWidth < 769 && lastCheckedWidth.current !== window.innerWidth) {
-
-                menuStatus !== "hamburger" && setMenuStatus("hamburger");
-
-            } else {
-
-                menuStatus === "hamburger" && setMenuStatus("hidden");
-
-
+            if (lastCheckedWidth.current !== window.innerWidth) {
+                
+                if (window.innerWidth < 769) {
+                    
+                    menuStatus !== "hamburger" && setMenuStatus("hamburger");
+                    
+                } else {
+                    
+                    menuStatus === "hamburger" && setMenuStatus("hidden");
+                    
+                    
+                }
             }
             lastCheckedWidth.current = window.innerWidth;
 
