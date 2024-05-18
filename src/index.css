@@ -275,6 +275,7 @@ button {
 .primary-button {
     box-sizing: content-box;
     height: 7dvh;
+    min-height: 40px;
     padding-inline: 15px;
     font-size: 1.2em;
 
@@ -1440,6 +1441,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         background-color: transparent;
         border: 0;
         height: 5dvh;
+        min-height: 30px;
         transition: all 0.2s ease;
     }
 
