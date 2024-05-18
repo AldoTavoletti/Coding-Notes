@@ -204,8 +204,16 @@ button {
     font-size: 3em;
     font-weight: bold;
     outline: 0;
+    width: 50%;
+    overflow: hidden;
+    white-space: nowrap;
 }
+.note-display__title::-webkit-scrollbar{
 
+width: 3px;
+min-width: 0;
+
+}
 .note-display__title:empty::before,
 .note-display__body:empty::before {
     content: attr(data-placeholder);

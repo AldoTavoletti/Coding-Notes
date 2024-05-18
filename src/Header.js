@@ -49,7 +49,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
                     onDragStart={ (e) => e.preventDefault() }
                     data-placeholder="Title..."
                     className="note-display__title"
-                    onKeyDown={ (e) => (e.currentTarget.offsetWidth > (header.current.offsetWidth / 1.2) && /^.$/.test(e.key)) && e.preventDefault() }
+                    // onKeyDown={ (e) => (e.currentTarget.offsetWidth > (header.current.offsetWidth / 1.2) && /^.$/.test(e.key)) && e.preventDefault() }
                     onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
                 >{ note.title }</p> }
 
