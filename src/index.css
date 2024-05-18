@@ -109,6 +109,7 @@ button {
 
     display: flex;
     height: 90dvh;
+    max-height: calc(100dvh - 60px);
 }
 
 .primary-button:disabled {
@@ -342,6 +343,7 @@ button {
     justify-content: space-between;
     align-items: center;
     height: 10dvh;
+    min-height: 60px;
     width: 100%;
     padding: 0.5% 2%;
     border-bottom: 4px solid var(--purple-active);
@@ -1890,7 +1892,6 @@ input[data-autocompleted] {
     }
 
 }
-
 
 
 
