@@ -339,7 +339,6 @@ button {
 
     display: flex;
     background-color: #1b1b1b;
-    overflow-x: auto;
     justify-content: space-between;
     align-items: center;
     height: 10dvh;
@@ -712,8 +711,8 @@ button {
 
     width: 30%;
     background-color: var(--purple-active);
-        border-right: 3px solid var(--purple);
-        padding-bottom: 5%;
+    border-right: 3px solid var(--purple);
+    padding-bottom: 5%;
 }
 
 .subheader--normal {
@@ -727,30 +726,31 @@ button {
     background-color: var(--quaternary-bg-color);
 
 }
-.subheader--expanded::-webkit-scrollbar{
 
-width: 0;
+.subheader--expanded::-webkit-scrollbar {
+
+    width: 0;
 
 }
+
 .subheader--expanded {
     display: flex;
     flex-direction: column;
-        overflow: auto;
+    overflow: auto;
     height: 100%;
     /* background-color: var(--quaternary-bg-color); */
     align-items: center;
     width: 100%;
     transition: background-color 0.2s ease, color 0.2s ease;
-    
+
     padding-inline: 1%;
-    
+
 }
 
 .header__buttons-div {
     height: 85%;
     width: fit-content;
-    padding-left: 1%;
-    
+
     column-gap: 10%;
     display: flex;
     align-items: center;
@@ -885,6 +885,44 @@ hr {
     background-color: var(--hover-color) !important;
     border: 3px solid rgba(0, 0, 0, 0.178);
 }
+.main-header__buttons-div{
+
+display: flex;
+gap: 10%;
+align-items: center;
+justify-content: center;
+
+}
+
+
+.account-button {
+
+    width: 3vw;
+    height: 3vw;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-bg-color);
+    border: 3px solid var(--purple);
+    color: var(--secondary-bg-color-hover);
+    font-weight: bold;
+    font-size: 1.4em;
+
+    /* make it even bolder */
+    text-shadow: 0.3px 0 var(--secondary-bg-color-hover), -0.3px 0 var(--secondary-bg-color-hover), 0 0.3px var(--secondary-bg-color-hover), 0 -0.3px var(--secondary-bg-color-hover),
+        0.3px 0.3px var(--secondary-bg-color-hover), -0.3px -0.3px var(--secondary-bg-color-hover), 0.3px -0.3px var(--secondary-bg-color-hover), -0.3px 0.3px var(--secondary-bg-color-hover);
+    transition: all 0.2s ease;
+}
+
+.account-button:hover {
+
+    background-color: var(--purple);
+    border-color: var(--purple-active);
+    color: var(--purple-light);
+    text-shadow: 0.3px 0 var(--purple-light), -0.3px 0 var(--purple-light), 0 0.3px var(--purple-light), 0 -0.3px var(--purple-light),
+            0.3px 0.3px var(--purple-light), -0.3px -0.3px var(--purple-light), 0.3px -0.3px var(--purple-light), -0.3px 0.3px var(--purple-light);
+
+}
 
 .note-list__note p {
     padding: 0;
@@ -899,7 +937,7 @@ hr {
 }
 
 .greeting {
-padding: 0;
+    padding: 0;
     margin: 0;
     width: 100%;
     white-space: nowrap;
@@ -1315,6 +1353,56 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     opacity: 8%;
 }
 
+
+.dropdown-menu {
+        --bs-dropdown-zindex: 1000;
+        --bs-dropdown-min-width: 10rem;
+        --bs-dropdown-padding-x: 0;
+        --bs-dropdown-padding-y: 0rem;
+        --bs-dropdown-spacer: 0.125rem;
+        --bs-dropdown-font-size: 1em;
+        --bs-dropdown-color: var(--tertiary-bg-color);
+        --bs-dropdown-bg: var(--primary-bg-color);
+        --bs-dropdown-divider-bg: var(--tertiary-bg-color-active);
+        --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        --bs-dropdown-header-padding-x: 0.5rem;
+        --bs-dropdown-header-padding-y: 0.5rem;
+        position: absolute;
+        z-index: var(--bs-dropdown-zindex);
+        display: none;
+        min-width: var(--bs-dropdown-min-width);
+        max-width: 20dvw;
+        padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
+        margin: 0;
+        font-size: var(--bs-dropdown-font-size);
+        color: var(--bs-dropdown-color);
+        text-align: left;
+        list-style: none;
+        background-clip: padding-box;
+        border: 3px solid var(--purple-active);
+        border-radius: var(--bs-dropdown-border-radius);
+    }
+    .dropdown-menu .dropdown-header{
+        overflow: hidden;
+        white-space: nowrap;
+    text-overflow: ellipsis;
+    }
+    .dropdown-menu button{
+
+        width: 100%;
+        text-align: left;
+        padding-left: 0.5rem;
+        background-color: transparent;
+        border: 0;
+        height: 5dvh;
+        transition: all 0.2s ease;
+    }
+
+    .dropdown-menu button:hover{
+
+        background-color: var(--secondary-bg-color);
+
+    }
 
 
 
@@ -1749,7 +1837,7 @@ input[data-autocompleted] {
 
     .menu--expanded .menu__functionalities {
         width: 50%;
-        
+
 
     }
 

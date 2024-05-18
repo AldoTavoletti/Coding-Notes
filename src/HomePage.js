@@ -98,7 +98,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
         <>
             <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } />
 
-            <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } />
+            <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } setIsLoggedIn={setIsLoggedIn}/>
 
 
             <div className="home-page">

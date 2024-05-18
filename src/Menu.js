@@ -1,38 +1,10 @@
 import NoteList from "./NoteList";
 
-import { URL } from "./utils";
 import DarkMode from "./DarkMode";
 
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, setIsLoggedIn, isLoggedIn }) => {
 
-    /**
-     * @note handles the user's logout
-     */
-    const logout = () => {
-
-        fetch(URL + "?logout=true", {
-
-            method: "GET",
-            credentials: "include",
-
-
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(data => {
-
-            data["code"] === 200 && setIsLoggedIn(false);
-
-
-        }).catch(err => console.log(err));
-
-
-    };
+    
 
     /**
      * @note collapse all the open folders using classes
@@ -63,52 +35,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     };
 
-    const deleteAccount = () => {
-
-        fetch(URL, {
-
-            method: "DELETE",
-            body:JSON.stringify({deleteUser:true}),
-            credentials: "include",
-
-
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(data => {
-            if (data["code"] === 200) {
-                
-                fetch(URL + "?logout=true", {
-                    
-                    method: "GET",
-                    credentials: "include",
-                    
-                    
-                }).then(res => {
-                    
-                    if (!res.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return res.json();
-                    
-                    
-                }).then(data => {
-                    
-                data["code"] === 200 && setIsLoggedIn(false);
-                
-                
-            }).catch(err => console.log(err));
-        }
-            
-            
-        }).catch(err => console.log(err));
-
-    };
+    
 
 
     /**
@@ -204,15 +131,10 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-                                <hr />
-                                <p className="greeting">Hi { isLoggedIn }!</p>
-                                <button onClick={ () => logout() }>logout</button>
-                                <button onClick={ () => deleteAccount() }>Delete account</button>
+                                
 
 
                             </div>
-
-
 
                         </div>
                     )
