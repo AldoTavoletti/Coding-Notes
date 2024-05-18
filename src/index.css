@@ -928,9 +928,10 @@ hr {
 .main-header__buttons-div{
 
 display: flex;
-gap: 10%;
+gap: 15%;
+width: 25%;
 align-items: center;
-justify-content: center;
+justify-content: right;
 
 }
 
