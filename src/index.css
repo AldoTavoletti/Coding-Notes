@@ -416,16 +416,23 @@ button {
     opacity: 1;
 }
 
+.myModal::-webkit-scrollbar{
+
+display: none;
+
+}
+
 .myModal {
 
     height: 80dvh;
     width: 30vw;
     min-width: 300px;
     padding: 2%;
+    overflow: auto;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    row-gap: 2%;
+    row-gap: 12px;
     flex-direction: column;
 
     background-color: var(--quaternary-bg-color);
@@ -460,7 +467,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    row-gap: 2dvh;
+    row-gap: 12px;
     flex-direction: column;
     margin-bottom: 5%;
 }
@@ -533,6 +540,7 @@ button {
     align-items: center;
     justify-content: center;
     height: 10dvh;
+    min-height: 60px;
     width: 100%;
     margin-top: auto;
     border-top: 2px solid var(--tertiary-bg-color);
@@ -611,6 +619,8 @@ button {
 .color-box {
 
     height: 7dvh;
+    min-height: 40px;
+    min-width: 40px;
     width: 7dvh;
     border-radius: 50%;
     border: 3px solid white;

@@ -115,7 +115,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                                 <button onClick={ () => setModalShowing("note") }>Add a note <i class="bi bi-file-plus"></i></button>
                                 <hr />
 
-                                { window.innerWidth > 767 ?
+                                { window.innerWidth > 1000 ?
 
                                     <div className="button-group">
                                         <button onClick={ () => expandFolders() }>Expand All</button>
