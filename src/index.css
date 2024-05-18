@@ -961,8 +961,8 @@ justify-content: right;
 
 .account-button {
 
-    width: 3vw;
-    height: 3vw;
+    width: 7dvh;
+    height: 7dvh;
     min-width: 40px;
     min-height: 40px;
     border-radius: 50%;
