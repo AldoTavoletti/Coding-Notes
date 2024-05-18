@@ -7,6 +7,36 @@ export const URL = "https://coding-notes-backend.onrender.com/index.php";
 
 export const folderColors = { black: { primary: "#202020", secondary: "#2b2a2a" }, green: { primary: "#03b703", secondary: "#5cad5c" }, red: { primary: "#c21a1a", secondary: "#ff4b4b" }, blue: { primary: "#4d94ff", secondary: "#6ca7ff" }, yellow: { primary: "#e7e731", secondary:"#dfdf77"}};
 
+
+/**
+         * @note handles the user's logout
+         */
+export const logout = (setState, value) => {
+
+    fetch(URL + "?logout=true", {
+
+        method: "GET",
+        credentials: "include",
+
+
+    }).then(res => {
+
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return res.json();
+
+
+    }).then(data => {
+
+        data["code"] === 200 && setState(value);
+
+
+    }).catch(err => console.log(err));
+
+
+};
+
 /**
  * 
  * @param {*} state 

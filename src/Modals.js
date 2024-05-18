@@ -1,8 +1,8 @@
 import useSWR from "swr";
 import { useEffect, useState } from "react";
-import { URL, folderColors } from "./utils";
+import { URL, folderColors, logout } from "./utils";
 
-const Modals = ({ modalShowing, setModalShowing }) => {
+const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
 
     // the folder name in the folders modal
     const [folderName, setFolderName] = useState("");
@@ -212,6 +212,33 @@ const Modals = ({ modalShowing, setModalShowing }) => {
         setModalShowing("none");
     };
 
+    const deleteAccount = () => {
+
+        fetch(URL, {
+
+            method: "DELETE",
+            body: JSON.stringify({ deleteUser: true }),
+            credentials: "include",
+
+
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+
+
+        }).then(data => {
+            if (data["code"] === 200) {
+
+                logout(setIsLoggedIn, false);
+
+            }
+        }).catch(err => console.log(err));
+
+    };
+
     return (
         <>
             <div className={ `modal-container ${modalShowing !== "none" ? "modal-container--visible" : "modal-container--hidden"}` } onClick={ () => setModalShowing("none") }>
@@ -300,6 +327,28 @@ const Modals = ({ modalShowing, setModalShowing }) => {
 
 
             </div>
+
+
+
+            <div class="modal fade" id="deleteAccountModal" aria-labelledby="#deleteAccountModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete account</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {isLoggedIn}, do you confirm the deletion of this account?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onClick={ () => deleteAccount() }>Delete account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </>
     );
 };

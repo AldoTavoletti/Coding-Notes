@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { URL } from "./utils";
-import { simplePatchCall } from "./utils";
+import { simplePatchCall, logout } from "./utils";
 import useSWR from "swr";
 const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
 
@@ -25,60 +25,8 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteTitle]);
-    /**
-         * @note handles the user's logout
-         */
-    const logout = () => {
-
-        fetch(URL + "?logout=true", {
-
-            method: "GET",
-            credentials: "include",
-
-
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(data => {
-
-            data["code"] === 200 && setIsLoggedIn(false);
-
-
-        }).catch(err => console.log(err));
-
-
-    };
-    const deleteAccount = () => {
-
-        fetch(URL, {
-
-            method: "DELETE",
-            body: JSON.stringify({ deleteUser: true }),
-            credentials: "include",
-
-
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(data => {
-            if (data["code"] === 200) {
-
-                logout();
-
-            }
-        }).catch(err => console.log(err));
-
-    };
+    
+    
     return (
 
         <div className="header" ref={ header }>
@@ -111,9 +59,9 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
                 <button className="account-button" type="button" data-bs-toggle="dropdown">{ isLoggedIn[0].toUpperCase() }</button>
                     <ul class="dropdown-menu">
                             <li><h6 class="dropdown-header">Hi {isLoggedIn}!</h6></li>
-                            <li><button onClick={ () => logout() }>Logout</button></li>
-                            <li><button onClick={ () => deleteAccount() }>Delete account</button></li>
-
+                            <li><button onClick={ () => logout(setIsLoggedIn, false) }>Logout</button></li>
+                            <li><button data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete account</button></li>
+                            
                     </ul>
                 </div>
 }
