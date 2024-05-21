@@ -90,6 +90,11 @@ const EditorMCE = ({ currentNote }) => {
 
 
                 },
+                mobile:{
+
+                    toolbar_mode:"floating"
+
+                },
                 license_key: 'gpl',
                 promotion: false, // get rid of "upgrade" button
                 placeholder: "Write something...",
