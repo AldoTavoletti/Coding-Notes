@@ -352,7 +352,8 @@ min-width: 0;
     justify-content: space-between;
     align-items: center;
     height: 10dvh;
-    min-height: 60px;
+        min-height: 60px;
+        max-height: 70px;
     width: 100%;
     padding: 0.5% 2%;
     border-bottom: 4px solid var(--purple-active);
@@ -953,16 +954,23 @@ hr {
 display: flex;
 gap: 15%;
 width: 25%;
+height: 100%;
 align-items: center;
 justify-content: right;
 
 }
 
+.main-header__buttons-div .bi.bi-list{
 
+font-size: 1.5em;
+
+}
 .account-button {
 
     width: 7dvh;
     height: 7dvh;
+    max-width: 45px;
+    max-height: 45px;
     min-width: 40px;
     min-height: 40px;
     border-radius: 50%;

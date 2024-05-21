@@ -56,7 +56,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
             <div className="main-header__buttons-div">
                 { isLoggedIn && 
                 <div class="dropdown">
-                <button className="account-button" type="button" data-bs-toggle="dropdown">{ isLoggedIn[0].toUpperCase() }</button>
+                    <button className="account-button" type="button" data-bs-toggle="dropdown">{ isLoggedIn[0].toUpperCase() }</button>
                     <ul class="dropdown-menu">
                             <li><h6 class="dropdown-header">Hi {isLoggedIn}!</h6></li>
                             <li><button onClick={ () => logout(setIsLoggedIn, false) }>Logout</button></li>
