@@ -974,15 +974,15 @@ font-size: 1.5em;
     min-width: 40px;
     min-height: 40px;
     border-radius: 50%;
-    background-color: var(--primary-bg-color);
+    background-color: #1b1b1b;
     border: 3px solid var(--purple);
-    color: var(--secondary-bg-color-hover);
+    color: #3e3d3d;
     font-weight: bold;
     font-size: 1.4em;
 
     /* make it even bolder */
-    text-shadow: 0.3px 0 var(--secondary-bg-color-hover), -0.3px 0 var(--secondary-bg-color-hover), 0 0.3px var(--secondary-bg-color-hover), 0 -0.3px var(--secondary-bg-color-hover),
-        0.3px 0.3px var(--secondary-bg-color-hover), -0.3px -0.3px var(--secondary-bg-color-hover), 0.3px -0.3px var(--secondary-bg-color-hover), -0.3px 0.3px var(--secondary-bg-color-hover);
+    text-shadow: 0.3px 0 #3e3d3d, -0.3px 0 #3e3d3d, 0 0.3px #3e3d3d, 0 -0.3px #3e3d3d,
+        0.3px 0.3px #3e3d3d, -0.3px -0.3px #3e3d3d, 0.3px -0.3px #3e3d3d, -0.3px 0.3px #3e3d3d;
     transition: all 0.2s ease;
 }
 
