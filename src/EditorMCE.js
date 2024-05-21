@@ -92,7 +92,7 @@ const EditorMCE = ({ currentNote }) => {
                 },
                 mobile:{
 
-                    toolbar_mode:"floating"
+                    toolbar_mode:"wrap"
 
                 },
                 license_key: 'gpl',
