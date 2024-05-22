@@ -636,6 +636,8 @@ accent-color: var(--secondary-bg-color-hover);
     height: 7dvh;
     min-height: 40px;
     min-width: 40px;
+    max-width: 50px;
+    max-height: 50px;
     width: 7dvh;
     border-radius: 50%;
     border: 3px solid white;
