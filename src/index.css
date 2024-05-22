@@ -13,7 +13,7 @@
     --purple: #5941df;
     --purple-light: #7e64ff;
     --purple-hover: #4a33ce;
-    --purple-active: #3f2da5ae;
+    --purple-active: #31247d;
     --text-color: white;
     --text-color-secondary: black;
     --editor-bg-color: #1f1f1f;
@@ -34,7 +34,7 @@
     --quaternary-bg-color: #c0c0c0;
     --text-color: black;
     --text-color-secondary: white;
-    --purple-active: #3f2da5f5;
+    --purple-active: #31247d;
     --editor-bg-color: white;
 }
 
@@ -356,7 +356,7 @@ min-width: 0;
         max-height: 70px;
     width: 100%;
     padding: 0.5% 2%;
-    border-bottom: 4px solid var(--purple-active);
+    border-bottom: 4px solid var(--purple);
     transition: background-color 0.2s ease, color 0.2s ease;
 
 }
@@ -493,6 +493,12 @@ display: none;
     background-color: var(--secondary-bg-color);
     border-radius: 10px;
     transition: all .2s ease;
+}
+
+.login-container input[type="checkbox"]{
+
+accent-color: var(--secondary-bg-color-hover);
+
 }
 
 .myModal__body select {
@@ -729,12 +735,14 @@ display: none;
 
 }
 
+
 .menu--expanded .menu__functionalities {
 
     width: 30%;
     background-color: var(--purple-active);
     border-right: 3px solid var(--purple);
     padding-bottom: 5%;
+    
 }
 
 .subheader--normal {
@@ -790,6 +798,9 @@ background-color: var(--purple);
 
 }
 
+
+
+
 .subheader--expanded::-webkit-scrollbar {
 
     display: none;
@@ -829,23 +840,52 @@ background-color: var(--purple);
 .menu--expanded .header__buttons-div button {
 
     width: 100%;
+    text-align: left;
     background-color: var(--purple);
     border: 2px solid var(--purple-light);
     font-size: 1.3em;
+    padding-inline: 2.5%;
     color: white;
     line-height: 2.6em;
     transition: all 0.2s ease;
 }
 
+
+
+
+.menu__functionalities .bi.bi-arrow-left, .menu__functionalities .bi.bi-arrow-right, .menu__functionalities .bi.bi-sun-fill,
+.menu__functionalities .bi.bi-moon-fill {
+    
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+}
+
+.subheader--expanded i {
+
+    color: white;
+
+
+}
+
+.menu__functionalities .bi.bi-arrow-left:hover,
+.menu__functionalities .subheader--small:hover .bi.bi-arrow-right,
+.menu__functionalities .bi.bi-sun-fill:hover,
+.menu__functionalities .bi.bi-moon-fill:hover{
+
+color: var(--purple-light);
+
+}
+
 .menu--expanded .header__buttons-div button:hover {
 
     background-color: var(--purple-hover);
-    font-weight: bold;
 }
 
 .menu--expanded .header__buttons-div button:active {
 
-    background-color: var(--purple-light);
+    background-color: var(--purple-active);
 }
 
 .menu--expanded .note-list {
@@ -1673,20 +1713,7 @@ input[data-autocompleted] {
 
 }
 
-.subheader--normal .bi.bi-arrow-left,
-.subheader--expanded .bi.bi-arrow-left {
 
-    font-size: 1.5em;
-    cursor: pointer;
-
-}
-
-.subheader--expanded i {
-
-    color: white;
-
-
-}
 
 .tox .tox-collection--list .tox-collection__item--active {
     background-color: var(--purple-hover) !important;

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { ReactComponent as Sun } from "./Sun.svg";
-import { ReactComponent as Moon } from "./Moon.svg";
 import { setLightMode,setDarkMode, setUserTheme } from "./utils";
 const DarkMode = () => {
 
@@ -28,7 +26,7 @@ const DarkMode = () => {
                 onChange={(e)=>toggleTheme(e)}
             />
             <label className='dark_mode_label' for='darkmode-toggle'>
-                { selectedTheme === "dark" ? <Moon /> : <Sun />}
+                { selectedTheme === "dark" ? <i class="bi bi-moon-fill"></i> : <i class="bi bi-sun-fill"></i> }
                 
             </label>
         </div>

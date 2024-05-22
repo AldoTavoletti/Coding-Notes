@@ -66,7 +66,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
         <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
 
-
+            
             <div className="menu__functionalities">
 
                 { menuStatus === "normal" &&
@@ -89,7 +89,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                     (
                         <div className="subheader--small" onClick={ () => setMenuStatus("normal") }>
 
-                            <button className="arrow right"></button>
+                            <i className="bi bi-arrow-right"></i>
 
                         </div>
                     )
@@ -111,28 +111,12 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                                     <i class="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                                 </div>
 
-                                <button onClick={ () => setModalShowing("folder") }>Add a folder <i class="bi bi-folder-plus"></i></button>
-                                <button onClick={ () => setModalShowing("note") }>Add a note <i class="bi bi-file-plus"></i></button>
+                            <button onClick={ () => setModalShowing("folder") }><i class="bi bi-folder-plus"></i> Add a folder</button>
+                            <button onClick={ () => setModalShowing("note") }><i class="bi bi-file-plus"></i> Add a note</button>
                                 <hr />
 
-                                { window.innerWidth > 1000 ?
-
-                                    <div className="button-group">
-                                        <button onClick={ () => expandFolders() }>Expand All</button>
-                                        <button onClick={ () => collapseFolders() }>Collapse All</button>
-                                    </div>
-
-                                    :
-                                    <>
-                                        <button onClick={ () => expandFolders() }>Expand All</button>
-                                        <button onClick={ () => collapseFolders() }>Collapse All</button>
-                                    </>
-                                }
-
-
-
-                                
-
+                            <button onClick={ () => expandFolders() }><i class="bi bi-arrows-expand"></i> Expand All</button>
+                            <button onClick={ () => collapseFolders() }><i class="bi bi-arrows-collapse"></i> Collapse All</button>
 
                             </div>
 
