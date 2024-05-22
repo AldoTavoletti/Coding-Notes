@@ -1885,6 +1885,7 @@ input[data-autocompleted] {
     .menu:not(.menu--expanded) {
 
         flex-basis: 0%;
+        border: 0;
 
     }
 
