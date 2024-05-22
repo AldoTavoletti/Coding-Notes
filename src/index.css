@@ -208,12 +208,14 @@ button {
     overflow: hidden;
     white-space: nowrap;
 }
-.note-display__title::-webkit-scrollbar{
 
-width: 3px;
-min-width: 0;
+.note-display__title::-webkit-scrollbar {
+
+    width: 3px;
+    min-width: 0;
 
 }
+
 .note-display__title:empty::before,
 .note-display__body:empty::before {
     content: attr(data-placeholder);
@@ -352,8 +354,8 @@ min-width: 0;
     justify-content: space-between;
     align-items: center;
     height: 10dvh;
-        min-height: 60px;
-        max-height: 70px;
+    min-height: 60px;
+    max-height: 70px;
     width: 100%;
     padding: 0.5% 2%;
     border-bottom: 4px solid var(--purple);
@@ -425,9 +427,9 @@ min-width: 0;
     opacity: 1;
 }
 
-.myModal::-webkit-scrollbar{
+.myModal::-webkit-scrollbar {
 
-display: none;
+    display: none;
 
 }
 
@@ -495,9 +497,9 @@ display: none;
     transition: all .2s ease;
 }
 
-.login-container input[type="checkbox"]{
+.login-container input[type="checkbox"] {
 
-accent-color: var(--secondary-bg-color-hover);
+    accent-color: var(--secondary-bg-color-hover);
 
 }
 
@@ -744,7 +746,7 @@ accent-color: var(--secondary-bg-color-hover);
     background-color: var(--purple-active);
     border-right: 3px solid var(--purple);
     padding-bottom: 5%;
-    
+
 }
 
 .subheader--normal {
@@ -794,9 +796,9 @@ accent-color: var(--secondary-bg-color-hover);
     outline: 0;
 }
 
-.modal-header{
+.modal-header {
 
-background-color: var(--purple);
+    background-color: var(--purple);
 
 }
 
@@ -840,24 +842,33 @@ background-color: var(--purple);
 }
 
 .menu--expanded .header__buttons-div button {
-
+    display: flex;
+    gap: 2.5%;
     width: 100%;
     text-align: left;
     background-color: var(--purple);
     border: 2px solid var(--purple-light);
     font-size: 1.3em;
-    padding-inline: 2.5%;
-    color: white;
     line-height: 2.6em;
+    white-space: nowrap;
     transition: all 0.2s ease;
+}
+
+.menu--expanded .header__buttons-div button span {
+    /* with width 0 the animation is smoother */
+    width: 0;
+    color: white;
+    animation: load-note-animation 0.4s ease-in;
 }
 
 
 
 
-.menu__functionalities .bi.bi-arrow-left, .menu__functionalities .bi.bi-arrow-right, .menu__functionalities .bi.bi-sun-fill,
+.menu__functionalities .bi.bi-arrow-left,
+.menu__functionalities .bi.bi-arrow-right,
+.menu__functionalities .bi.bi-sun-fill,
 .menu__functionalities .bi.bi-moon-fill {
-    
+
     font-size: 1.5em;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -874,15 +885,34 @@ background-color: var(--purple);
 .menu__functionalities .bi.bi-arrow-left:hover,
 .menu__functionalities .subheader--small:hover .bi.bi-arrow-right,
 .menu__functionalities .bi.bi-sun-fill:hover,
-.menu__functionalities .bi.bi-moon-fill:hover{
+.menu__functionalities .bi.bi-moon-fill:hover {
 
-color: var(--purple-light);
+    color: var(--purple-light);
 
 }
 
-.menu--expanded .header__buttons-div button:hover {
+.menu--expanded .header__buttons-div button div {
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* set the flex basis to 0 so the animation works */
+    flex-basis: 0;
+    padding-inline: 6%;
     background-color: var(--purple-hover);
+    transition: all .2s ease;
+
+}
+
+.menu--expanded .header__buttons-div button:hover div {
+
+    flex-basis: 100%;
+}
+
+.menu--expanded .header__buttons-div button:hover span {
+display: none;
+
 }
 
 .menu--expanded .header__buttons-div button:active {
@@ -991,22 +1021,24 @@ hr {
     background-color: var(--hover-color) !important;
     border: 3px solid rgba(0, 0, 0, 0.178);
 }
-.main-header__buttons-div{
 
-display: flex;
-gap: 15%;
-width: 25%;
-height: 100%;
-align-items: center;
-justify-content: right;
+.main-header__buttons-div {
+
+    display: flex;
+    gap: 15%;
+    width: 25%;
+    height: 100%;
+    align-items: center;
+    justify-content: right;
+
+}
+
+.main-header__buttons-div .bi.bi-list {
+
+    font-size: 1.5em;
 
 }
 
-.main-header__buttons-div .bi.bi-list{
-
-font-size: 1.5em;
-
-}
 .account-button {
 
     width: 7dvh;
@@ -1034,7 +1066,7 @@ font-size: 1.5em;
     border-color: var(--purple-active);
     color: var(--purple-light);
     text-shadow: 0.3px 0 var(--purple-light), -0.3px 0 var(--purple-light), 0 0.3px var(--purple-light), 0 -0.3px var(--purple-light),
-            0.3px 0.3px var(--purple-light), -0.3px -0.3px var(--purple-light), 0.3px -0.3px var(--purple-light), -0.3px 0.3px var(--purple-light);
+        0.3px 0.3px var(--purple-light), -0.3px -0.3px var(--purple-light), 0.3px -0.3px var(--purple-light), -0.3px 0.3px var(--purple-light);
 
 }
 
@@ -1469,55 +1501,57 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 
 .dropdown-menu {
-        --bs-dropdown-zindex: 1000;
-        --bs-dropdown-min-width: 10rem;
-        --bs-dropdown-padding-x: 0;
-        --bs-dropdown-padding-y: 0rem;
-        --bs-dropdown-spacer: 0.125rem;
-        --bs-dropdown-font-size: 1em;
-        --bs-dropdown-color: var(--tertiary-bg-color);
-        --bs-dropdown-bg: var(--primary-bg-color);
-        --bs-dropdown-divider-bg: var(--tertiary-bg-color-active);
-        --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        --bs-dropdown-header-padding-x: 0.5rem;
-        --bs-dropdown-header-padding-y: 0.5rem;
-        position: absolute;
-        z-index: var(--bs-dropdown-zindex);
-        display: none;
-        min-width: var(--bs-dropdown-min-width);
-        max-width: 20dvw;
-        padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
-        margin: 0;
-        font-size: var(--bs-dropdown-font-size);
-        color: var(--bs-dropdown-color);
-        text-align: left;
-        list-style: none;
-        background-clip: padding-box;
-        border: 3px solid var(--purple-active);
-        border-radius: var(--bs-dropdown-border-radius);
-    }
-    .dropdown-menu .dropdown-header{
-        overflow: hidden;
-        white-space: nowrap;
+    --bs-dropdown-zindex: 1000;
+    --bs-dropdown-min-width: 10rem;
+    --bs-dropdown-padding-x: 0;
+    --bs-dropdown-padding-y: 0rem;
+    --bs-dropdown-spacer: 0.125rem;
+    --bs-dropdown-font-size: 1em;
+    --bs-dropdown-color: var(--tertiary-bg-color);
+    --bs-dropdown-bg: var(--primary-bg-color);
+    --bs-dropdown-divider-bg: var(--tertiary-bg-color-active);
+    --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --bs-dropdown-header-padding-x: 0.5rem;
+    --bs-dropdown-header-padding-y: 0.5rem;
+    position: absolute;
+    z-index: var(--bs-dropdown-zindex);
+    display: none;
+    min-width: var(--bs-dropdown-min-width);
+    max-width: 20dvw;
+    padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
+    margin: 0;
+    font-size: var(--bs-dropdown-font-size);
+    color: var(--bs-dropdown-color);
+    text-align: left;
+    list-style: none;
+    background-clip: padding-box;
+    border: 3px solid var(--purple-active);
+    border-radius: var(--bs-dropdown-border-radius);
+}
+
+.dropdown-menu .dropdown-header {
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    }
-    .dropdown-menu button{
+}
 
-        width: 100%;
-        text-align: left;
-        padding-left: 0.5rem;
-        background-color: transparent;
-        border: 0;
-        height: 5dvh;
-        min-height: 30px;
-        transition: all 0.2s ease;
-    }
+.dropdown-menu button {
 
-    .dropdown-menu button:hover{
+    width: 100%;
+    text-align: left;
+    padding-left: 0.5rem;
+    background-color: transparent;
+    border: 0;
+    height: 5dvh;
+    min-height: 30px;
+    transition: all 0.2s ease;
+}
 
-        background-color: var(--secondary-bg-color);
+.dropdown-menu button:hover {
 
-    }
+    background-color: var(--secondary-bg-color);
+
+}
 
 
 
@@ -2048,7 +2082,7 @@ input[data-autocompleted] {
 
 
     .menu--expanded .menu__functionalities {
-        width: 40%;
+        width: 50%;
 
     }
 
