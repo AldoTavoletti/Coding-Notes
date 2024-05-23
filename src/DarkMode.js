@@ -25,8 +25,8 @@ const DarkMode = () => {
                 id='darkmode-toggle'
                 onChange={(e)=>toggleTheme(e)}
             />
-            <label className='dark_mode_label' for='darkmode-toggle'>
-                { selectedTheme === "dark" ? <i class="bi bi-moon-fill"></i> : <i class="bi bi-sun-fill"></i> }
+            <label className='dark_mode_label' htmlFor='darkmode-toggle'>
+                { selectedTheme === "dark" ? <i className="bi bi-moon-fill"></i> : <i className="bi bi-sun-fill"></i> }
                 
             </label>
         </div>

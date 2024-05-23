@@ -57,7 +57,7 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
         :
         (
           <div className="note-display__message">
-            <i class="bi bi-journals"></i>
+            <i className="bi bi-journals"></i>
             <p className="">Choose a note!</p>
           </div>
         ) }

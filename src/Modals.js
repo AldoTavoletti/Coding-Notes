@@ -253,7 +253,7 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
                     onClick={ (e) => e.stopPropagation() }
                 >
 
-                    <div className="myModal__title">FOLDER</div>
+                    <div className="myModal__title">Add a folder</div>
 
                     <div className="myModal__body">
 
@@ -266,7 +266,8 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
                                         <div
                                             style={ { '--color': color.primary } } // create a css variable with the primary color of the folder
                                             className={ `color-box ${selectedColor === colorKeysArr[i] && "color-box--selected"}` }
-                                            onClick={ () => setSelectedColor(colorKeysArr[i]) }>
+                                            onClick={ () => setSelectedColor(colorKeysArr[i]) }
+                                            key={color.primary}>
                                             { selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }
                                         </div>
                                     );
@@ -298,14 +299,14 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
                     // when the modal is clicked, don't make the dim layer onClick get triggered
                     onClick={ (e) => e.stopPropagation() }
                 >
-                    <div className="myModal__title">NOTE</div>
+                    <div className="myModal__title">Add a note</div>
 
                     <div className="myModal__body">
 
 
                         <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } autoComplete="off" />
 
-                        <select name="folder-selection" value={noteFolderID} onChange={ (e) => setnoteFolderID(e.target.value) }>
+                        <select name="folder-selection" value={noteFolderID ? noteFolderID : ""} onChange={ (e) => setnoteFolderID(e.target.value) }>
                             { folders.map((folder, i) => (
 
                                 <option key={ folder.folderID } value={ folder.folderID } className="folder-selection__option">{ folder.folderName }</option>
@@ -330,19 +331,19 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
 
 
 
-            <div class="modal fade" id="deleteAccountModal" aria-labelledby="#deleteAccountModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete account</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="deleteAccountModal" aria-labelledby="#deleteAccountModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Delete account</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             {isLoggedIn}, do you confirm the deletion of this account?
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onClick={ () => deleteAccount() }>Delete account</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={ () => deleteAccount() }>Delete account</button>
                         </div>
                     </div>
                 </div>

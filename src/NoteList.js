@@ -2,6 +2,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { getContrastColor, openMenu } from "./utils";
 import { useRef, useState } from "react";
 import { URL, folderColors } from "./utils";
+import React from "react";
 
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle }) => {
@@ -18,15 +19,16 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
     // "revalidateIfStale:false" makes sure the noteList does not get revalidated everytime we reopen the menu
     const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher, {
-        revalidateIfStale: false });
+        revalidateIfStale: false
+    });
 
     // this mutate is global, meaning I can mutate other URLs (in this case, the one that retrieves data relative to the current note)
     const { mutate } = useSWRConfig();
 
 
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
-    if (isValidating) return (<div class="center-container">
-        <div class="spinner-grow" role="status">
+    if (isValidating) return (<div className="center-container">
+        <div className="spinner-grow" role="status">
         </div>
     </div>);
 
@@ -62,7 +64,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         mutate(URL + `?retrieve=single&note=${currentNote}`);
 
         // if the menu isn't already in normal status, set it to be
-        (menuStatus !== "normal" || menuStatus !== "hamburger") && setMenuStatus(window.innerWidth < 769 ? "hamburger":"normal");
+        (menuStatus !== "normal" || menuStatus !== "hamburger") && setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
 
         // save the index of the current note in the prevNoteIndex ref
         prevNoteIndex.current = [folderIndex, noteIndex];
@@ -111,19 +113,20 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
             { folders && folders.map((folder, folderIndex) => (
 
-                <>
-                    <div className="accordion" onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } key={ folder.folderID } id={ "accordion" + folderIndex } >
+                // I use React.Fragment (which is the same as <>) to add the key value
+                <React.Fragment key={ folder.folderID }>
+                    <div className="accordion" onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } id={ "accordion" + folderIndex } >
                         <div className="accordion-item">
 
                             <h2 className="accordion-header">
 
                                 <button className="accordion-button collapsed" style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                                     { folder.folderName }
-                                    <button
-                                        class="non-collapsing" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
-                                        onClick={ (e) => setModalShowing({ noteFolderID: folder.folderID })} //open the note
+                                    <span
+                                        className="non-collapsing" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
+                                        onClick={ (e) => setModalShowing({ noteFolderID: folder.folderID }) } //open the note
                                         style={ { '--hover-color': getContrastColor(folderColors[folder.color].secondary), color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } // set a style variable relative to the note color and set a visible text color 
-                                    >+</button>
+                                    >+</span>
                                 </button>
                             </h2>
 
@@ -157,7 +160,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
                                             <div className="empty-folder-content" style={ { backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } }>
 
-                                                <p>This folder is empty! <i class="bi bi-folder2-open"></i></p>
+                                                <p>This folder is empty! <i className="bi bi-folder2-open"></i></p>
 
                                             </div>
                                         ) }
@@ -167,10 +170,10 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                     </div>
 
                     {/* a horizontal line between folders */ }
-                    { folderIndex !== folders.length - 1 && <hr/> }
+                    { folderIndex !== folders.length - 1 && <hr /> }
 
 
-                </>
+                </React.Fragment>
 
             )) }
 

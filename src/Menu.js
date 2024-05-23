@@ -75,7 +75,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
                             <button className="primary-button" onClick={ () => setMenuStatus("expanded") }>manage</button>
-                            <i class="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
+                            <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
                         </div>
                     )
                 }
@@ -108,16 +108,16 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                                 <div className="button-group" style={ { marginTop: "10px" } }>
                                     <DarkMode />
-                                    <i class="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
+                                    <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                                 </div>
 
-                            <button onClick={ () => setModalShowing("folder") }><div><i class="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
-                            <button onClick={ () => setModalShowing("note") }><div><i class="bi bi-file-plus"></i></div><span>Add a note</span></button>
+                            <button onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
+                            <button onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
                                 <hr />
 
-                            <button onClick={ () => expandFolders() }><div><i class="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
-                            <button onClick={ () => collapseFolders() }><div><i class="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
+                            <button onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
+                            <button onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
 
                             </div>
 

@@ -1,8 +1,8 @@
 const LoadingScreen = () => {
     return ( 
 
-        <div class="center-container">
-            <div class="spinner-grow" role="status">
+        <div className="center-container">
+            <div className="spinner-grow" role="status">
             </div>
         </div>
 
