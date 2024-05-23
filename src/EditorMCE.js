@@ -91,7 +91,7 @@ const EditorMCE = ({ currentNote }) => {
 
                 },
                 mobile:{
-                    menubar:true,
+                    menubar:window.innerWidth > 360 ? true:false,
                 },
                 license_key: 'gpl',
                 promotion: false, // get rid of "upgrade" button

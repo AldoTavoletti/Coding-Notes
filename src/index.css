@@ -634,7 +634,9 @@ button {
 }
 
 .color-box {
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 7dvh;
     min-height: 40px;
     min-width: 40px;
@@ -683,7 +685,7 @@ button {
 
 .bi.bi-check-lg {
 
-    color: var(--tertiary-bg-color);
+    color: var(--purple);
 
 }
 
@@ -915,7 +917,7 @@ display: none;
 
 }
 
-.menu--expanded .header__buttons-div button:active {
+.menu--expanded .header__buttons-div button:active div {
 
     background-color: var(--purple-active);
 }
