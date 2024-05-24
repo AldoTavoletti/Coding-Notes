@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { URL } from "./utils";
+import { URL } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';

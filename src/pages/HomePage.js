@@ -1,11 +1,11 @@
 
 import { useNavigate } from "react-router-dom";
-import Menu from "./Menu";
-import NoteDisplay from "./NoteDisplay";
-import { URL } from "./utils";
+import Menu from "../components/Menu";
+import NoteDisplay from "../components/NoteDisplay";
+import { URL } from "../utils/utils";
 import { useSWRConfig } from "swr";
-import Header from "./Header";
-import Modals from "./Modals";
+import Header from "../components/Header";
+import Modals from "../components/Modals";
 
 import { useEffect, useRef, useState } from "react";
 import LoadingScreen from "./LoadingScreen";

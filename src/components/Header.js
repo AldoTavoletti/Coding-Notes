@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { URL } from "./utils";
-import { simplePatchCall, logout } from "./utils";
+import { URL } from "../utils/utils";
+import { simplePatchCall, logout } from "../utils/utils";
 import useSWR from "swr";
 const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
 

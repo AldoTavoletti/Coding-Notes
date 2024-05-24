@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
-import { URL } from "./utils";
-import { simplePatchCall } from "./utils";
-import "./prism";
-import "./prism.css";
+import { URL } from "../utils/utils";
+import { simplePatchCall } from "../utils/utils";
+import "../prism/prism.css";
+import "../prism/prism";
 const EditorMCE = ({ currentNote }) => {
 
     // used to keep track of the saved content and decide wether a patch call should be executed

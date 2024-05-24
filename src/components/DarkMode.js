@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { setLightMode,setDarkMode, setUserTheme } from "./utils";
+import { setLightMode,setDarkMode, setUserTheme } from "../utils/utils";
 const DarkMode = () => {
 
     const [selectedTheme,setSelectedTheme] = useState(localStorage.getItem("selectedTheme"));

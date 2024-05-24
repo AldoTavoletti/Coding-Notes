@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { useEffect, useState } from "react";
-import { URL, folderColors, logout } from "./utils";
+import { URL, folderColors, logout } from "../utils/utils";
 
 const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
 

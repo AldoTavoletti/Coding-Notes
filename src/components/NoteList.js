@@ -1,7 +1,7 @@
 import useSWR, { useSWRConfig } from "swr";
-import { getContrastColor, openMenu } from "./utils";
+import { getContrastColor, openMenu } from "../utils/utils";
 import { useRef, useState } from "react";
-import { URL, folderColors } from "./utils";
+import { URL, folderColors } from "../utils/utils";
 import React from "react";
 
 

@@ -1,12 +1,12 @@
-import HomePage from "./HomePage";
-import Login from "./Login";
-import Page404 from "./Page404";
-import { setUserTheme } from "./utils";
+import HomePage from "./pages/HomePage";
+import Login from "./pages/Login";
+import Page404 from "./pages/Page404";
+import { setUserTheme } from "./utils/utils";
 
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { URL } from "./utils";
+import { URL } from "./utils/utils";
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
