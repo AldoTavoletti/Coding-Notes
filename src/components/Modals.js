@@ -89,15 +89,6 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
     const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, { revalidateOnFocus: false, revalidateIfStale: false });
 
 
-    //|| this useEffect cannot be put elsewhere
-    useEffect(() => {
-
-        
-
-
-    }, [folders]);
-
-
     // Handles error and loading state. Without these useSWR wouldn't work
     if (error) return (<div></div>);
     if (isValidating) return (<div></div>);
@@ -330,7 +321,7 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
             </div>
 
 
-
+            {/* delete account modal */}
             <div className="modal fade" id="deleteAccountModal" aria-labelledby="#deleteAccountModal" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

@@ -1532,7 +1532,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 90dvh;
+    height: 100dvh;
 
 }
 
@@ -1744,7 +1744,7 @@ input[data-autocompleted] {
 
 
 
-.ripple-background {
+.login-page .ripple-background {
     display: flex;
     padding-right: 5%;
     padding-top: 2.5%;

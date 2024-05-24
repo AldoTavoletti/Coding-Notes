@@ -61,8 +61,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
         <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
 
-
-
             { menuStatus === "expanded" &&
                 (
                     <div className="menu__toolbar menu__toolbar--expanded">

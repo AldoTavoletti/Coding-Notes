@@ -68,16 +68,17 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
      */
     const lastCheckedWidth = useRef();
 
-    if (isLoggedIn === null) /* loading screen as soon as you get into the website */ {
+    if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
         return (<div className="full-height-container"><LoadingScreen /></div>);
     }
 
 
     window.addEventListener("resize", () => {
+
         clearTimeout(timeoutID.current);
         timeoutID.current = setTimeout(() => {
 
-            if (lastCheckedWidth.current !== window.innerWidth) {
+            if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */{
                 
                 if (window.innerWidth < 769) {
                     
@@ -89,9 +90,12 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
                     
                     
                 }
+                
+                // save this width
+                lastCheckedWidth.current = window.innerWidth;
             }
-            lastCheckedWidth.current = window.innerWidth;
 
+            
         }, 200);
 
     });

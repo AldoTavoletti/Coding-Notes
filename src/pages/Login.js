@@ -39,8 +39,6 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
     });
 
-
-
     /**
      * @note classic login
      */
@@ -62,7 +60,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify({ username: username, password: password, remember:rememberMe.current.checked,action: "login" }),
+                body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "login" }),
 
             }).then(res => {
 
@@ -122,7 +120,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
         } else if (hasSymbol !== true) {
 
             setError("The password should contain at least 1 symbol");
-            
+
         } else if (password2 !== password) /* if the 2 passwords are not the same */ {
 
             setError("the passwords are not the same");
@@ -244,7 +242,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify({ code: codeResponse.code, remember: rememberMe.current.checked}),
+                body: JSON.stringify({ code: codeResponse.code, remember: rememberMe.current.checked }),
                 headers: { 'Content-Type': 'application/json' }
 
             }).then(res => {
@@ -305,15 +303,24 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
     };
 
+    /**
+     * 
+     * @param {String} string 
+     * @returns 
+     */
     const checkSymbol = (string) => {
+
         if (string.length === 0) {
+
             setHasSymbol(null);
             return;
+
         }
-        /[\W_]/.test(string) ? 
-        hasSymbol !== true && setHasSymbol(true) 
-        : 
-        hasSymbol !== false && setHasSymbol(false);
+
+        /[\W_]/.test(string) ?
+            hasSymbol !== true && setHasSymbol(true)
+            :
+            hasSymbol !== false && setHasSymbol(false);
 
 
 
@@ -388,34 +395,34 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                         className="password-toggle-icon"
                         onClick={ () => togglePassword(setShowPassword1, showPassword1) }
                     >{ showPassword1 ? <FaEyeSlash /> : <FaEye /> }</span>
-                    </div>
-        <div className={`conditions-container ${wantsLogin && "disappear" }`}>
+                </div>
+                <div className={ `conditions-container ${wantsLogin && "disappear"}` }>
                     {/* the condition (8 char long) */ }
-                        <span
-                            className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` } // switch the color based on the length of the password
-                        >• 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span>
+                    <span
+                        className={ `password-condition ${isLongEnough === true ? "password-condition--green" : isLongEnough === false && "password-condition--red"}` } // switch the color based on the length of the password
+                    >• 8 characters long { isLongEnough === true ? "✓" : isLongEnough === false && "✕" }</span>
 
-                        <span
-                            className={ `password-condition ${hasCapital === true ? "password-condition--green" : hasCapital === false && "password-condition--red"}` } // switch the color based on the length of the password
-                        >• 1 capital letter { hasCapital === true ? "✓" : hasCapital === false && "✕" }</span> 
+                    <span
+                        className={ `password-condition ${hasCapital === true ? "password-condition--green" : hasCapital === false && "password-condition--red"}` } // switch the color based on the length of the password
+                    >• 1 capital letter { hasCapital === true ? "✓" : hasCapital === false && "✕" }</span>
 
-                        <span
-                            className={ `password-condition ${hasSymbol === true ? "password-condition--green" : hasSymbol === false && "password-condition--red"}` } // switch the color based on the length of the password
-                        >• 1 symbol { hasSymbol === true ? "✓" : hasSymbol === false && "✕" }</span>
+                    <span
+                        className={ `password-condition ${hasSymbol === true ? "password-condition--green" : hasSymbol === false && "password-condition--red"}` } // switch the color based on the length of the password
+                    >• 1 symbol { hasSymbol === true ? "✓" : hasSymbol === false && "✕" }</span>
 
                 </div>
                 {/* password 2 container */ }
-                <div className={`password-container ${ wantsLogin && "disappear" }`}>
+                <div className={ `password-container ${wantsLogin && "disappear"}` }>
 
                     {/*the confirm password input gets shown/hidden using an animation, that's why it's always mounted */ }
                     <input
                         ref={ confirmPasswordRef }
                         type={ showPassword2 ? "text" : "password" }
                         placeholder="Confirm Password..."
-                        onChange={ (e) => setPassword2(e.target.value) } 
+                        onChange={ (e) => setPassword2(e.target.value) }
                         maxLength="255"
-                        />
-                        
+                    />
+
 
                     {/* the eye */ }
                     { !wantsLogin &&
@@ -427,14 +434,12 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                 </div>
 
                 <div className="checkbox-container">
-                <input type="checkbox" id="rememberme" ref={rememberMe}/>
-                <label htmlFor="rememberme">Remember me</label>
+                    <input type="checkbox" id="rememberme" ref={ rememberMe } />
+                    <label htmlFor="rememberme">Remember me</label>
                 </div>
 
                 {/* if an error is fired, it's shown here */ }
                 { error && <p className="login-container__error">{ error }</p> }
-
-
 
 
                 <div className="login-container__buttons">
@@ -468,17 +473,18 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                     </div>
 
-                 
+
                 </div>
 
-                
+
 
             </div>
+
+            {/* background */ }
             <div className="ripple-background">
 
                 <div className="circle xxlarge shade1"></div>
                 <div className="circle xlarge shade2"></div>
-
                 <div className="circle large shade3"></div>
                 <div className="circle medium shade4"></div>
                 <div className="circle small shade5"></div>
