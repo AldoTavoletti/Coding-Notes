@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { setLightMode, setDarkMode } from "../utils/utils";
 
-const DarkMode = () => {
+const Theme = () => {
 
     // get the selectedTheme, saved in the localStorage
     const [selectedTheme, setSelectedTheme] = useState(localStorage.getItem("selectedTheme"));
@@ -27,19 +27,19 @@ const DarkMode = () => {
     // setUserTheme();
 
     return (
-        <div className='dark-mode'>
+        <div className='theme-div'>
             <input
-                className='dark-mode__input'
+                className='theme-div__input'
                 type='checkbox'
                 defaultChecked={ selectedTheme !== "light" } // if it's dark or if it's null, make it checked
-                id='darkmode-toggle'
+                id='theme-toggle'
                 onChange={ (e) => toggleTheme(e) }
             />
-            <label className='dark_mode__label' htmlFor='darkmode-toggle'>
+            <label className='theme-div__label' htmlFor='theme-toggle'>
                 { selectedTheme === "light" ? <i className="bi bi-sun-fill"></i> : <i className="bi bi-moon-fill"></i> }
             </label>
         </div>
     );
 };
 
-export default DarkMode;
+export default Theme;

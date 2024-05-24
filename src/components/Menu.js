@@ -1,6 +1,6 @@
 import NoteList from "./NoteList";
 
-import DarkMode from "./DarkMode";
+import Theme from "./Theme";
 
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle}) => {
 
@@ -107,7 +107,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <div className="header__buttons-div">
 
                                 <div className="button-group" style={ { marginTop: "10px" } }>
-                                    <DarkMode />
+                                    <Theme />
                                     <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                                 </div>
 

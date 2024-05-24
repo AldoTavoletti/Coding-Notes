@@ -1888,18 +1888,18 @@ input[data-autocompleted] {
     }
 }
 
-.dark-mode {
+.theme-div {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.dark-mode__label {
+.theme-div__label {
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.dark-mode__input {
+.theme-div__input {
     width: 0;
     height: 0;
     visibility: hidden;
