@@ -2,7 +2,7 @@ import NoteList from "./NoteList";
 
 import DarkMode from "./DarkMode";
 
-const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, setIsLoggedIn, isLoggedIn }) => {
+const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle}) => {
 
     
 

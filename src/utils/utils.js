@@ -1,16 +1,30 @@
 import { getLuminance } from 'polished';
 
+/*
+ this is the main endpoint to the backend. Index.php has a switch statement that
+ redirects different requests based on the HTTP method. So every HTTP method has its own
+ handler. EX: if I make a POST request to index.php, this will be elaborated to the post_handler.php file
+ */
 export const URL = "https://coding-notes-backend.onrender.com/index.php";
 
-
-
-
-export const folderColors = { black: { primary: "#202020", secondary: "#2b2a2a" }, green: { primary: "#03b703", secondary: "#5cad5c" }, red: { primary: "#c21a1a", secondary: "#ff4b4b" }, blue: { primary: "#4d94ff", secondary: "#6ca7ff" }, yellow: { primary: "#e7e731", secondary:"#dfdf77"}};
-
-
+/* 
+these are the colors used for folders and their notes. 
+This approach makes it possible to change the hex-code of the colors without causing any problem,
+since in the DB only the name of the color is saved. That means if I change the hex-code of black, all black folders 
+will be different, and I can do it all just by changing this object.
+*/
+export const folderColors = {
+    black: { primary: "#202020", secondary: "#2b2a2a" },
+    green: { primary: "#03b703", secondary: "#5cad5c" },
+    red: { primary: "#c21a1a", secondary: "#ff4b4b" },
+    blue: { primary: "#4d94ff", secondary: "#6ca7ff" },
+    yellow: { primary: "#e7e731", secondary: "#dfdf77" }
+};
 /**
-         * @note handles the user's logout
-         */
+ * 
+ * @param {Function} setState it's the isLoggedIn setState function
+ * @param {*} value it's the value that the isLoggedIn state will be set to 
+ */
 export const logout = (setState, value) => {
 
     fetch(URL + "?logout=true", {
@@ -37,17 +51,6 @@ export const logout = (setState, value) => {
 
 };
 
-/**
- * 
- * @param {*} state 
- * @param {Function} setMethod 
- * @param {*} value 
- */
-export const switchState = (state, setMethod, value = !state) => {
-
-    setMethod(value);
-
-};
 
 /**
  * 
@@ -71,10 +74,10 @@ export const getContrastColor = (backgroundColor) => {
  * @param {Function} setMethod 
  * @param {number} elementID 
  * @param {string} elementType 
- * @note it open the context menu
+ * @note it opens the context menu
  */
-export const openMenu = (e, setMethod, elementID, elementType, folderName=null, folderColor = null) => {
-    
+export const openMenu = (e, setMethod, elementID, elementType, folderName = null, folderColor = null) => {
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -82,8 +85,13 @@ export const openMenu = (e, setMethod, elementID, elementType, folderName=null, 
 
 };
 
+/**
+ * 
+ * @param {Object} obj
+ * @note used to make patch calls 
+ */
 export const simplePatchCall = (obj) => {
-    console.log(obj);
+
     fetch(URL, {
 
         method: "PATCH",
@@ -98,45 +106,57 @@ export const simplePatchCall = (obj) => {
         return res.json();
 
 
-    }).then(data => {
-
     }).catch(err => console.log(err));
-    
-
-}
 
 
+};
+
+/**
+ * @note set the dark mode
+ */
 export const setDarkMode = () => {
 
+    // set the data-theme attribute of the body to dark, so that css style changes
     document.body.setAttribute("data-theme", "dark");
 
+    // to make sure the same thing happens for the editorMCE, I retrieve the iframe and do the same thing for the contentDocument's body
     const iframe = document.querySelector('iframe');
-
     iframe && iframe.contentDocument.body.setAttribute("data-theme", "dark");
 
+    // save the selectedTheme in localStorage
     localStorage.setItem("selectedTheme", "dark");
 
 };
 
+/**
+ * @note set the light mode
+ */
 export const setLightMode = () => {
 
+    // set the data-theme attribute of the body to light, so that css style changes
     document.body.setAttribute("data-theme", "light");
-    const iframe = document.querySelector('iframe');
 
+    // to make sure the same thing happens for the editorMCE, I retrieve the iframe and do the same thing for the contentDocument's body
+    const iframe = document.querySelector('iframe');
     iframe && iframe.contentDocument.body.setAttribute("data-theme", "light");
+
+    // save the selectedTheme in localStorage
     localStorage.setItem("selectedTheme", "light");
 
 };
 
-export const setUserTheme = ()=>{
+/**
+ * @note set the chosen theme
+ */
+export const setUserTheme = () => {
 
+    // get the value previously chosen
     const selectedTheme = localStorage.getItem("selectedTheme");
 
+    // since dark mode is the default one, I just gotta check if it's light, otherwise just keep the dark-mode (even if the selectedTheme is null)
     if (selectedTheme === "light") {
+
         setLightMode();
-    }else if (!selectedTheme) {
-        
-        setDarkMode();
 
     }
-}
+};

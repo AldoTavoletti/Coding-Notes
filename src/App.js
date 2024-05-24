@@ -15,7 +15,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   /**
-   * @note check if the user is logged in (checks if $_SESSION["userID"]  or a rememberme cookie is set)
+   * @note check if the user is logged in (checks if $_SESSION["userID"] or a rememberme cookie is set)
    */
   const checkLoggedIn = () => {
 
@@ -25,7 +25,7 @@ function App() {
       credentials: "include"
 
     }).then(res => {
-      console.log(res);
+
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -33,8 +33,7 @@ function App() {
 
 
     }).then(data => {
-      console.log(data);
-      
+
       data["code"] === 200 ? setIsLoggedIn(data["username"]) : setIsLoggedIn(false);
 
 
@@ -50,25 +49,26 @@ function App() {
 
   }
 
+  // set the userTheme
   setUserTheme();
 
   return (
 
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} /* this could be public but I decided to put it in the .env file anyway */>
-
+    <GoogleOAuthProvider clientId={ process.env.REACT_APP_GOOGLE_CLIENT_ID } /* this could be public but I decided to put it in the .env file anyway */>
 
       <div className="app">
 
         <BrowserRouter>
           <Routes>
 
-            <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn }/> } />
-            <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn }/> } />
+            <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
+            <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
             <Route path="*" element={ <Page404 /> } />
 
           </Routes>
         </BrowserRouter>
       </div>
+
     </GoogleOAuthProvider>
   );
 }

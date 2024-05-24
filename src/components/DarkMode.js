@@ -1,33 +1,42 @@
 import React, { useState } from "react";
-import { setLightMode,setDarkMode, setUserTheme } from "../utils/utils";
+import { setLightMode, setDarkMode } from "../utils/utils";
+
 const DarkMode = () => {
 
-    const [selectedTheme,setSelectedTheme] = useState(localStorage.getItem("selectedTheme"));
+    // get the selectedTheme, saved in the localStorage
+    const [selectedTheme, setSelectedTheme] = useState(localStorage.getItem("selectedTheme"));
 
-    const toggleTheme = (e)=>{
-        if (e.target.checked) {
-            setDarkMode()  
-            setSelectedTheme("dark"); 
-        }else{
-         setLightMode();
-         setSelectedTheme("light");
+    /**
+     * 
+     * @param {Event} e 
+     */
+    const toggleTheme = (e) => {
+        if (e.target.checked) /* if the theme has to be switched to dark */ {
+
+            setDarkMode();
+            setSelectedTheme("dark");
+
+        } else  /* if the theme has to be switched to light */ {
+
+            setLightMode();
+            setSelectedTheme("light");
+
         }
-    }
+    };
 
-    setUserTheme();
+    // setUserTheme();
 
     return (
-        <div className='dark_mode'>
+        <div className='dark-mode'>
             <input
-                className='dark_mode_input'
+                className='dark-mode__input'
                 type='checkbox'
-                defaultChecked={selectedTheme === "dark"}
+                defaultChecked={ selectedTheme !== "light" } // if it's dark or if it's null, make it checked
                 id='darkmode-toggle'
-                onChange={(e)=>toggleTheme(e)}
+                onChange={ (e) => toggleTheme(e) }
             />
-            <label className='dark_mode_label' htmlFor='darkmode-toggle'>
-                { selectedTheme === "dark" ? <i className="bi bi-moon-fill"></i> : <i className="bi bi-sun-fill"></i> }
-                
+            <label className='dark_mode__label' htmlFor='darkmode-toggle'>
+                { selectedTheme === "light" ? <i className="bi bi-sun-fill"></i> : <i className="bi bi-moon-fill"></i> }
             </label>
         </div>
     );

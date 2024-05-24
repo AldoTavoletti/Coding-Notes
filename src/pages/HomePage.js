@@ -105,9 +105,13 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             <div className="home-page">
 
-                <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } isLoggedIn={isLoggedIn} setIsLoggedIn={ setIsLoggedIn } />
+                <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing }/>
 
-                {/* the noteDisplay is always mounted, even if the menu is expanded, so that when the menu gets closed EditorMCE doesn't have to reload. Everything is much smoother this way */ }
+                {/* the noteDisplay gets unmounted when the menu is expanded. This means:
+                - when the menu gets expanded and then it gets set to normal again, the note has to reload.
+                - since the note reloads everytime, if the theme gets changed in the expanded menu every color will be fine. If the component wasn't getting unmounted, the skin of the editor wouldn't be able to change. Maybe something could have been done with css though.
+                - if the note contains a lot of text, unmounting it makes the expanding of the menu's animation much smoother. 
+                */ }
                 { menuStatus !== "expanded" && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
 
             </div>

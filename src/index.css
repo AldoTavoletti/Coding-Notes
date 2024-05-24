@@ -1888,26 +1888,21 @@ input[data-autocompleted] {
     }
 }
 
-.dark_mode {
+.dark-mode {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.dark_mode_label {
+.dark-mode__label {
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.dark_mode_input {
+.dark-mode__input {
     width: 0;
     height: 0;
     visibility: hidden;
-}
-
-.dark_mode_label svg {
-    width: 1.5em;
-    fill: #fff;
 }
 
 
