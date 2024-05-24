@@ -14,7 +14,7 @@
     "react-icons": "^5.0.1",
     "react-scripts": "5.0.1",
     "swr": "^2.2.4",
-        "tinymce": "^7.0.1"
+    "tinymce": "^7.0.1"
 
   },
   "scripts": {
@@ -22,7 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postinstall": "node ./postinstall.js"
+    "postinstall": "node ./utils/postinstall.js"
   },
   "eslintConfig": {
     "extends": [
