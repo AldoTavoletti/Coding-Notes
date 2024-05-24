@@ -1,5 +1,3 @@
-// this was used to include tinymce
-
 const fse = require('fs-extra');
 const path = require('path');
 const topDir = __dirname;
