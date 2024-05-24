@@ -205,13 +205,13 @@ button {
     font-weight: bold;
     outline: 0;
     width: 70%;
-    overflow: hidden;
+    overflow: auto;
     white-space: nowrap;
 }
 
 .header__title::-webkit-scrollbar {
 
-    height: 2px;
+    height: 0;
 
 }
 
