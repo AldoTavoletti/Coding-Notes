@@ -43,7 +43,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
                 <p
                     contentEditable="true"
                     suppressContentEditableWarning={ true }
-                    // onDragStart={ (e) => e.preventDefault() }
+                    onDragStart={ (e) => e.preventDefault() }
                     data-placeholder="Title..."
                     className="header__title"
                     // onKeyDown={ (e) => (e.currentTarget.offsetWidth > (header.current.offsetWidth / 1.2) && /^.$/.test(e.key)) && e.preventDefault() }
