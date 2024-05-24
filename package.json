@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postinstall": "node ./postinstall.js"
+    "postinstall": "node ./utils/postinstall.js"
   },
   "eslintConfig": {
     "extends": [
