@@ -117,7 +117,7 @@ const EditorMCE = ({ currentNote }) => {
                 ui_mode: "split", // without this toolbar_sticky doesn't work
                 autosave_interval: "1s",
                 autosave_retention: '1m', //not working i think
-
+                contextmenu:false,
                 autosave_prefix: 'tinymce-autosave-' + note.noteID,
                 fullscreen_native: true,
                 skin: localStorage.getItem("selectedTheme") === "dark" ? "oxide-dark" : "oxide", //makes the codesample and the menu's text color right
@@ -249,6 +249,7 @@ const EditorMCE = ({ currentNote }) => {
                 ],
                 statusbar: false, // removes a line at the end of the editor
                 quickbars_insert_toolbar: false, // gets rid of the inline toolbar shown when just clicking on an empty line, I only want the selection toolbar activated
+                quickbars_link_toolbar:false,
                 quickbars_selection_toolbar: 'bold italic forecolor backcolor' // inline toolbar shown on selection
             } }
         />
