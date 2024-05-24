@@ -70,16 +70,16 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <Theme />
                             <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                         </div>
-                    { window.innerWidth < 769 &&
-                        <button  onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
+                        { window.innerWidth < 769 &&
+                            <button onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
 
-                    }
+                        }
                         <button onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
                         <button onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
-                        {window.innerWidth >= 769 &&
-                        <>
-                        <hr />
+                        { window.innerWidth >= 769 &&
+                            <>
+                                <hr />
 
                                 <button onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
                                 <button onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>

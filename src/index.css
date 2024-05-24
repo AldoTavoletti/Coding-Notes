@@ -64,7 +64,7 @@ body {
 .home-page {
 
     display: flex;
-    height: 90dvh;
+    height: calc(100dvh - min(10dvh, 70px));
     max-height: calc(100dvh - 60px);
 }
 
@@ -1767,7 +1767,11 @@ input[data-autocompleted] {
         border: 0;
 
     }
+    .menu__toolbar--expanded{
 
+        border: 0;
+
+    }
     .menu--expanded {
 
         flex-basis: 100%;

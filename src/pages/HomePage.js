@@ -83,11 +83,22 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 if (window.innerWidth < 769) {
 
-                    menuStatus !== "hamburger" && menuStatus !== "expanded" && setMenuStatus("hamburger");
+                    if (menuStatus !== "hamburger") {
 
-                } else {
+                        if (menuStatus !== "expanded" && menuStatus !== "only-notelist") {
 
-                    menuStatus === "hamburger" && setMenuStatus("hidden");
+                            setMenuStatus("hamburger");
+                            
+                        } else {
+
+                            setMenuStatus("only-notelist");
+
+                        }
+                    }
+
+                } else if (lastCheckedWidth.current < window.innerWidth){
+
+                    (menuStatus === "hamburger" || menuStatus === "only-notelist" || menuStatus === "expanded") && setMenuStatus("hidden");
 
 
                 }
@@ -97,7 +108,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
             }
 
 
-        }, 200);
+        }, 1);
 
     });
 
