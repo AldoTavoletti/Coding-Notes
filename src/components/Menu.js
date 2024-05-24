@@ -62,14 +62,13 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
         <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
 
 
-            <div className="menu__functionalities">
 
                 { menuStatus === "expanded" &&
                     (
-                        <div className="subheader--expanded">
+                        <div className="menu__toolbar menu__toolbar--expanded">
 
 
-                                <div className="button-group" style={ { marginTop: "10px" } }>
+                                <div className="button-group">
                                     <Theme />
                                     <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                                 </div>
@@ -89,8 +88,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                 { menuStatus === "normal" &&
                     (
-                        <div className="subheader--normal">
-
+                <div className="menu__toolbar menu__toolbar--normal">
 
                             <button className="primary-button" onClick={ () => setMenuStatus("expanded") }>manage</button>
                             <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
@@ -100,7 +98,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                 { menuStatus === "hidden" &&
                     (
-                        <div className="subheader--small" onClick={ () => setMenuStatus("normal") }>
+                <div className="menu__toolbar menu__toolbar--small" onClick={ () => setMenuStatus("normal") }>
 
                             <i className="bi bi-arrow-right"></i>
 
@@ -108,14 +106,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                     )
                 }
 
-
-
-
-
-
-
-
-            </div>
 
 
 

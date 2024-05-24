@@ -248,7 +248,7 @@ button {
 }
 
 
-.subheader--small {
+.menu__toolbar--small {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -259,7 +259,7 @@ button {
     transition: all 0.2s ease;
 }
 
-.subheader--small:hover {
+.menu__toolbar--small:hover {
 
     background-color: var(--secondary-bg-color);
 
@@ -716,7 +716,7 @@ button {
 }
 
 
-.menu__functionalities {
+.menu__toolbar {
 
     z-index: 4;
     position: sticky;
@@ -725,16 +725,9 @@ button {
 }
 
 
-.menu--expanded .menu__functionalities {
+.menu--expanded .menu__toolbar {}
 
-    width: 30%;
-    background-color: var(--purple-active);
-    border-right: 3px solid var(--purple);
-    padding-bottom: 5%;
-
-}
-
-.subheader--normal {
+.menu__toolbar--normal {
     padding-inline: 5%;
     height: 88.6px;
     width: 100%;
@@ -790,21 +783,28 @@ button {
 
 
 
-.subheader--expanded::-webkit-scrollbar {
+.menu__toolbar--expanded::-webkit-scrollbar {
 
     display: none;
 }
 
-.subheader--expanded {
+.menu__toolbar--expanded {
+    height: 100%;
+    width: 30%;
+    
     display: flex;
     flex-direction: column;
-    overflow: auto;
-    padding-inline: 6%;
-    padding-block: 2.5%;
-    row-gap: 2%;
-    height: 100%;
     align-items: center;
-    width: 100%;
+    
+    row-gap: 2%;
+    overflow: auto;
+
+    padding-inline: 2.5%;
+    padding-block: 2%;
+    
+    background-color: var(--purple-active);
+    border-right: 3px solid var(--purple);
+    
     transition: background-color 0.2s ease, color 0.2s ease;
 
 }
@@ -816,7 +816,7 @@ button {
     width: 100%;
 }
 
-.menu--expanded .subheader--expanded button {
+.menu__toolbar--expanded button {
     display: flex;
     gap: 2.5%;
     width: 100%;
@@ -829,7 +829,7 @@ button {
     transition: all 0.2s ease;
 }
 
-.menu--expanded .subheader--expanded button span {
+.menu__toolbar--expanded button span {
     /* with width 0 the animation is smoother */
     width: 0;
     color: white;
@@ -839,10 +839,10 @@ button {
 
 
 
-.menu__functionalities .bi.bi-arrow-left,
-.menu__functionalities .bi.bi-arrow-right,
-.menu__functionalities .bi.bi-sun-fill,
-.menu__functionalities .bi.bi-moon-fill {
+.menu__toolbar .bi.bi-arrow-left,
+.menu__toolbar .bi.bi-arrow-right,
+.menu__toolbar .bi.bi-sun-fill,
+.menu__toolbar .bi.bi-moon-fill {
 
     font-size: 1.5em;
     cursor: pointer;
@@ -850,23 +850,23 @@ button {
 
 }
 
-.subheader--expanded i {
+.menu__toolbar--expanded i {
 
     color: white;
 
 
 }
 
-.menu__functionalities .bi.bi-arrow-left:hover,
-.menu__functionalities .subheader--small:hover .bi.bi-arrow-right,
-.menu__functionalities .bi.bi-sun-fill:hover,
-.menu__functionalities .bi.bi-moon-fill:hover {
+.menu__toolbar .bi.bi-arrow-left:hover,
+.menu__toolbar--small:hover .bi.bi-arrow-right,
+.menu__toolbar .bi.bi-sun-fill:hover,
+.menu__toolbar .bi.bi-moon-fill:hover {
 
     color: var(--purple-light);
 
 }
 
-.menu--expanded .subheader--expanded button div {
+.menu--expanded .menu__toolbar--expanded button div {
 
     display: flex;
     justify-content: center;
@@ -880,17 +880,17 @@ button {
 
 }
 
-.menu--expanded .subheader--expanded button:hover div {
+.menu--expanded .menu__toolbar--expanded button:hover div {
 
     flex-basis: 100%;
 }
 
-.menu--expanded .subheader--expanded button:hover span {
-display: none;
+.menu--expanded .menu__toolbar--expanded button:hover span {
+    display: none;
 
 }
 
-.menu--expanded .subheader--expanded button:active div {
+.menu--expanded .menu__toolbar--expanded button:active div {
 
     background-color: var(--purple-active);
 }
@@ -906,7 +906,7 @@ hr {
     width: 100%;
 }
 
-.subheader--expanded hr {
+.menu__toolbar--expanded hr {
 
     border-color: white;
 
@@ -1942,7 +1942,7 @@ input[data-autocompleted] {
 
 
 
-    .menu--expanded .menu__functionalities {
+    .menu--expanded .menu__toolbar {
         width: 50%;
 
 
@@ -2002,7 +2002,7 @@ input[data-autocompleted] {
 
 
 
-    .menu--expanded .menu__functionalities {
+    .menu--expanded .menu__toolbar {
         width: 50%;
 
     }
@@ -2051,7 +2051,7 @@ input[data-autocompleted] {
 
 
 
-    .menu--expanded .menu__functionalities {
+    .menu--expanded .menu__toolbar {
         width: 50%;
 
     }
