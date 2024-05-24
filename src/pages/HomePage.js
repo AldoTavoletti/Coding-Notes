@@ -27,7 +27,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     "hidden" if the menu hidden. 
     if window.innerWidth is < 769 make the website start in the expanded menu, otherwise in the normal 
     */
-    const [menuStatus, setMenuStatus] = useState(() => window.innerWidth < 769 ? "expanded" : "normal");
+    const [menuStatus, setMenuStatus] = useState(() => window.innerWidth < 769 ? "only-notelist" : "normal");
 
     /*
   "none" if no modal is showing; 
