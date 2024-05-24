@@ -715,11 +715,6 @@ button {
     flex-basis: 100%;
 }
 
-.menu--expanded .header__buttons-div {
-
-    width: 90%;
-    row-gap: 2%;
-}
 
 .menu__functionalities {
 
@@ -804,24 +799,14 @@ button {
     display: flex;
     flex-direction: column;
     overflow: auto;
+    padding-inline: 6%;
+    padding-block: 2.5%;
+    row-gap: 2%;
     height: 100%;
-    /* background-color: var(--quaternary-bg-color); */
     align-items: center;
     width: 100%;
     transition: background-color 0.2s ease, color 0.2s ease;
 
-    padding-inline: 1%;
-
-}
-
-.header__buttons-div {
-    height: 85%;
-    width: fit-content;
-
-    column-gap: 10%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
 }
 
 .button-group {
@@ -831,7 +816,7 @@ button {
     width: 100%;
 }
 
-.menu--expanded .header__buttons-div button {
+.menu--expanded .subheader--expanded button {
     display: flex;
     gap: 2.5%;
     width: 100%;
@@ -844,7 +829,7 @@ button {
     transition: all 0.2s ease;
 }
 
-.menu--expanded .header__buttons-div button span {
+.menu--expanded .subheader--expanded button span {
     /* with width 0 the animation is smoother */
     width: 0;
     color: white;
@@ -881,7 +866,7 @@ button {
 
 }
 
-.menu--expanded .header__buttons-div button div {
+.menu--expanded .subheader--expanded button div {
 
     display: flex;
     justify-content: center;
@@ -895,17 +880,17 @@ button {
 
 }
 
-.menu--expanded .header__buttons-div button:hover div {
+.menu--expanded .subheader--expanded button:hover div {
 
     flex-basis: 100%;
 }
 
-.menu--expanded .header__buttons-div button:hover span {
+.menu--expanded .subheader--expanded button:hover span {
 display: none;
 
 }
 
-.menu--expanded .header__buttons-div button:active div {
+.menu--expanded .subheader--expanded button:active div {
 
     background-color: var(--purple-active);
 }

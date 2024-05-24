@@ -117,7 +117,7 @@ const EditorMCE = ({ currentNote }) => {
                 ui_mode: "split", // without this toolbar_sticky doesn't work
                 autosave_interval: "1s",
                 autosave_retention: '1m', //not working i think
-                contextmenu:false,
+                contextmenu:false, // if this is true, when pressing the right button a toolbar with the "link" option would appear
                 autosave_prefix: 'tinymce-autosave-' + note.noteID,
                 fullscreen_native: true,
                 skin: localStorage.getItem("selectedTheme") === "dark" ? "oxide-dark" : "oxide", //makes the codesample and the menu's text color right
