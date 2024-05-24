@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 
+# don't consider the api, that is managed by another repo
 /src/api
 
 # testing
