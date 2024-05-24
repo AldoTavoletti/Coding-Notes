@@ -250,7 +250,7 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
 
                         <input type="text" name="folder-name" placeholder="Folder name..." value={ folderName } onChange={ (e) => setFolderName(e.target.value) } autoComplete="off" />
 
-                        <div className="flex-container">
+                        <div className="colors-container">
                             {
                                 colorsArr.map((color, i) => {
                                     return (
@@ -273,7 +273,7 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
 
                         <button
                             onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) : addFolder(e) }
-                            className="primary-button"
+                            className="secondary-button"
                             disabled={ folderName.trim() === "" ? true : false } // if the folderName field is empty disable the button
                         >Add</button>
 
@@ -311,7 +311,7 @@ const Modals = ({ modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) =>
 
                     <div className="myModal__footer">
 
-                        <button className="primary-button" onClick={ (e) => addNote(e) }>Add</button>
+                        <button className="secondary-button" onClick={ (e) => addNote(e) }>Add</button>
 
                     </div>
 

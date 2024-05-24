@@ -468,8 +468,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                     <div>
 
-                        <button onClick={ () => handleSignUpClick() } type="button" className={ !wantsLogin ? "active" : "" }>Sign Up</button>
-                        <button onClick={ () => handleLoginClick() } type="button" className={ wantsLogin ? "active" : "" }>Login</button>
+                        <button onClick={ () => handleSignUpClick() } type="button" className={ !wantsLogin ? "active secondary-button" : "secondary-button" }>Sign Up</button>
+                        <button onClick={ () => handleLoginClick() } type="button" className={ wantsLogin ? "active secondary-button" : "secondary-button" }>Login</button>
 
                     </div>
 

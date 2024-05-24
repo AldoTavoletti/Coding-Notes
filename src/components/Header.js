@@ -50,7 +50,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
                 >{ note.title }</p> }
 
 
-            <div className="main-header__buttons-div">
+            <div className="header__buttons-div">
                 { isLoggedIn &&
                     <div className="dropdown">
 

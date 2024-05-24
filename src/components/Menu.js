@@ -59,7 +59,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     return (
 
-        <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" && "menu--hidden"}` }>
+        <div className={ `${"menu"} ${menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" ? "menu--hidden" : menuStatus === "only-notelist" && "menu--only-notelist"}` }>
 
             { menuStatus === "expanded" &&
                 (
@@ -70,7 +70,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <Theme />
                             <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                         </div>
-
+                        <button className="choose-note-button" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
                         <button onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
                         <button onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
@@ -90,7 +90,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
                         <button className="primary-button" onClick={ () => setMenuStatus("expanded") }>manage</button>
                         <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
-                        
+
                     </div>
                 )
             }
@@ -105,11 +105,29 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 )
             }
 
+            { menuStatus === "only-notelist" &&
+                (
+                    <div className="menu__toolbar menu__toolbar--only-notelist">
+
+                            <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("expanded") }></i>
+                    <div className="double-button-radius-container">
+                        <button className="secondary-button" onClick={ () => collapseFolders() }><i className="bi bi-arrows-collapse"></i> Collapse All</button>
+                        <button className="secondary-button" onClick={ () => expandFolders() }><i className="bi bi-arrows-expand"></i> Expand All</button>
+                    </div>
+                    </div>
+
+
+
+                )
+
+
+            }
+
 
 
 
             {/* the noteList is always mounted, even if the menu is hidden, so that open folders stay open even if the menu is closed and then reopened */ }
-            <NoteList noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+            { (window.innerWidth >= 769 || menuStatus === "only-notelist") && <NoteList noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } /> }
 
         </div>
 

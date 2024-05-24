@@ -54,55 +54,11 @@ body {
 
 }
 
-/* overflow hidden has to be put here and not in the body caus in mobile browser overflow: hidden is not considered in the body element. I also need to set position: relative to make it work */
 .app {
-
+    
+    /* overflow hidden has to be put here and not in the body caus in mobile browser overflow: hidden is not considered in the body element. I also need to set position: relative to make it work */
     position: relative;
-    /* so that the login page is ok */
     overflow: hidden;
-}
-
-button {
-
-    cursor: pointer;
-
-}
-
-.arrow {
-    border: solid var(--tertiary-bg-color);
-    background-color: transparent;
-    height: 15px;
-    width: 15px;
-    border-width: 0 4px 4px 0;
-    display: inline-block;
-    padding: 3px;
-    transition: all 0.1s ease;
-}
-
-.arrow:hover {
-
-    border-color: var(--tertiary-bg-color-hover);
-
-}
-
-.arrow:active {
-
-    border-color: var(--tertiary-bg-color-active);
-
-}
-
-.left {
-
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-
-}
-
-.right {
-
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-
 }
 
 .home-page {
@@ -126,8 +82,7 @@ button {
 
 /* width */
 ::-webkit-scrollbar {
-    width: 0.71vw;
-    min-width: 10px;
+    width: 15px;
 }
 
 /* Track */
@@ -183,6 +138,7 @@ button {
     position: absolute;
     z-index: 9999;
 }
+
 
 .list-group-item {
 
@@ -244,6 +200,7 @@ button {
 .checkbox-container input[type=checkbox] {
 
     width: fit-content;
+    accent-color: var(--secondary-bg-color-hover);
 
 }
 
@@ -287,54 +244,6 @@ button {
 
 }
 
-.secondary-button {
-
-    box-sizing: content-box;
-    height: 75%;
-    padding-inline: 15px;
-    font-size: 1.2em;
-
-    background-color: var(--secondary-bg-color);
-
-    border: 2px solid var(--tertiary-bg-color-active);
-    border-radius: 20px;
-    white-space: nowrap;
-
-}
-
-.secondary-button:hover {
-
-    background-color: var(--tertiary-bg-color);
-    color: var(--text-color-secondary);
-
-}
-
-.secondary-button:active {
-
-    background-color: var(--tertiary-bg-color-active);
-
-}
-
-.text-button {
-
-    background-color: transparent;
-    border: 0;
-    font-size: 1.2em;
-    transition: none;
-
-}
-
-.text-button:hover {
-
-    text-decoration: underline;
-    color: var(--purple-light);
-    font-weight: bold;
-
-}
-
-
-
-
 .header {
 
     display: flex;
@@ -346,7 +255,7 @@ button {
     max-height: 70px;
     width: 100%;
     padding: 0.5% 2%;
-    border-bottom: 4px solid var(--purple);
+    border-bottom: 3px solid var(--purple);
     transition: background-color 0.2s ease, color 0.2s ease;
 
 }
@@ -358,9 +267,6 @@ button {
     animation: load-note-animation 0.5s ease-in;
     color: white;
 }
-
-
-
 
 .primary-button:hover {
 
@@ -401,7 +307,6 @@ button {
     transition: all 0.3s ease;
 
 }
-
 
 .modal-container--hidden {
 
@@ -485,12 +390,6 @@ button {
     transition: all .2s ease;
 }
 
-.login-container input[type="checkbox"] {
-
-    accent-color: var(--secondary-bg-color-hover);
-
-}
-
 .myModal__body select {
     height: 2.4em;
     appearance: none;
@@ -569,19 +468,40 @@ button {
     user-select: none;
 
 }
+.secondary-button{
 
-.myModal__footer button,
-.login-container__buttons button:not(.gsi-material-button) {
-    font-size: 1.2em;
+font-size: 1.2em;
     border: 0;
     background-color: var(--tertiary-bg-color);
     line-height: 2.4em;
-    width: 30%;
+    width: 50%;
     color: var(--text-color-secondary);
     transition: all .2s ease;
 
 }
+.myModal__footer .secondary-button,
+.login-container .secondary-button {
+    width: 30%;
 
+}
+
+.double-button-radius-container :first-child{
+
+border-top-left-radius: 5px;
+border-bottom-left-radius: 5px;
+}
+
+.double-button-radius-container :last-child {
+
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.menu__toolbar--only-notelist .secondary-button i{
+
+    color: black;
+
+}
 .gsi-material-button {
 
     width: 60% !important;
@@ -589,18 +509,18 @@ button {
 }
 
 
-.login-container__buttons button.active:hover {
+.secondary-button.active:hover {
 
     background-color: var(--purple);
     color: var(--text-color) !important;
 }
 
-.login-container__buttons button:not(.active, .gsi-material-button):hover {
+.secondary-button:not(.active):hover {
 
     background-color: var(--tertiary-bg-color-hover);
 }
 
-.login-container__buttons button:not(.active, .gsi-material-button) {
+.secondary-button:not(.active):active {
 
     background-color: var(--tertiary-bg-color-active);
 }
@@ -612,13 +532,6 @@ button {
     font-size: 2em;
     /* the margin from the top is half the height of note-display minus the fontsize */
     margin-top: calc(45dvh - 2em);
-}
-
-.vert-line {
-
-    height: 90%;
-    border-left: 2px solid var(--secondary-bg-color-hover);
-
 }
 
 .color-box {
@@ -677,7 +590,7 @@ button {
 
 }
 
-.flex-container {
+.colors-container {
 
     display: flex;
     justify-content: space-evenly;
@@ -715,19 +628,24 @@ button {
     flex-basis: 100%;
 }
 
+.menu--only-notelist {
 
-.menu__toolbar {
-
-    /* z-index: 4; */
+    display: flex;
+    flex-direction: column;
+        padding: 0;
+        border: 0;
+        flex-basis: 100%;
 
 }
 
 
-
 .menu__toolbar--normal {
+    position: sticky;
+    top: 0;
     padding-inline: 5%;
     height: 88.6px;
     width: 100%;
+    z-index: 4;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -788,20 +706,20 @@ button {
 .menu__toolbar--expanded {
     height: 100%;
     width: 30%;
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     row-gap: 2%;
     overflow: auto;
 
     padding-inline: 2.5%;
     padding-block: 2%;
-    
+
     background-color: var(--purple-active);
     border-right: 3px solid var(--purple);
-    
+
     transition: background-color 0.2s ease, color 0.2s ease;
 
 }
@@ -815,8 +733,8 @@ button {
 
 .menu__toolbar--expanded button {
     display: flex;
-    gap: 2.5%;
     width: 100%;
+    gap: 4%;
     text-align: left;
     background-color: var(--purple);
     border: 2px solid var(--purple-light);
@@ -828,8 +746,10 @@ button {
 
 .menu__toolbar--expanded button span {
     /* with width 0 the animation is smoother */
-    width: 0;
+    position: relative;
+    width: 100%;
     color: white;
+    text-align: left;
     animation: load-note-animation 0.4s ease-in;
 }
 
@@ -870,16 +790,17 @@ button {
     align-items: center;
     height: 100%;
     /* set the flex basis to 0 so the animation works */
-    flex-basis: 0;
-    padding-inline: 6%;
+    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    /* padding-inline: 6%; */
     background-color: var(--purple-hover);
     transition: all .2s ease;
 
 }
 
 .menu--expanded .menu__toolbar--expanded button:hover div {
-
-    flex-basis: 100%;
+    /* it would be bigger than the button, but there is max-width:100% so it doesn't matter */
+    aspect-ratio: 20/1;
 }
 
 .menu--expanded .menu__toolbar--expanded button:hover span {
@@ -910,8 +831,8 @@ hr {
 }
 
 
-.menu--expanded .note-list .accordion,
-.menu--expanded .note-list hr {
+.menu--expanded .accordion,
+.menu--expanded hr {
 
     max-width: 80%;
 
@@ -931,6 +852,9 @@ hr {
 .accordion-button {
     font-weight: bold;
     font-size: 0.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
 
 }
 
@@ -938,6 +862,13 @@ hr {
     padding: 0;
     display: flex;
     flex-direction: column;
+}
+.menu__toolbar--only-notelist{
+
+width: 100%;
+padding-inline: 5%;
+padding-block: 2%;
+
 }
 
 .note-list__note {
@@ -954,13 +885,22 @@ hr {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.accordion-header .accordion-button span {
+.accordion-header .accordion-button .plus-button {
     border: 0;
     background-color: transparent;
     font-weight: bold;
     position: relative;
     left: 10px;
     transition: color .2s ease;
+}
+
+.accordion-button__folder-title{
+
+max-width:50%;
+text-overflow: ellipsis;
+overflow: hidden;
+
+
 }
 
 .accordion-header .accordion-button span:hover {
@@ -994,7 +934,7 @@ hr {
     border: 3px solid rgba(0, 0, 0, 0.178);
 }
 
-.main-header__buttons-div {
+.header__buttons-div {
 
     display: flex;
     gap: 15%;
@@ -1005,12 +945,12 @@ hr {
 
 }
 
-.main-header__buttons-div .bi.bi-list {
+.header__buttons-div .bi.bi-list {
 
     font-size: 1.5em;
 
 }
-
+/*--------------------------------------------------------------------------------------------------*/
 .account-button {
 
     width: 7dvh;
@@ -1054,51 +994,11 @@ hr {
 
 }
 
-.greeting {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: white;
-
-
-}
-
-.note-list__addnote i {
-
-    padding: 0;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: white !important;
-    font-weight: bold;
-    font-size: 1.8em;
-
-}
-
-
-
 .failed {
 
     font-weight: bold;
     font-size: 1.3em;
 
-
-}
-
-
-/* login page */
-
-
-
-
-.form-container {
-
-    background-color: var(--primary-bg-color);
-    height: 60dvh;
 
 }
 
@@ -1117,7 +1017,8 @@ hr {
 .my-tox-header-sticky--hamburger {
 
     /* 99.3 and not 100 to make the scrollbar visible */
-    width: 99.3vw !important;
+    width: 100vw !important;
+    left: 0 !important;
 
 }
 
@@ -1129,9 +1030,10 @@ hr {
 
 .my-tox-header-sticky--expanded {
     /* 4% is the width of the hidden menu */
-    left: 4% !important;
+    left: calc(max(4%,50px)) !important;
+    
     /* 95.3 and not 96 to make the scrollbar visible */
-    width: 95.3vw !important;
+    width: calc(100vw - 15px - max(4vw,50px)) !important;
 
 }
 
@@ -1147,7 +1049,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     /* 26% is the width of the normal menu */
     left: 26% !important;
     /* 73.3 and not 74 to make the scrollbar visible */
-    width: 73.3vw !important;
+    width: calc(74vw - 15px) !important;
 
 }
 
@@ -1230,51 +1132,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 
-
-
-
-/* ----------------------------- */
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.out-top {
-    animation: rotate 20s linear infinite;
-    transform-origin: 13px 25px;
-}
-
-.in-top {
-    animation: rotate 10s linear infinite;
-    transform-origin: 13px 25px;
-}
-
-.out-bottom {
-    animation: rotate 25s linear infinite;
-    transform-origin: 84px 93px;
-}
-
-.in-bottom {
-    animation: rotate 15s linear infinite;
-    transform-origin: 84px 93px;
-}
-
-.background-login {
-    position: fixed;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-
-
-
-
 .login-container {
     display: flex;
     flex-direction: column;
@@ -1322,12 +1179,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 }
 
-/* placeholder color tinymce */
-.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
-
-    color: #ffffff80;
-
-}
 
 .password-toggle-icon {
 
@@ -1875,6 +1726,13 @@ input[data-autocompleted] {
     visibility: hidden;
 }
 
+.choose-note-button {
+
+    display: none !important;
+
+}
+
+
 
 @media screen and (max-width: 769px) {
     .login-container {
@@ -1884,8 +1742,6 @@ input[data-autocompleted] {
         font-size: 0.9em;
     }
 
-    .login-page {}
-
     button.gsi-material-button {
 
         transform: scale(0.81);
@@ -1893,7 +1749,7 @@ input[data-autocompleted] {
     }
 
 
-    .ripple-background .sponsor {
+    .login-page .ripple-background .sponsor {
 
         font-size: 2.3em;
     }
@@ -1912,7 +1768,13 @@ input[data-autocompleted] {
 
     }
 
-    .menu:not(.menu--expanded) {
+.menu__toolbar--expanded .choose-note-button {
+
+    display: flex !important;
+
+}
+
+    .menu:not(.menu--expanded,.menu--only-notelist) {
 
         flex-basis: 0%;
         border: 0;
@@ -1931,7 +1793,7 @@ input[data-autocompleted] {
 
     }
 
-    .menu {
+    .menu__toolbar {
 
         font-size: 0.9em;
 
@@ -1940,17 +1802,23 @@ input[data-autocompleted] {
 
 
     .menu--expanded .menu__toolbar {
-        width: 50%;
+        width: 100%;
 
 
     }
 
 
     ::-webkit-scrollbar {
-        appearance: none;
-        min-width: 0;
-
+        display: none;
     }
+.note-list {
+    
+    font-size: 0.9em;
+
+}
+
+
+
 
 }
 
@@ -1978,31 +1846,30 @@ input[data-autocompleted] {
 
     }
 
-    .ripple-background {
+    .login-page .ripple-background {
 
         position: absolute;
         width: 100%;
 
     }
 
-    .ripple-background .sponsor {
+    .login-page .ripple-background .sponsor {
 
         display: none;
 
     }
 
-    .menu {
+    .menu__toolbar {
 
-        font-size: 0.75em;
-
-    }
-
-
-
-    .menu--expanded .menu__toolbar {
-        width: 50%;
+        font-size: 0.7em;
 
     }
+
+.note-list {
+
+    font-size: 0.8em;
+
+}
 }
 
 @media screen and (max-width: 376px) {
@@ -2027,31 +1894,16 @@ input[data-autocompleted] {
 
     }
 
-    .ripple-background {
+    .menu__toolbar {
 
-        position: absolute;
-        width: 100%;
-
-    }
-
-    .ripple-background .sponsor {
-
-        display: none;
+        font-size: 0.625em;
 
     }
+.note-list {
 
-    .menu {
+    font-size: 0.75em;
 
-        font-size: 0.65em;
-
-    }
-
-
-
-    .menu--expanded .menu__toolbar {
-        width: 50%;
-
-    }
+}
 
 }
 
@@ -2078,22 +1930,15 @@ input[data-autocompleted] {
 
     }
 
-    .ripple-background {
+    .menu__toolbar {
 
-        position: absolute;
-        width: 100%;
-
-    }
-
-    .ripple-background .sponsor {
-
-        display: none;
+        font-size: 0.525em;
 
     }
+    
+    .note-list{
 
-    .menu {
-
-        font-size: 0.6em;
+        font-size: 0.7em;
 
     }
 

@@ -23,10 +23,11 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     /*
     "normal" if the menu is not expanded nor hidden; 
     "expanded" if the menu expanded; 
+    "hamburger" if the window.innerWidth is < 769;
     "hidden" if the menu hidden. 
-    When the width goes under 769 pixels its value is set to hamburger
+    if window.innerWidth is < 769 make the website start in the expanded menu, otherwise in the normal 
     */
-    const [menuStatus, setMenuStatus] = useState(() => window.innerWidth < 769 ? "hamburger" : "normal");
+    const [menuStatus, setMenuStatus] = useState(() => window.innerWidth < 769 ? "expanded" : "normal");
 
     /*
   "none" if no modal is showing; 
@@ -78,45 +79,45 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
         clearTimeout(timeoutID.current);
         timeoutID.current = setTimeout(() => {
 
-            if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */{
-                
+            if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */ {
+
                 if (window.innerWidth < 769) {
-                    
-                    menuStatus !== "hamburger" && setMenuStatus("hamburger");
-                    
+
+                    menuStatus !== "hamburger" && menuStatus !== "expanded" && setMenuStatus("hamburger");
+
                 } else {
-                    
+
                     menuStatus === "hamburger" && setMenuStatus("hidden");
-                    
-                    
+
+
                 }
-                
+
                 // save this width
                 lastCheckedWidth.current = window.innerWidth;
             }
 
-            
+
         }, 200);
 
     });
 
     return (
         <>
-            <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+            <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } isLoggedIn={ isLoggedIn } />
 
-            <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } setIsLoggedIn={setIsLoggedIn}/>
+            <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } />
 
 
             <div className="home-page">
 
-                <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing }/>
+                <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
 
                 {/* the noteDisplay gets unmounted when the menu is expanded. This means:
                 - when the menu gets expanded and then it gets set to normal again, the note has to reload.
                 - since the note reloads everytime, if the theme gets changed in the expanded menu every color will be fine. If the component wasn't getting unmounted, the skin of the editor wouldn't be able to change. Maybe something could have been done with css though.
                 - if the note contains a lot of text, unmounting it makes the expanding of the menu's animation much smoother. 
                 */ }
-                { menuStatus !== "expanded" && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
+                { (menuStatus !== "expanded" && menuStatus !== "only-notelist") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
 
             </div>
         </>

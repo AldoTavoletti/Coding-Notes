@@ -48,7 +48,7 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
   }, [menuStatus]);
 
   return (
-    <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"} ${menuStatus === "expanded" && "note-display--hidden"}` } ref={ noteDisplayRef }>
+    <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"} ${(menuStatus === "expanded" || menuStatus === "only-notelist") && "note-display--hidden"}` } ref={ noteDisplayRef }>
 
 {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */}
       { currentNote ?
