@@ -499,7 +499,7 @@ border-bottom-left-radius: 5px;
 
 .menu__toolbar--only-notelist .secondary-button i{
 
-    color: black;
+    color: var(--primary-bg-color);
 
 }
 .gsi-material-button {
@@ -903,7 +903,7 @@ overflow: hidden;
 
 }
 
-.accordion-header .accordion-button span:hover {
+.accordion-header .accordion-button span {
 
     color: var(--hover-color) !important;
 
@@ -1726,13 +1726,6 @@ input[data-autocompleted] {
     visibility: hidden;
 }
 
-.choose-note-button {
-
-    display: none !important;
-
-}
-
-
 
 @media screen and (max-width: 769px) {
     .login-container {
@@ -1767,12 +1760,6 @@ input[data-autocompleted] {
         ;
 
     }
-
-.menu__toolbar--expanded .choose-note-button {
-
-    display: flex !important;
-
-}
 
     .menu:not(.menu--expanded,.menu--only-notelist) {
 

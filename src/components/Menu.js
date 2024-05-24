@@ -70,15 +70,21 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <Theme />
                             <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                         </div>
-                        <button className="choose-note-button" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
+                    { window.innerWidth < 769 &&
+                        <button  onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
+
+                    }
                         <button onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
                         <button onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
+                        {window.innerWidth >= 769 &&
+                        <>
                         <hr />
 
-                        <button onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
-                        <button onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
-
+                                <button onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
+                                <button onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
+                            </>
+                        }
 
                     </div>
                 )
@@ -109,11 +115,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 (
                     <div className="menu__toolbar menu__toolbar--only-notelist">
 
-                            <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("expanded") }></i>
-                    <div className="double-button-radius-container">
-                        <button className="secondary-button" onClick={ () => collapseFolders() }><i className="bi bi-arrows-collapse"></i> Collapse All</button>
-                        <button className="secondary-button" onClick={ () => expandFolders() }><i className="bi bi-arrows-expand"></i> Expand All</button>
-                    </div>
+                        <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("expanded") }></i>
+                        <div className="double-button-radius-container">
+                            <button className="secondary-button" onClick={ () => collapseFolders() }><i className="bi bi-arrows-collapse"></i> Collapse All</button>
+                            <button className="secondary-button" onClick={ () => expandFolders() }><i className="bi bi-arrows-expand"></i> Expand All</button>
+                        </div>
                     </div>
 
 
