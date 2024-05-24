@@ -5,13 +5,14 @@ import { URL } from "../utils/utils";
 import { simplePatchCall } from "../utils/utils";
 import "../prism/prism.css";
 import "../prism/prism";
+
 const EditorMCE = ({ currentNote }) => {
 
     // used to keep track of the saved content and decide wether a patch call should be executed
     const content = useRef(null);
 
-
     const correspondingNoteID = useRef(null);
+
     /*
     This prevents the duplication of note contents. 
     Even if the currentNote changed during the "change" event, it would still remain the same value. 
@@ -35,14 +36,17 @@ const EditorMCE = ({ currentNote }) => {
         </div>
 
     );
+
     // the content ref is set here cause note is undefined before useSWR
     content.current = note.content;
+
     return (
         <Editor
             tinymceScriptSrc='/tinymce/tinymce.min.js'
             initialValue={ note.content }
             init={ {
                 setup: (editor) => {
+
                     editor.on('storeDraft', (e) => {
                         // save content changes in db (fired every 1s, it gets executed only if the editor's content is different from the last one saved)
                         if (content.current !== editor.getContent()) {
@@ -54,22 +58,30 @@ const EditorMCE = ({ currentNote }) => {
                     });
 
                     editor.on("preinit", () => {
-
-
+                        // before the note gets initialized, change the data-theme attribute of the iframe' contentDocument's body, so that css style changes according to the theme
                         document.querySelector('iframe').contentDocument.body.setAttribute("data-theme", document.body.getAttribute("data-theme"));
 
                     });
 
                     editor.on("FullScreenStateChanged", (isFullscreen) => {
-
+                        // get the header of the editor
                         const editorHeader = editor.container.querySelector(".tox-editor-header");
-                        if (isFullscreen.state) {
+
+                        if (isFullscreen.state) /* if the fullscreen mode is activated */ {
+
+                            // get rid of the header containing the note's title
                             document.querySelector(".header").style.display = "none";
+
+                            // make the editorHeader full width. There is no need to remove previous classes, since this class has more specificity in the css file (div.tox-editor-header.my-tox-header-sticky--fullscreen)
                             editorHeader.classList.add("my-tox-header-sticky--fullscreen");
 
 
-                        }else{
+                        } else {
+
+                            //remove the class
                             editorHeader.classList.remove("my-tox-header-sticky--fullscreen");
+
+                            // show the header containing the note's title
                             document.querySelector(".header").style.display = "flex";
 
 
@@ -78,10 +90,13 @@ const EditorMCE = ({ currentNote }) => {
                     });
 
                     editor.on('change', (e) => {
+
                         // save content changes in db (fired only if the user unfocuses from the editor, it gets executed only if the editor's content is different from the last one saved)
                         if (content.current !== editor.getContent()) {
 
                             simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+
+                            // save the content in the ref variable
                             content.current = editor.getContent();
                         }
 
@@ -90,8 +105,8 @@ const EditorMCE = ({ currentNote }) => {
 
 
                 },
-                mobile:{
-                    menubar:window.innerWidth > 360 ? true:false,
+                mobile: {
+                    menubar: window.innerWidth > 360 ? true : false, // if the width is less than 361px, the menubar would wrap
                 },
                 license_key: 'gpl',
                 promotion: false, // get rid of "upgrade" button
@@ -102,11 +117,11 @@ const EditorMCE = ({ currentNote }) => {
                 ui_mode: "split", // without this toolbar_sticky doesn't work
                 autosave_interval: "1s",
                 autosave_retention: '1m', //not working i think
-                
-                autosave_prefix:'tinymce-autosave-'+note.noteID,
-                fullscreen_native:true,
-                skin: localStorage.getItem("selectedTheme") === "dark" ? "oxide-dark" : "oxide", //makes sue codesample and other menu's text color is right
-                autosave_ask_before_unload: true,
+
+                autosave_prefix: 'tinymce-autosave-' + note.noteID,
+                fullscreen_native: true,
+                skin: localStorage.getItem("selectedTheme") === "dark" ? "oxide-dark" : "oxide", //makes the codesample and the menu's text color right
+                autosave_ask_before_unload: true, // let the user know that if he tries to close the browser and the content hasn't been saved yet, it could be lost. Sometimes it doesn't work but rarely.
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                     'searchreplace', 'insertdatetime', 'media', 'table', 'wordcount', 'autosave', 'autoresize', 'codesample', 'quickbars', 'accordion', 'fullscreen'
@@ -118,43 +133,42 @@ const EditorMCE = ({ currentNote }) => {
                 // I use content_style because these instructions don't work if put in the index.css file, they refer only to the tinyMCE editor
                 content_style: `
                 
+                    :root {
 
-:root {
+                        --primary-bg-color: #1b1b1b;
+                        --secondary-bg-color: #232323;
+                        --secondary-bg-color-hover: #3e3d3d;
+                        --tertiary-bg-color: #ffffff;
+                        --tertiary-bg-color-hover: #ffffffc9;
+                        --tertiary-bg-color-active: #ffffff8f;
+                        --quaternary-bg-color: #1d1d1d;
+                        --purple: #5941df;
+                        --purple-light: #7e64ff;
+                        --purple-hover: #4a33ce;
+                        --purple-active: #31247d;
+                        --text-color: white;
+                        --text-color-secondary: black;
+                        --editor-bg-color: #1f1f1f;
+                        /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
+                        --light: 80;
+                        /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
+                        --threshold: 60;
+                    }
 
-    --primary-bg-color: #1b1b1b;
-    --secondary-bg-color: #232323;
-    --secondary-bg-color-hover: #3e3d3d;
-    --tertiary-bg-color: #ffffff;
-    --tertiary-bg-color-hover: #ffffffc9;
-    --tertiary-bg-color-active: #ffffff8f;
-    --quaternary-bg-color: #1d1d1d;
-    /* --purple:#5f5fde; */
-    --purple: #5941df;
-    --purple-light: #7e64ff;
-    --purple-hover: #4a33ce;
-    --purple-active: #3f2da5;
-    --text-color:white;
-    --text-color-secondary:black;
-    --editor-bg-color: #1f1f1f;
-    /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
-    --light: 80;
-    /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
-    --threshold: 60;
-}
+                    [data-theme="light"] {
 
-[data-theme="light"] {
-
-    --primary-bg-color: #efefef;
-    --secondary-bg-color: #e2e2e2;
-    --secondary-bg-color-hover: #ffffff8f;
-    --tertiary-bg-color: #1b1b1b;
-    --tertiary-bg-color-hover: #232323;
-    --tertiary-bg-color-active: #3e3d3d;
-    --quaternary-bg-color: #d7d7d7;
-    --text-color: black;
-    --text-color-secondary: white;
-    --editor-bg-color:white;
-}
+                        --primary-bg-color: #efefef;
+                        --secondary-bg-color: #e2e2e2;
+                        --secondary-bg-color-hover: #ffffff8f;
+                        --tertiary-bg-color: #1b1b1b;
+                        --tertiary-bg-color-hover: #232323;
+                        --tertiary-bg-color-active: #3e3d3d;
+                        --quaternary-bg-color: #c0c0c0;
+                        --text-color: black;
+                        --text-color-secondary: white;
+                        --purple-active: #31247d;
+                        --editor-bg-color: white;
+                    }
                    /* Changes the color of the placeholder */
                     .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
                     color: var(--tertiary-bg-color-active);
@@ -165,6 +179,21 @@ const EditorMCE = ({ currentNote }) => {
                         font-size: 14pt;
                         background-color: var(--editor-bg-color);
                         color: var(--text-color);
+                    }
+
+                    /* inline-code */
+                    code{
+                        color: white;
+                        background-color:var(--purple);
+
+                    }
+
+                    /* change the color of inline-code when selected */
+                    .mce-content-body [data-mce-selected=inline-boundary]{
+
+                        background-color:var(--purple-light);
+
+
                     }
 
                 /* width */
@@ -187,15 +216,23 @@ const EditorMCE = ({ currentNote }) => {
                     background-color: #555;
                 }
 
+                /* changes the background-color of the code sample */
                 :not(pre)>code[class*=language-], pre[class*=language-]{
 
                     background-color:var(--secondary-bg-color);
 
                 }
 
+                /* makes sure that in light mode, the code-sample doesn't put a white background-color to certain elements (like ":", "." or strings etc.) */
+                .language-css .token.string, .style .token.string, .token.entity, .token.operator, .token.url{
+
+                    background-color:transparent;
+
+                }
+
                 
                 `,
-                codesample_global_prismjs: true,
+                codesample_global_prismjs: true, //uses a prism.js and prism.css file to add highlighting for more languages 
                 codesample_languages: [
                     { text: "HTML/XML", value: "markup" },
                     { text: "CSS", value: "css" },

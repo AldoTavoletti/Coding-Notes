@@ -119,10 +119,6 @@ export const setDarkMode = () => {
     // set the data-theme attribute of the body to dark, so that css style changes
     document.body.setAttribute("data-theme", "dark");
 
-    // to make sure the same thing happens for the editorMCE, I retrieve the iframe and do the same thing for the contentDocument's body
-    const iframe = document.querySelector('iframe');
-    iframe && iframe.contentDocument.body.setAttribute("data-theme", "dark");
-
     // save the selectedTheme in localStorage
     localStorage.setItem("selectedTheme", "dark");
 
@@ -135,10 +131,6 @@ export const setLightMode = () => {
 
     // set the data-theme attribute of the body to light, so that css style changes
     document.body.setAttribute("data-theme", "light");
-
-    // to make sure the same thing happens for the editorMCE, I retrieve the iframe and do the same thing for the contentDocument's body
-    const iframe = document.querySelector('iframe');
-    iframe && iframe.contentDocument.body.setAttribute("data-theme", "light");
 
     // save the selectedTheme in localStorage
     localStorage.setItem("selectedTheme", "light");
