@@ -63,48 +63,49 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-                { menuStatus === "expanded" &&
-                    (
-                        <div className="menu__toolbar menu__toolbar--expanded">
+            { menuStatus === "expanded" &&
+                (
+                    <div className="menu__toolbar menu__toolbar--expanded">
 
 
-                                <div className="button-group">
-                                    <Theme />
-                                    <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
-                                </div>
-
-                                <button onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
-                                <button onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
-
-                                <hr />
-
-                                <button onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
-                                <button onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
-
-
+                        <div className="button-group">
+                            <Theme />
+                            <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                         </div>
-                    )
-                }
 
-                { menuStatus === "normal" &&
-                    (
-                <div className="menu__toolbar menu__toolbar--normal">
+                        <button onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
+                        <button onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
-                            <button className="primary-button" onClick={ () => setMenuStatus("expanded") }>manage</button>
-                            <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
-                        </div>
-                    )
-                }
+                        <hr />
 
-                { menuStatus === "hidden" &&
-                    (
-                <div className="menu__toolbar menu__toolbar--small" onClick={ () => setMenuStatus("normal") }>
+                        <button onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
+                        <button onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
 
-                            <i className="bi bi-arrow-right"></i>
 
-                        </div>
-                    )
-                }
+                    </div>
+                )
+            }
+
+            { menuStatus === "normal" &&
+                (
+                    <div className="menu__toolbar menu__toolbar--normal">
+
+                        <button className="primary-button" onClick={ () => setMenuStatus("expanded") }>manage</button>
+                        <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
+                        
+                    </div>
+                )
+            }
+
+            { menuStatus === "hidden" &&
+                (
+                    <div className="menu__toolbar menu__toolbar--small" onClick={ () => setMenuStatus("normal") }>
+
+                        <i className="bi bi-arrow-right"></i>
+
+                    </div>
+                )
+            }
 
 
 
