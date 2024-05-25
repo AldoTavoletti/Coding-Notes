@@ -3,19 +3,24 @@
 :root {
 
     --primary-bg-color: #1b1b1b;
+
     --secondary-bg-color: #232323;
     --secondary-bg-color-hover: #3e3d3d;
+    
     --tertiary-bg-color: #ffffff;
     --tertiary-bg-color-hover: #ffffffc9;
     --tertiary-bg-color-active: #ffffff8f;
+    
     --quaternary-bg-color: #1d1d1d;
-    /* --purple:#5f5fde; */
+    
     --purple: #5941df;
     --purple-light: #7e64ff;
     --purple-hover: #4a33ce;
     --purple-active: #31247d;
+    
     --text-color: white;
     --text-color-secondary: black;
+    
     --editor-bg-color: #1f1f1f;
     /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
     --light: 80;
@@ -26,20 +31,27 @@
 [data-theme="light"] {
 
     --primary-bg-color: #efefef;
+    
     --secondary-bg-color: #e2e2e2;
     --secondary-bg-color-hover: #ffffff8f;
+    
     --tertiary-bg-color: #1b1b1b;
     --tertiary-bg-color-hover: #232323;
     --tertiary-bg-color-active: #3e3d3d;
+    
     --quaternary-bg-color: #c0c0c0;
+    
     --text-color: black;
     --text-color-secondary: white;
+    
     --purple-active: #31247d;
+    
     --editor-bg-color: white;
 }
 
 * {
     font-family: Work Sans;
+   
     color: var(--text-color);
     box-sizing: border-box;
 
@@ -64,8 +76,8 @@ body {
 .home-page {
 
     display: flex;
+    /* the height of the home-page depends on the height of the header in that moment */
     height: calc(100dvh - min(10dvh, 70px));
-    max-height: calc(100dvh - 60px);
 }
 
 /*? modals */
@@ -707,17 +719,7 @@ body {
     min-width: 50px;
 }
 
-.primary-button:disabled {
 
-    background-color: var(--tertiary-bg-color-active);
-
-}
-
-.primary-button:disabled:hover {
-
-    background-color: rgb(215, 96, 96);
-
-}
 
 /* width */
 ::-webkit-scrollbar {
@@ -1120,10 +1122,19 @@ body {
 }
 
 /*? general */
+.primary-button:disabled {
+
+    background-color: var(--tertiary-bg-color-active);
+
+}
+
+.primary-button:disabled:hover {
+
+    background-color: rgb(215, 96, 96);
+
+}
 .primary-button {
-    box-sizing: content-box;
-    height: 7dvh;
-    min-height: 40px;
+    height: 50%;
     padding-inline: 15px;
     font-size: 1.2em;
 
