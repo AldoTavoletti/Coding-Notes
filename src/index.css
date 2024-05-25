@@ -93,7 +93,11 @@ body {
     border-top: 2px solid var(--tertiary-bg-color);
 
 }
+.myModal__footer .secondary-button{
 
+border-radius: 5px;
+
+}
 .myModal__footer .secondary-button,
 .login-container .secondary-button {
     width: 30%;
@@ -1747,6 +1751,16 @@ aspect-ratio: 1 / 1;
 }
 
 }
+@media screen and (max-width: 1240px) {
+
+.myModal {
+
+        width: 40%;
+
+    }
+
+
+}
 @media screen and (max-width: 769px) {
     .login-container {
 
@@ -1754,7 +1768,11 @@ aspect-ratio: 1 / 1;
         padding: 5%;
         font-size: 0.9em;
     }
+.myModal {
 
+    width: 60%;
+
+}
     button.gsi-material-button {
 
         transform: scale(0.81);
@@ -1846,6 +1864,12 @@ aspect-ratio: 1 / 1;
         padding: 8%;
         border-radius: 10px;
         font-size: 0.85em;
+    }
+
+    .myModal{
+
+        width: 90%;
+
     }
 
     .login-page {
