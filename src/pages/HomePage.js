@@ -26,7 +26,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     "hamburger" if the window.innerWidth is < 769;
     "only-notelist" if the window.innerWidth is < 769;
     "hidden" if the menu hidden. 
-    if window.innerWidth is < 769 make the website start in the expanded menu, otherwise in the normal 
+    if window.innerWidth is < 769 make the website start in the only-notelist menu, otherwise in the normal 
     */
     const [menuStatus, setMenuStatus] = useState(() => window.innerWidth < 769 ? "only-notelist" : "normal");
 

@@ -132,7 +132,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-            {/* the noteList is always mounted, even if the menu is hidden, so that open folders stay open even if the menu is closed and then reopened */ }
+            {/* the noteList is always mounted (unless the window.innerWidth is < 769) so that open folders stay open even if the menu is closed and then reopened */ }
             { (window.innerWidth >= 769 || menuStatus === "only-notelist") && <NoteList noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } /> }
 
         </div>
