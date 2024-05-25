@@ -24,6 +24,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     "normal" if the menu is not expanded nor hidden; 
     "expanded" if the menu expanded; 
     "hamburger" if the window.innerWidth is < 769;
+    "only-notelist" if the window.innerWidth is < 769;
     "hidden" if the menu hidden. 
     if window.innerWidth is < 769 make the website start in the expanded menu, otherwise in the normal 
     */
@@ -81,24 +82,24 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */ {
 
-                if (window.innerWidth < 769) {
+                if (window.innerWidth < 769 && lastCheckedWidth.current > 769) /* if the current width is < 769 and the last time it was > 769*/ {
 
-                    if (menuStatus !== "hamburger") {
+                    if (menuStatus === "hidden" || menuStatus === "normal") /* if the menuStatus is "hidden" or "normal" */ {
 
-                        if (menuStatus !== "expanded" && menuStatus !== "only-notelist") {
+                        // set it to "hamburger"
+                        setMenuStatus("hamburger");
 
-                            setMenuStatus("hamburger");
-                            
-                        } else {
+                    } else if (menuStatus === "expanded") /* if it is "expanded" */ {
 
-                            setMenuStatus("only-notelist");
+                        // set it to "only-notelist"
+                        setMenuStatus("only-notelist");
 
-                        }
                     }
 
-                } else if (lastCheckedWidth.current < window.innerWidth){
+                } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
 
-                    (menuStatus === "hamburger" || menuStatus === "only-notelist" || menuStatus === "expanded") && setMenuStatus("hidden");
+                    // set it to "hidden"
+                    setMenuStatus("hidden");
 
 
                 }
