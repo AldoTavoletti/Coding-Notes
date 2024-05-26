@@ -99,7 +99,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
                 } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
 
                     // set it to "hidden"
-                    // setMenuStatus("hidden");
+                    setMenuStatus("hidden");
 
 
                 }
