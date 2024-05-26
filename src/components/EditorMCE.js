@@ -120,7 +120,7 @@ const EditorMCE = ({ currentNote }) => {
                 contextmenu:false, // if this is true, when pressing the right button a toolbar with the "link" option would appear
                 autosave_prefix: 'tinymce-autosave-' + note.noteID,
                 fullscreen_native: true,
-                skin: localStorage.getItem("selectedTheme") === "dark" ? "oxide-dark" : "oxide", //makes the codesample and the menu's text color right
+                skin: localStorage.getItem("light-theme") ? "oxide" : "oxide-dark", //makes the codesample and the menu's text color right
                 autosave_ask_before_unload: true, // let the user know that if he tries to close the browser and the content hasn't been saved yet, it could be lost. Sometimes it doesn't work but rarely.
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',

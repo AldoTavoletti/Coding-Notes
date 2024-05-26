@@ -4,7 +4,7 @@ import { setLightMode, setDarkMode } from "../utils/utils";
 const Theme = () => {
 
     // get the selectedTheme, saved in the localStorage
-    const [selectedTheme, setSelectedTheme] = useState(localStorage.getItem("selectedTheme"));
+    const [isLightTheme, setIsLightTheme] = useState(localStorage.getItem("light-theme"));
 
     /**
      * 
@@ -14,12 +14,12 @@ const Theme = () => {
         if (e.target.checked) /* if the theme has to be switched to dark */ {
 
             setDarkMode();
-            setSelectedTheme("dark");
+            setIsLightTheme(null);
 
         } else  /* if the theme has to be switched to light */ {
 
             setLightMode();
-            setSelectedTheme("light");
+            setIsLightTheme(true);
 
         }
     };
@@ -31,12 +31,12 @@ const Theme = () => {
             <input
                 className='theme-div__input'
                 type='checkbox'
-                defaultChecked={ selectedTheme !== "light" } // if it's dark or if it's null, make it checked
+                defaultChecked={ !isLightTheme } // if it's dark or if it's null, make it checked
                 id='theme-toggle'
                 onChange={ (e) => toggleTheme(e) }
             />
             <label className='theme-div__label' htmlFor='theme-toggle'>
-                { selectedTheme === "light" ? <i className="bi bi-sun-fill"></i> : <i className="bi bi-moon-fill"></i> }
+                { isLightTheme ? <i className="bi bi-sun-fill"></i> : <i className="bi bi-moon-fill"></i> }
             </label>
         </div>
     );

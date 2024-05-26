@@ -42,8 +42,13 @@ export const logout = (setState, value) => {
 
 
     }).then(data => {
+        if (data["code"] === 200) {
+            
+            setDarkMode();
+            setState(value); // it's the isLoggedIn state. I gotta use a parameterized function if i want logout to be in utils.js
 
-        data["code"] === 200 && setState(value);
+
+        }
 
 
     }).catch(err => console.log(err));
@@ -119,8 +124,7 @@ export const setDarkMode = () => {
     // set the data-theme attribute of the body to dark, so that css style changes
     document.body.setAttribute("data-theme", "dark");
 
-    // save the selectedTheme in localStorage
-    localStorage.setItem("selectedTheme", "dark");
+    localStorage.removeItem("light-theme");
 
 };
 
@@ -133,7 +137,7 @@ export const setLightMode = () => {
     document.body.setAttribute("data-theme", "light");
 
     // save the selectedTheme in localStorage
-    localStorage.setItem("selectedTheme", "light");
+    localStorage.setItem("light-theme", true);
 
 };
 
@@ -143,10 +147,10 @@ export const setLightMode = () => {
 export const setUserTheme = () => {
 
     // get the value previously chosen
-    const selectedTheme = localStorage.getItem("selectedTheme");
+    const isLightTheme = localStorage.getItem("light-theme");
 
-    // since dark mode is the default one, I just gotta check if it's light, otherwise just keep the dark-mode (even if the selectedTheme is null)
-    if (selectedTheme === "light") {
+    // since dark mode is the default one, I just gotta check if it's light, otherwise just keep the dark-mode (even if the isLightTheme is null)
+    if (isLightTheme) {
 
         setLightMode();
 
