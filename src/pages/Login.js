@@ -36,6 +36,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
         // reset this variable in case the user was logged in but decided to access the login page from the url
         isLoggedIn && setIsLoggedIn(false);
 
+        localStorage.removeItem("light-theme");
+
 
     });
 

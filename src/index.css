@@ -1536,10 +1536,18 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     border: 0 !important;
 }
 
+.tox .tox-collection__item-icon svg, .tox-collection__item-caret svg{
+
+    fill: white !important;
+
+}
+.tox-collection__item-label, .tox-collection__item-accessory{
+
+    color: white !important;
+}
 .tox-collection__item-label * {
 
     background-color: transparent !important;
-
 }
 .tox-dialog__header {
 
@@ -1722,7 +1730,8 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 /*? responsive */
 
-@media screen and (orientation:landscape){
+@media screen and (pointer:none),
+(pointer:coarse){
 
     .menu__toolbar--normal{
         /* the height of the tinymce toolbar is different on mobile */
