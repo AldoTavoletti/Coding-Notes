@@ -1748,6 +1748,13 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 /*? responsive */
+
+@media screen and (orientation:landscape){
+
+    
+
+}
+
 @media screen and (max-width: 1240px) {
 .login-container {
 

@@ -113,6 +113,11 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     });
 
+    window.addEventListener("orientationchange", ()=> {
+        // Generate a resize event if the device doesn't do it
+        window.dispatchEvent(new Event("resize"));
+    });
+
     return (
         <>
             <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } isLoggedIn={ isLoggedIn } />
