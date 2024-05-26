@@ -82,7 +82,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */ {
 
-                if (window.innerWidth < 769 && lastCheckedWidth.current > 769) /* if the current width is < 769 and the last time it was > 769*/ {
+                if (window.innerWidth < 769 && (lastCheckedWidth.current > 769 || !lastCheckedWidth.current)) /* if the current width is < 769 and the last time it was > 769 */ {
 
                     if (menuStatus === "hidden" || menuStatus === "normal") /* if the menuStatus is "hidden" or "normal" */ {
 
@@ -96,7 +96,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
                     }
 
-                } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
+                } else if (window.innerWidth > 769 && (lastCheckedWidth.current < 769 || !lastCheckedWidth.current)) /* if the current width is > 769 and the last time it was < 769 */ {
 
                     // set it to "hidden"
                     setMenuStatus("hidden");
