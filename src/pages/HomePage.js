@@ -113,14 +113,6 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     });
 
-    window.matchMedia("(orientation: portrait)").addEventListener("change", e => {
-                if (!e.matches) {
-                    
-                    setMenuStatus("hamburger");
-                }
-
-    });
-
     return (
         <>
             <Modals modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } isLoggedIn={ isLoggedIn } />
