@@ -376,7 +376,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
             <div className="login-container">
 
-                <p ref={ titleRef }>{ wantsLogin ? "Login" : "Sign up" }</p>
+                <p ref={ titleRef }>{ wantsLogin ? "Log in" : "Sign up" }</p>
 
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } maxLength="255" />
 
@@ -469,7 +469,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                     <div>
 
                         <button onClick={ () => handleSignUpClick() } type="button" className={ !wantsLogin ? "active secondary-button" : "secondary-button" }>Sign Up</button>
-                        <button onClick={ () => handleLoginClick() } type="button" className={ wantsLogin ? "active secondary-button" : "secondary-button" }>Login</button>
+                        <button onClick={ () => handleLoginClick() } type="button" className={ wantsLogin ? "active secondary-button" : "secondary-button" }>Log in</button>
 
                     </div>
 

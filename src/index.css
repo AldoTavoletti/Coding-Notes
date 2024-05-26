@@ -77,7 +77,7 @@ body {
 
     display: flex;
     /* the height of the home-page depends on the height of the header in that moment */
-    height: calc(100dvh - max(10dvh, 60px));
+    height: calc(100dvh - max(min(10dvh,70px), 60px));
 }
 
 /*? modals */
@@ -1385,7 +1385,12 @@ input[data-autocompleted] {
     background-color: var(--quaternary-bg-color) !important;
 
 }
+/* restore last draft button */
+div[aria-label="Restore last draft"]{
 
+display: none !important;
+
+}
 .my-tox-header-sticky--expanded {
     /* 4% is the width of the hidden menu */
     left: calc(max(4%, 50px)) !important;
@@ -1605,16 +1610,14 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 .gsi-material-button {
-    background-color: #131314;
+    background-color: var(--primary-bg-color);
     background-image: none;
-    border: 1px solid #747775;
+    border: 2px solid var(--purple);
     -webkit-border-radius: 4px;
     border-radius: 4px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    color: #e3e3e3;
     cursor: pointer;
-    font-family: 'Roboto', arial, sans-serif;
     font-size: 14px;
     height: 40px;
     letter-spacing: 0.25px;
@@ -1623,14 +1626,13 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     padding: 0 12px;
     position: relative;
     text-align: center;
-    -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
-    transition: background-color .218s, border-color .218s, box-shadow .218s;
+    -webkit-transition: background-color .2s, border-color .2s, box-shadow .2s;
+    transition: background-color .2s, border-color .2s, box-shadow .2s;
     vertical-align: middle;
     white-space: nowrap;
     width: auto;
     max-width: 400px;
     min-width: min-content;
-    border-color: #8e918f;
 }
 
 .gsi-material-button .gsi-material-button-icon {
@@ -1657,9 +1659,9 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 .gsi-material-button .gsi-material-button-contents {
     -webkit-flex-grow: 1;
     flex-grow: 1;
-    font-family: 'Roboto', arial, sans-serif;
     font-weight: 500;
     overflow: hidden;
+    font-weight: bold;
     text-overflow: ellipsis;
     vertical-align: top;
 }
@@ -1675,38 +1677,9 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     top: 0;
 }
 
-.gsi-material-button:disabled {
-    cursor: default;
-    background-color: #13131461;
-    border-color: #8e918f1f;
-}
-
-.gsi-material-button:disabled .gsi-material-button-state {
-    background-color: #e3e3e31f;
-}
-
-.gsi-material-button:disabled .gsi-material-button-contents {
-    opacity: 38%;
-}
-
-.gsi-material-button:disabled .gsi-material-button-icon {
-    opacity: 38%;
-}
-
-.gsi-material-button:not(:disabled):active .gsi-material-button-state,
-.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
-    background-color: white;
-    opacity: 12%;
-}
-
-.gsi-material-button:not(:disabled):hover {
-    -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-}
-
 .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
-    background-color: white;
-    opacity: 8%;
+    background-color: var(--secondary-bg-color);
+    opacity: 90%;
 }
 
 /*? animations */
@@ -1752,7 +1725,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 @media screen and (orientation:landscape){
 
     .menu__toolbar--normal{
-
+        /* the height of the tinymce toolbar is different on mobile */
         height: 93px;
 
     }
