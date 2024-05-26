@@ -113,34 +113,10 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     });
 
-    window.addEventListener("orientationchange", ()=> {
-        if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */ {
+    window.matchMedia("(orientation: portrait)").addEventListener("change", e => {
 
-            if (window.innerWidth < 769 && lastCheckedWidth.current > 769) /* if the current width is < 769 and the last time it was > 769*/ {
-
-                if (menuStatus === "hidden" || menuStatus === "normal") /* if the menuStatus is "hidden" or "normal" */ {
-
-                    // set it to "hamburger"
                     setMenuStatus("hamburger");
 
-                } else if (menuStatus === "expanded") /* if it is "expanded" */ {
-
-                    // set it to "only-notelist"
-                    setMenuStatus("only-notelist");
-
-                }
-
-            } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
-
-                // set it to "hidden"
-                setMenuStatus("hidden");
-
-
-            }
-
-            // save this width
-            lastCheckedWidth.current = window.innerWidth;
-        }
     });
 
     return (
