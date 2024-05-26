@@ -1739,6 +1739,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
+        .tox-toolbar {
+    
+            background-color: var(--quaternary-bg-color) !important;
+    
+        }
+
 }
 
 @media screen and (max-width: 1240px) {
