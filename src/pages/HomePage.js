@@ -64,9 +64,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     const timeoutID = useRef();
 
     /*
-     this ref checks the last width registered. It's not important for PCs, but it is for smartphones and tablets. Matter of fact, when you open the keyboard 
-     the resize event is called. So to make sure the the menustatus is called when an actual resize took place, this ref is used. Without it, if you click on the hamburger
-     menu while you have the keyboard open, the expanded menu would be opened and then it would switch right back to hamburger because this line would be executed "menuStatus !== "hamburger" && setMenuStatus("hamburger");" 
+     this ref checks the last width registered. It's used to check if an actual resize took place, sometimes the event is called multiple times for just one resize. 
      */
     const lastCheckedWidth = useRef(window.innerWidth);
 
