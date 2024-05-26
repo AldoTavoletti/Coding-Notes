@@ -68,7 +68,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
      the resize event is called. So to make sure the the menustatus is called when an actual resize took place, this ref is used. Without it, if you click on the hamburger
      menu while you have the keyboard open, the expanded menu would be opened and then it would switch right back to hamburger because this line would be executed "menuStatus !== "hamburger" && setMenuStatus("hamburger");" 
      */
-    const lastCheckedWidth = useRef();
+    const lastCheckedWidth = useRef(window.innerWidth);
 
     if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
         return (<div className="full-height-container"><LoadingScreen /></div>);
@@ -82,7 +82,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */ {
 
-                if (window.innerWidth < 769 && (lastCheckedWidth.current > 769 || !lastCheckedWidth.current)) /* if the current width is < 769 and the last time it was > 769 */ {
+                if (window.innerWidth < 769 && lastCheckedWidth.current > 769) /* if the current width is < 769 and the last time it was > 769*/ {
 
                     if (menuStatus === "hidden" || menuStatus === "normal") /* if the menuStatus is "hidden" or "normal" */ {
 
@@ -96,7 +96,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
                     }
 
-                } else if (window.innerWidth > 769 && (lastCheckedWidth.current < 769 || !lastCheckedWidth.current)) /* if the current width is > 769 and the last time it was < 769 */ {
+                } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
 
                     // set it to "hidden"
                     setMenuStatus("hidden");
