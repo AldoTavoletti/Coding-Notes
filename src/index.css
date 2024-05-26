@@ -1751,7 +1751,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 @media screen and (orientation:landscape){
 
-    
+    .menu__toolbar--normal{
+
+        height: 90px;
+
+    }
 
 }
 
