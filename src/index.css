@@ -68,7 +68,7 @@ body {
 
 .app {
 
-    /* overflow hidden has to be put here and not in the body caus in mobile browser overflow: hidden is not considered in the body element. I also need to set position: relative to make it work */
+    /* overflow hidden has to be put here and not in the body cause in mobile browser overflow: hidden is not considered in the body element. I also need to set position: relative to make it work */
     position: relative;
     overflow: hidden;
 }
@@ -520,6 +520,12 @@ border-radius: 5px;
     transition: all 0.2s ease;
 }
 
+.icon-text-button div i{
+
+    color: white;
+
+}
+
 .menu__toolbar--expanded .icon-text-button{
     height: 2.6em;
     min-height: 2.6em;
@@ -532,11 +538,12 @@ border-radius: 5px;
     width: 50%;
 height: 2.3em;
 gap: 0;
+/* the same as the accordion */
+border-radius: 0.375rem;
     line-height: 2.3em;
 }
 .menu__toolbar--normal .icon-text-button span{
 text-align: center;
-
 }
 
 .icon-text-button span {
@@ -613,9 +620,6 @@ text-align: center;
     height: 88.6px;
     width: 100%;
     z-index: 4;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     border-bottom: 1px solid var(--secondary-bg-color-hover);
     background-color: var(--quaternary-bg-color);
 
@@ -1190,8 +1194,8 @@ text-align: center;
 
     font-size: 1.2em;
     border: 0;
+padding-block: 2%;
     background-color: var(--tertiary-bg-color);
-    line-height: 2.4em;
     width: 50%;
     color: var(--text-color-secondary);
     transition: all .2s ease;
@@ -1234,6 +1238,12 @@ text-align: center;
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.menu__toolbar--normal .button-group{
+height: 100%;
+align-items: center;
+
 }
 
 
@@ -1739,7 +1749,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 /*? responsive */
 @media screen and (max-width: 1240px) {
+.login-container {
 
+        width: 50%;
+        padding: 5%;
+    }
 .menu__toolbar--normal .icon-text-button span{
 
 display: none;
@@ -1764,9 +1778,7 @@ aspect-ratio: 1 / 1;
 @media screen and (max-width: 769px) {
     .login-container {
 
-        width: 50%;
-        padding: 5%;
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
 .myModal {
 

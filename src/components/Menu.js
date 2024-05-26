@@ -93,8 +93,12 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             { menuStatus === "normal" &&
                 (
                     <div className="menu__toolbar menu__toolbar--normal">
+                    <div className="button-group">
+
                     <button className="icon-text-button" onClick={ () => setMenuStatus("expanded") }><div><i class="bi bi-three-dots-vertical"></i></div><span>manage</span></button>
                         <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
+                    </div>
+
                     </div>
                 )
             }
