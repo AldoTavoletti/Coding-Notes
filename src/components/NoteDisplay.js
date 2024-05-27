@@ -16,7 +16,7 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
 
     const editorHeader = noteDisplayRef.current.querySelector(".tox-editor-header");
 
-    if (editorHeader) /* if the editor has been rendered */ {
+    if (editorHeader && editorHeader.style.position === "fixed") /* if the editor has been rendered and the header is in sticky mode*/ {
 
 
       if (menuStatus === "normal") {

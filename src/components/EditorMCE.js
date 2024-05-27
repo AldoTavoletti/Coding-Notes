@@ -197,24 +197,24 @@ const EditorMCE = ({ currentNote }) => {
                     }
 
                 /* width */
-                ::-webkit-scrollbar {
-                    width: 10px;
-                }
+::-webkit-scrollbar {
+    width: 15px;
+}
 
-                /* Track */
-                ::-webkit-scrollbar-track {
-                    background: #1b1b1b;
-                }
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--primary-bg-color);
+}
 
-                /* Handle */
-                ::-webkit-scrollbar-thumb {
-                    background-color: #2f2f2f;
-                }
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-bg-color);
+}
 
-                /* Handle on hover */
-                ::-webkit-scrollbar-thumb:hover {
-                    background-color: #555;
-                }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
 
                 /* changes the background-color of the code sample */
                 :not(pre)>code[class*=language-], pre[class*=language-]{

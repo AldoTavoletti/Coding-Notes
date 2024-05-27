@@ -1443,7 +1443,7 @@ div[aria-label="Restore last draft"] {
     left: calc(max(4%, 50px)) !important;
 
     /* 95.3 and not 96 to make the scrollbar visible */
-    width: calc(100vw - 15px - max(4vw, 50px)) !important;
+    width: calc(100% - 15px - max(4%, 50px)) !important;
 
 }
 
