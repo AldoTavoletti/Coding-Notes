@@ -78,7 +78,6 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
             }).then(data => {
-                console.log(data);
                 if (data["code"] === 200) {
                     // log in
                     setIsLoggedIn(data["username"]);

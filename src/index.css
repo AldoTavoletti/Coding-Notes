@@ -1854,7 +1854,7 @@ background-color: var(--purple) !important;
 @media screen and (max-width: 769px) {
     .login-container {
 
-        font-size: 0.8em;
+        width: 60%;
     }
 
     .myModal {
@@ -1862,13 +1862,6 @@ background-color: var(--purple) !important;
         width: 60%;
 
     }
-
-    button.gsi-material-button {
-
-        transform: scale(0.81);
-
-    }
-
 
     .login-page .ripple-background .sponsor {
 
@@ -1907,7 +1900,21 @@ background-color: var(--purple) !important;
         flex-basis: 100%;
 
     }
+.login-page .ripple-background {
 
+        width: 40%;
+
+    }
+
+    .login-page .ripple-background .sponsor {
+
+        display: none;
+
+    }
+        button.gsi-material-button {
+            transform: scale(1);
+    
+        }
     .note-display {
 
         flex-basis: 100%;
@@ -1945,7 +1952,15 @@ background-color: var(--purple) !important;
 }
 
 
+@media screen and (max-width: 500px) {
 
+.login-container{
+
+font-size: 0.9em;
+
+}
+
+}
 @media screen and (max-width: 426px) {
     .login-container {
 
@@ -2071,5 +2086,37 @@ background-color: var(--purple) !important;
 
     }
 
+
+}
+
+@media screen and (max-height: 500px) {
+
+.login-container{
+
+font-size: 0.8em;
+
+}
+ button.gsi-material-button {
+
+     transform: scale(0.87);
+
+ }
+
+}
+
+
+@media screen and (max-height: 425px) {
+
+    .login-container {
+
+        font-size: 0.55em;
+
+    }
+
+    button.gsi-material-button {
+
+        transform: scale(0.8);
+
+    }
 
 }
