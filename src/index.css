@@ -1953,7 +1953,8 @@ background-color: var(--purple) !important;
         display: none;
     }
 
-    .note-list {
+    .note-list,
+    .empty-folder-content p {
 
         font-size: 0.9em;
 
@@ -2021,8 +2022,8 @@ font-size: 0.9em;
 
     }
 
-    .note-list {
-
+    .note-list,.empty-folder-content p {
+     
         font-size: 0.8em;
 
     }
@@ -2056,7 +2057,8 @@ font-size: 0.9em;
 
     }
 
-    .note-list {
+    .note-list,
+    .empty-folder-content p{
 
         font-size: 0.75em;
 
@@ -2093,7 +2095,8 @@ font-size: 0.9em;
 
     }
 
-    .note-list {
+    .note-list,
+    .empty-folder-content p {
 
         font-size: 0.7em;
 
