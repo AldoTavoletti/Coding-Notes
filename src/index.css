@@ -2101,6 +2101,11 @@ font-size: 0.8em;
      transform: scale(0.87);
 
  }
+ .login-page .ripple-background .sponsor {
+
+     display: none;
+
+ }
 
 }
 
