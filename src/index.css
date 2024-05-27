@@ -661,7 +661,7 @@ body {
     align-items: center;
     cursor: pointer;
     width: 100%;
-    height: 90dvh;
+        height: calc(100dvh - max(min(10dvh, 70px), 60px));
     background-color: var(--primary-bg-color);
     transition: all 0.2s ease;
 }
@@ -776,15 +776,14 @@ body {
 
 .menu.menu--hidden {
     overflow-y: hidden;
-    
+
     flex-basis: 4%;
-        height: calc(100dvh - max(min(10dvh, 70px), 60px));
     min-width: 50px;
 }
 
-.menu.menu--hidden .note-list{
+.menu.menu--hidden .note-list {
 
-display: none;
+    display: none;
 }
 
 
@@ -966,7 +965,7 @@ display: none;
 
     text-align: center;
     font-weight: bold;
-    
+
     font-size: 2em;
     /* the margin from the top is half the height of note-display minus the fontsize */
     margin-top: calc(45dvh - 2em);
@@ -978,7 +977,7 @@ display: none;
     /* padding: 1.5% 3%; */
     transition: flex-basis 0.2s ease;
     overflow-y: scroll;
-        height: calc(100dvh - max(min(10dvh, 70px), 60px));
+    height: calc(100dvh - max(min(10dvh, 70px), 60px));
 
 }
 
@@ -1059,9 +1058,9 @@ display: none;
 
 }
 
-.note-list::-webkit-scrollbar{
+.note-list::-webkit-scrollbar {
 
-display: none;
+    display: none;
 
 }
 
@@ -1615,11 +1614,13 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     background-color: transparent !important;
 }
-.tox-dialog{
 
-            box-shadow: 0 30px 30px rgba(0, 0, 0, 0.5) !important;
+.tox-dialog {
+
+    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.5) !important;
 
 }
+
 .tox-dialog__header {
 
     background: var(--secondary-bg-color) !important;
@@ -1630,8 +1631,9 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 .tox .tox-split-button:hover {
     box-shadow: 0 0 0 1px var(--purple) inset !important;
 }
+
 .tox .tox-split-button:focus {
-    background-color:  var(--purple) !important;
+    background-color: var(--purple) !important;
 }
 
 .tox .tox-collection--toolbar .tox-collection__item--active {
@@ -1662,12 +1664,14 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     background: var(--quaternary-bg-color) !important;
 
 }
-/* color of the tooltip when you hover on a button */
-.tox .tox-tooltip__body{
 
-background-color: var(--purple) !important;
+/* color of the tooltip when you hover on a button */
+.tox .tox-tooltip__body {
+
+    background-color: var(--purple) !important;
 
 }
+
 /*  gets rid of the white border around the editor */
 .tox .tox-edit-area::before {
 
@@ -1861,8 +1865,8 @@ background-color: var(--purple) !important;
         width: 40%;
 
     }
-    
-    .empty-folder-content p{
+
+    .empty-folder-content p {
 
         font-size: 0.8em;
 
@@ -1920,7 +1924,8 @@ background-color: var(--purple) !important;
         flex-basis: 100%;
 
     }
-.login-page .ripple-background {
+
+    .login-page .ripple-background {
 
         width: 40%;
 
@@ -1931,10 +1936,12 @@ background-color: var(--purple) !important;
         display: none;
 
     }
-        button.gsi-material-button {
-            transform: scale(1);
-    
-        }
+
+    button.gsi-material-button {
+        transform: scale(1);
+
+    }
+
     .note-display {
 
         flex-basis: 100%;
@@ -1975,13 +1982,14 @@ background-color: var(--purple) !important;
 
 @media screen and (max-width: 500px) {
 
-.login-container{
+    .login-container {
 
-font-size: 0.9em;
+        font-size: 0.9em;
+
+    }
 
 }
 
-}
 @media screen and (max-width: 426px) {
     .login-container {
 
@@ -2029,8 +2037,9 @@ font-size: 0.9em;
 
     }
 
-    .note-list,.empty-folder-content p {
-     
+    .note-list,
+    .empty-folder-content p {
+
         font-size: 0.8em;
 
     }
@@ -2065,7 +2074,7 @@ font-size: 0.9em;
     }
 
     .note-list,
-    .empty-folder-content p{
+    .empty-folder-content p {
 
         font-size: 0.75em;
 
@@ -2114,21 +2123,23 @@ font-size: 0.9em;
 
 @media screen and (max-height: 500px) {
 
-.login-container{
+    .login-container {
 
-font-size: 0.8em;
+        font-size: 0.8em;
 
-}
- button.gsi-material-button {
+    }
 
-     transform: scale(0.87);
+    button.gsi-material-button {
 
- }
- .login-page .ripple-background .sponsor {
+        transform: scale(0.87);
 
-     display: none;
+    }
 
- }
+    .login-page .ripple-background .sponsor {
+
+        display: none;
+
+    }
 
 }
 
