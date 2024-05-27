@@ -775,7 +775,7 @@ body {
 }
 
 .menu.menu--hidden {
-
+    overflow-y: hidden;
     flex-basis: 4%;
     min-width: 50px;
 }
