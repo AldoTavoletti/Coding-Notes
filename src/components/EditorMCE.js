@@ -230,6 +230,16 @@ const EditorMCE = ({ currentNote }) => {
 
                 }
 
+                .mce-content-body audio[data-mce-selected],
+                .mce-content-body details[data-mce-selected],
+                .mce-content-body embed[data-mce-selected],
+                .mce-content-body img[data-mce-selected],
+                .mce-content-body object[data-mce-selected],
+                .mce-content-body table[data-mce-selected],
+                .mce-content-body video[data-mce-selected] {
+                    outline: 3px solid var(--purple);
+                }
+
                 
                 `,
                 codesample_global_prismjs: true, //uses a prism.js and prism.css file to add highlighting for more languages 

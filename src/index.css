@@ -97,7 +97,7 @@ body {
 .myModal__footer .secondary-button {
 
     border-radius: 5px;
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
 
 }
 
@@ -296,20 +296,21 @@ body {
     font-size: 1.2em;
     background-color: var(--secondary-bg-color);
     border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
     transition: box-shadow .2s ease;
 }
+
 .myModal__body input:hover,
 .myModal__body select:hover,
 .login-container input:hover {
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 .myModal__body input:focus,
 .myModal__body select:focus,
-.login-container input:focus{
+.login-container input:focus {
     outline: solid 2px var(--purple);
-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
 
 }
 
@@ -537,7 +538,7 @@ box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
     background-color: var(--purple);
     border: 2px solid var(--purple-light);
     font-size: 1.3em;
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.35);
     overflow: hidden;
     white-space: nowrap;
     transition: all 0.2s ease;
@@ -860,7 +861,6 @@ box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
     --bs-dropdown-color: var(--tertiary-bg-color);
     --bs-dropdown-bg: var(--primary-bg-color);
     --bs-dropdown-divider-bg: var(--tertiary-bg-color-active);
-    --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     --bs-dropdown-header-padding-x: 0.5rem;
     --bs-dropdown-header-padding-y: 0.5rem;
     position: absolute;
@@ -959,6 +959,7 @@ box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
 
     text-align: center;
     font-weight: bold;
+    
     font-size: 2em;
     /* the margin from the top is half the height of note-display minus the fontsize */
     margin-top: calc(45dvh - 2em);
@@ -1050,9 +1051,14 @@ box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
 
 }
 
+.accordion-item {
+
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.35);
+
+}
+
 .accordion {
     width: 95%;
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.35);
     --bs-accordion-border-width: 0;
     --bs-accordion-btn-focus-box-shadow: 0;
     --bs-accordion-bg: transparent;
@@ -1595,12 +1601,27 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     background-color: transparent !important;
 }
+.tox-dialog{
 
+            box-shadow: 0 30px 30px rgba(0, 0, 0, 0.5) !important;
+
+}
 .tox-dialog__header {
 
     background: var(--secondary-bg-color) !important;
     color: var(--text-color) !important;
 
+}
+
+.tox .tox-split-button:hover {
+    box-shadow: 0 0 0 1px var(--purple) inset !important;
+}
+.tox .tox-split-button:focus {
+    background-color:  var(--purple) !important;
+}
+
+.tox .tox-collection--toolbar .tox-collection__item--active {
+    background-color: var(--purple-hover) !important;
 }
 
 .tox-dialog__body {
@@ -1627,8 +1648,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     background: var(--quaternary-bg-color) !important;
 
 }
+.tox .tox-tooltip__body{
 
+background-color: var(--purple) !important;
 
+}
 /*  gets rid of the white border around the editor */
 .tox .tox-edit-area::before {
 
@@ -1661,7 +1685,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 .gsi-material-button {
 
     width: 60% !important;
-        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
 
 }
 
@@ -1935,7 +1959,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     .myModal {
 
         width: 90%;
-        
+
 
     }
 
