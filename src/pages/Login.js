@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { URL } from "../utils/utils";
+import { URL, setDarkMode } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -36,7 +36,11 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
         // reset this variable in case the user was logged in but decided to access the login page from the url
         isLoggedIn && setIsLoggedIn(false);
 
-        localStorage.removeItem("light-theme");
+        if (localStorage.getItem("light-theme")) {
+            
+            localStorage.removeItem("light-theme");
+            setDarkMode();
+        }
 
 
     });

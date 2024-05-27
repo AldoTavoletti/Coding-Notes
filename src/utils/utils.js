@@ -44,7 +44,6 @@ export const logout = (setState, value) => {
     }).then(data => {
         if (data["code"] === 200) {
             
-            setDarkMode();
             setState(value); // it's the isLoggedIn state. I gotta use a parameterized function if i want logout to be in utils.js
 
 

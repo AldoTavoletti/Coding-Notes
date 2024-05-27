@@ -320,7 +320,7 @@ border-radius: 5px;
     display: flex;
     flex-direction: column;
     width: 90%;
-    height: 10%;
+    height: 3.6em;
     transition: height .2s ease;
 }
 
@@ -707,11 +707,18 @@ text-align: center;
 
 }
 
-.menu__toolbar--expanded hr {
+.menu--expanded .menu__toolbar--expanded hr {
 
     border-color: white;
+max-width: 100%;
+}
+
+.menu hr{
+
+max-width: 95%;
 
 }
+
 
 .menu__toolbar--only-notelist .secondary-button i {
 
