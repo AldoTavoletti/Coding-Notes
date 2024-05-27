@@ -1648,6 +1648,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     background: var(--quaternary-bg-color) !important;
 
 }
+/* color of the tooltip when you hover on a button */
 .tox .tox-tooltip__body{
 
 background-color: var(--purple) !important;

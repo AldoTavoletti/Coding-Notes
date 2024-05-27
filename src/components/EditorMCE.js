@@ -230,6 +230,7 @@ const EditorMCE = ({ currentNote }) => {
 
                 }
 
+                /* changes the outline of the accordion and other elements */
                 .mce-content-body audio[data-mce-selected],
                 .mce-content-body details[data-mce-selected],
                 .mce-content-body embed[data-mce-selected],
