@@ -971,7 +971,8 @@ body {
     /* padding: 1.5% 3%; */
     transition: flex-basis 0.2s ease;
     overflow-y: scroll;
-    height: 90dvh;
+        height: calc(100dvh - max(min(10dvh, 70px), 60px));
+
 }
 
 .note-display--hidden {
