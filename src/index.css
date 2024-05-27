@@ -1860,6 +1860,12 @@ background-color: var(--purple) !important;
         width: 40%;
 
     }
+    
+    .empty-folder-content p{
+
+        font-size: 0.8em;
+
+    }
 
 
 }
