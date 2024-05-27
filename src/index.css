@@ -778,6 +778,7 @@ body {
     overflow-y: hidden;
     
     flex-basis: 4%;
+        height: calc(100dvh - max(min(10dvh, 70px), 60px));
     min-width: 50px;
 }
 
