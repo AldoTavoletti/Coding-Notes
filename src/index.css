@@ -616,6 +616,7 @@ body {
     background-color: var(--primary-bg-color);
     transition: all 0.2s ease;
     overflow-y: auto;
+    height: calc(100dvh - max(min(10dvh, 70px), 60px));
     border-right: 3px solid var(--secondary-bg-color);
     /* for firefox */
     scrollbar-width: none;
