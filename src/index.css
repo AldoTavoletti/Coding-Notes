@@ -745,7 +745,14 @@ body {
     max-width: 95%;
 
 }
+ .choose-note {
 
+     display: none;
+
+    
+ }
+
+ 
 
 .menu__toolbar--only-notelist .secondary-button i {
 
@@ -1906,10 +1913,28 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
+    .choose-note{
+
+        display: flex;
+
+    }
+
+        .over-769 {
+
+            display: none;
+
+        }
+
+
     .menu:not(.menu--expanded, .menu--only-notelist) {
 
         flex-basis: 0%;
         border: 0;
+
+    }
+    .menu--expanded .note-list{
+
+        display: none;
 
     }
 

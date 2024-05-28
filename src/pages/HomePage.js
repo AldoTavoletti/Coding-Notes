@@ -87,17 +87,20 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
                         // set it to "hamburger"
                         setMenuStatus("hamburger");
 
-                    } else if (menuStatus === "expanded") /* if it is "expanded" */ {
-
-                        // set it to "only-notelist"
-                        setMenuStatus("only-notelist");
-
                     }
 
                 } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
 
-                    // set it to "hidden"
-                    setMenuStatus("hidden");
+                    if (menuStatus === "only-notelist") {
+                        
+                        setMenuStatus("expanded");
+
+                    }
+                    if (menuStatus === "hamburger") {
+                        // set it to "hidden"
+                        setMenuStatus("hidden");
+                        
+                    }
 
 
                 }

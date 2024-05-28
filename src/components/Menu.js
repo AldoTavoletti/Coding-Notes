@@ -70,21 +70,17 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <Theme />
                             <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                         </div>
-                        { window.innerWidth < 769 &&
-                            <button className="icon-text-button" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
+                            <button className="icon-text-button choose-note" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
 
-                        }
                     <button className="icon-text-button" onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
                     <button className="icon-text-button" onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
-                        { window.innerWidth >= 769 &&
-                            <>
-                                <hr />
+                       
+                        <hr className="over-769"/>
 
-                        <button className="icon-text-button" onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
-                        <button className="icon-text-button" onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
-                            </>
-                        }
+                        <button className="icon-text-button over-769" onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
+                        <button className="icon-text-button over-769" onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
+                        
 
                     </div>
                 )
@@ -135,7 +131,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
             {/* the noteList is always mounted (unless the window.innerWidth is < 769) so that open folders stay open even if the menu is closed and then reopened */ }
-            { (window.innerWidth >= 769 || menuStatus === "only-notelist") && <NoteList noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } /> }
+            <NoteList noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
 
         </div>
 
