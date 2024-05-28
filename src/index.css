@@ -114,11 +114,13 @@ body {
     word-wrap: break-word;
     --bs-modal-bg: var(--primary-bg-color);
 }
-.btn-close{
+
+.btn-close {
 
     --bs-btn-close-focus-shadow: 0;
 
 }
+
 .modal-header {
 
     background-color: var(--purple);
@@ -1017,7 +1019,7 @@ body {
     font-weight: bold;
     height: 10dvh;
     min-height: 60px;
-        max-height: 70px;
+    max-height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1830,10 +1832,16 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-        .secondary-button:not(.active):hover {
-    
-            background-color: var(--tertiary-bg-color);
-        }
+    .secondary-button:not(.active):hover {
+
+        background-color: var(--tertiary-bg-color);
+    }
+
+    button{
+
+        user-select: none;
+
+    }
 
 }
 
