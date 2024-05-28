@@ -182,7 +182,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
             {/* the context menu */ }
             { contextMenuInfo.x && (
 
-                <div className="context-menu" style={ { left: contextMenuInfo.x, top: contextMenuInfo.y } }>
+                <div className="context-menu" style={ { "--left": contextMenuInfo.x, "--top": contextMenuInfo.y } }>
 
                     <div className="list-group">
 
@@ -199,7 +199,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                         { (contextMenuInfo.elementType === "note" || folders.length > 1) &&
                             <button
                                 type="button"
-                                className="list-group-item list-group-item-action"
+                                className="list-group-item"
                                 onClick={ () => deleteElement() }
                             >Delete</button>
                         }
