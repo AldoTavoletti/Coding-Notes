@@ -1118,6 +1118,7 @@ body {
     max-width: 50%;
     text-overflow: ellipsis;
     overflow: hidden;
+    user-select: none;
 
 
 }
@@ -1828,6 +1829,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         background-color: var(--quaternary-bg-color) !important;
 
     }
+
+        .secondary-button:not(.active):hover {
+    
+            background-color: var(--tertiary-bg-color);
+        }
 
 }
 
