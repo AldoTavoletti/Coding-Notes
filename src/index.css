@@ -1028,6 +1028,7 @@ body {
     font-size: 1.4em;
     color: inherit;
     margin: 0;
+    user-select: none;
 }
 
 .empty-folder-content i {
@@ -1146,6 +1147,7 @@ body {
     color: white !important;
     font-weight: bold;
     font-size: 1.3em;
+    user-select: none;
 
 }
 
