@@ -661,7 +661,7 @@ body {
     align-items: center;
     cursor: pointer;
     width: 100%;
-        height: calc(100dvh - max(min(10dvh, 70px), 60px));
+    height: calc(100dvh - max(min(10dvh, 70px), 60px));
     background-color: var(--primary-bg-color);
     transition: all 0.2s ease;
 }
@@ -745,14 +745,15 @@ body {
     max-width: 95%;
 
 }
- .choose-note {
 
-     display: none;
+.choose-note {
 
-    
- }
+    display: none;
 
- 
+
+}
+
+
 
 .menu__toolbar--only-notelist .secondary-button i {
 
@@ -1034,6 +1035,8 @@ body {
     text-align: center;
     font-weight: bold;
     height: 10dvh;
+    min-height: 60px;
+        max-height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1863,22 +1866,24 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         aspect-ratio: 1 / 1;
     }
 
-}
-
-@media screen and (max-width: 1240px) {
-
     .myModal {
 
         width: 40%;
 
     }
 
+
     .empty-folder-content p {
 
-        font-size: 0.8em;
+        font-size: 1em;
 
     }
 
+    .menu__toolbar {
+
+        font-size: 0.9em;
+
+    }
 
 }
 
@@ -1913,17 +1918,17 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-    .choose-note{
+    .choose-note {
 
         display: flex;
 
     }
 
-        .over-769 {
+    .over-769 {
 
-            display: none;
+        display: none;
 
-        }
+    }
 
 
     .menu:not(.menu--expanded, .menu--only-notelist) {
@@ -1932,7 +1937,8 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         border: 0;
 
     }
-    .menu--expanded .note-list{
+
+    .menu--expanded .note-list {
 
         display: none;
 
@@ -1991,16 +1997,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     ::-webkit-scrollbar {
         display: none;
     }
-
-    .note-list,
-    .empty-folder-content p {
-
-        font-size: 0.9em;
-
-    }
-
-
-
 
 }
 
@@ -2062,12 +2058,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-    .note-list,
-    .empty-folder-content p {
-
-        font-size: 0.8em;
-
-    }
 }
 
 @media screen and (max-width: 376px) {
@@ -2095,13 +2085,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     .menu__toolbar {
 
         font-size: 0.625em;
-
-    }
-
-    .note-list,
-    .empty-folder-content p {
-
-        font-size: 0.75em;
 
     }
 
@@ -2135,15 +2118,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 0.525em;
 
     }
-
-    .note-list,
-    .empty-folder-content p {
-
-        font-size: 0.7em;
-
-    }
-
-
 }
 
 @media screen and (max-height: 500px) {
@@ -2165,7 +2139,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         display: none;
 
     }
-
 }
 
 
