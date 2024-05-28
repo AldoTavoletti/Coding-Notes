@@ -1837,10 +1837,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         background-color: var(--tertiary-bg-color);
     }
 
-    .secondary-button:not(.active):active {
 
-        background-color: var(--tertiary-bg-color-active);
-    }
 
     button {
 
