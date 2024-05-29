@@ -914,12 +914,12 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
+    overflow: hidden;
 }
 .header--note__folder {
     color: #a4a4a4;
 font-weight: bold;
     white-space: nowrap;
-
     font-size: 1.5em;
     animation: load-note-animation 0.5s ease-in;
 }
@@ -936,7 +936,7 @@ font-weight: bold;
     white-space: nowrap;
 }
 
-.header__title::-webkit-scrollbar {
+.header--note__title::-webkit-scrollbar {
 
     height: 0;
 
