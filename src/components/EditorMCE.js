@@ -21,11 +21,11 @@ const EditorMCE = ({ currentNote }) => {
     As a matter of fact, if the change event is fired by clicking on another note, "correspondingNoteID.current = currentNote" gets executed after the end of the event function, while currentNote changes instantly.
     
     */
-    correspondingNoteID.current = currentNote;
+    correspondingNoteID.current = currentNote.noteID;
 
     // retrieve data relative to the currentNote
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher, { revalidateOnFocus: false });
+    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
 
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (

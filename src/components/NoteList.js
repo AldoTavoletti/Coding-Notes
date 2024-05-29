@@ -51,7 +51,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         }
 
         // change the currentNote state
-        setCurrentNote(note.noteID);
+        setCurrentNote({noteID:note.noteID, folderName: folders[folderIndex].folderName});
 
         /*
                 the noteTitle is changed, and then the mutate for the header is called. This way the noteTitle gets changed only here, and not also in the useEffects in Header.js
@@ -61,7 +61,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                 These 2 lines make sure everything about the title is ok. Maybe even about the note content itself.
                 */
         setNoteTitle(note.title);
-        mutate(URL + `?retrieve=single&note=${currentNote}`);
+        mutate(URL + `?retrieve=single&note=${currentNote && currentNote.noteID}`);
 
         // if the menu isn't already in normal status, set it to be
         (menuStatus !== "normal" || menuStatus !== "hamburger") && setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
@@ -148,7 +148,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                                             >
 
                                                 {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }
-                                                <p>{ currentNote === note.noteID ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
+                                                <p>{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
 
                                             </div>
 

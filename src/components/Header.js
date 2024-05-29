@@ -9,7 +9,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
     const header = useRef();
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote}`, fetcher, { revalidateOnFocus: false });
+    const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote && currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
 
     useEffect(() => {
 
@@ -33,21 +33,24 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
         <div className="header" ref={ header }>
 
             {/* if no note has been selected or if the login page is shown */ }
-            { (!isLoggedIn || (!note && !isValidating && !isLoading)) && <p>Coding Notes</p> }
+            { (!isLoggedIn || (!note && !isValidating && !isLoading)) && <p className="header--note__title">Coding Notes</p> }
 
             {/* if the selected note is validating */ }
             { (!note && (isValidating || isLoading)) && <p></p> }
 
             {/* if a note has been selected and it's been fetched */ }
             { (note && currentNote) &&
+            <div className="header--note">
+                    <span className="header--note__folder">{ currentNote.folderName } &nbsp;&gt;&nbsp;&nbsp;</span>
                 <p
                     contentEditable="true"
                     suppressContentEditableWarning={ true }
                     onDragStart={ (e) => e.preventDefault() }
                     data-placeholder="Title..."
-                    className="header__title"
+                    className="header--note__title"
                     onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
-                >{ note.title }</p> }
+                >{ note.title }</p> 
+            </div>}
 
 
             <div className="header__buttons-div">

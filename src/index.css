@@ -800,7 +800,6 @@ body {
     justify-content: right;
 
 }
-
 .header__buttons-div .bi.bi-list {
 
     font-size: 1.5em;
@@ -911,18 +910,25 @@ body {
     transition: background-color 0.2s ease, color 0.2s ease;
 
 }
-
-.header p {
-    margin: 0;
-    font-size: 1.5em;
-    font-weight: bold;
-    animation: load-note-animation 0.5s ease-in;
-    color: white;
+.header--note{
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
+.header--note__folder {
+    color: #a4a4a4;
+font-weight: bold;
+    white-space: nowrap;
 
-.header__title {
-
-    font-size: 3em;
+    font-size: 1.5em;
+    animation: load-note-animation 0.5s ease-in;
+}
+.header--note__title {
+    animation: load-note-animation 0.5s ease-in;
+    margin: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
     font-weight: bold;
     outline: 0;
     width: 70%;
@@ -936,7 +942,7 @@ body {
 
 }
 
-.header__title:empty::before {
+.header--note__title:empty::before {
     content: attr(data-placeholder);
     color: #a4a4a4;
 }
