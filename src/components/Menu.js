@@ -70,17 +70,17 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <Theme />
                             <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                         </div>
-                            <button className="icon-text-button choose-note" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
+                        <button className="icon-text-button choose-note" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-folder-plus"></i></div><span>Choose a note</span></button>
 
-                    <button className="icon-text-button" onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
-                    <button className="icon-text-button" onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
+                        <button className="icon-text-button" onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
+                        <button className="icon-text-button" onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
-                       
-                        <hr className="over-769"/>
+
+                        <hr className="over-769" />
 
                         <button className="icon-text-button over-769" onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
                         <button className="icon-text-button over-769" onClick={ () => collapseFolders() }><div><i className="bi bi-arrows-collapse"></i></div><span>Collapse All</span></button>
-                        
+
 
                     </div>
                 )
@@ -89,11 +89,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             { menuStatus === "normal" &&
                 (
                     <div className="menu__toolbar menu__toolbar--normal">
-                    <div className="button-group">
+                        <div className="button-group">
 
-                    <button className="icon-text-button" onClick={ () => setMenuStatus("expanded") }><div><i class="bi bi-three-dots-vertical"></i></div><span>manage</span></button>
-                        <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
-                    </div>
+                            <button className="icon-text-button" onClick={ () => setMenuStatus("expanded") }><div><i class="bi bi-three-dots-vertical"></i></div><span>manage</span></button>
+                            <i className="bi bi-arrow-left" onClick={ () => setMenuStatus("hidden") }></i>
+                        </div>
 
                     </div>
                 )
@@ -101,9 +101,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
             { menuStatus === "hidden" &&
                 (
-                    <div className="menu__toolbar menu__toolbar--small" onClick={ () => setMenuStatus("normal") }>
+                    <div className="menu__toolbar menu__toolbar--small">
 
-                        <i className="bi bi-arrow-right"></i>
+                        <i className="bi bi-list" onClick={ () => setMenuStatus("normal") }></i>
+                    <i className="bi bi-folder-plus" onMouseEnter={ (e) => e.target.classList.replace("bi-folder-plus", "bi-folder-fill") } onMouseLeave={ (e) => e.target.classList.replace("bi-folder-fill", "bi-folder-plus") } onClick={ () => setModalShowing("folder") }></i>
+                    <i className="bi bi-file-plus" onMouseEnter={ (e) => e.target.classList.replace("bi-file-plus", "bi-file-plus-fill") } onMouseLeave={ (e) => e.target.classList.replace("bi-file-plus-fill", "bi-file-plus") } onClick={ () => setModalShowing("note") }></i>
 
                     </div>
                 )
