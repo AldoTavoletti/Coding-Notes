@@ -1827,16 +1827,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 @media screen and (pointer:none),
 (pointer:coarse) {
-.secondary-button:disabled:active {
+.secondary-button:disabled {
 
         background-color: rgb(215, 96, 96) !important;
 
     }
-        .secondary-button:disabled:hover {
-    
-            background-color: var(--tertiary-bg-color-active) !important;
-    
-        }
     .menu__toolbar--normal {
         /* the height of the tinymce toolbar is different on mobile */
         height: 93px;
