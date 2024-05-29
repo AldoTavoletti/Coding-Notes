@@ -1834,7 +1834,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     }
         .secondary-button:disabled:hover {
     
-            background-color: var(--tertiary-bg-color-active);
+            background-color: var(--tertiary-bg-color-active) !important;
     
         }
     .menu__toolbar--normal {
