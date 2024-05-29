@@ -27,7 +27,6 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteTitle]);
 
-
     return (
 
         <div className="header" ref={ header }>
@@ -41,7 +40,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
             {/* if a note has been selected and it's been fetched */ }
             { (note && currentNote) &&
             <div className="header--note">
-                    <span className="header--note__folder">{ currentNote.folderName } &nbsp;&gt;&nbsp;&nbsp;</span>
+                    <div className="header--note__folder-div"><div>{ currentNote.folderName }</div>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</div>
                 <p
                     contentEditable="true"
                     suppressContentEditableWarning={ true }

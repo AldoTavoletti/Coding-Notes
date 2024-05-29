@@ -51,7 +51,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         }
 
         // change the currentNote state
-        setCurrentNote({noteID:note.noteID, folderName: folders[folderIndex].folderName});
+        setCurrentNote({noteID:note.noteID, folderName: folders[folderIndex].folderName, folderID: folders[folderIndex].folderID});
 
         /*
                 the noteTitle is changed, and then the mutate for the header is called. This way the noteTitle gets changed only here, and not also in the useEffects in Header.js
@@ -124,7 +124,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                                     <span className="accordion-button__folder-title">{ folder.folderName }</span>
                                     <span
                                         className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
-                                        onClick={ (e) => setModalShowing({ noteFolderID: folder.folderID }) } //open the note
+                                        onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName }) } //open the note
                                         style={ { '--hover-color': getContrastColor(folderColors[folder.color].secondary), color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } // set a style variable relative to the note color and set a visible text color 
                                     >+</span>
                                 </button>

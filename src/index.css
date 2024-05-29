@@ -800,6 +800,7 @@ body {
     justify-content: right;
 
 }
+
 .header__buttons-div .bi.bi-list {
 
     font-size: 1.5em;
@@ -905,35 +906,55 @@ body {
     min-height: 60px;
     max-height: 70px;
     width: 100%;
+    gap: 20px;
     padding: 0.5% 2%;
     border-bottom: 3px solid var(--purple);
     transition: background-color 0.2s ease, color 0.2s ease;
 
 }
-.header--note{
+
+.header--note {
     display: flex;
     align-items: center;
     width: 100%;
     overflow: hidden;
 }
-.header--note__folder {
+
+.header--note:focus-within .header--note__folder-div {
+    /* i use max-width 0 and visibility hidden for animation reasons */
+    max-width: 0;
+    visibility: hidden;
+}
+
+.header--note__folder-div {
+    display: flex;
     color: #a4a4a4;
-font-weight: bold;
+    font-weight: bold;
     white-space: nowrap;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    max-width: max(25%,110px);
+    transition: max-width .2s ease;
     animation: load-note-animation 0.5s ease-in;
 }
+
+.header--note__folder-div div {
+    color: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .header--note__title {
     animation: load-note-animation 0.5s ease-in;
     margin: 0;
     color: white;
+    width: 100%;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: bold;
     outline: 0;
-    width: 70%;
     overflow: auto;
     white-space: nowrap;
+    transition: all .2s ease;
 }
 
 .header--note__title::-webkit-scrollbar {
@@ -1073,7 +1094,7 @@ font-weight: bold;
 
 }
 
-.accordion__white-svg{
+.accordion__white-svg {
     --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
@@ -1082,6 +1103,7 @@ font-weight: bold;
     --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
+
 .accordion-button {
     font-weight: bold;
     font-size: 0.6em;
@@ -1828,11 +1850,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 @media screen and (pointer:none),
 (pointer:coarse) {
-.secondary-button:disabled {
+    .secondary-button:disabled {
 
         background-color: rgb(215, 96, 96) !important;
 
     }
+
     .menu__toolbar--normal {
         /* the height of the tinymce toolbar is different on mobile */
         height: 93px;
@@ -2029,6 +2052,13 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         border-radius: 10px;
         font-size: 0.85em;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .header--note__folder-div,
+    .header--note__title {
+
+        font-size: 1.1em;
+
     }
 
     .myModal {
