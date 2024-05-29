@@ -1832,6 +1832,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         background-color: rgb(215, 96, 96) !important;
 
     }
+        .secondary-button:disabled:hover {
+    
+            background-color: var(--tertiary-bg-color-active);
+    
+        }
     .menu__toolbar--normal {
         /* the height of the tinymce toolbar is different on mobile */
         height: 93px;
