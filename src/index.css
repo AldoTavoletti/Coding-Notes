@@ -794,7 +794,7 @@ body {
 
     display: flex;
     gap: 15%;
-    width: 25%;
+    width: fit-content;
     height: 100%;
     align-items: center;
     justify-content: right;
