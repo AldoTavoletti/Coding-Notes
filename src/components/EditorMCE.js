@@ -241,9 +241,22 @@ const EditorMCE = ({ currentNote }) => {
                     outline: 3px solid var(--purple);
                 }
 
+                .mce-content-body [contentEditable=false][data-mce-selected] {
+                    outline: 3px solid var(--purple);
+                }
+
+                .mce-content-body div.mce-resizehandle {
+                    background-color: var(--purple);
+                    border-color: var(--purple);
+                }
+
+                .mce-content-body div.mce-resizehandle:hover {
+                    background-color: var(--purple);
+                    border-color: var(--purple);
+                }
                 
                 `,
-                codesample_global_prismjs: true, //uses a prism.js and prism.css file to add highlighting for more languages 
+                codesample_global_prismjs: true, //uses a prism.js and prism.css file to highlight more languages 
                 codesample_languages: [
                     { text: "HTML/XML", value: "markup" },
                     { text: "CSS", value: "css" },
