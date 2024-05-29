@@ -115,12 +115,12 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
                 // I use React.Fragment (which is the same as <>) to add the key value
                 <React.Fragment key={ folder.folderID }>
-                    <div className="accordion" onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } id={ "accordion" + folderIndex } >
+                    <div className={ `accordion ${getContrastColor(folderColors[folder.color].primary) === "#ffffff" ? "accordion__white-svg" : "accordion__black-svg"}`} onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } id={ "accordion" + folderIndex } >
                         <div className="accordion-item">
 
                             <h2 className="accordion-header">
 
-                                <button className="accordion-button collapsed" style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                                <button className="accordion-button collapsed"  style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                                     <span className="accordion-button__folder-title">{ folder.folderName }</span>
                                     <span
                                         className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
@@ -144,7 +144,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                                                 onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
                                                 key={ note.noteID }
                                                 className="note-list__note"
-                                                style={ { '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } } // set a style variable relative to the note color and set a visible text color 
+                                                style={ { '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary)} } // set a style variable relative to the note color and set a visible text color 
                                             >
 
                                                 {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }

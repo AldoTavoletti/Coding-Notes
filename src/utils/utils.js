@@ -59,7 +59,7 @@ export const logout = (setState, value) => {
 /**
  * 
  * @param {string} backgroundColor 
- * @returns the color to use for the text
+ * @returns {string}the color to use for the text
  */
 export const getContrastColor = (backgroundColor) => {
     const threshold = 0.5; // Adjust this threshold as needed
@@ -68,7 +68,7 @@ export const getContrastColor = (backgroundColor) => {
     const backgroundLuminance = getLuminance(backgroundColor);
 
     // Determine whether to use light or dark text based on the threshold
-    return backgroundLuminance > threshold ? '#000000' : '#ffffff';
+    return backgroundLuminance > threshold ? "#000000" : "#ffffff";
 };
 
 /**
