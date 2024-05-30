@@ -184,28 +184,26 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
                 <div className="context-menu" style={ { "--left": contextMenuInfo.x, "--top": contextMenuInfo.y } }>
 
-                    <div className="list-group">
 
                         {/* this is shown only for the folders */ }
                         { contextMenuInfo.elementType === "folder" &&
                             <button
                                 type="button"
-                                className="list-group-item list-group-item-action"
+                            className="icon-text-button"
                                 onClick={ () => setModalShowing({ elementID: contextMenuInfo.elementID, folderName: contextMenuInfo.folderName, folderColor: contextMenuInfo.folderColor }) }
-                            >Modify</button>
+                        ><div>{ contextMenuInfo.elementType === "note" ? <i className="bi bi-file-plus-fill"></i> : <i className="bi bi-folder-fill"></i> }</div><span>Modify</span></button>
                         }
 
                         {/* this button is hidden only if a folder is clicked and there is only one of 'em */ }
                         { (contextMenuInfo.elementType === "note" || folders.length > 1) &&
                             <button
                                 type="button"
-                                className="list-group-item"
+                                className="icon-text-button"
                                 onClick={ () => deleteElement() }
-                            >Delete</button>
+                            ><div>{ contextMenuInfo.elementType === "note" ? <i className="bi bi-file-x"></i> : <i className="bi bi-folder-x"></i> }</div><span>Delete</span></button>
                         }
                     </div>
 
-                </div>
 
             )
 

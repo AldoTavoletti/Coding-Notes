@@ -511,6 +511,7 @@ body {
 
 .icon-text-button {
     display: flex;
+    align-items: center;
     width: 100%;
     gap: 4%;
     text-align: left;
@@ -932,7 +933,7 @@ body {
     font-weight: bold;
     white-space: nowrap;
     font-size: 1.3em;
-    max-width: max(25%,110px);
+    max-width: max(25%, 110px);
     transition: max-width .2s ease;
     animation: load-note-animation 0.5s ease-in;
 }
@@ -1008,6 +1009,7 @@ body {
 /*? context-menu */
 .context-menu {
     --height: 6dvh;
+    width: 150px;
     /* --left and top variables are declared in jsx */
     /* i add 20px to make sure the context menu doesn't appear exactly where I pressed */
     left: calc(var(--left) + 20px);
@@ -1017,18 +1019,23 @@ body {
     z-index: 9999;
 }
 
+.context-menu button:first-child {
 
-.list-group-item {
-    height: var(6dvh);
-    background-color: var(--primary-bg-color);
-    color: var(--text-color);
-
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
 }
 
-.list-group-item:hover {
+.context-menu button:last-child {
 
-    background-color: var(--secondary-bg-color);
-    color: var(--text-color);
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+.context-menu .icon-text-button {
+
+    height: 2.3em;
+    min-height: 2.3em;
+    line-height: 2.3em;
 
 }
 
@@ -1289,14 +1296,14 @@ body {
 
 .double-button-radius-container :first-child {
 
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
 }
 
 .double-button-radius-container :last-child {
 
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
 }
 
 

@@ -13,16 +13,11 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
     // the note title in the notes modal
     const [noteTitle, setNoteTitle] = useState("");
 
-    /* 
-     * the note's parent folder ID in the note modal
-     * it's initial value is set in a useEffect after the folders' fetch. It cannot be set now since folders would be undefined, and it cannot be declared later since Hooks cannot be declared after "if (error) return (<div></div>);"
-     */
-    const [noteFolder, setNoteFolder] = useState(null);
+    //it contains the parent folderID and the parent folderName. I also need the folderName cause it'll be shown in the header
+    const [noteFolder, setNoteFolder] = useState({ folderID: null, folderName: null });
 
     // get the values from folderColors so that I can iterate it with map
     const colorsArr = Object.values(folderColors);
-
-
     const colorKeysArr = Object.keys(folderColors);
 
     /**
@@ -41,10 +36,9 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
      */
     const resetNoteStates = () => {
 
-
         noteTitle !== "" && setNoteTitle("");
-        // if I don't check folders[0], moving from login to homepage etc. in the URL could mess things up apparently 
-        (folders[0] && noteFolder && noteFolder.folderID !== folders[0].folderID) && setNoteFolder({folderID:folders[0].folderID, folderName: folders[0].folderName});
+
+        //? I don't reset the noteFolder to avoid useless re-renders (it's gonna be given a new value when a modal is opened anyway)
 
     };
 
@@ -54,27 +48,29 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
 
             if (typeof modalShowing === "object") {
 
-                 if ("folderID" in modalShowing) /* if it's the add note from the folder button */ {
+                if ("folderID" in modalShowing) /* if it's the add-note modal from the + button in the accordion */ {
 
-                    setNoteFolder({folderID:modalShowing.folderID, folderName: modalShowing.folderName});
+                    // if the current noteFolder is different from what it should be
+                    (modalShowing.folderID !== noteFolder.folderID || modalShowing.folderName !== noteFolder.folderName) && setNoteFolder({ folderID: modalShowing.folderID, folderName: modalShowing.folderName });
 
-                 } else if ("folderName" in modalShowing) /* if it's the modify-folder modal */ {
+                } else if ("folderColor" in modalShowing) /* if it's the modify-folder modal */ {
 
-                     // show data relative to the folder to modify
-                     setFolderName(modalShowing.folderName);
-                     setSelectedColor(modalShowing.folderColor);
+                    // show data relative to the folder to modify
+                    setFolderName(modalShowing.folderName);
+                    setSelectedColor(modalShowing.folderColor);
 
-                    }
                 }
-            
-                    if (modalShowing === "none") /*if the modal gets closed and it's not the first render of the application (&& folders)*/ {
+            }
+
+            if (modalShowing === "none") /*if the modal gets closed */ {
 
                 resetFolderStates();
                 resetNoteStates();
 
-            }else if(modalShowing === "note"){
+            } else if (modalShowing === "note") /* if it's the add-note from the menu */ {
 
-                !noteFolder && setNoteFolder({folderID:folders[0].folderID, folderName: folders[0].folderName});
+                // if the current noteFolder is different from the first one
+                (noteFolder.folderID !== folders[0].folderID || noteFolder.folderName !== folders[0].folderName) && setNoteFolder({ folderID: folders[0].folderID, folderName: folders[0].folderName });
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -155,8 +151,8 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
 
             mutate();
 
-            if (currentNote && currentNote.folderID === modalShowing.elementID) /* if the folder of the currentNote is being changed, change the currentNote foldername, which is shown in the header */{
-                setCurrentNote({...currentNote, folderName:folderName});
+            if (currentNote && currentNote.folderID === modalShowing.elementID) /* if the folder of the currentNote is being changed, change the currentNote foldername, which is shown in the header */ {
+                setCurrentNote({ ...currentNote, folderName: folderName });
             }
 
         }).catch(err => console.log(err));
@@ -175,7 +171,6 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
 
         // the note to add
         const newNote = { title: noteTitle, folderID: noteFolder.folderID };
-        console.log(newNote);
 
         fetch(URL, {
 
@@ -193,19 +188,24 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
 
 
         }).then(msg => {
-            console.log(msg);
-            
+
             mutate();
-            setCurrentNote({ noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID});
+
+            // set the currentNote to be the one that was just created
+            setCurrentNote({ noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID });
+
             //close the modal
             setModalShowing("none");
-            
-            
+
+
         }).catch(err => console.log(err));
-        
-        
+
+
     };
 
+    /**
+     * @note delete the account
+     */
     const deleteAccount = () => {
 
         fetch(URL, {
@@ -242,12 +242,12 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
 
                 {/* add folder modal */ }
                 <div
-                    className={ `${"myModal"} ${modalShowing === "folder" || (typeof modalShowing === "object" && "folderName" in modalShowing && !("folderID" in modalShowing))  ? "myModal--visible" : "myModal--hidden"}` }
+                    className={ `${"myModal"} ${modalShowing === "folder" || (typeof modalShowing === "object" && "folderColor" in modalShowing) ? "myModal--visible" : "myModal--hidden"}` }
                     // when the modal is clicked, don't make the dim layer onClick get triggered
                     onClick={ (e) => e.stopPropagation() }
                 >
 
-                    <div className="myModal__title">Add a folder</div>
+                    <div className="myModal__title">{ modalShowing === "folder" ? "Add a folder" : "Modify a folder" }</div>
 
                     <div className="myModal__body">
 
@@ -261,7 +261,7 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
                                             style={ { '--color': color.primary } } // create a css variable with the primary color of the folder
                                             className={ `color-box ${selectedColor === colorKeysArr[i] && "color-box--selected"}` }
                                             onClick={ () => setSelectedColor(colorKeysArr[i]) }
-                                            key={color.primary}>
+                                            key={ color.primary }>
                                             { selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }
                                         </div>
                                     );
@@ -275,16 +275,14 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
                     <div className="myModal__footer">
 
                         <button
-                            onClick={ (e) => typeof modalShowing === "object" ? modifyFolder(e) : addFolder(e) }
+                            onClick={ (e) => modalShowing === "folder" ? addFolder(e) : modifyFolder(e) }
                             className="secondary-button"
                             disabled={ folderName.trim() === "" ? true : false } // if the folderName field is empty disable the button
-                        >Add</button>
+                        >{ modalShowing === "folder" ? "Add" : "Modify" }</button>
 
                     </div>
 
                 </div>
-
-
 
 
                 {/* note modal */ }
@@ -300,10 +298,11 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
 
                         <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } autoComplete="off" />
 
-                        <select name="folder-selection" value={noteFolder ? JSON.stringify(noteFolder) : ""} onChange={ (e) => setNoteFolder(JSON.parse(e.target.value)) }>
+                        {/* since i have to retrieve the folderName too, the value of the option has to be an object. Since only strings are accepted, I use JSON. */ }
+                        <select name="folder-selection" value={ JSON.stringify(noteFolder) } onChange={ (e) => setNoteFolder(JSON.parse(e.target.value)) }>
                             { folders.map((folder, i) => (
 
-                                <option key={ folder.folderID } value={JSON.stringify({folderID:folder.folderID, folderName:folder.folderName}) } className="folder-selection__option">{ folder.folderName }</option>
+                                <option key={ folder.folderID } value={ JSON.stringify({ folderID: folder.folderID, folderName: folder.folderName }) } className="folder-selection__option">{ folder.folderName }</option>
 
                             )) }
 
@@ -324,7 +323,7 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
             </div>
 
 
-            {/* delete account modal */}
+            {/* delete account modal */ }
             <div className="modal fade" id="deleteAccountModal" aria-labelledby="#deleteAccountModal" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -333,7 +332,7 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            {isLoggedIn}, do you confirm the deletion of this account?
+                            { isLoggedIn }, do you confirm the deletion of this account?
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
