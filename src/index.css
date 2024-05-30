@@ -1437,6 +1437,11 @@ input[data-autocompleted] {
 
 
 /*? tinymce */
+.tox.tox-tinymce-aux .tox-toolbar__overflow{
+
+background-color: var(--purple) !important;
+
+}
 .tox:not(.tox-tinymce-inline).tox-tinymce--toolbar-bottom .tox-editor-header {
 
     border: 0 !important;

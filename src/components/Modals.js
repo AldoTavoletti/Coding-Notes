@@ -189,11 +189,16 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
         }).then(msg => {
 
-            
+
             // set the currentNote to be the one that was just created
             setCurrentNote({ noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID });
+
+            //change the noteTitle
             setNoteTitle(noteTitleModal);
+
+            // refetch
             mutate();
+
             //close the modal
             setModalShowing("none");
 

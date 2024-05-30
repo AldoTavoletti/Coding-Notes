@@ -6,12 +6,15 @@ import useSWR from "swr";
 const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
     // I use an header ref to get its offsetWidth
     const header = useRef();
+    
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
 
     useEffect(() => {
-        if (note) {
-            // since useswr initially sets note to be the old value, i gotta make sure the right title is shown
+
+        if (note && note.title !== noteTitle) {
+
+            // since useswr initially sets note to be the cached value, I gotta make sure the right title is shown
             note.title = noteTitle;
 
         }
@@ -20,7 +23,8 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
     }, [note]);
 
     useEffect(() => {
-        note && note.title !== noteTitle && simplePatchCall({ noteID: currentNote.noteID, title: noteTitle });
+
+        note && simplePatchCall({ noteID: currentNote.noteID, title: noteTitle });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteTitle]);
@@ -42,6 +46,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
                     <p
                         contentEditable="true"
                         suppressContentEditableWarning={ true }
+                        onKeyDown={(e)=>e.key === "Enter" && e.preventDefault()}
                         onDragStart={ (e) => e.preventDefault() }
                         data-placeholder="Title..."
                         className="header--note__title"

@@ -7,6 +7,7 @@ import React from "react";
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle }) => {
 
+    // used to settle the title of the last note, after another note has been clicked on
     const lastNote = useRef({ noteID: null, folderID: null });
 
     // a state variable to determine where the user right clicked and on what element he did it
@@ -19,7 +20,10 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
     // this mutate is global, meaning I can mutate other URLs (in this case, the one that retrieves data relative to the current note)
     const { mutate } = useSWRConfig();
+
+
     useEffect(() => {
+        // set the last note to be the current one
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,15 +46,20 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
      */
     const handleNoteClick = (note, folderName) => {
 
-        if (lastNote.current.noteID) {
+        if (lastNote.current.noteID) /* if this isn't the first note that got clicked on */ {
 
-            folders.find(folder => folder.folderID === lastNote.current.folderID)["notes"].find(note => note.noteID === lastNote.current.noteID).title = noteTitle;
+            // set the title of the last note (which is still the current one) to be noteTitle
+            folders
+                .find(folder => folder.folderID === lastNote.current.folderID)["notes"]
+                .find(note => note.noteID === lastNote.current.noteID)
+                .title = noteTitle;
+
         }
-
 
         // change the currentNote state
         setCurrentNote({ noteID: note.noteID, folderName: folderName, folderID: note.folderID });
 
+        // change the noteTitle
         setNoteTitle(note.title);
 
         // if the menu isn't already in normal status, set it to be
