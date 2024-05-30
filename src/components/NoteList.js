@@ -1,15 +1,13 @@
 import useSWR, { useSWRConfig } from "swr";
 import { getContrastColor, openMenu } from "../utils/utils";
-import { useRef, useState } from "react";
-import { URL, folderColors, simplePatchCall } from "../utils/utils";
+import { useEffect, useRef, useState } from "react";
+import { URL, folderColors } from "../utils/utils";
 import React from "react";
 
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle }) => {
 
-
-    // the index of the previous note the user navigated to, so that it's value can be settled.
-    const prevNoteIndex = useRef(null);
+    const lastNote = useRef({ noteID: null, folderID: null });
 
     // a state variable to determine where the user right clicked and on what element he did it
     const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
@@ -17,14 +15,15 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
-    // "revalidateIfStale:false" makes sure the noteList does not get revalidated everytime we reopen the menu
-    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher, {
-        revalidateIfStale: false
-    });
+    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher);
 
     // this mutate is global, meaning I can mutate other URLs (in this case, the one that retrieves data relative to the current note)
     const { mutate } = useSWRConfig();
+    useEffect(() => {
+        lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentNote]);
 
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
     if (isValidating) return (<div className="center-container">
@@ -41,34 +40,25 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
      * @param {number} folderIndex 
      * @param {number} noteIndex 
      */
-    const handleNoteClick = (note, folderIndex, noteIndex, e) => {
+    const handleNoteClick = (note, folderName) => {
 
-        if (prevNoteIndex.current) /* if it's not the first selected note in the session */ {
+        if (lastNote.current.noteID) {
 
-            // modify the folders array so that it shows the correct modified title on the previous note
-            folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
+            folders.find(folder => folder.folderID === lastNote.current.folderID)["notes"].find(note => note.noteID === lastNote.current.noteID).title = noteTitle;
         }
 
-        // change the currentNote state
-        setCurrentNote({ noteID: note.noteID, folderName: folders[folderIndex].folderName, folderID: folders[folderIndex].folderID });
 
-        /*
-                the noteTitle is changed, and then the mutate for the header is called. This way the noteTitle gets changed only here, and not also in the useEffects in Header.js
-                if i didn't add the mutate, note.title in Header.js would be different to noteTitle, and the the useEffect would be executed
-                if i didn't switch the state here, the useEffect in Header.js would have changed the noteTitle to the previous note.title and then to the correct one, since useSWR takes time to fetch.
-                it also makes sure that if I switch to another note immediately after i wrote something in the title, it "gets saved".
-                These 2 lines make sure everything about the title is ok. Maybe even about the note content itself.
-                */
+        // change the currentNote state
+        setCurrentNote({ noteID: note.noteID, folderName: folderName, folderID: note.folderID });
+
         setNoteTitle(note.title);
 
         // if the menu isn't already in normal status, set it to be
         (menuStatus !== "normal" || menuStatus !== "hamburger") && setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
 
-        // save the index of the current note in the prevNoteIndex ref
-        prevNoteIndex.current = [folderIndex, noteIndex];
-
-
     };
+
+
 
     /**
      * @note to delete folders/notes from the DB
@@ -94,8 +84,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         }).then(data => {
 
             mutate(URL + "?retrieve=all");
-            setCurrentNote(null);
-            prevNoteIndex.current = null;
+            setCurrentNote({ noteID: null, folderName: null, folderID: null });
 
 
         }).catch(err => console.log(err));
@@ -135,10 +124,10 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                                     {/* if the folder has notes show 'em, otherwise show a "This folder is empty!" message */ }
                                     { folder.notes.length > 0 ?
 
-                                        folder.notes.map((note, noteIndex) => (
+                                        folder.notes.map((note) => (
 
                                             <div
-                                                onClick={ (e) => handleNoteClick(note, folderIndex, noteIndex, e) } //open the note
+                                                onClick={ (e) => handleNoteClick(note, folder.folderName) } //open the note
                                                 onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
                                                 key={ note.noteID }
                                                 className="note-list__note"

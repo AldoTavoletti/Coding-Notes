@@ -4,24 +4,20 @@ import { simplePatchCall, logout } from "../utils/utils";
 import useSWR from "swr";
 
 const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
-
     // I use an header ref to get its offsetWidth
     const header = useRef();
-
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
 
     useEffect(() => {
-        // if the note had been fetched and noteTitle is not equal to note.title, set it to be
         if (note) {
-            
+            // since useswr initially sets note to be the old value, i gotta make sure the right title is shown
             note.title = noteTitle;
-        
+
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [note]);
-
 
     useEffect(() => {
         note && note.title !== noteTitle && simplePatchCall({ noteID: currentNote.noteID, title: noteTitle });
@@ -41,17 +37,17 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
 
             {/* if a note has been selected and it's been fetched */ }
             { (note && currentNote) &&
-            <div className="header--note">
+                <div className="header--note">
                     <div className="header--note__folder-div"><div>{ currentNote.folderName }</div>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</div>
-                <p
-                    contentEditable="true"
-                    suppressContentEditableWarning={ true }
-                    onDragStart={ (e) => e.preventDefault() }
-                    data-placeholder="Title..."
-                    className="header--note__title"
-                    onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
-                >{ note.title }</p> 
-            </div>}
+                    <p
+                        contentEditable="true"
+                        suppressContentEditableWarning={ true }
+                        onDragStart={ (e) => e.preventDefault() }
+                        data-placeholder="Title..."
+                        className="header--note__title"
+                        onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
+                    >{ note.title }</p>
+                </div> }
 
 
             <div className="header__buttons-div">

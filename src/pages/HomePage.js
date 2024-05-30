@@ -116,7 +116,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     return (
         <>
-            <Modals currentNote={currentNote} setCurrentNote={setCurrentNote} modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } isLoggedIn={ isLoggedIn } />
+            <Modals setNoteTitle={setNoteTitle}currentNote={currentNote} setCurrentNote={setCurrentNote} modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } isLoggedIn={ isLoggedIn } />
 
             <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } />
 

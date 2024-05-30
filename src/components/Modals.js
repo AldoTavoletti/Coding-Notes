@@ -2,7 +2,7 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import { URL, folderColors, logout } from "../utils/utils";
 
-const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
+const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
 
     // the folder name in the folders modal
     const [folderName, setFolderName] = useState("");
@@ -11,7 +11,7 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
     const [selectedColor, setSelectedColor] = useState("black");
 
     // the note title in the notes modal
-    const [noteTitle, setNoteTitle] = useState("");
+    const [noteTitleModal, setNoteTitleModal] = useState("");
 
     //it contains the parent folderID and the parent folderName. I also need the folderName cause it'll be shown in the header
     const [noteFolder, setNoteFolder] = useState({ folderID: null, folderName: null });
@@ -36,7 +36,7 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
      */
     const resetNoteStates = () => {
 
-        noteTitle !== "" && setNoteTitle("");
+        noteTitleModal !== "" && setNoteTitleModal("");
 
         //? I don't reset the noteFolder to avoid useless re-renders (it's gonna be given a new value when a modal is opened anyway)
 
@@ -170,7 +170,7 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
     const addNote = (e) => {
 
         // the note to add
-        const newNote = { title: noteTitle, folderID: noteFolder.folderID };
+        const newNote = { title: noteTitleModal, folderID: noteFolder.folderID };
 
         fetch(URL, {
 
@@ -189,11 +189,11 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
 
         }).then(msg => {
 
-            mutate();
-
+            
             // set the currentNote to be the one that was just created
             setCurrentNote({ noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID });
-
+            setNoteTitle(noteTitleModal);
+            mutate();
             //close the modal
             setModalShowing("none");
 
@@ -296,7 +296,7 @@ const Modals = ({ currentNote, setCurrentNote, modalShowing, setModalShowing, se
                     <div className="myModal__body">
 
 
-                        <input type="text" name="note-name" placeholder="title..." value={ noteTitle } onChange={ (e) => setNoteTitle(e.target.value) } autoComplete="off" />
+                        <input type="text" name="note-name" placeholder="title..." value={ noteTitleModal } onChange={ (e) => setNoteTitleModal(e.target.value) } autoComplete="off" />
 
                         {/* since i have to retrieve the folderName too, the value of the option has to be an object. Since only strings are accepted, I use JSON. */ }
                         <select name="folder-selection" value={ JSON.stringify(noteFolder) } onChange={ (e) => setNoteFolder(JSON.parse(e.target.value)) }>
