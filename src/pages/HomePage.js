@@ -15,7 +15,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     const navigate = useNavigate();
 
     // the noteID of the note clicked by the user
-    const [currentNote, setCurrentNote] = useState(null);
+    const [currentNote, setCurrentNote] = useState({noteID:null,folderName:null,folderID:null});
 
     // the title of the current note
     const [noteTitle, setNoteTitle] = useState("");

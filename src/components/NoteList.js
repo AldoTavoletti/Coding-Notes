@@ -1,7 +1,7 @@
 import useSWR, { useSWRConfig } from "swr";
 import { getContrastColor, openMenu } from "../utils/utils";
 import { useRef, useState } from "react";
-import { URL, folderColors } from "../utils/utils";
+import { URL, folderColors, simplePatchCall } from "../utils/utils";
 import React from "react";
 
 
@@ -47,11 +47,10 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
             // modify the folders array so that it shows the correct modified title on the previous note
             folders[prevNoteIndex.current[0]].notes[prevNoteIndex.current[1]].title = noteTitle;
-
         }
 
         // change the currentNote state
-        setCurrentNote({noteID:note.noteID, folderName: folders[folderIndex].folderName, folderID: folders[folderIndex].folderID});
+        setCurrentNote({ noteID: note.noteID, folderName: folders[folderIndex].folderName, folderID: folders[folderIndex].folderID });
 
         /*
                 the noteTitle is changed, and then the mutate for the header is called. This way the noteTitle gets changed only here, and not also in the useEffects in Header.js
@@ -61,7 +60,6 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                 These 2 lines make sure everything about the title is ok. Maybe even about the note content itself.
                 */
         setNoteTitle(note.title);
-        mutate(URL + `?retrieve=single&note=${currentNote && currentNote.noteID}`);
 
         // if the menu isn't already in normal status, set it to be
         (menuStatus !== "normal" || menuStatus !== "hamburger") && setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
@@ -115,12 +113,12 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
                 // I use React.Fragment (which is the same as <>) to add the key value
                 <React.Fragment key={ folder.folderID }>
-                    <div className={ `accordion ${getContrastColor(folderColors[folder.color].primary) === "#ffffff" ? "accordion__white-svg" : "accordion__black-svg"}`} onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } id={ "accordion" + folderIndex } >
+                    <div className={ `accordion ${getContrastColor(folderColors[folder.color].primary) === "#ffffff" ? "accordion__white-svg" : "accordion__black-svg"}` } onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } id={ "accordion" + folderIndex } >
                         <div className="accordion-item">
 
                             <h2 className="accordion-header">
 
-                                <button className="accordion-button collapsed"  style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                                <button className="accordion-button collapsed" style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                                     <span className="accordion-button__folder-title">{ folder.folderName }</span>
                                     <span
                                         className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
@@ -144,7 +142,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                                                 onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
                                                 key={ note.noteID }
                                                 className="note-list__note"
-                                                style={ { '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary)} } // set a style variable relative to the note color and set a visible text color 
+                                                style={ { '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } } // set a style variable relative to the note color and set a visible text color 
                                             >
 
                                                 {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }
@@ -185,24 +183,24 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                 <div className="context-menu" style={ { "--left": contextMenuInfo.x, "--top": contextMenuInfo.y } }>
 
 
-                        {/* this is shown only for the folders */ }
-                        { contextMenuInfo.elementType === "folder" &&
-                            <button
-                                type="button"
+                    {/* this is shown only for the folders */ }
+                    { contextMenuInfo.elementType === "folder" &&
+                        <button
+                            type="button"
                             className="icon-text-button"
-                                onClick={ () => setModalShowing({ elementID: contextMenuInfo.elementID, folderName: contextMenuInfo.folderName, folderColor: contextMenuInfo.folderColor }) }
+                            onClick={ () => setModalShowing({ elementID: contextMenuInfo.elementID, folderName: contextMenuInfo.folderName, folderColor: contextMenuInfo.folderColor }) }
                         ><div>{ contextMenuInfo.elementType === "note" ? <i className="bi bi-file-plus-fill"></i> : <i className="bi bi-folder-fill"></i> }</div><span>Modify</span></button>
-                        }
+                    }
 
-                        {/* this button is hidden only if a folder is clicked and there is only one of 'em */ }
-                        { (contextMenuInfo.elementType === "note" || folders.length > 1) &&
-                            <button
-                                type="button"
-                                className="icon-text-button"
-                                onClick={ () => deleteElement() }
-                            ><div>{ contextMenuInfo.elementType === "note" ? <i className="bi bi-file-x"></i> : <i className="bi bi-folder-x"></i> }</div><span>Delete</span></button>
-                        }
-                    </div>
+                    {/* this button is hidden only if a folder is clicked and there is only one of 'em */ }
+                    { (contextMenuInfo.elementType === "note" || folders.length > 1) &&
+                        <button
+                            type="button"
+                            className="icon-text-button"
+                            onClick={ () => deleteElement() }
+                        ><div>{ contextMenuInfo.elementType === "note" ? <i className="bi bi-file-x"></i> : <i className="bi bi-folder-x"></i> }</div><span>Delete</span></button>
+                    }
+                </div>
 
 
             )

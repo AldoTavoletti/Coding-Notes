@@ -110,6 +110,10 @@ export const simplePatchCall = (obj) => {
         return res.json();
 
 
+    }).then(msg=>{
+
+        console.log(obj, msg);
+
     }).catch(err => console.log(err));
 
 

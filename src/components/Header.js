@@ -9,20 +9,22 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
     const header = useRef();
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote && currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
+    const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
 
     useEffect(() => {
-
         // if the note had been fetched and noteTitle is not equal to note.title, set it to be
-        (note && noteTitle !== note.title) && setNoteTitle(note.title);
+        if (note) {
+            
+            note.title = noteTitle;
+        
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [note]);
 
 
     useEffect(() => {
-
-        note && simplePatchCall({ noteID: note.noteID, title: noteTitle });
+        note && note.title !== noteTitle && simplePatchCall({ noteID: currentNote.noteID, title: noteTitle });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteTitle]);
