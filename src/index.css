@@ -13,10 +13,19 @@
 
     --quaternary-bg-color: #1d1d1d;
 
-    --purple: #5941df;
+    /* --purple: #5941df;
     --purple-light: #7e64ff;
     --purple-hover: #4a33ce;
-    --purple-active: #31247d;
+    --purple-active: #31247d; */
+
+    /* --purple: #6b41bf;
+    --purple-light: #9b64df;
+    --purple-hover: #5326a8;
+    --purple-active: #3e247d; */
+    --purple: #703fad;
+        --purple-light: #a064d4;
+        --purple-hover: #582e8f;
+        --purple-active: #442368;
 
     --text-color: white;
     --text-color-secondary: black;
@@ -46,7 +55,8 @@
     --text-color: black;
     --text-color-secondary: white;
 
-    --purple-active: #31247d;
+    --purple-active: #442368;
+
 
     --editor-bg-color: white;
 }
@@ -934,7 +944,7 @@ body {
     white-space: nowrap;
     font-size: 1.3em;
     max-width: max(25%, 110px);
-user-select: none;
+    user-select: none;
     transition: max-width .2s ease;
     animation: load-note-animation 0.5s ease-in;
 }
@@ -958,11 +968,13 @@ user-select: none;
     white-space: nowrap;
     transition: all .2s ease;
 }
-.not-selectable{
 
-user-select: none;
+.not-selectable {
+
+    user-select: none;
 
 }
+
 .header--note__title::-webkit-scrollbar {
 
     height: 0;
@@ -1442,11 +1454,12 @@ input[data-autocompleted] {
 
 
 /*? tinymce */
-.tox.tox-tinymce-aux .tox-toolbar__overflow{
+.tox.tox-tinymce-aux .tox-toolbar__overflow {
 
-background-color: var(--purple) !important;
+    background-color: var(--purple) !important;
 
 }
+
 .tox:not(.tox-tinymce-inline).tox-tinymce--toolbar-bottom .tox-editor-header {
 
     border: 0 !important;
@@ -1933,11 +1946,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 0.9em;
 
     }
-.empty-folder-content{
 
-font-size: 0.7em;
+    .empty-folder-content {
 
-}
+        font-size: 0.7em;
+
+    }
 }
 
 @media screen and (max-width: 769px) {
@@ -1997,15 +2011,15 @@ font-size: 0.7em;
 
     }
 
-    .menu__toolbar--expanded .icon-text-button{
+    .menu__toolbar--expanded .icon-text-button {
 
-height: 3em;
-    min-height: 3em;
-    line-height: 3em;
-    font-size: 1.5em;
+        height: 3em;
+        min-height: 3em;
+        line-height: 3em;
+        font-size: 1.5em;
     }
 
-    
+
 
     .menu__toolbar--expanded {
 
@@ -2047,19 +2061,20 @@ height: 3em;
         font-size: 0.9em;
 
     }
-.menu__toolbar--expanded .bi.bi-arrow-left,
-.menu__toolbar--expanded .bi.bi-sun-fill,
-.menu__toolbar--expanded .bi.bi-moon-fill {
 
-    font-size: 2em;
+    .menu__toolbar--expanded .bi.bi-arrow-left,
+    .menu__toolbar--expanded .bi.bi-sun-fill,
+    .menu__toolbar--expanded .bi.bi-moon-fill {
 
-}
+        font-size: 2em;
 
-.menu__toolbar--expanded i{
+    }
 
-font-size: 1.4em;
+    .menu__toolbar--expanded i {
 
-}
+        font-size: 1.4em;
+
+    }
 
 
 
