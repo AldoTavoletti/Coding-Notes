@@ -1997,6 +1997,16 @@ font-size: 0.7em;
 
     }
 
+    .menu__toolbar--expanded .icon-text-button{
+
+height: 3em;
+    min-height: 3em;
+    line-height: 3em;
+
+    }
+
+    
+
     .menu__toolbar--expanded {
 
         border: 0;
@@ -2037,6 +2047,19 @@ font-size: 0.7em;
         font-size: 0.9em;
 
     }
+.menu__toolbar--expanded .bi.bi-arrow-left,
+.menu__toolbar--expanded .bi.bi-sun-fill,
+.menu__toolbar--expanded .bi.bi-moon-fill {
+
+    font-size: 2em;
+
+}
+
+.menu__toolbar--expanded i{
+
+font-size: 1.4em;
+
+}
 
 
 
