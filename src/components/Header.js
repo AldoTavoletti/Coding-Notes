@@ -34,7 +34,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
         <div className="header" ref={ header }>
 
             {/* if no note has been selected or if the login page is shown */ }
-            { (!isLoggedIn || (!note && !isValidating && !isLoading)) && <p className="header--note__title">Coding Notes</p> }
+            { (!isLoggedIn || (!note && !isValidating && !isLoading)) && <p className="header--note__title not-selectable">Coding Notes</p> }
 
             {/* if the selected note is validating */ }
             { (!note && (isValidating || isLoading)) && <p></p> }
@@ -49,6 +49,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
                         onKeyDown={(e)=>e.key === "Enter" && e.preventDefault()}
                         onDragStart={ (e) => e.preventDefault() }
                         data-placeholder="Title..."
+                        spellCheck="false"
                         className="header--note__title"
                         onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
                     >{ note.title }</p>

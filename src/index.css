@@ -934,6 +934,7 @@ body {
     white-space: nowrap;
     font-size: 1.3em;
     max-width: max(25%, 110px);
+user-select: none;
     transition: max-width .2s ease;
     animation: load-note-animation 0.5s ease-in;
 }
@@ -957,7 +958,11 @@ body {
     white-space: nowrap;
     transition: all .2s ease;
 }
+.not-selectable{
 
+user-select: none;
+
+}
 .header--note__title::-webkit-scrollbar {
 
     height: 0;
@@ -1928,7 +1933,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 0.9em;
 
     }
+.empty-folder-content{
 
+font-size: 0.7em;
+
+}
 }
 
 @media screen and (max-width: 769px) {
