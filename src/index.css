@@ -1029,31 +1029,31 @@ body {
 
 .note-display .ripple-background .medium {
     top: 34%;
-    height: 200px;
-    width: 200px;
-    left: -100px;
+    height: 28.776dvh;
+    width: 13.0245dvw;
+    left: -6.51205dvw;
 }
 
 .note-display .ripple-background .large {
     top: 26%;
-    height: 300px;
-    width: 300px;
-    left: -150px;
+    height: 43.161dvh;
+    width: 19.535dvw;
+    left: -9.76728dvw;
 }
 
 .note-display .ripple-background .xlarge {
     top: 18%;
-    height: 400px;
-    width: 400px;
-    left: -200px;
+    height: 57.545dvh;
+    width: 26.045dvw;
+    left: -13.02247dvw;
 
 }
 
 .note-display .ripple-background .xxlarge {
     top: 10%;
-    height: 500px;
-    width: 500px;
-    left: -250px;
+    height: 71.93dvh;
+    width: 32.5555dvw;
+    left: -16.2777dvw;
 
 }
 
