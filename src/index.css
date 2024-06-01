@@ -1967,7 +1967,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     .secondary-button.active:hover {
 
         background-color: var(--tertiary-bg-color);
-        color: var(--text-color-secondary);
+        color: var(--text-color-secondary) !important;
 
     }
 
