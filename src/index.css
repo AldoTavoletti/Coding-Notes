@@ -336,7 +336,11 @@ body {
     flex-direction: column;
     width: 90%;
     padding-block: 0.5em;
-    transition: height .2s ease;
+    /* i gotta set max-height for animation reasons, the value can't be too hight cause animation would be too fast. Anyway it doesn't cause problems */
+    max-height: 200px;
+    /* this transition is used when switching to sign up */
+    transition: opacity .4s .25s ease,
+        max-height .4s ease;
 }
 
 .password-condition {
@@ -365,6 +369,7 @@ body {
     justify-content: left;
     column-gap: 1%;
     width: 90%;
+
 }
 
 .checkbox-container input[type=checkbox] {
@@ -374,19 +379,33 @@ body {
 
 }
 
-.disappear {
+.password-container {
 
-    height: 0;
-    width: 0;
-    z-index: -1;
-
+    display: flex;
+    flex-direction: column;
+    row-gap: 1dvh;
+    position: relative;
+    width: 90%;
+    /* i gotta set max-height for animation reasons, the value can't be too hight cause animation would be too fast. Anyway it doesn't cause problems */
+    max-height: 200px;
+    /* this transition is used when switching to sign up */
+    transition: opacity .4s .25s ease,
+        max-height .4s ease;
 }
 
-.disappear * {
 
+.password-container input {
+
+    width: 100%;
+    padding-right: 20%;
+}
+
+.disappear {
+    /* this transition is used when switching to login. It overrides the other elements' transition values */
+    transition: opacity .4s ease,
+        max-height .4s .25s ease;
+    max-height: 0;
     opacity: 0;
-    width: 0;
-
 }
 
 .login-container__buttons div {
@@ -481,22 +500,7 @@ body {
 
 }
 
-.password-container {
 
-    display: flex;
-    flex-direction: column;
-    row-gap: 1dvh;
-    position: relative;
-    width: 90%;
-
-}
-
-
-.password-container input {
-
-    width: 100%;
-    padding-right: 20%;
-}
 
 
 .login-container__buttons .secondary-button:not(.active) {
@@ -1005,12 +1009,13 @@ body {
     height: var(--height-homepage);
 
 }
-.note-display .sponsor{
+
+.note-display .sponsor {
     font-size: 3em;
     text-align: left;
     overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
@@ -1018,8 +1023,8 @@ body {
     width: 100%;
     position: relative;
     padding-inline: 5%;
-        padding-top: 2.5%;
-    
+    padding-top: 2.5%;
+    overflow: hidden;
     height: var(--height-homepage);
 }
 
@@ -1997,7 +2002,8 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 0.7em;
 
     }
-    .sponsor{
+
+    .sponsor {
 
         font-size: 3em;
 
@@ -2296,20 +2302,24 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         left: -250px;
         bottom: -250px;
     }
-.note-display .ripple-background .medium {
-    left: calc(50% - 100px);
-}
-.note-display .ripple-background .large {
-    left: calc(50% - 150px);
-}
-.note-display .ripple-background .xlarge {
-    left: calc(50% - 200px);
-}
-.note-display .ripple-background .xxlarge {
-    left: calc(50% - 250px);
-}
 
-    
+    .note-display .ripple-background .medium {
+        left: calc(50% - 100px);
+    }
+
+    .note-display .ripple-background .large {
+        left: calc(50% - 150px);
+    }
+
+    .note-display .ripple-background .xlarge {
+        left: calc(50% - 200px);
+    }
+
+    .note-display .ripple-background .xxlarge {
+        left: calc(50% - 250px);
+    }
+
+
     .login-container {
 
         font-size: 0.8em;
@@ -2344,7 +2354,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-    .sponsor{
+    .sponsor {
 
         display: none;
 
