@@ -996,7 +996,7 @@ body {
 
 /*? note display */
 .note-display__message {
-
+    position: absolute;
     text-align: center;
     font-weight: bold;
     z-index: 3;
@@ -1007,7 +1007,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
     background-color: var(--editor-bg-color);
     flex-basis: 74%;
     /* padding: 1.5% 3%; */
@@ -1019,41 +1018,21 @@ body {
 
 .note-display .ripple-background {
     position: absolute;
-    display: flex;
+    bottom: 0;
     height: var(--height-homepage);
-
-    justify-content: center;
-    align-items: center;
-
 }
 
 .note-display .ripple-background .medium {
-    top: 34%;
-    height: 28.776dvh;
-    width: 13.0245dvw;
-    left: -6.51205dvw;
 }
-
+ 
 .note-display .ripple-background .large {
-    top: 26%;
-    height: 43.161dvh;
-    width: 19.535dvw;
-    left: -9.76728dvw;
 }
 
 .note-display .ripple-background .xlarge {
-    top: 18%;
-    height: 57.545dvh;
-    width: 26.045dvw;
-    left: -13.02247dvw;
 
 }
 
 .note-display .ripple-background .xxlarge {
-    top: 10%;
-    height: 71.93dvh;
-    width: 32.5555dvw;
-    left: -16.2777dvw;
 
 }
 
