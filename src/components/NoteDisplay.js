@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import EditorMCE from "./EditorMCE";
 
-const NoteDisplay = ({ menuStatus, currentNote }) => {
+const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
 
   // a ref for the note-display div, used to handle the sticky tinyMCE toolbar, which would be buggy without thes adjustments
   const noteDisplayRef = useRef(null);
@@ -56,20 +56,15 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
         <EditorMCE currentNote={ currentNote } />
         :
         (
-          <>
-            <div className="note-display__message">
-              <p className="sponsor">Choose a <span className="sponsor--purple">note</span> from the menu!</p>
-
-            </div>
             <div className="ripple-background">
 
+              <p className="sponsor">Hi <span className="sponsor--purple">{ isLoggedIn }</span>,<br></br>store your ideas!</p>
               <div className="circle xxlarge shade1"></div>
               <div className="circle xlarge shade2"></div>
               <div className="circle large shade3"></div>
               <div className="circle medium shade4"></div>
 
             </div>
-          </>
         ) }
 
 

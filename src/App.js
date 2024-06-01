@@ -11,7 +11,7 @@ import { URL } from "./utils/utils";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
 
-  // checks wether the user is logged in or not
+  // contains the username if the user is logged in. It's initally null, and becomes false if the user is not logged in
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   /**

@@ -995,35 +995,31 @@ body {
 }
 
 /*? note display */
-.note-display__message {
-    top: 5%;
-    position: absolute;
-    width: 100%;
-    font-weight: bold;
-    z-index: 3;
-}
-
-.note-display__message p{
-
-    text-align: center;
-
-}
 
 .note-display {
     position: relative;
     background-color: var(--editor-bg-color);
     flex-basis: 74%;
-    /* padding: 1.5% 3%; */
     transition: flex-basis 0.2s ease;
     overflow-y: scroll;
     height: var(--height-homepage);
 
 }
+.note-display .sponsor{
+    font-size: 3em;
+    text-align: left;
+    overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+}
+
 
 .note-display .ripple-background {
     width: 100%;
     position: relative;
-    overflow: hidden;
+    padding-inline: 5%;
+        padding-top: 2.5%;
+    
     height: var(--height-homepage);
 }
 
@@ -1035,31 +1031,32 @@ body {
 }
 
 .note-display .medium {
-    width: 400px;
-    height: 400px;
-    left: calc(50% - 200px);
-    bottom: -200px;
+    width: 300px;
+    height: 300px;
+    left: calc(50% - 150px);
+    bottom: -150px;
 }
 
 .note-display .large {
+    width: 450px;
+    height: 450px;
+    left: calc(50% - 225px);
+    bottom: -225px;
+
+}
+
+.note-display .xlarge {
     width: 600px;
     height: 600px;
     left: calc(50% - 300px);
     bottom: -300px;
 }
 
-.note-display .xlarge {
-    width: 800px;
-    height: 800px;
-    left: calc(50% - 400px);
-    bottom: -400px;
-}
-
 .note-display .xxlarge {
-    width: 1000px;
-    height: 1000px;
-    left: calc(50% - 500px);
-    bottom: -500px;
+    width: 750px;
+    height: 750px;
+    left: calc(50% - 375px);
+    bottom: -375px;
 }
 
 .note-display--hidden {
@@ -1449,7 +1446,7 @@ input[data-autocompleted] {
     position: absolute;
     border-radius: 50%;
     background: var(--purple);
-    animation: ripple 15s infinite;
+    animation: ripple 8s infinite;
 }
 
 .medium {
@@ -1912,7 +1909,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 @keyframes ripple {
     0% {
-        transform: scale(0.6);
+        transform: scale(0.8);
     }
 
     50% {
@@ -1920,7 +1917,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     }
 
     100% {
-        transform: scale(0.6);
+        transform: scale(0.8);
     }
 }
 

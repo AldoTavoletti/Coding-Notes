@@ -130,7 +130,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
                 - since the note reloads everytime, if the theme gets changed in the expanded menu every color will be fine. If the component wasn't getting unmounted, the skin of the editor wouldn't be able to change. Maybe something could have been done with css though.
                 - if the note contains a lot of text, unmounting it makes the expanding of the menu's animation much smoother. 
                 */ }
-                { (menuStatus !== "expanded" && menuStatus !== "only-notelist") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } /> }
+                { (menuStatus !== "expanded" && menuStatus !== "only-notelist") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } isLoggedIn={isLoggedIn}/> }
 
             </div>
         </>
