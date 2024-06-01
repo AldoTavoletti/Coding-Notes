@@ -2213,34 +2213,33 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         width: 100%;
 
     }
-    .ripple-background .medium {
-        width: 100px;
-        height: 100px;
-        left: calc(50% - 50px);
-        bottom: -50px;
-    }
-
-    .ripple-background .large {
-        width: 150px;
-        height: 150px;
-        left: calc(50% - 75px);
-        bottom: -75px;
-    }
-
-    .ripple-background .xlarge {
-        width: 200px;
-        height: 200px;
-        left: calc(50% - 100px);
-        bottom: -100px;
-    }
-
-    .ripple-background .xxlarge {
-        width: 250px;
-        height: 250px;
-        left: calc(50% - 125px);
-        bottom: -125px;
-    }
-
+        .ripple-background .medium {
+            width: 150px;
+            height: 150px;
+            left: calc(50% - 75px);
+            bottom: -75px;
+        }
+    
+        .ripple-background .large {
+            width: 225px;
+            height: 225px;
+            left: calc(50% - 112.5px);
+            bottom: -112.5px;
+        }
+    
+        .ripple-background .xlarge {
+            width: 300px;
+            height: 300px;
+            left: calc(50% - 150px);
+            bottom: -150px;
+        }
+    
+        .ripple-background .xxlarge {
+            width: 375px;
+            height: 375px;
+            left: calc(50% - 187.5px);
+            bottom: -187.5px;
+        }
     .login-page .ripple-background .sponsor {
 
         display: none;
