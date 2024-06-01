@@ -1310,6 +1310,7 @@ body {
 
 }
 
+
 /*? general */
 .secondary-button:disabled {
 
@@ -1604,6 +1605,58 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     opacity: 0;
 }
+.loading-screen{
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 7.7dvw;
+text-shadow: 0.25px 0 var(--purple),
+        -0.25px 0 var(--purple),
+        0 0.25px var(--purple),
+        0 -0.25px var(--purple),
+        0.25px 0.25px var(--purple),
+        -0.25px -0.25px var(--purple),
+        0.25px -0.25px var(--purple),
+        -0.25px 0.25px var(--purple);
+    ;
+font-weight: bold;
+color: var(--purple);
+width: 100%;
+height: 100dvh;
+
+}
+.loading-screen .circle {
+    animation: ripple 1.5s infinite;
+}
+
+.loading-screen .medium {
+    width: 4.4dvw;
+    height: 4.4dvw;
+left: calc(50% + 8.3dvw);
+    top: calc(50% - calc(4.4dvw / 2));
+}
+
+.loading-screen .large {
+    width: 5.4dvw;
+    height: 5.4dvw;
+    left: calc(50% + 7.8dvw);
+    top: calc(50% - calc(5.4dvw / 2));
+}
+
+.loading-screen  .xlarge {
+    width: 6.4dvw;
+    height: 6.4dvw;
+        left: calc(50% + 7.3dvw);
+    top: calc(50% - calc(6.4dvw / 2));
+}
+
+.loading-screen  .xxlarge {
+    width: 7.4dvw;
+    height: 7.4dvw;
+    left: calc(50% + 6.8dvw);
+    top: calc(50% - calc(7.4dvw / 2));
+}
+
 
 
 .tox-tinymce {
@@ -2213,33 +2266,35 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         width: 100%;
 
     }
-                .ripple-background .medium {
-                    width: 175px;
-                    height: 175px;
-                    left: calc(50% - 87.5px);
-                    bottom: -87.5px;
-                }
-        
-                .ripple-background .large {
-                    width: 262.5px;
-                    height: 262.5px;
-                    left: calc(50% - 131.25px);
-                    bottom: -131.25px;
-                }
-        
-                .ripple-background .xlarge {
-                    width: 350px;
-                    height: 350px;
-                    left: calc(50% - 175px);
-                    bottom: -175px;
-                }
-        
-                .ripple-background .xxlarge {
-                    width: 437.5px;
-                    height: 437.5px;
-                    left: calc(50% - 218.75px);
-                    bottom: -218.75px;
-                }
+
+    .ripple-background .medium {
+        width: 175px;
+        height: 175px;
+        left: calc(50% - 87.5px);
+        bottom: -87.5px;
+    }
+
+    .ripple-background .large {
+        width: 262.5px;
+        height: 262.5px;
+        left: calc(50% - 131.25px);
+        bottom: -131.25px;
+    }
+
+    .ripple-background .xlarge {
+        width: 350px;
+        height: 350px;
+        left: calc(50% - 175px);
+        bottom: -175px;
+    }
+
+    .ripple-background .xxlarge {
+        width: 437.5px;
+        height: 437.5px;
+        left: calc(50% - 218.75px);
+        bottom: -218.75px;
+    }
+
     .login-page .ripple-background .sponsor {
 
         display: none;
