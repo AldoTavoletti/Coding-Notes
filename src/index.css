@@ -1625,32 +1625,32 @@ width: 100%;
 height: 100dvh;
 
 }
-.loading-screen .circle {
+.loading-screen .ripple-background .circle {
     animation: ripple 1.5s infinite;
 }
 
-.loading-screen .medium {
+.loading-screen .ripple-background .medium {
     width: 4.4dvw;
     height: 4.4dvw;
 left: calc(50% + 8.3dvw);
     top: calc(50% - calc(4.4dvw / 2));
 }
 
-.loading-screen .large {
+.loading-screen .ripple-background .large {
     width: 5.4dvw;
     height: 5.4dvw;
     left: calc(50% + 7.8dvw);
     top: calc(50% - calc(5.4dvw / 2));
 }
 
-.loading-screen  .xlarge {
+.loading-screen .ripple-background .xlarge {
     width: 6.4dvw;
     height: 6.4dvw;
         left: calc(50% + 7.3dvw);
     top: calc(50% - calc(6.4dvw / 2));
 }
 
-.loading-screen  .xxlarge {
+.loading-screen .ripple-background .xxlarge {
     width: 7.4dvw;
     height: 7.4dvw;
     left: calc(50% + 6.8dvw);
