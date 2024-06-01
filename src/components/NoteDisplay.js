@@ -33,8 +33,8 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
         editorHeader.classList.remove("my-tox-header-sticky--hamburger");
         editorHeader.classList.add("my-tox-header-sticky--expanded");
 
-      }else if (menuStatus === "hamburger") {
-        
+      } else if (menuStatus === "hamburger") {
+
         // expand the sticky toolbar
         editorHeader.classList.remove("my-tox-header-sticky--normal");
         editorHeader.classList.remove("my-tox-header-sticky--expanded");
@@ -50,16 +50,26 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
   return (
     <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"} ${(menuStatus === "expanded" || menuStatus === "only-notelist") && "note-display--hidden"}` } ref={ noteDisplayRef }>
 
-{/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */}
+      {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
       { currentNote.noteID ?
 
-        <EditorMCE currentNote={ currentNote }/>
+        <EditorMCE currentNote={ currentNote } />
         :
         (
-          <div className="note-display__message">
-            <i className="bi bi-journals"></i>
-            <p className="">Choose a note!</p>
-          </div>
+          <>
+            <div className="note-display__message">
+              <i className="bi bi-file-earmark-text"></i>
+              <p className="">Choose a note!</p>
+            </div>
+            <div className="ripple-background">
+
+              <div className="circle xxlarge shade1"></div>
+              <div className="circle xlarge shade2"></div>
+              <div className="circle large shade3"></div>
+              <div className="circle medium shade4"></div>
+
+            </div>
+          </>
         ) }
 
 

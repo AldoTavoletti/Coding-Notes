@@ -492,7 +492,6 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                 <div className="circle xlarge shade2"></div>
                 <div className="circle large shade3"></div>
                 <div className="circle medium shade4"></div>
-                <div className="circle small shade5"></div>
 
                 <p className="sponsor"><span className="sponsor--purple">Coding Notes</span><br></br>what you really need.</p>
 
