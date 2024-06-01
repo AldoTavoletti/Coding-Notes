@@ -1964,6 +1964,18 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
+    .secondary-button.active:hover {
+
+        background-color: var(--tertiary-bg-color);
+
+    }
+
+    .secondary-button.active:active {
+
+        background-color: var(--purple);
+        color: var(--text-color) !important;
+    }
+
 }
 
 @media screen and (max-width: 1240px) {
