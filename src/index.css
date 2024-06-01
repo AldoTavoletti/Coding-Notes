@@ -996,17 +996,21 @@ body {
 
 /*? note display */
 .note-display__message {
+    top: 5%;
     position: absolute;
-    text-align: center;
+    width: 100%;
     font-weight: bold;
     z-index: 3;
-    font-size: 2em;
+}
+
+.note-display__message p{
+
+    text-align: center;
+
 }
 
 .note-display {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
     background-color: var(--editor-bg-color);
     flex-basis: 74%;
     /* padding: 1.5% 3%; */
@@ -1017,23 +1021,45 @@ body {
 }
 
 .note-display .ripple-background {
-    position: absolute;
-    bottom: 0;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
     height: var(--height-homepage);
 }
 
-.note-display .ripple-background .medium {
-}
- 
-.note-display .ripple-background .large {
-}
-
-.note-display .ripple-background .xlarge {
-
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--purple);
+    animation: ripple 15s infinite;
 }
 
-.note-display .ripple-background .xxlarge {
+.note-display .medium {
+    width: 400px;
+    height: 400px;
+    left: calc(50% - 200px);
+    bottom: -200px;
+}
 
+.note-display .large {
+    width: 600px;
+    height: 600px;
+    left: calc(50% - 300px);
+    bottom: -300px;
+}
+
+.note-display .xlarge {
+    width: 800px;
+    height: 800px;
+    left: calc(50% - 400px);
+    bottom: -400px;
+}
+
+.note-display .xxlarge {
+    width: 1000px;
+    height: 1000px;
+    left: calc(50% - 500px);
+    bottom: -500px;
 }
 
 .note-display--hidden {
@@ -1974,6 +2000,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 0.7em;
 
     }
+    .sponsor{
+
+        font-size: 3em;
+
+    }
 }
 
 @media screen and (max-width: 769px) {
@@ -2241,7 +2272,47 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 @media screen and (max-height: 500px) {
+    .ripple-background .medium {
+        width: 200px;
+        height: 200px;
+        left: -100px;
+        bottom: -100px;
+    }
 
+    .ripple-background .large {
+        width: 300px;
+        height: 300px;
+        left: -150px;
+        bottom: -150px;
+    }
+
+    .ripple-background .xlarge {
+        width: 400px;
+        height: 400px;
+        left: -200px;
+        bottom: -200px;
+    }
+
+    .ripple-background .xxlarge {
+        width: 500px;
+        height: 500px;
+        left: -250px;
+        bottom: -250px;
+    }
+.note-display .ripple-background .medium {
+    left: calc(50% - 100px);
+}
+.note-display .ripple-background .large {
+    left: calc(50% - 150px);
+}
+.note-display .ripple-background .xlarge {
+    left: calc(50% - 200px);
+}
+.note-display .ripple-background .xxlarge {
+    left: calc(50% - 250px);
+}
+
+    
     .login-container {
 
         font-size: 0.8em;
@@ -2275,5 +2346,13 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         transform: scale(0.8);
 
     }
+
+    .sponsor{
+
+        display: none;
+
+    }
+
+
 
 }

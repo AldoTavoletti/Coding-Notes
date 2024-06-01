@@ -58,8 +58,8 @@ const NoteDisplay = ({ menuStatus, currentNote }) => {
         (
           <>
             <div className="note-display__message">
-              <i className="bi bi-file-earmark-text"></i>
-              <p className="">Choose a note!</p>
+              <p className="sponsor">Choose a <span className="sponsor--purple">note</span> from the menu!</p>
+
             </div>
             <div className="ripple-background">
 
