@@ -16,7 +16,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
 
     const editorHeader = noteDisplayRef.current.querySelector(".tox-editor-header");
 
-    if (editorHeader && editorHeader.style.position === "fixed") /* if the editor has been rendered and the header is in sticky mode*/ {
+    if (editorHeader /*&& editorHeader.style.position === "fixed"*/) /* if the editor has been rendered and the header is in sticky mode*/ {
 
 
       if (menuStatus === "normal") {
@@ -48,7 +48,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
   }, [menuStatus]);
 
   return (
-    <div className={ `${"note-display"} ${menuStatus === "hidden" && "note-display--expanded"} ${(menuStatus === "expanded" || menuStatus === "only-notelist") && "note-display--hidden"}` } ref={ noteDisplayRef }>
+    <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"} ${menuStatus === "hidden" && "note-display--expanded"} ${(menuStatus === "expanded" || menuStatus === "only-notelist") && "note-display--hidden"}` } ref={ noteDisplayRef }>
 
       {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
       { currentNote.noteID ?

@@ -994,7 +994,11 @@ body {
 }
 
 /*? note display */
+.note-display.editor-opened {
 
+    overflow-y: scroll;
+
+}
 .note-display {
     position: relative;
     background-color: var(--editor-bg-color);
@@ -1535,11 +1539,9 @@ input[data-autocompleted] {
     left: 0 !important;
 
 }
-
 .tox-editor-header {
-
     background-color: var(--quaternary-bg-color) !important;
-
+        transition: box-shadow .5s ease, left .2s ease, width .2s ease !important;
 }
 
 /* restore last draft button */
@@ -1550,6 +1552,7 @@ div[aria-label="Restore last draft"] {
 }
 
 .my-tox-header-sticky--expanded {
+    position: fixed !important;
     /* 4% is the width of the hidden menu */
     left: calc(max(4%, 50px)) !important;
 
@@ -1560,13 +1563,13 @@ div[aria-label="Restore last draft"] {
 
 /* using higher specificity it makes these rule more important than the others, overriding .my-tox-header-sticky--expanded and .my-tox-header-sticky--normal */
 div.tox-editor-header.my-tox-header-sticky--fullscreen {
-
     width: 100vw !important;
     left: 0 !important;
 
 }
 
 .my-tox-header-sticky--normal {
+    position: fixed !important;
     /* 26% is the width of the normal menu */
     left: 26% !important;
     /* 73.3 and not 74 to make the scrollbar visible */
@@ -2131,6 +2134,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
+    
     .note-display {
 
         flex-basis: 100%;
