@@ -1633,28 +1633,28 @@ height: 100dvh;
     width: 4dvw;
     height: 4dvw;
 left: calc(50% + 8.5dvw);
-    top: calc(50% - calc(4dvw / 2));
+    top: calc(50dvh - calc(4dvw / 2));
 }
 
 .loading-screen .ripple-background .large {
     width: 5dvw;
     height: 5dvw;
     left: calc(50% + 8dvw);
-    top: calc(50% - calc(5dvw / 2));
+    top: calc(50dvh - calc(5dvw / 2));
 }
 
 .loading-screen .ripple-background .xlarge {
     width: 6dvw;
     height: 6dvw;
         left: calc(50% + 7.5dvw);
-    top: calc(50% - calc(6dvw / 2));
+    top: calc(50%dvh- calc(6dvw / 2));
 }
 
 .loading-screen .ripple-background .xxlarge {
     width: 7dvw;
     height: 7dvw;
     left: calc(50% + 7dvw);
-    top: calc(50% - calc(7dvw / 2));
+    top: calc(50dvh - calc(7dvw / 2));
 }
 
 
