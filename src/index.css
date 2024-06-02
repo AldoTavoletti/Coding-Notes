@@ -1550,9 +1550,14 @@ div[aria-label="Restore last draft"] {
     display: none !important;
 
 }
+/* since the sticky classes get added anyways (cause when you get off fullscreen the tinymce automatic sticky doesnt work), I make sure that when the header is scroll-off, the width is always 100% of the note-display */
+.tox-tinymce--toolbar-sticky-off .tox-editor-header{
 
+width: 100% !important;
+
+}
 .my-tox-header-sticky--expanded {
-    position: fixed !important;
+    /* position: fixed !important; */
     /* 4% is the width of the hidden menu */
     left: calc(max(4%, 50px)) !important;
 
@@ -1569,7 +1574,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 .my-tox-header-sticky--normal {
-    position: fixed !important;
     /* 26% is the width of the normal menu */
     left: 26% !important;
     /* 73.3 and not 74 to make the scrollbar visible */
