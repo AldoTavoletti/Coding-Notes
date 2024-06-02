@@ -68,7 +68,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
      */
     const lastCheckedWidth = useRef(window.innerWidth);
 
-    if (isLoggedIn /*=== null*/) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
+    if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
         return (<div className="full-height-container"><LoadingScreen /></div>);
     }
 
