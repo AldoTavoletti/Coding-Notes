@@ -1036,8 +1036,8 @@ body {
 .loading-screen .ripple-background {
     /* so i can set top */
     position: relative;
-    height: 7.7dvw;
-    width: 7.7dvw;
+    height: 5dvw;
+    width: 5dvw;
     top: .5dvw;
 }
 .circle {
@@ -1055,8 +1055,10 @@ body {
 
 .loading-screen .circle {
     animation: ripple 1.5s infinite;
-    width: 7.7dvw;
-    height: 7.7dvw;
+    width: 5dvw;
+    height: 5dvw;
+    top: .2dvw;
+    
 }
 
 .note-display .circle {
