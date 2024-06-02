@@ -2,7 +2,7 @@ const LoadingScreen = () => {
     return (
 
         <div className="loading-screen">
-            Coding N&nbsp;&nbsp;&nbsp;
+            Coding n
             <div className="ripple-background">
 
                 <div className="circle xxlarge shade1"></div>
