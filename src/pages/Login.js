@@ -114,17 +114,9 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
             setError("insert a password");
 
 
-        } else if (isLongEnough !== true) /* if the password isn't long enough */ {
+        } else if (!isLongEnough || !hasCapital || !hasSymbol) /* if the password conditions are not respected */ {
 
-            setError("The password should be at least 8 characters long");
-
-        } else if (hasCapital !== true) {
-
-            setError("The password should contain at least 1 capital letter");
-
-        } else if (hasSymbol !== true) {
-
-            setError("The password should contain at least 1 symbol");
+            setError("Check the password conditions");
 
         } else if (password2 !== password) /* if the 2 passwords are not the same */ {
 
@@ -444,7 +436,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                 </div>
 
                 {/* if an error is fired, it's shown here */ }
-                { error && <p className="login-container__error">{ error }</p> }
+                { error && <><br></br><p className="login-container__error">{ error }</p></> }
 
 
                 <div className="login-container__buttons">

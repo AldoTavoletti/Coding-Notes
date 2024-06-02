@@ -39,8 +39,8 @@
     --light: 80;
     /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
     --threshold: 60;
-
-    --height-homepage: calc(100dvh - max(min(10dvh, 70px), 60px));
+    --current-header-height: max(min(10dvh, 70px), 60px);
+    --height-homepage: calc(100dvh - var(--current-header-height));
 }
 
 [data-theme="light"] {
@@ -376,6 +376,7 @@ body {
 
     width: fit-content;
     accent-color: var(--secondary-bg-color-hover);
+    outline: 0;
 
 }
 
@@ -447,16 +448,7 @@ body {
 
 }
 
-.login-page .ripple-background {
-    display: flex;
-    padding-right: 5%;
-    padding-top: 2.5%;
-    justify-content: right;
-    position: relative;
-    height: 100dvh;
-    width: 65vw;
-    background: var(--quaternary-bg-color);
-}
+
 
 /* every p except the error ones */
 .login-container p:not(.login-container__error) {
@@ -467,10 +459,12 @@ body {
 }
 
 .login-container__error {
-
-    color: red;
-    font-size: 0.8em;
-    text-decoration: underline;
+    background-color: var(--secondary-bg-color);
+    border-radius: 10px;
+    padding: 5%;
+    color: var(--purple-light);
+    font-size: 1.2em;
+    animation: load-note-animation 0.2s linear;
 
 }
 
@@ -1006,7 +1000,7 @@ body {
     background-color: var(--editor-bg-color);
     flex-basis: 74%;
     transition: flex-basis 0.2s ease;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: var(--height-homepage);
 
 }
@@ -1019,7 +1013,14 @@ body {
     white-space: nowrap;
 }
 
-
+.login-page .ripple-background {
+    padding-right: 5%;
+    padding-top: 2.5%;
+    position: relative;
+    height: 100dvh;
+    width: 65vw;
+    background-color: var(--quaternary-bg-color);
+}
 .note-display .ripple-background {
     width: 100%;
     position: relative;
@@ -1028,41 +1029,62 @@ body {
     overflow: hidden;
     height: var(--height-homepage);
 }
-
+.loading-screen .ripple-background {
+    /* so i can set top */
+    position: relative;
+    height: 7.7dvw;
+    width: 7.7dvw;
+    top: .5dvw;
+}
 .circle {
+
     position: absolute;
     border-radius: 50%;
     background: var(--purple);
+    width: 100dvh;
+    height: 100dvh;
     animation: ripple 15s infinite;
-}
-
-.note-display .medium {
-    width: 300px;
-    height: 300px;
-    left: calc(50% - 150px);
-    bottom: -150px;
-}
-
-.note-display .large {
-    width: 450px;
-    height: 450px;
-    left: calc(50% - 225px);
-    bottom: -225px;
 
 }
 
-.note-display .xlarge {
-    width: 600px;
-    height: 600px;
-    left: calc(50% - 300px);
-    bottom: -300px;
+
+
+.loading-screen .circle {
+    animation: ripple 1.5s infinite;
+    width: 7.7dvw;
+    height: 7.7dvw;
 }
 
-.note-display .xxlarge {
-    width: 750px;
-    height: 750px;
-    left: calc(50% - 375px);
-    bottom: -375px;
+.note-display .circle {
+
+    top: calc(50dvh - var(--current-header-height));
+    right: -50dvh;
+}
+
+.login-page .circle {
+
+    top: 50dvh;
+    left: -50dvh;
+}
+
+.medium {
+    scale: 0.4;
+}
+
+.large {
+    scale: 0.6;
+
+
+}
+
+.xlarge {
+    scale: 0.8;
+}
+
+.xxlarge {
+
+    scale: 1;
+
 }
 
 .note-display--hidden {
@@ -1232,6 +1254,7 @@ body {
     text-overflow: ellipsis;
     overflow: hidden;
     user-select: none;
+    white-space: nowrap;
 
 
 }
@@ -1449,40 +1472,6 @@ input[data-autocompleted] {
 }
 
 
-.circle {
-    position: absolute;
-    border-radius: 50%;
-    background: var(--purple);
-    animation: ripple 8s infinite;
-}
-
-.medium {
-    width: 400px;
-    height: 400px;
-    left: -200px;
-    bottom: -200px;
-}
-
-.large {
-    width: 600px;
-    height: 600px;
-    left: -300px;
-    bottom: -300px;
-}
-
-.xlarge {
-    width: 800px;
-    height: 800px;
-    left: -400px;
-    bottom: -400px;
-}
-
-.xxlarge {
-    width: 1000px;
-    height: 1000px;
-    left: -500px;
-    bottom: -500px;
-}
 
 .shade1 {
     opacity: 0.2;
@@ -1621,52 +1610,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         -0.25px 0.25px var(--purple);
     ;
     font-weight: bold;
+    background-color: var(--primary-bg-color);
     color: var(--purple);
     width: 100%;
     height: 100dvh;
 
 }
-
-.loading-screen .ripple-background {
-    position: relative;
-    height: 7.7dvw;
-    width: 7.7dvw;
-    top: .5dvw;
-}
-
-.loading-screen .ripple-background .circle {
-    animation: ripple 1.5s infinite;
-    width: 7.7dvw;
-    height: 7.7dvw;
-}
-
-.loading-screen .ripple-background .medium {
-
-    left: 0;
-    top: 0;
-    scale: 0.25;
-
-}
-
-.loading-screen .ripple-background .large {
-    left: 0;
-    top: 0;
-    scale: 0.5;
-
-}
-
-.loading-screen .ripple-background .xlarge {
-    left: 0;
-    top: 0;
-    scale: 0.75;
-}
-
-.loading-screen .ripple-background .xxlarge {
-    left: 0;
-    top: 0;
-    scale: 1;
-}
-
 
 
 .tox-tinymce {
@@ -2100,7 +2049,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     }
 
     .ripple-background .sponsor {
-        text-align: center;
         font-size: 2.3em;
     }
 
@@ -2277,33 +2225,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-    .ripple-background .medium {
-        width: 175px;
-        height: 175px;
-        left: calc(50% - 87.5px);
-        bottom: -87.5px;
-    }
 
-    .ripple-background .large {
-        width: 262.5px;
-        height: 262.5px;
-        left: calc(50% - 131.25px);
-        bottom: -131.25px;
-    }
-
-    .ripple-background .xlarge {
-        width: 350px;
-        height: 350px;
-        left: calc(50% - 175px);
-        bottom: -175px;
-    }
-
-    .ripple-background .xxlarge {
-        width: 437.5px;
-        height: 437.5px;
-        left: calc(50% - 218.75px);
-        bottom: -218.75px;
-    }
 
     .login-page .ripple-background .sponsor {
 
@@ -2346,6 +2268,11 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 0.625em;
 
     }
+        .login-container__error {
+
+            font-size: 1em;
+
+        }
 
 }
 
@@ -2380,49 +2307,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 @media screen and (max-height: 500px) {
-    .ripple-background .medium {
-        width: 200px;
-        height: 200px;
-        left: -100px;
-        bottom: -100px;
-    }
 
-    .ripple-background .large {
-        width: 300px;
-        height: 300px;
-        left: -150px;
-        bottom: -150px;
-    }
-
-    .ripple-background .xlarge {
-        width: 400px;
-        height: 400px;
-        left: -200px;
-        bottom: -200px;
-    }
-
-    .ripple-background .xxlarge {
-        width: 500px;
-        height: 500px;
-        left: -250px;
-        bottom: -250px;
-    }
-
-    .note-display .ripple-background .medium {
-        left: calc(50% - 100px);
-    }
-
-    .note-display .ripple-background .large {
-        left: calc(50% - 150px);
-    }
-
-    .note-display .ripple-background .xlarge {
-        left: calc(50% - 200px);
-    }
-
-    .note-display .ripple-background .xxlarge {
-        left: calc(50% - 250px);
-    }
 
 
     .login-container {
