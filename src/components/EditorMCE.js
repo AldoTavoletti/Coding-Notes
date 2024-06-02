@@ -143,9 +143,9 @@ const EditorMCE = ({ currentNote }) => {
                         --tertiary-bg-color-active: #ffffff8f;
                         --quaternary-bg-color: #1d1d1d;
                         --purple: #6b41bf;
-    --purple-light: #9b64df;
-    --purple-hover: #5326a8;
-    --purple-active: #3e247d;
+                        --purple-light: #9b64df;
+                        --purple-hover: #5326a8;
+                        --purple-active: #3e247d;
                         --text-color: white;
                         --text-color-secondary: black;
                         --editor-bg-color: #1f1f1f;
@@ -166,7 +166,7 @@ const EditorMCE = ({ currentNote }) => {
                         --quaternary-bg-color: #c0c0c0;
                         --text-color: black;
                         --text-color-secondary: white;
-                            --purple-active: #3e247d;
+                        --purple-active: #3e247d;
 
                         --editor-bg-color: white;
                     }

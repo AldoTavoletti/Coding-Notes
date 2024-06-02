@@ -9,14 +9,14 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
   useEffect(() => {
 
     /*
-    This useEffect is used to manage the tinyMCE sticky toolbar, which leads to some problems when resizing divs if not handled correctly (only once it gets sticky).
-    I use two self made classes to resize the sticky toolbar to my needs.
+    This useEffect is used to manage the tinyMCE sticky toolbar, which leads to some problems when resizing divs if not handled correctly.
+    I use 4 self made classes to resize the sticky toolbar to my needs.
     "menuStatus === 'expanded'"doesn't need to be handled since note-display gets set to "visibility: hidden" when the menu gets expanded. 
     */
 
     const editorHeader = noteDisplayRef.current.querySelector(".tox-editor-header");
 
-    if (editorHeader /*&& editorHeader.style.position === "fixed"*/) /* if the editor has been rendered and the header is in sticky mode*/ {
+    if (editorHeader) /* if the editor has been rendered*/ {
 
 
       if (menuStatus === "normal") {
