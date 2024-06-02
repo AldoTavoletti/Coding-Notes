@@ -59,7 +59,7 @@
     --text-color: black;
     --text-color-secondary: white;
 
-    --purple-active: #442368;
+    --purple-active: #3e247d;
 
 
     --editor-bg-color: white;
@@ -701,7 +701,7 @@ body {
 
 }
 
-.menu__toolbar--expanded i {
+.menu__toolbar--expanded i, .menu__toolbar--small i {
 
     color: white;
 
@@ -1172,7 +1172,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 5%;
+    padding: 5% 5% 10% 5%;
     row-gap: 2dvh;
     overflow-y: auto;
 
