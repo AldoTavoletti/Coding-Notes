@@ -1647,7 +1647,7 @@ left: calc(50% + 8.5dvw);
     width: 6dvw;
     height: 6dvw;
         left: calc(50% + 7.5dvw);
-    top: calc(50%dvh- calc(6dvw / 2));
+    top: calc(50dvh- calc(6dvw / 2));
 }
 
 .loading-screen .ripple-background .xxlarge {
