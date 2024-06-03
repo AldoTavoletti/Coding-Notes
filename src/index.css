@@ -641,6 +641,7 @@ body {
     position: sticky;
     top: 0;
     padding-inline: 5%;
+    /* the same height as the tinymce toolbar */
     height: 88.6px;
     width: 100%;
     z-index: 4;
@@ -1962,8 +1963,14 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 (pointer:coarse) {
 
     .tox-editor-header {
-        padding-top: 93px !important;
         position: fixed !important;
+
+    }
+
+    /* to not make the fixed toolbar go over the content, 93px is the height of the toolbar on mobile */
+    .tox-editor-container{
+
+        padding-top: 93px;
 
     }
 
