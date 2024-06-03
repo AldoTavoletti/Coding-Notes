@@ -16,7 +16,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
     // an eventual error is showed using this variable
     const [error, setError] = useState(null);
-
+    const [isLoading, setIsLoading] = useState(false);
     // conditions
     const [isLongEnough, setIsLongEnough] = useState(null);
 
@@ -61,6 +61,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
         } else  /* if it's all good*/ {
 
+            setIsLoading(true);
 
             fetch(URL, {
 
@@ -91,6 +92,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
             }).catch(err => console.log(err));
+            setIsLoading(false);
 
         }
 
@@ -124,6 +126,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
         } else {
+            setIsLoading(true);
+            
             fetch(URL, {
 
                 method: "POST",
@@ -154,6 +158,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
             }).catch(err => console.log(err));
+            setIsLoading(false);
 
         }
     };
@@ -235,6 +240,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
          * @param {object} codeResponse 
          */
         onSuccess: (codeResponse) => {
+            setIsLoading(true);
             fetch(URL, {
 
                 method: "POST",
@@ -267,6 +273,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
             }).catch(err => console.log(err));
 
+            setIsLoading(false);
 
         },
 
@@ -373,7 +380,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
             <div className="login-container">
 
-                <p ref={ titleRef }>{ wantsLogin ? "Log in" : "Sign up" }</p>
+                <p ref={ titleRef }>{ setIsLoading ? (<div class="spinner-border" role="status"></div>) : wantsLogin ? "Log in" : "Sign up" }</p>
 
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } maxLength="255" />
 
