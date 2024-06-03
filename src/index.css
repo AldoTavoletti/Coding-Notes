@@ -701,7 +701,8 @@ body {
 
 }
 
-.menu__toolbar--expanded i, .menu__toolbar--small i {
+.menu__toolbar--expanded i,
+.menu__toolbar--small i {
 
     color: white;
 
@@ -999,6 +1000,7 @@ body {
     overflow-y: scroll;
 
 }
+
 .note-display {
     position: relative;
     background-color: var(--editor-bg-color);
@@ -1025,6 +1027,7 @@ body {
     width: 65vw;
     background-color: var(--quaternary-bg-color);
 }
+
 .note-display .ripple-background {
     width: 100%;
     position: relative;
@@ -1033,6 +1036,7 @@ body {
     overflow: hidden;
     height: var(--height-homepage);
 }
+
 .loading-screen .ripple-background {
     /* so i can set top */
     position: relative;
@@ -1040,6 +1044,7 @@ body {
     width: 5dvw;
     top: .5dvw;
 }
+
 .circle {
 
     position: absolute;
@@ -1058,7 +1063,7 @@ body {
     width: 5dvw;
     height: 5dvw;
     top: .2dvw;
-    
+
 }
 
 .note-display .circle {
@@ -1541,9 +1546,10 @@ input[data-autocompleted] {
     left: 0 !important;
 
 }
+
 .tox-editor-header {
     background-color: var(--quaternary-bg-color) !important;
-        transition: box-shadow .5s ease, left .2s ease, width .2s ease !important;
+    transition: box-shadow .5s ease, left .2s ease, width .2s ease !important;
 }
 
 /* restore last draft button */
@@ -1552,12 +1558,14 @@ div[aria-label="Restore last draft"] {
     display: none !important;
 
 }
-/* since the sticky classes get added anyways (cause when you get off fullscreen the tinymce automatic sticky doesnt work), I make sure that when the header is scroll-off, the width is always 100% of the note-display */
-.tox-tinymce--toolbar-sticky-off .tox-editor-header{
 
-width: 100% !important;
+/* since the sticky classes get added anyways (cause when you get off fullscreen the tinymce automatic sticky doesnt work), I make sure that when the header is scroll-off, the width is always 100% of the note-display */
+.tox-tinymce--toolbar-sticky-off .tox-editor-header {
+
+    width: 100% !important;
 
 }
+
 .my-tox-header-sticky--expanded {
     /* position: fixed !important; */
     /* 4% is the width of the hidden menu */
@@ -1952,6 +1960,13 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 @media screen and (pointer:none),
 (pointer:coarse) {
+
+    .tox-editor-header {
+
+        position: fixed !important;
+
+    }
+
     .secondary-button:disabled {
 
         background-color: rgb(215, 96, 96) !important;
@@ -2140,7 +2155,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-    
+
     .note-display {
 
         flex-basis: 100%;
@@ -2278,11 +2293,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 0.625em;
 
     }
-        .login-container__error {
 
-            font-size: 1em;
+    .login-container__error {
 
-        }
+        font-size: 1em;
+
+    }
 
 }
 

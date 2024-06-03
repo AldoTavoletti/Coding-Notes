@@ -37,7 +37,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
         isLoggedIn && setIsLoggedIn(false);
 
         if (localStorage.getItem("light-theme")) {
-            
+
             localStorage.removeItem("light-theme");
             setDarkMode();
         }
@@ -60,7 +60,6 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
             setError("insert a password");
 
         } else  /* if it's all good*/ {
-
             setIsLoading(true);
 
             fetch(URL, {
@@ -90,9 +89,16 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 }
 
+                setIsLoading(false);
 
-            }).catch(err => console.log(err));
-            setIsLoading(false);
+            }).catch(err => {
+
+                console.log(err);
+
+
+                setIsLoading(false);
+
+            });
 
         }
 
@@ -127,7 +133,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
         } else {
             setIsLoading(true);
-            
+
             fetch(URL, {
 
                 method: "POST",
@@ -156,11 +162,19 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 }
 
+                setIsLoading(false);
 
-            }).catch(err => console.log(err));
-            setIsLoading(false);
+
+            }).catch(err => {
+
+                console.log(err);
+                setIsLoading(false);
+
+
+            });
 
         }
+
     };
 
     /**
@@ -216,6 +230,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
             }, 200);
         } else /* if the user wants to log in */ {
 
+
             logIn();
 
         }
@@ -270,14 +285,19 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 }
 
+                setIsLoading(false);
 
             }).catch(err => console.log(err));
 
-            setIsLoading(false);
 
         },
 
-        onError: (error) => console.log('Login Failed:', error)
+        onError: (error) => {
+
+            console.log('Login Failed:', error);
+            setIsLoading(false);
+
+        }
     });
 
     const checkLength = (length) => {
@@ -380,7 +400,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
             <div className="login-container">
 
-                <p ref={ titleRef }>{ isLoading ? (<div class="spinner-border" role="status"></div>) : wantsLogin ? "Log in" : "Sign up" }</p>
+                <p ref={ titleRef }>{ isLoading ? <div class="spinner-grow" role="status"></div> : wantsLogin ? "Log in" : "Sign up" }</p>
 
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } maxLength="255" />
 
