@@ -1964,7 +1964,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     .tox-editor-header {
         position: fixed !important;
-
+        top: 69.5125px !important;
     }
 
     /* to not make the fixed toolbar go over the content, 93px is the height of the toolbar on mobile */
