@@ -1962,10 +1962,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 (pointer:coarse) {
 
     .tox-editor-header {
-
+        padding-top: 93px !important;
         position: fixed !important;
 
     }
+
+    
 
     .secondary-button:disabled {
 
