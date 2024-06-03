@@ -93,7 +93,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         }).then(data => {
 
             mutate(URL + "?retrieve=all");
-            if(currentNote.noteID === contextMenuInfo.elementID){
+            if(currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID){
 
                 setCurrentNote({ noteID: null, folderName: null, folderID: null });
                 
