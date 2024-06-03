@@ -1970,7 +1970,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     /* to not make the fixed toolbar go over the content, 93px is the height of the toolbar on mobile */
     .tox-editor-container{
 
-        padding-top: 93px;
+        padding-top: 93px !important;
 
     }
 
