@@ -264,7 +264,7 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
                                     return (
                                         <div
                                             style={ { '--color': color.primary } } // create a css variable with the primary color of the folder
-                                            className={ `color-box ${selectedColor === colorKeysArr[i] && "color-box--selected"}` }
+                                            className={ `color-box${selectedColor === colorKeysArr[i] ? " color-box--selected": ""}` }
                                             onClick={ () => setSelectedColor(colorKeysArr[i]) }
                                             key={ color.primary }>
                                             { selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }

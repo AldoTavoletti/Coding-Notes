@@ -323,11 +323,15 @@ body {
 
 .sponsor--purple {
 
-    color: var(--purple);
+    color: var(--purple-light);
 
     /* make it even bolder */
-    text-shadow: 0.5px 0 var(--purple), -0.5px 0 var(--purple), 0 0.5px var(--purple), 0 -0.5px var(--purple),
-        0.5px 0.5px var(--purple), -0.5px -0.5px var(--purple), 0.5px -0.5px var(--purple), -0.5px 0.5px var(--purple);
+    text-shadow: 0.5px 0 var(--purple-light), -0.5px 0 var(--purple-light), 0 0.5px var(--purple-light), 0 -0.5px var(--purple-light),
+        0.5px 0.5px var(--purple-light), -0.5px -0.5px var(--purple-light), 0.5px -0.5px var(--purple-light), -0.5px 0.5px var(--purple-light);
+
+        background-color: var(--purple-hover);
+            padding: 10px;
+        border-radius: 10px;
 }
 
 .conditions-container {
@@ -1011,9 +1015,14 @@ body {
     height: var(--height-homepage);
 
 }
+.login-page .sponsor {
 
+    padding-top: 5%;
+
+}
 .note-display .sponsor {
     font-size: 3em;
+    padding-top: 5%;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1021,8 +1030,7 @@ body {
 }
 
 .login-page .ripple-background {
-    padding-right: 5%;
-    padding-top: 2.5%;
+    padding-right: 4%;
     position: relative;
     height: 100dvh;
     width: 65vw;
@@ -1032,8 +1040,7 @@ body {
 .note-display .ripple-background {
     width: 100%;
     position: relative;
-    padding-inline: 5%;
-    padding-top: 2.5%;
+    padding-inline: 4%;
     overflow: hidden;
     height: var(--height-homepage);
 }
@@ -1958,16 +1965,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 /*? responsive */
-@media screen and (pointer:none),
-(pointer:coarse) and (orientation:landscape) {
 
-.tox-editor-header {
-
-top: 68px !important;
-
-}
-
-}
 @media screen and (pointer:none),
 (pointer:coarse) {
 
@@ -1982,6 +1980,11 @@ top: 68px !important;
         padding-top: 93px !important;
 
     }
+
+        .tox-fullscreen .tox-editor-header {
+    
+            top: 0px !important;
+        }
 
     
 
@@ -2033,7 +2036,20 @@ top: 68px !important;
     }
 
 }
+@media screen and (pointer:none),
+(pointer:coarse) and (orientation: landscape) {
 
+    .tox-editor-header {
+
+        top: 60px !important;
+    }
+
+    .tox-fullscreen .tox-editor-header {
+    
+        top: 0px !important;
+    }
+
+}
 @media screen and (max-width: 1240px) {
     .login-container {
 
@@ -2096,15 +2112,17 @@ top: 68px !important;
 
     .sponsor--purple {
 
-        text-shadow: 0.25px 0 var(--purple),
-            -0.25px 0 var(--purple),
-            0 0.25px var(--purple),
-            0 -0.25px var(--purple),
-            0.25px 0.25px var(--purple),
-            -0.25px -0.25px var(--purple),
-            0.25px -0.25px var(--purple),
-            -0.25px 0.25px var(--purple);
+        text-shadow: 0.25px 0 var(--purple-light),
+            -0.25px 0 var(--purple-light),
+            0 0.25px var(--purple-light),
+            0 -0.25px var(--purple-light),
+            0.25px 0.25px var(--purple-light),
+            -0.25px -0.25px var(--purple-light),
+            0.25px -0.25px var(--purple-light),
+            -0.25px 0.25px var(--purple-light);
         ;
+
+        
 
     }
 

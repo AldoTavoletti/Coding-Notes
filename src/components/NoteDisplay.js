@@ -48,7 +48,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
   }, [menuStatus]);
 
   return (
-    <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"} ${menuStatus === "hidden" && "note-display--expanded"} ${(menuStatus === "expanded" || menuStatus === "only-notelist") && "note-display--hidden"}` } ref={ noteDisplayRef }>
+    <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"}${menuStatus === "hidden" ? " note-display--expanded" : (menuStatus === "expanded" || menuStatus === "only-notelist") ? " note-display--hidden":""}` } ref={ noteDisplayRef }>
 
       {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
       { currentNote.noteID ?
@@ -58,7 +58,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
         (
             <div className="ripple-background">
 
-              <p className="sponsor">Hi <span className="sponsor--purple">{ isLoggedIn }</span>,<br></br>store your ideas!</p>
+              <p className="sponsor"><span className="sponsor--purple">{ isLoggedIn }</span><br></br>store your ideas.</p>
               <div className="circle xxlarge shade1"></div>
               <div className="circle xlarge shade2"></div>
               <div className="circle large shade3"></div>
