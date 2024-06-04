@@ -138,7 +138,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 method: "POST",
                 credentials: "include",
-                body: JSON.stringify({ username: username, password: password, action: "signup" })
+                body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "signup" })
 
             }).then(res => {
 
@@ -149,7 +149,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
             }).then(data => {
-
+                
                 if (data["code"] === 200) {
 
                     // log in
