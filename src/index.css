@@ -1261,7 +1261,6 @@ margin-bottom: 1.25rem;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-
 .accordion-header .accordion-button .plus-button {
     border: 0;
     background-color: transparent;
@@ -1282,7 +1281,7 @@ margin-bottom: 1.25rem;
 
 }
 
-.accordion-header .accordion-button span {
+.accordion-header .accordion-button .plus-button:hover {
 
     color: var(--hover-color) !important;
 

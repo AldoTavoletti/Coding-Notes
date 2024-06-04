@@ -121,7 +121,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                             <h2 className="accordion-header">
 
                                 <button className="accordion-button collapsed" style={ { backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
-                                    <span className="accordion-button__folder-title">{ folder.folderName }</span>
+                                    <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) + "cc" }} >{ folder.folderName }</span>
                                     <span
                                         className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
                                         onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName }) } //open the note

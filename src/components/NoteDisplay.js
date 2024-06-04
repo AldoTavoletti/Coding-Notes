@@ -58,7 +58,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
         (
             <div className="ripple-background">
 
-              <p className="sponsor"><span className="sponsor--purple">{ isLoggedIn }</span><br></br>store your ideas.</p>
+              <p className="sponsor">Hi <span className="sponsor--purple">{ isLoggedIn }</span><br></br>store your ideas.</p>
               <div className="circle xxlarge shade1"></div>
               <div className="circle xlarge shade2"></div>
               <div className="circle large shade3"></div>
