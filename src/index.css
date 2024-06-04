@@ -452,7 +452,11 @@ body {
 
 }
 
+.login-container .spinner-grow{
 
+margin-bottom: 1.25rem;
+
+}
 
 /* every p except the error ones */
 .login-container p:not(.login-container__error) {

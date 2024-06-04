@@ -399,8 +399,13 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
         <div className="login-page">
 
             <div className="login-container">
+                { isLoading ?
 
-                <p ref={ titleRef }>{ isLoading ? <div class="spinner-grow" role="status"></div> : wantsLogin ? "Log in" : "Sign up" }</p>
+                    <div class="spinner-grow" role="status"></div>
+                    :
+                    <p ref={ titleRef }>{ wantsLogin ? "Log in" : "Sign up" }</p>
+
+                }
 
                 <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } maxLength="255" />
 

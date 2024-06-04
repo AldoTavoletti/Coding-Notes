@@ -103,7 +103,6 @@ const EditorMCE = ({ currentNote }) => {
                     });
 
 
-
                 },
                 mobile: {
                     menubar: window.innerWidth > 360 ? true : false, // if the width is less than 361px, the menubar would wrap
