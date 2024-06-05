@@ -35,7 +35,7 @@
     --text-color-secondary: black;
 
     --editor-bg-color: #1f1f1f;
-    
+
     --current-header-height: max(min(10dvh, 70px), 60px);
     --height-homepage: calc(100dvh - var(--current-header-height));
 }
@@ -326,9 +326,9 @@ body {
     text-shadow: 0.5px 0 var(--purple-light), -0.5px 0 var(--purple-light), 0 0.5px var(--purple-light), 0 -0.5px var(--purple-light),
         0.5px 0.5px var(--purple-light), -0.5px -0.5px var(--purple-light), 0.5px -0.5px var(--purple-light), -0.5px 0.5px var(--purple-light);
 
-        background-color: var(--purple-hover);
-            padding: 10px;
-        border-radius: 10px;
+    background-color: var(--purple-hover);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .conditions-container {
@@ -449,9 +449,9 @@ body {
 
 }
 
-.login-container .spinner-grow{
+.login-container .spinner-grow {
 
-margin-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
 
 }
 
@@ -1016,11 +1016,13 @@ margin-bottom: 1.25rem;
     height: var(--height-homepage);
 
 }
+
 .login-page .sponsor {
 
     padding-top: 5%;
 
 }
+
 .note-display .sponsor {
     font-size: 3em;
     padding-top: 5%;
@@ -1138,13 +1140,17 @@ margin-bottom: 1.25rem;
 }
 
 .context-menu button:first-child {
-
+    border-bottom-width: 1px;
+    /*using !important i make sure that if the contextmenu has 1 button, the border is alright (it doesn't get set to 0, even though it's the first-cild) */
+    border-top-width: 2px !important;
     border-top-left-radius: 0.375rem;
     border-top-right-radius: 0.375rem;
 }
 
 .context-menu button:last-child {
-
+    /*using !important i make sure that if the contextmenu has 1 button, the border is alright (it doesn't get set to 0, even though it's the first-cild) */
+    border-bottom-width: 2px !important;
+    border-top-width: 1px;
     border-bottom-left-radius: 0.375rem;
     border-bottom-right-radius: 0.375rem;
 }
@@ -1216,6 +1222,7 @@ margin-bottom: 1.25rem;
     --bs-accordion-border-width: 0;
     --bs-accordion-btn-focus-box-shadow: 0;
     --bs-accordion-bg: transparent;
+        --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 }
 
@@ -1238,6 +1245,20 @@ margin-bottom: 1.25rem;
 }
 
 
+.note-list__note:first-child {
+
+    border-top-width: 0;
+
+}
+
+.note-list__note:last-child {
+
+    border-bottom-width: 2px;
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+
+
+}
 
 .note-list__note {
     width: 100%;
@@ -1249,17 +1270,36 @@ margin-bottom: 1.25rem;
     justify-content: center;
     align-items: center;
     border: 2px solid rgba(0, 0, 0, 0.178);
+    border-bottom-width: 1px;
+    border-top-width: 1px;
     cursor: pointer;
+    outline: none;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+
 .accordion-button {
     font-weight: bold;
     font-size: 0.6em;
     overflow: hidden;
     text-overflow: ellipsis;
-
+    border: 2px solid rgba(0, 0, 0, 0.178);
+    transition: border-radius 0.15s ease;
 
 }
+
+.accordion-button:focus {
+
+    /*bootstrap sets it to be blue otherwise*/
+    border-color: rgba(0, 0, 0, 0.178);
+
+}
+
+.accordion-button.collapsed {
+
+    border: 2px solid var(--border-color);
+transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
+}
+
 .accordion-header .accordion-button .plus-button {
     border: 0;
     background-color: transparent;
@@ -1279,11 +1319,13 @@ margin-bottom: 1.25rem;
 
 
 }
-.accordion-button::after{
-margin-left: 10px !important;
+
+.accordion-button::after {
+    margin-left: 10px !important;
 
 }
-.accordion-button__folder-notesnumber{
+
+.accordion-button__folder-notesnumber {
 
     margin-left: auto;
     font-size: 0.8em;
@@ -1987,18 +2029,18 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     }
 
     /* to not make the fixed toolbar go over the content, 93px is the height of the toolbar on mobile */
-    .tox-editor-container{
+    .tox-editor-container {
 
         padding-top: 93px !important;
 
     }
 
-        .tox-fullscreen .tox-editor-header {
-    
-            top: 0px !important;
-        }
+    .tox-fullscreen .tox-editor-header {
 
-    
+        top: 0px !important;
+    }
+
+
 
     .secondary-button:disabled {
 
@@ -2048,6 +2090,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     }
 
 }
+
 @media screen and (pointer:none),
 (pointer:coarse) and (orientation: landscape) {
 
@@ -2057,11 +2100,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     }
 
     .tox-fullscreen .tox-editor-header {
-    
+
         top: 0px !important;
     }
 
 }
+
 @media screen and (max-width: 1240px) {
     .login-container {
 
@@ -2134,7 +2178,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
             -0.25px 0.25px var(--purple-light);
         ;
 
-        
+
 
     }
 

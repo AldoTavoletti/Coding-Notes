@@ -69,14 +69,13 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
             } else if (modalShowing === "note") /* if it's the add-note from the menu */ {
 
-                // if the current noteFolder is different from the first one
+                // if the current noteFolder is different from the first folder 
                 (noteFolder.folderID !== folders[0].folderID || noteFolder.folderName !== folders[0].folderName) && setNoteFolder({ folderID: folders[0].folderID, folderName: folders[0].folderName });
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalShowing]);
 
-    // retrieve all the folders
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
     // I try to revalidate the least possible
@@ -113,6 +112,7 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
         }).then(msg => {
 
+            // re-renders modals and notelist
             mutate();
 
 
@@ -149,10 +149,11 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
         }).then(msg => {
 
+            // refetch modals and notelist
             mutate();
 
             if (currentNote && currentNote.folderID === modalShowing.elementID) /* if the folder of the currentNote is being changed, change the currentNote foldername, which is shown in the header */ {
-                setCurrentNote({ ...currentNote, folderName: folderName });
+                folderName !== currentNote.folderName && setCurrentNote({ ...currentNote, folderName: folderName });
             }
 
         }).catch(err => console.log(err));

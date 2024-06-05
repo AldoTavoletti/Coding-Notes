@@ -15,9 +15,9 @@ will be different, and I can do it all just by changing this object.
 */
 export const folderColors = {
     black: { primary: "#202020", secondary: "#2b2a2a" },
-    green: { primary: "#03b703", secondary: "#5cad5c" },
+    green: { primary: "#03b703", secondary: "#6fc36f" },
     red: { primary: "#c21a1a", secondary: "#ff4b4b" },
-    blue: { primary: "#4d94ff", secondary: "#6ca7ff" },
+    blue: { primary: "#4d94ff", secondary: "#83b5ff" },
     yellow: { primary: "#e7e731", secondary: "#dfdf77" }
 };
 
