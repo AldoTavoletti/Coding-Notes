@@ -59,7 +59,7 @@ const EditorMCE = ({ currentNote }) => {
 
                     editor.on("preinit", () => {
                         // before the note gets initialized, change the data-theme attribute of the iframe' contentDocument's body, so that css style changes according to the theme
-                        document.querySelector('iframe').contentDocument.body.setAttribute("data-theme", document.body.getAttribute("data-theme"));
+                        document.querySelector('iframe').contentDocument.body.setAttribute("light-theme", document.body.getAttribute("light-theme"));
 
                     });
 
@@ -148,13 +148,9 @@ const EditorMCE = ({ currentNote }) => {
                         --text-color: white;
                         --text-color-secondary: black;
                         --editor-bg-color: #1f1f1f;
-                        /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
-                        --light: 80;
-                        /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
-                        --threshold: 60;
                     }
 
-                    [data-theme="light"] {
+                    [light-theme="true"] {
 
                         --primary-bg-color: #efefef;
                         --secondary-bg-color: #e2e2e2;

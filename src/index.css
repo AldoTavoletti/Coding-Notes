@@ -35,15 +35,12 @@
     --text-color-secondary: black;
 
     --editor-bg-color: #1f1f1f;
-    /* this 2 values are used to make sure text is black on light surfaces and white on dark ones */
-    --light: 80;
-    /* the threshold at which colors are considered "light." Range: integers from 0 to 100, recommended 50 - 70 */
-    --threshold: 60;
+    
     --current-header-height: max(min(10dvh, 70px), 60px);
     --height-homepage: calc(100dvh - var(--current-header-height));
 }
 
-[data-theme="light"] {
+[light-theme="true"] {
 
     --primary-bg-color: #efefef;
 

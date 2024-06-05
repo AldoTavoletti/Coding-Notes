@@ -24,8 +24,6 @@ const Theme = () => {
         }
     };
 
-    // setUserTheme();
-
     return (
         <div className='theme-div'>
             <input

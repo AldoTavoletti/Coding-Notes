@@ -3,14 +3,14 @@ import { getLuminance } from 'polished';
 /*
  this is the main endpoint to the backend. Index.php has a switch statement that
  redirects different requests based on the HTTP method. So every HTTP method has its own
- handler. EX: if I make a POST request to index.php, this will be elaborated to the post_handler.php file
+ handler. EX: if I make a POST request to index.php, this will be elaborated by the post_handler.php file
  */
 export const URL = "https://coding-notes-backend.onrender.com/index.php";
 
 /* 
 these are the colors used for folders and their notes. 
 This approach makes it possible to change the hex-code of the colors without causing any problem,
-since in the DB only the name of the color is saved. That means if I change the hex-code of black, all black folders 
+since only the name of the color is saved in the DB. That means if I change the hex-code of black, all black folders 
 will be different, and I can do it all just by changing this object.
 */
 export const folderColors = {
@@ -20,6 +20,7 @@ export const folderColors = {
     blue: { primary: "#4d94ff", secondary: "#6ca7ff" },
     yellow: { primary: "#e7e731", secondary: "#dfdf77" }
 };
+
 /**
  * 
  * @param {Function} setState it's the isLoggedIn setState function
@@ -59,7 +60,7 @@ export const logout = (setState, value) => {
 /**
  * 
  * @param {string} backgroundColor 
- * @returns {string}the color to use for the text
+ * @returns {string} the color to use for the text
  */
 export const getContrastColor = (backgroundColor) => {
     const threshold = 0.5; // Adjust this threshold as needed
@@ -78,13 +79,24 @@ export const getContrastColor = (backgroundColor) => {
  * @param {Function} setMethod 
  * @param {number} elementID 
  * @param {string} elementType 
- * @note it opens the context menu
+ * @note it opens the context menu. Since it's used for both notes and folders, folderName and folderColor will always be there, but they're default value is null.
  */
 export const openMenu = (e, setMethod, elementID, elementType, folderName = null, folderColor = null) => {
 
+    // prevent the default browser's context menu to appear
     e.preventDefault();
+
+    // make sure that when opening a note's context menu, the folder in which it is contained does not get opened
     e.stopPropagation();
 
+    /* 
+    x: the x of the mouse click.
+    y: the y of the mouse click.
+    elementID: the id of the element for which the context menu was opened.
+    elementType: the type of element ("note","folder").
+    folderName (could be null): the name of the folder, that has to be set as default when opening the modify modal.
+    folderColor (could be null): the color of the folder, that has to be set as default when opening the modify modal.
+    */
     setMethod({ x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName: folderName, folderColor: folderColor });
 
 };
@@ -93,6 +105,7 @@ export const openMenu = (e, setMethod, elementID, elementType, folderName = null
  * 
  * @param {Object} obj
  * @note used to make patch calls 
+ * @firedby (ex: when changing the content of a note)
  */
 export const simplePatchCall = (obj) => {
 
@@ -110,10 +123,6 @@ export const simplePatchCall = (obj) => {
         return res.json();
 
 
-    }).then(msg=>{
-
-        console.log(obj, msg);
-
     }).catch(err => console.log(err));
 
 
@@ -124,9 +133,10 @@ export const simplePatchCall = (obj) => {
  */
 export const setDarkMode = () => {
 
-    // set the data-theme attribute of the body to dark, so that css style changes
-    document.body.setAttribute("data-theme", "dark");
+    // remove the light-theme attribute of the body, so that css style changes
+    document.body.removeAttribute("light-theme");
 
+    // remove the item from localStorage
     localStorage.removeItem("light-theme");
 
 };
@@ -136,8 +146,8 @@ export const setDarkMode = () => {
  */
 export const setLightMode = () => {
 
-    // set the data-theme attribute of the body to light, so that css style changes
-    document.body.setAttribute("data-theme", "light");
+    // set the light-theme attribute of the body to true, so that css style changes
+    document.body.setAttribute("light-theme", "true");
 
     // save the selectedTheme in localStorage
     localStorage.setItem("light-theme", true);
