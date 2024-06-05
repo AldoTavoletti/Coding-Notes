@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Page404 from "./pages/Page404";
 import { setUserTheme } from "./utils/utils";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { URL } from "./utils/utils";
@@ -11,11 +11,11 @@ import { URL } from "./utils/utils";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
 
-  // contains the username if the user is logged in. It's initally null, and becomes false if the user is not logged in
+  // contains the username if the user is logged in. It's initally null, and becomes false if the user is not logged in.
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   /**
-   * @note check if the user is logged in (checks if $_SESSION["userID"] or a rememberme cookie is set)
+   * @note check if the user is logged in (checks if $_SESSION["userID"] or a rememberme cookie is set).
    */
   const checkLoggedIn = () => {
 
@@ -33,7 +33,7 @@ function App() {
 
 
     }).then(data => {
-      
+
       data["code"] === 200 ? setIsLoggedIn(data["username"]) : setIsLoggedIn(false);
 
 
@@ -41,16 +41,13 @@ function App() {
 
   };
 
-  //? using a useEffect is pointless here
-
-  if (isLoggedIn === null) /* if the user just got into the website (isLoggedIn is null only at the start)*/ {
+  useEffect(() => {
 
     checkLoggedIn();
 
-  }
+    setUserTheme();
 
-  // set the userTheme
-  setUserTheme();
+  }, []);
 
   return (
 
