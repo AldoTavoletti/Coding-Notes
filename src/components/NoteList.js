@@ -127,6 +127,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                                         onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName }) } //open the note
                                         style={ { '--hover-color': getContrastColor(folderColors[folder.color].secondary), color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } // set a style variable relative to the note color and set a visible text color 
                                     >+</span>
+                                    <span className="accordion-button__folder-notesnumber" style={ { color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } >{ folder.notes.length }</span>
+
                                 </button>
                             </h2>
 
