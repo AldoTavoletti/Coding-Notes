@@ -14,8 +14,8 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     const navigate = useNavigate();
 
-    // the noteID of the note clicked by the user
-    const [currentNote, setCurrentNote] = useState({noteID:null,folderName:null,folderID:null});
+    // the noteID, folderName and folderID of the note clicked by the user
+    const [currentNote, setCurrentNote] = useState({ noteID: null, folderName: null, folderID: null });
 
     // the title of the current note
     const [noteTitle, setNoteTitle] = useState("");
@@ -31,21 +31,23 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     const [menuStatus, setMenuStatus] = useState(() => window.innerWidth < 769 ? "only-notelist" : "normal");
 
     /*
-  "none" if no modal is showing; 
-  "folder" if the folder modal is showing; 
-  "note" if it's the note modal. 
-  */
+    "none" if no modal is showing; 
+    "folder" if the folder modal is showing; 
+    "note" if it's the note modal. 
+    */
     const [modalShowing, setModalShowing] = useState("none");
 
+    // a state variable to determine where the user right clicked and on what element he did it
+    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
 
     // this mutate is global, meaning I can mutate other URLs (in this case, it's used to refresh the notes list)
     const { mutate } = useSWRConfig();
 
     useEffect(() => {
 
-        if (isLoggedIn === false) /* can't use !isLoggedIn, it would consider null too */ {
-            currentNote && setCurrentNote(null);
-            noteTitle !== "" && setNoteTitle("");
+        if (isLoggedIn === false) /*//? can't use !isLoggedIn, it would consider null too */ {
+            setCurrentNote({ noteID: null, folderName: null, folderID: null });
+            setNoteTitle("");
             navigate("/login");
 
         } else if (isLoggedIn) {
@@ -59,10 +61,10 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoggedIn, mutate, navigate]);
+    }, [isLoggedIn]);
 
+    //used in the resize eventListener. Without a timeout, even if it's 1ms, the function could be executed multiple times for the same size. 
     const timeoutID = useRef();
-
     /*
      this ref checks the last width registered. It's used to check if an actual resize took place, sometimes the event is called multiple times for just one resize. 
      */
@@ -92,14 +94,14 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
                 } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
 
                     if (menuStatus === "only-notelist") {
-                        
+
                         setMenuStatus("expanded");
 
                     }
                     if (menuStatus === "hamburger") {
                         // set it to "hidden"
                         setMenuStatus("hidden");
-                        
+
                     }
 
 
@@ -116,21 +118,21 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     return (
         <>
-            <Modals setNoteTitle={setNoteTitle}currentNote={currentNote} setCurrentNote={setCurrentNote} modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } isLoggedIn={ isLoggedIn } />
+            <Modals setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } modalShowing={ modalShowing } setModalShowing={ setModalShowing } setIsLoggedIn={ setIsLoggedIn } isLoggedIn={ isLoggedIn } />
 
             <Header menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } />
 
 
             <div className="home-page">
 
-                <Menu noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
+                <Menu contextMenuInfo={contextMenuInfo} setContextMenuInfo={setContextMenuInfo} noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
 
                 {/* the noteDisplay gets unmounted when the menu is expanded. This means:
                 - when the menu gets expanded and then it gets set to normal again, the note has to reload.
                 - since the note reloads everytime, if the theme gets changed in the expanded menu every color will be fine. If the component wasn't getting unmounted, the skin of the editor wouldn't be able to change. Maybe something could have been done with css though.
                 - if the note contains a lot of text, unmounting it makes the expanding of the menu's animation much smoother. 
                 */ }
-                { (menuStatus !== "expanded" && menuStatus !== "only-notelist") && <NoteDisplay menuStatus={ menuStatus } currentNote={ currentNote } isLoggedIn={isLoggedIn}/> }
+                { (menuStatus !== "expanded" && menuStatus !== "only-notelist") && <NoteDisplay contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } menuStatus={ menuStatus } currentNote={ currentNote } isLoggedIn={ isLoggedIn } /> }
 
             </div>
         </>

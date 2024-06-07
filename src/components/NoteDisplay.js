@@ -1,13 +1,12 @@
 import { useEffect, useRef } from "react";
 import EditorMCE from "./EditorMCE";
 
-const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
+const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, setContextMenuInfo }) => {
 
   // a ref for the note-display div, used to handle the sticky tinyMCE toolbar, which would be buggy without thes adjustments
   const noteDisplayRef = useRef(null);
 
   useEffect(() => {
-
     /*
     This useEffect is used to manage the tinyMCE sticky toolbar, which leads to some problems when resizing divs if not handled correctly.
     I use 4 self made classes to resize the sticky toolbar to my needs.
@@ -53,7 +52,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn }) => {
       {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
       { currentNote.noteID ?
 
-        <EditorMCE currentNote={ currentNote } />
+        <EditorMCE currentNote={ currentNote } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } />
         :
         (
             <div className="ripple-background">

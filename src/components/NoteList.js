@@ -1,17 +1,16 @@
 import useSWR, { useSWRConfig } from "swr";
 import { getContrastColor, openMenu } from "../utils/utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { URL, folderColors } from "../utils/utils";
 import React from "react";
 
 
-const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle }) => {
+const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
     // used to settle the title of the last note, after another note has been clicked on
     const lastNote = useRef({ noteID: null, folderID: null });
 
-    // a state variable to determine where the user right clicked and on what element he did it
-    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
+    
 
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
@@ -23,7 +22,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
 
     useEffect(() => {
-        // set the last note to be the current one
+        // set the current note to be the last note viewed
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,8 +61,8 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         // change the noteTitle
         setNoteTitle(note.title);
 
-        // if the menu isn't already in normal status, set it to be
-        (menuStatus !== "normal" || menuStatus !== "hamburger") && setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
+        
+        setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
 
     };
 
@@ -93,7 +92,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         }).then(data => {
 
             mutate(URL + "?retrieve=all");
-            if(currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID){
+            if(currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID) /* if the current note or its parent folder was deleted */{
 
                 setCurrentNote({ noteID: null, folderName: null, folderID: null });
                 
@@ -171,7 +170,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                         </div>
                     </div>
 
-                    {/* a horizontal line between folders */ }
+                    {/* a horizontal line between folders shwon if it's not the last folder */ }
                     { folderIndex !== folders.length - 1 && <hr /> }
 
 

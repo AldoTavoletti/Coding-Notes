@@ -249,7 +249,7 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
                 {/* add folder modal */ }
                 <div
                     className={ `${"myModal"} ${modalShowing === "folder" || (typeof modalShowing === "object" && "folderColor" in modalShowing) ? "myModal--visible" : "myModal--hidden"}` }
-                    // when the modal is clicked, don't make the dim layer onClick get triggered
+                    // when the modal is open, don't make the dim layer onClick get triggered if clicking on the modal
                     onClick={ (e) => e.stopPropagation() }
                 >
 

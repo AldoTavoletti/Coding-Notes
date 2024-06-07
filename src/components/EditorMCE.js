@@ -6,7 +6,7 @@ import { simplePatchCall } from "../utils/utils";
 import "../prism/prism.css";
 import "../prism/prism";
 
-const EditorMCE = ({ currentNote }) => {
+const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     // used to keep track of the saved content and decide wether a patch call should be executed
     const content = useRef(null);
@@ -19,7 +19,6 @@ const EditorMCE = ({ currentNote }) => {
     If I didn't use this ref, switching between notes fast could cause content duplication, since the currentNote could change right before sending the object to simplePatchCall.
     Running some test I discovered that correspondingNoteID.current stays the same during the execution of the change event, while currentNote changes.
     As a matter of fact, if the change event is fired by clicking on another note, "correspondingNoteID.current = currentNote" gets executed after the end of the event function, while currentNote changes instantly.
-    
     */
     correspondingNoteID.current = currentNote.noteID;
 
@@ -60,6 +59,12 @@ const EditorMCE = ({ currentNote }) => {
                     editor.on("preinit", () => {
                         // before the note gets initialized, change the data-theme attribute of the iframe' contentDocument's body, so that css style changes according to the theme
                         document.querySelector('iframe').contentDocument.body.setAttribute("light-theme", document.body.getAttribute("light-theme"));
+
+                    });
+
+                    editor.on("click", () => {
+                        // close the contextmenu if open
+                        contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
 
                     });
 
@@ -116,7 +121,7 @@ const EditorMCE = ({ currentNote }) => {
                 ui_mode: "split", // without this toolbar_sticky doesn't work
                 autosave_interval: "1s",
                 autosave_retention: '1m', //not working i think
-                contextmenu:false, // if this is true, when pressing the right button a toolbar with the "link" option would appear
+                contextmenu: false, // if this is true, when pressing the right button a toolbar with the "link" option would appear
                 autosave_prefix: 'tinymce-autosave-' + note.noteID,
                 fullscreen_native: true,
                 skin: localStorage.getItem("light-theme") ? "oxide" : "oxide-dark", //makes the codesample and the menu's text color right
@@ -192,25 +197,25 @@ const EditorMCE = ({ currentNote }) => {
 
                     }
 
-                /* width */
-::-webkit-scrollbar {
-    width: 15px;
-}
+                    /* width */
+                    ::-webkit-scrollbar {
+                        width: 15px;
+                    }
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: var(--primary-bg-color);
-}
+                    /* Track */
+                    ::-webkit-scrollbar-track {
+                        background: var(--primary-bg-color);
+                    }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background-color: var(--secondary-bg-color);
-}
+                    /* Handle */
+                    ::-webkit-scrollbar-thumb {
+                        background-color: var(--secondary-bg-color);
+                    }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
+                    /* Handle on hover */
+                    ::-webkit-scrollbar-thumb:hover {
+                        background-color: #555;
+                    }
 
                 /* changes the background-color of the code sample */
                 :not(pre)>code[class*=language-], pre[class*=language-]{
@@ -269,7 +274,7 @@ const EditorMCE = ({ currentNote }) => {
                 ],
                 statusbar: false, // removes a line at the end of the editor
                 quickbars_insert_toolbar: false, // gets rid of the inline toolbar shown when just clicking on an empty line, I only want the selection toolbar activated
-                quickbars_link_toolbar:false,
+                quickbars_link_toolbar: false,
                 quickbars_selection_toolbar: 'bold italic forecolor backcolor' // inline toolbar shown on selection
             } }
         />

@@ -1734,11 +1734,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 }
 
-.tox .tox-button--secondary {
-
-    color: var(--quaternary-bg-color) !important;
-
-}
 
 /* make the the popup toolbar's arrow facing top of the right color */
 .tox .tox-pop.tox-pop--top::before,
