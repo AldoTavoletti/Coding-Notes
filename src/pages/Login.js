@@ -43,7 +43,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
         }
 
 
-    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
 
     /**
      * @note classic login
