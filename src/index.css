@@ -683,7 +683,7 @@ body {
     flex-direction: column;
     align-items: center;
 
-    row-gap: 2%;
+    row-gap: 1.25rem;
     overflow: auto;
 
     padding-inline: 2.5%;
@@ -728,9 +728,11 @@ body {
 
 .menu--expanded .note-list {
 
-    width: 80%;
+    width: 70%;
+    padding: 5rem;
 
 }
+
 
 .menu--expanded .menu__toolbar--expanded hr {
 
@@ -756,13 +758,6 @@ body {
 .menu__toolbar--only-notelist .secondary-button i {
 
     color: var(--primary-bg-color);
-
-}
-
-.menu--expanded .accordion,
-.menu--expanded hr {
-
-    max-width: 80%;
 
 }
 
@@ -1199,8 +1194,8 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 5% 5% 10% 5%;
-    row-gap: 2dvh;
+    padding: 1.75rem;
+    row-gap: 1.75rem;
     overflow-y: auto;
 
 }
@@ -1218,7 +1213,7 @@ body {
 }
 
 .accordion {
-    width: 95%;
+    width: 100%;
     --bs-accordion-border-width: 0;
     --bs-accordion-btn-focus-box-shadow: 0;
     --bs-accordion-bg: transparent;
@@ -1343,7 +1338,13 @@ transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
 .note-list__note:hover {
 
     background-color: var(--hover-color) !important;
-    border: 3px solid rgba(0, 0, 0, 0.178);
+
+}
+
+.note-list__note:hover p {
+
+font-size: 1.5em;
+
 }
 
 
@@ -1358,6 +1359,7 @@ transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
     font-weight: bold;
     font-size: 1.3em;
     user-select: none;
+    transition: font-size 0.15s ease;
 
 }
 
@@ -1513,6 +1515,7 @@ transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
 hr {
     border-color: var(--tertiary-bg-color);
     width: 100%;
+    margin: 0;
 }
 
 input:-webkit-autofill,
