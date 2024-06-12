@@ -1217,7 +1217,7 @@ body {
     --bs-accordion-border-width: 0;
     --bs-accordion-btn-focus-box-shadow: 0;
     --bs-accordion-bg: transparent;
-        --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 }
 
@@ -1292,7 +1292,7 @@ body {
 .accordion-button.collapsed {
 
     border: 2px solid var(--border-color);
-transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
+    transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
 }
 
 .accordion-header .accordion-button .plus-button {
@@ -1301,6 +1301,7 @@ transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
     font-weight: bold;
     position: relative;
     left: 10px;
+    margin-right: 20px;
     transition: color .2s ease;
 }
 
@@ -1323,6 +1324,7 @@ transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
 .accordion-button__folder-notesnumber {
 
     margin-left: auto;
+
     font-size: 0.8em;
 
 }
@@ -1343,7 +1345,7 @@ transition: border-radius 0.15s ease 0.30s, border-color 0.15s ease 0.30s;
 
 .note-list__note:hover p {
 
-font-size: 1.5em;
+    font-size: 1.5em;
 
 }
 
@@ -2146,6 +2148,10 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 3em;
 
     }
+
+    .menu--normal .accordion-button::after {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 769px) {
@@ -2158,6 +2164,10 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
         width: 60%;
 
+    }
+
+    .menu--normal .accordion-button::after {
+        display: block;
     }
 
     .ripple-background .sponsor {
