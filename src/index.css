@@ -1744,7 +1744,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 .tox .tox-pop.tox-pop--top::before,
 .tox .tox-pop.tox-pop--top::after {
 
-    border-color: transparent transparent var(--purple-light) transparent !important;
+    border-color: transparent transparent var(--purple-hover) transparent !important;
 
 }
 
@@ -1752,7 +1752,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 .tox .tox-pop.tox-pop--bottom::before,
 .tox .tox-pop.tox-pop--bottom::after {
 
-    border-color: var(--purple-light) transparent transparent transparent !important;
+    border-color: var(--purple-hover) transparent transparent transparent !important;
 
 }
 
@@ -1871,6 +1871,17 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 }
 
+.tox .tox-menu.tox-collection.tox-collection--list::-webkit-scrollbar {
+    display: none;
+
+}
+
+.tox .tox-insert-table-picker{
+
+background-color: var(--purple-hover) !important;
+
+}
+
 /*  gets rid of the white border around the editor */
 .tox .tox-edit-area::before {
 
@@ -1887,7 +1898,17 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 /* popup toolbar */
 .tox-toolbar {
 
-    background-color: var(--purple-light) !important;
+    background-color: var(--purple-hover) !important;
+}
+.tox .tox-tbtn svg{
+
+fill: var(--tertiary-bg-color) !important;
+
+}
+
+.tox .tox-toolbar .tox-tbtn svg {
+
+    fill: white !important;
 
 }
 
@@ -2053,6 +2074,8 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         height: 93px;
 
     }
+
+
 
     .tox-toolbar {
 
