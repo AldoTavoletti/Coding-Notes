@@ -177,7 +177,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
                     body {
                         font-family: Helvetica, Arial, sans-serif;
-                        font-size: 14pt;
+                        font-size: 12pt;
                         background-color: var(--editor-bg-color);
                         color: var(--text-color);
                     }
