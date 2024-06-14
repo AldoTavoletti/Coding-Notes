@@ -29,7 +29,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     }, [currentNote]);
 
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
-    if (isValidating) return (<div className="center-container">
+    if (isValidating && window.innerWidth > 769) return (<div className="center-container">
         <div className="spinner-grow" role="status">
         </div>
     </div>);
