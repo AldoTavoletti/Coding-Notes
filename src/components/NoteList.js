@@ -10,7 +10,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     // used to settle the title of the last note, after another note has been clicked on
     const lastNote = useRef({ noteID: null, folderID: null });
 
-    
+
 
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
@@ -29,10 +29,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     }, [currentNote]);
 
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
-    if (isValidating && window.innerWidth > 769) return (<div className="center-container">
-        <div className="spinner-grow" role="status">
-        </div>
-    </div>);
+    if (isValidating && window.innerWidth < 769 && menuStatus === "expanded") return (<></>);
+    if (isValidating) return (
+        <div className="center-container">
+            <div className="spinner-grow" role="status"></div>
+        </div>);
 
 
     // copy the data read-only array to create a modifiable folders array
@@ -61,7 +62,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         // change the noteTitle
         setNoteTitle(note.title);
 
-        
+
         setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
 
     };
@@ -92,10 +93,10 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         }).then(data => {
 
             mutate(URL + "?retrieve=all");
-            if(currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID) /* if the current note or its parent folder was deleted */{
+            if (currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID) /* if the current note or its parent folder was deleted */ {
 
                 setCurrentNote({ noteID: null, folderName: null, folderID: null });
-                
+
             }
 
 
@@ -120,7 +121,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
                             <h2 className="accordion-header">
 
                                 <button className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
-                                    <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary)}} >{ folder.folderName }</span>
+                                    <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                                     <span
                                         className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
                                         onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName }) } //open the note
