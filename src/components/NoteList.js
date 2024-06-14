@@ -29,7 +29,10 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     }, [currentNote]);
 
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
+
+    //the notelist is not shown in the expanded menu on screens with width less than 769, so showing the spinner would be wrong
     if (isValidating && window.innerWidth < 769 && menuStatus === "expanded") return (<></>);
+    
     if (isValidating) return (
         <div className="center-container">
             <div className="spinner-grow" role="status"></div>
