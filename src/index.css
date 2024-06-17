@@ -2077,7 +2077,7 @@ fill: white !important;
 
     }
 
-    .tox-toolbar {
+    div:not(.tox-pop__dialog) .tox-toolbar {
 
         background-color: var(--quaternary-bg-color) !important;
         
