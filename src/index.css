@@ -2077,7 +2077,7 @@ fill: var(--tertiary-bg-color) !important;
 
 
 
-    .tox-toolbar_primary {
+    .tox-toolbar__primary {
 
         background-color: var(--quaternary-bg-color) !important;
         color: var(--tertiary-bg-color) !important; 
