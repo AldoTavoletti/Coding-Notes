@@ -1901,7 +1901,7 @@ background-color: var(--purple-hover) !important;
     background-color: var(--purple-hover) !important;
 }
 
-.tox .tox-tbtn:not(.tox-tbtn--disabled) svg{
+.tox .tox-tbtn:not(.tox-tbtn--disabled,.tox-tbtn--enabled) svg{
 
 fill: var(--text-color) !important;
 
