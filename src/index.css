@@ -1907,7 +1907,7 @@ fill: var(--text-color) !important;
 
 }
 
-.tox .tox-toolbar .tox-tbtn svg{
+.tox-pop__dialog .tox-toolbar .tox-tbtn svg{
 
 fill: white !important;
 
@@ -2077,7 +2077,7 @@ fill: white !important;
 
     }
 
-    div:not(.tox-pop__dialog) .tox-toolbar {
+    .tox-toolbar {
 
         background-color: var(--quaternary-bg-color) !important;
         
