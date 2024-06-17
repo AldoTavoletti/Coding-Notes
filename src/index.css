@@ -1896,7 +1896,7 @@ background-color: var(--purple-hover) !important;
 }
 
 /* popup toolbar */
-.tox .tox-toolbar {
+.tox-pop__dialog .tox-toolbar {
 
     background-color: var(--purple-hover) !important;
 }
