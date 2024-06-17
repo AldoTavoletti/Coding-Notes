@@ -2078,6 +2078,7 @@ fill: var(--tertiary-bg-color) !important;
     .tox-toolbar {
 
         background-color: var(--quaternary-bg-color) !important;
+        fill: var(--text-color) !important;
     }
 
     .secondary-button:not(.active):hover {
