@@ -1900,9 +1900,16 @@ background-color: var(--purple-hover) !important;
 
     background-color: var(--purple-hover) !important;
 }
+
 .tox .tox-tbtn:not(.tox-tbtn--disabled) svg{
 
 fill: var(--text-color) !important;
+
+}
+
+.tox .tox-toolbar .tox-tbtn svg{
+
+fill: white !important;
 
 }
 
