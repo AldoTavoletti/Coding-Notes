@@ -2075,12 +2075,9 @@ fill: var(--tertiary-bg-color) !important;
 
     }
 
-
-
-    .tox-toolbar__primary {
+    .tox-toolbar {
 
         background-color: var(--quaternary-bg-color) !important;
-        color: var(--tertiary-bg-color) !important; 
     }
 
     .secondary-button:not(.active):hover {
