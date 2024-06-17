@@ -1757,8 +1757,8 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 }
 
 /* toolbar and menubar buttons background */
-.tox .tox-mbtn,
-.tox .tox-tbtn {
+.tox-mbtn,
+.tox-tbtn {
     color: var(--text-color) !important;
     background: transparent !important;
 
