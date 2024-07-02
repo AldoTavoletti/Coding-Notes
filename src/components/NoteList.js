@@ -1,14 +1,11 @@
 import useSWR, { useSWRConfig } from "swr";
-import { getContrastColor, openMenu } from "../utils/utils";
-import { useEffect, useRef } from "react";
-import { URL, folderColors } from "../utils/utils";
+import { URL } from "../utils/utils";
 import React from "react";
-
+import Folder from "./Folder";
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
-    // used to settle the title of the last note, after another note has been clicked on
-    const lastNote = useRef({ noteID: null, folderID: null });
+    
 
 
 
@@ -21,12 +18,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     const { mutate } = useSWRConfig();
 
 
-    useEffect(() => {
-        // set the current note to be the last note viewed
-        lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentNote]);
+   
 
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
 
@@ -47,28 +39,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
      * @param {number} folderIndex 
      * @param {number} noteIndex 
      */
-    const handleNoteClick = (note, folderName) => {
-
-        if (lastNote.current.noteID) /* if this isn't the first note that got clicked on */ {
-
-            // set the title of the last note (which is still the current one) to be noteTitle
-            folders
-                .find(folder => folder.folderID === lastNote.current.folderID)["notes"]
-                .find(note => note.noteID === lastNote.current.noteID)
-                .title = noteTitle;
-
-        }
-
-        // change the currentNote state
-        setCurrentNote({ noteID: note.noteID, folderName: folderName, folderID: note.folderID });
-
-        // change the noteTitle
-        setNoteTitle(note.title);
-
-
-        setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
-
-    };
+    
 
 
 
@@ -116,69 +87,9 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
             { folders && folders.map((folder, folderIndex) => (
 
-                // I use React.Fragment (which is the same as <>) to add the key value
-                <React.Fragment key={ folder.folderID }>
-                    <div className={ `accordion ${getContrastColor(folderColors[folder.color].primary) === "#ffffff" ? "accordion__white-svg" : "accordion__black-svg"}` } onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } id={ "accordion" + folderIndex } >
-                        <div className="accordion-item">
-
-                            <h2 className="accordion-header">
-
-                                <button className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
-                                    <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
-                                    <span
-                                        className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
-                                        onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName }) } //open the note
-                                        style={ { '--hover-color': getContrastColor(folderColors[folder.color].secondary), color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } // set a style variable relative to the note color and set a visible text color 
-                                    >+</span>
-                                    <span className="accordion-button__folder-notesnumber" style={ { color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } >{ folder.notes.length }</span>
-
-                                </button>
-                            </h2>
-
-                            <div id={ "collapse" + folderIndex } className="accordion-collapse collapse" data-bs-parent={ "#accordion" + folderIndex }>
-
-                                <div className="accordion-body">
-
-                                    {/* if the folder has notes show 'em, otherwise show a "This folder is empty!" message */ }
-                                    { folder.notes.length > 0 ?
-
-                                        folder.notes.map((note) => (
-
-                                            <div
-                                                onClick={ (e) => handleNoteClick(note, folder.folderName) } //open the note
-                                                onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
-                                                key={ note.noteID }
-                                                className="note-list__note"
-                                                style={ { '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } } // set a style variable relative to the note color and set a visible text color 
-                                            >
-
-                                                {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }
-                                                <p>{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
-
-                                            </div>
-
-                                        ))
-
-                                        :
-
-                                        (
-
-                                            <div className="empty-folder-content" style={ { backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } }>
-
-                                                <p>This folder is empty! <i className="bi bi-folder2-open"></i></p>
-
-                                            </div>
-                                        ) }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* a horizontal line between folders shwon if it's not the last folder */ }
-                    { folderIndex !== folders.length - 1 && <hr /> }
+                <Folder key={ folder.folderID } folder={folder} folders={folders} noteTitle={noteTitle} folderIndex={folderIndex} contextMenuInfo={contextMenuInfo} setNoteTitle={setNoteTitle} setMenuStatus={setMenuStatus} setContextMenuInfo={setContextMenuInfo} currentNote={currentNote} setCurrentNote={setCurrentNote}/>
 
 
-                </React.Fragment>
 
             )) }
 
