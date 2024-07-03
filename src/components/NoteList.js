@@ -87,7 +87,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
             { folders && folders.map((folder, folderIndex) => (
 
-                <Folder key={ folder.folderID } folder={folder} folders={folders} noteTitle={noteTitle} folderIndex={folderIndex} contextMenuInfo={contextMenuInfo} setNoteTitle={setNoteTitle} setMenuStatus={setMenuStatus} setContextMenuInfo={setContextMenuInfo} currentNote={currentNote} setCurrentNote={setCurrentNote}/>
+                <Folder key={ folder.folderID } folder={folder} folders={folders} noteTitle={noteTitle} folderIndex={folderIndex} contextMenuInfo={contextMenuInfo} setNoteTitle={setNoteTitle} setMenuStatus={setMenuStatus} setContextMenuInfo={setContextMenuInfo} currentNote={currentNote} setCurrentNote={setCurrentNote} setModalShowing={setModalShowing}/>
 
 
 

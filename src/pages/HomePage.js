@@ -6,6 +6,7 @@ import { URL } from "../utils/utils";
 import { useSWRConfig } from "swr";
 import Header from "../components/Header";
 import Modals from "../components/Modals";
+import { setUserTheme } from "../utils/utils";
 
 import { useEffect, useRef, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
@@ -42,6 +43,44 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     // this mutate is global, meaning I can mutate other URLs (in this case, it's used to refresh the notes list)
     const { mutate } = useSWRConfig();
+
+
+    /**
+      * @note check if the user is logged in (checks if $_SESSION["userID"] or a rememberme cookie is set).
+      */
+    const checkLoggedIn = () => {
+
+        fetch(URL + "?check=login", {
+
+            method: "GET",
+            credentials: "include"
+
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+
+
+        }).then(data => {
+            console.log(data);
+            data["code"] === 200 ? setIsLoggedIn(data["username"]) : setIsLoggedIn(false);
+
+
+        }).catch(err => console.log(err));
+
+    };
+
+    useEffect(() => {
+
+        checkLoggedIn();
+
+        setUserTheme();
+
+    }, []);
+
+
 
     useEffect(() => {
 
