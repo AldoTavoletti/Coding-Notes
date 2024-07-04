@@ -5,11 +5,6 @@ import Folder from "./Folder";
 
 const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
-    
-
-
-
-
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
     const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher);
@@ -17,14 +12,11 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
     // this mutate is global, meaning I can mutate other URLs (in this case, the one that retrieves data relative to the current note)
     const { mutate } = useSWRConfig();
 
-
-   
-
     if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
 
     //the notelist is not shown in the expanded menu on screens with width less than 769, so showing the spinner would be wrong
     if (isValidating && window.innerWidth < 769 && menuStatus === "expanded") return (<></>);
-    
+
     if (isValidating) return (
         <div className="center-container">
             <div className="spinner-grow" role="status"></div>
@@ -33,15 +25,6 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
     // copy the data read-only array to create a modifiable folders array
     const folders = [...data];
-    /**
-     * 
-     * @param {object} note 
-     * @param {number} folderIndex 
-     * @param {number} noteIndex 
-     */
-    
-
-
 
     /**
      * @note to delete folders/notes from the DB
@@ -67,6 +50,7 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
         }).then(data => {
 
             mutate(URL + "?retrieve=all");
+
             if (currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID) /* if the current note or its parent folder was deleted */ {
 
                 setCurrentNote({ noteID: null, folderName: null, folderID: null });
@@ -87,13 +71,9 @@ const NoteList = ({ currentNote, setCurrentNote, menuStatus, setMenuStatus, setM
 
             { folders && folders.map((folder, folderIndex) => (
 
-                <Folder key={ folder.folderID } folder={folder} folders={folders} noteTitle={noteTitle} folderIndex={folderIndex} contextMenuInfo={contextMenuInfo} setNoteTitle={setNoteTitle} setMenuStatus={setMenuStatus} setContextMenuInfo={setContextMenuInfo} currentNote={currentNote} setCurrentNote={setCurrentNote} setModalShowing={setModalShowing}/>
-
-
+                <Folder key={ folder.folderID } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
 
             )) }
-
-
 
             {/* the context menu */ }
             { contextMenuInfo.x && (

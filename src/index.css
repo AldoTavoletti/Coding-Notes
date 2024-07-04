@@ -1545,8 +1545,8 @@ input[data-autocompleted] {
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 100%;
-
+    width: 70%;
+    padding: 5rem;
 }
 
 
@@ -1876,9 +1876,9 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 }
 
-.tox .tox-insert-table-picker{
+.tox .tox-insert-table-picker {
 
-background-color: var(--purple-hover) !important;
+    background-color: var(--purple-hover) !important;
 
 }
 
@@ -1901,15 +1901,15 @@ background-color: var(--purple-hover) !important;
     background-color: var(--purple-hover) !important;
 }
 
-.tox .tox-tbtn:not(.tox-tbtn--disabled,.tox-tbtn--enabled) svg{
+.tox .tox-tbtn:not(.tox-tbtn--disabled, .tox-tbtn--enabled) svg {
 
-fill: var(--text-color) !important;
+    fill: var(--text-color) !important;
 
 }
 
-.tox-pop__dialog .tox-toolbar .tox-tbtn svg{
+.tox-pop__dialog .tox-toolbar .tox-tbtn svg {
 
-fill: white !important;
+    fill: white !important;
 
 }
 
@@ -2080,7 +2080,7 @@ fill: white !important;
     .tox-toolbar {
 
         background-color: var(--quaternary-bg-color) !important;
-        
+
     }
 
     .secondary-button:not(.active):hover {
@@ -2098,6 +2098,7 @@ fill: white !important;
         user-select: none;
 
     }
+
     .secondary-button.active:hover {
 
         background-color: var(--tertiary-bg-color);

@@ -64,7 +64,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
         }).then(data => {
-            console.log(data);
+
             data["code"] === 200 ? setIsLoggedIn(data["username"]) : setIsLoggedIn(false);
 
 
@@ -74,10 +74,11 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     useEffect(() => {
 
-        checkLoggedIn();
+        isLoggedIn === null && checkLoggedIn();
 
         setUserTheme();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
@@ -85,6 +86,7 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     useEffect(() => {
 
         if (isLoggedIn === false) /*//? can't use !isLoggedIn, it would consider null too */ {
+
             setCurrentNote({ noteID: null, folderName: null, folderID: null });
             setNoteTitle("");
             navigate("/login");
@@ -104,15 +106,9 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     //used in the resize eventListener. Without a timeout, even if it's 1ms, the function could be executed multiple times for the same size. 
     const timeoutID = useRef();
-    /*
-     this ref checks the last width registered. It's used to check if an actual resize took place, sometimes the event is called multiple times for just one resize. 
-     */
+    
+    /* this ref checks the last width registered. It's used to check if an actual resize took place, sometimes the event is called multiple times for just one resize. */
     const lastCheckedWidth = useRef(window.innerWidth);
-
-    if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
-        return (<div className="full-height-container"><LoadingScreen /></div>);
-    }
-
 
     window.addEventListener("resize", () => {
 
@@ -154,6 +150,10 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
         }, 1);
 
     });
+
+    if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
+        return (<div className="full-height-container"><LoadingScreen /></div>);
+    }
 
     return (
         <>

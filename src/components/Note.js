@@ -2,6 +2,11 @@ import { useRef, useEffect } from "react";
 import { getContrastColor, openMenu, folderColors } from "../utils/utils";
 
 const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+    
+    /**
+     * @param {Object} note 
+     * @param {String} folderName 
+     */
     const handleNoteClick = (note, folderName) => {
 
         if (lastNote.current.noteID) /* if this isn't the first note that got clicked on */ {
@@ -20,12 +25,11 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
         // change the noteTitle
         setNoteTitle(note.title);
 
-
         setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
 
     };
     useEffect(() => {
-        // set the current note to be the last note viewed
+        // set the current note to be the last note visited
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,6 +37,7 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
 
     // used to settle the title of the last note, after another note has been clicked on
     const lastNote = useRef({ noteID: null, folderID: null });
+    
     return (
 
         <div
