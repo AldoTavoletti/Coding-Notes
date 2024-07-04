@@ -6,6 +6,7 @@ import { URL } from "../utils/utils";
 import { useSWRConfig } from "swr";
 import Header from "../components/Header";
 import Modals from "../components/Modals";
+import { setUserTheme } from "../utils/utils";
 
 import { useEffect, useRef, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
@@ -43,9 +44,49 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
     // this mutate is global, meaning I can mutate other URLs (in this case, it's used to refresh the notes list)
     const { mutate } = useSWRConfig();
 
+
+    /**
+      * @note check if the user is logged in (checks if $_SESSION["userID"] or a rememberme cookie is set).
+      */
+    const checkLoggedIn = () => {
+
+        fetch(URL + "?check=login", {
+
+            method: "GET",
+            credentials: "include"
+
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+
+
+        }).then(data => {
+
+            data["code"] === 200 ? setIsLoggedIn(data["username"]) : setIsLoggedIn(false);
+
+
+        }).catch(err => console.log(err));
+
+    };
+
+    useEffect(() => {
+
+        isLoggedIn === null && checkLoggedIn();
+
+        setUserTheme();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+
     useEffect(() => {
 
         if (isLoggedIn === false) /*//? can't use !isLoggedIn, it would consider null too */ {
+
             setCurrentNote({ noteID: null, folderName: null, folderID: null });
             setNoteTitle("");
             navigate("/login");
@@ -65,15 +106,9 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     //used in the resize eventListener. Without a timeout, even if it's 1ms, the function could be executed multiple times for the same size. 
     const timeoutID = useRef();
-    /*
-     this ref checks the last width registered. It's used to check if an actual resize took place, sometimes the event is called multiple times for just one resize. 
-     */
+    
+    /* this ref checks the last width registered. It's used to check if an actual resize took place, sometimes the event is called multiple times for just one resize. */
     const lastCheckedWidth = useRef(window.innerWidth);
-
-    if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
-        return (<div className="full-height-container"><LoadingScreen /></div>);
-    }
-
 
     window.addEventListener("resize", () => {
 
@@ -115,6 +150,10 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
         }, 1);
 
     });
+
+    if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
+        return (<div className="full-height-container"><LoadingScreen /></div>);
+    }
 
     return (
         <>

@@ -677,7 +677,7 @@ body {
 
 .menu__toolbar--expanded {
     height: 100%;
-    width: 30%;
+    flex-basis: 26%;
 
     display: flex;
     flex-direction: column;
@@ -728,7 +728,7 @@ body {
 
 .menu--expanded .note-list {
 
-    width: 70%;
+    flex-basis: 74%;
     padding: 5rem;
 
 }
@@ -763,7 +763,6 @@ body {
 
 .menu__toolbar--only-notelist {
 
-    width: 100%;
     padding-inline: 5%;
     padding-block: 2%;
 
@@ -1545,8 +1544,8 @@ input[data-autocompleted] {
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 100%;
-
+    flex-basis: 74%;
+    padding: 5rem;
 }
 
 
@@ -1876,9 +1875,9 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 }
 
-.tox .tox-insert-table-picker{
+.tox .tox-insert-table-picker {
 
-background-color: var(--purple-hover) !important;
+    background-color: var(--purple-hover) !important;
 
 }
 
@@ -1901,15 +1900,15 @@ background-color: var(--purple-hover) !important;
     background-color: var(--purple-hover) !important;
 }
 
-.tox .tox-tbtn:not(.tox-tbtn--disabled,.tox-tbtn--enabled) svg{
+.tox .tox-tbtn:not(.tox-tbtn--disabled, .tox-tbtn--enabled) svg {
 
-fill: var(--text-color) !important;
+    fill: var(--text-color) !important;
 
 }
 
-.tox-pop__dialog .tox-toolbar .tox-tbtn svg{
+.tox-pop__dialog .tox-toolbar .tox-tbtn svg {
 
-fill: white !important;
+    fill: white !important;
 
 }
 
@@ -2080,7 +2079,7 @@ fill: white !important;
     .tox-toolbar {
 
         background-color: var(--quaternary-bg-color) !important;
-        
+
     }
 
     .secondary-button:not(.active):hover {
@@ -2098,6 +2097,7 @@ fill: white !important;
         user-select: none;
 
     }
+
     .secondary-button.active:hover {
 
         background-color: var(--tertiary-bg-color);
@@ -2232,7 +2232,7 @@ fill: white !important;
 
     }
 
-    .menu--expanded .note-list {
+    .menu:not(.menu--only-notelist) .note-list {
 
         display: none;
 
@@ -2251,14 +2251,9 @@ fill: white !important;
     .menu__toolbar--expanded {
 
         border: 0;
-
-    }
-
-    .menu--expanded {
-
         flex-basis: 100%;
-
     }
+
 
     .login-page .ripple-background {
 
@@ -2303,15 +2298,6 @@ fill: white !important;
         font-size: 1.4em;
 
     }
-
-
-
-    .menu--expanded .menu__toolbar {
-        width: 100%;
-
-
-    }
-
 
     ::-webkit-scrollbar {
         display: none;
