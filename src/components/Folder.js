@@ -1,11 +1,34 @@
 import { getContrastColor, openMenu, folderColors } from "../utils/utils";
 import Note from "./Note";
-
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: folder.folderID });
+
+    const style = { 
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
 
     return (
 
-        <div className={ `accordion ${getContrastColor(folderColors[folder.color].primary) === "#ffffff" ? "accordion__white-svg" : "accordion__black-svg"}` } onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) } id={ "accordion" + folderIndex } >
+        <div
+            className={ `accordion ${getContrastColor(folderColors[folder.color].primary) === "#ffffff" ? "accordion__white-svg" : "accordion__black-svg"}` }
+            onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) }
+            id={ "accordion" + folderIndex }
+            ref={ setNodeRef }
+            style={ style }
+            { ...attributes }
+            { ...listeners }
+        >
+
             <div className="accordion-item">
 
                 <h2 className="accordion-header">

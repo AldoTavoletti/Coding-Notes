@@ -1,8 +1,44 @@
 import NoteList from "./NoteList";
-
+import { useState } from "react";
 import Theme from "./Theme";
-
+import useSWR from "swr";
+import { URL } from "../utils/utils";
+import {
+    arrayMove
+} from '@dnd-kit/sortable';
+import { useEffect } from "react";
+import {
+    DndContext,
+    closestCenter,
+} from '@dnd-kit/core';
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
+  
+
+    const [folders, setFolders] = useState([]);
+    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
+
+    const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher);
+
+    useEffect(() => {
+
+        if (data) {
+            // copy the data read-only array to create a modifiable folders array
+            setFolders([...data]);
+        }
+
+    }, [data]);
+
+
+    if (error) return (<div className="note-list"><div className='failed'>Error</div></div>);
+
+    //the notelist is not shown in the expanded menu on screens with width less than 769, so showing the spinner would be wrong
+    if (isValidating && window.innerWidth < 769 && menuStatus === "expanded") return (<></>);
+
+    if (isValidating) return (
+        <div className="center-container">
+            <div className="spinner-grow" role="status"></div>
+        </div>);
+
 
     /**
      * @note collapse all the open folders using classes
@@ -58,6 +94,18 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     };
 
+    function handleDragEnd(event) {
+         const { active, over } = event;
+
+         if (active.id !== over.id) {
+             setFolders((folders) => {
+                 const oldIndex = folders.findIndex((folder)=>folder.folderID===active.id);
+                 const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
+                
+                 return arrayMove(folders, oldIndex, newIndex);
+             });
+         }
+    }
     return (
 
         <div className={ `${"menu"} ${menuStatus === "normal" ? "menu--normal" : menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" ? "menu--hidden" : menuStatus === "only-notelist" && "menu--only-notelist"}` }>
@@ -71,12 +119,12 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                             <Theme />
                             <i className="bi bi-arrow-left" onClick={ () => setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal") }></i>
                         </div>
-                    <button className="icon-text-button choose-note" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-file-earmark-text"></i></div><span>Choose a note</span></button>
+                        <button className="icon-text-button choose-note" onClick={ () => setMenuStatus("only-notelist") }><div><i className="bi bi-file-earmark-text"></i></div><span>Choose a note</span></button>
 
                         <button className="icon-text-button" onClick={ () => setModalShowing("folder") }><div><i className="bi bi-folder-plus"></i></div><span>Add a folder</span></button>
                         <button className="icon-text-button" onClick={ () => setModalShowing("note") }><div><i className="bi bi-file-plus"></i></div><span>Add a note</span></button>
 
-                        {/* over-769 means it is shown only if the width is greater than 769 */}
+                        {/* over-769 means it is shown only if the width is greater than 769 */ }
                         <hr className="over-769" />
 
                         <button className="icon-text-button over-769" onClick={ () => expandFolders() }><div><i className="bi bi-arrows-expand"></i></div><span>Expand All</span></button>
@@ -105,8 +153,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                     <div className="menu__toolbar menu__toolbar--small">
 
                         <i className="bi bi-list" onClick={ () => setMenuStatus("normal") }></i>
-                    <i className="bi bi-folder-plus" onMouseEnter={ (e) => e.target.classList.replace("bi-folder-plus", "bi-folder-fill") } onMouseLeave={ (e) => e.target.classList.replace("bi-folder-fill", "bi-folder-plus") } onClick={ () => setModalShowing("folder") }></i>
-                    <i className="bi bi-file-plus" onMouseEnter={ (e) => e.target.classList.replace("bi-file-plus", "bi-file-plus-fill") } onMouseLeave={ (e) => e.target.classList.replace("bi-file-plus-fill", "bi-file-plus") } onClick={ () => setModalShowing("note") }></i>
+                        <i className="bi bi-folder-plus" onMouseEnter={ (e) => e.target.classList.replace("bi-folder-plus", "bi-folder-fill") } onMouseLeave={ (e) => e.target.classList.replace("bi-folder-fill", "bi-folder-plus") } onClick={ () => setModalShowing("folder") }></i>
+                        <i className="bi bi-file-plus" onMouseEnter={ (e) => e.target.classList.replace("bi-file-plus", "bi-file-plus-fill") } onMouseLeave={ (e) => e.target.classList.replace("bi-file-plus-fill", "bi-file-plus") } onClick={ () => setModalShowing("note") }></i>
 
                     </div>
                 )
@@ -132,9 +180,13 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
+            <DndContext collisionDetection={ closestCenter } onDragEnd={ handleDragEnd }>
 
-            {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
-            <NoteList contextMenuInfo={contextMenuInfo} setContextMenuInfo={setContextMenuInfo} noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+                {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
+                <NoteList folders={folders} contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+         
+            </DndContext>
+
 
         </div>
 
