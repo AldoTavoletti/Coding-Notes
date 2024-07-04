@@ -677,7 +677,7 @@ body {
 
 .menu__toolbar--expanded {
     height: 100%;
-    width: 30%;
+    flex-basis: 26%;
 
     display: flex;
     flex-direction: column;
@@ -728,7 +728,7 @@ body {
 
 .menu--expanded .note-list {
 
-    width: 70%;
+    flex-basis: 74%;
     padding: 5rem;
 
 }
@@ -763,7 +763,6 @@ body {
 
 .menu__toolbar--only-notelist {
 
-    width: 100%;
     padding-inline: 5%;
     padding-block: 2%;
 
@@ -1545,7 +1544,7 @@ input[data-autocompleted] {
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 70%;
+    flex-basis: 74%;
     padding: 5rem;
 }
 
@@ -2233,7 +2232,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-    .menu--expanded .note-list {
+    .menu:not(.menu--only-notelist) .note-list {
 
         display: none;
 
@@ -2252,14 +2251,9 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     .menu__toolbar--expanded {
 
         border: 0;
-
-    }
-
-    .menu--expanded {
-
         flex-basis: 100%;
-
     }
+
 
     .login-page .ripple-background {
 
@@ -2304,15 +2298,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
         font-size: 1.4em;
 
     }
-
-
-
-    .menu--expanded .menu__toolbar {
-        width: 100%;
-
-
-    }
-
 
     ::-webkit-scrollbar {
         display: none;
