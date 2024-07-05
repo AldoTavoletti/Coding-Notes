@@ -23,13 +23,13 @@ import {
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
     const sensors = useSensors(
-        useSensor(MouseSensor),
+        useSensor(MouseSensor, {
+            activationConstraint: { distance: 10 }
+
+        }),
         useSensor(TouchSensor,{
 
-            activationConstraint: {
-                delay: 300,
-                tolerance: 8,
-}
+            activationConstraint:{distance:20}
 
         }),
         useSensor(KeyboardSensor, {
