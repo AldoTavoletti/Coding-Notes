@@ -105,7 +105,7 @@ export const openMenu = (e, setMethod, elementID, elementType, folderName = null
  * 
  * @param {Object} obj
  * @note used to make patch calls 
- * @firedby (ex: when changing the content of a note)
+ * @firedby (ex: when changing the content of a note or reordering folders)
  */
 export const simplePatchCall = (obj) => {
 
@@ -121,7 +121,6 @@ export const simplePatchCall = (obj) => {
             throw new Error("Network response was not ok");
         }
         return res.json();
-
 
     }).catch(err => console.log(err));
 
