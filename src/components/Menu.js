@@ -62,7 +62,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
         // get all the buttons of open accordions
         const accordionButtons = document.querySelectorAll("button.accordion-button:not(.collapsed)");
-        console.log(accordionButtons);
 
         const n = accordionCollapseDivs.length;
 
