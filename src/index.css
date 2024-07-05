@@ -1217,6 +1217,7 @@ body {
     --bs-accordion-btn-focus-box-shadow: 0;
     --bs-accordion-bg: transparent;
     --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    touch-action: manipulation;
 }
 
 .accordion__white-svg {
