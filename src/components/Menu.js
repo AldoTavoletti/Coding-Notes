@@ -24,7 +24,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const sensors = useSensors(
         useSensor(MouseSensor),
-        useSensor(TouchSensor),
+        useSensor(TouchSensor,{
+
+            activationConstraint:{distance:10}
+
+        }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })
