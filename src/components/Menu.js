@@ -11,7 +11,9 @@ import {
     closestCenter,
     DndContext,
     KeyboardSensor,
+    MouseSensor,
     PointerSensor,
+    TouchSensor,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
@@ -21,9 +23,8 @@ import {
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
     const sensors = useSensors(
-        useSensor(PointerSensor, {
-
-        }),
+        useSensor(MouseSensor),
+        useSensor(TouchSensor),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })
