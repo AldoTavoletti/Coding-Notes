@@ -13,7 +13,7 @@ const NoteList = ({ folders, currentNote, setCurrentNote, menuStatus, setMenuSta
     return (
         <>
             <div className="note-list">
-                    <SortableContext items={ folders.map(folder=>folder.folderID) } strategy={ verticalListSortingStrategy }>
+                    <SortableContext cancel=".accordion-button" items={ folders.map(folder=>folder.folderID) } strategy={ verticalListSortingStrategy }>
 
                         { folders && folders.map((folder, folderIndex) => (
 
