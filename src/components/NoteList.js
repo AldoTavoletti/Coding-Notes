@@ -9,15 +9,6 @@ import {
 
 const NoteList = ({ folders, currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
- 
-
-   
-       
-   
-
-
-   
-
 
     return (
         <>

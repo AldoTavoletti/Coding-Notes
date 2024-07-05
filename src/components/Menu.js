@@ -2,17 +2,33 @@ import NoteList from "./NoteList";
 import { useState } from "react";
 import Theme from "./Theme";
 import useSWR from "swr";
-import { URL } from "../utils/utils";
+import { URL, simplePatchCall } from "../utils/utils";
 import {
     arrayMove
 } from '@dnd-kit/sortable';
 import { useEffect } from "react";
 import {
-    DndContext,
     closestCenter,
+    DndContext,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
 } from '@dnd-kit/core';
+import {
+    sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
   
+    const sensors = useSensors(
+        useSensor(PointerSensor,{
+            activationConstraint:{distance:10}
+
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     const [folders, setFolders] = useState([]);
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
@@ -34,10 +50,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
     //the notelist is not shown in the expanded menu on screens with width less than 769, so showing the spinner would be wrong
     if (isValidating && window.innerWidth < 769 && menuStatus === "expanded") return (<></>);
 
-    if (isValidating) return (
-        <div className="center-container">
-            <div className="spinner-grow" role="status"></div>
-        </div>);
 
 
     /**
@@ -97,15 +109,23 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
     function handleDragEnd(event) {
          const { active, over } = event;
 
-         if (active.id !== over.id) {
+         if (active && over && active.id !== over.id) {
              setFolders((folders) => {
                  const oldIndex = folders.findIndex((folder)=>folder.folderID===active.id);
                  const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
-                
+                 simplePatchCall({oldIndex:oldIndex, newIndex:newIndex, folderID:active.id});
                  return arrayMove(folders, oldIndex, newIndex);
              });
          }
     }
+
+    const handleDragStart = ()=>{
+
+        collapseFolders();
+
+
+    }
+
     return (
 
         <div className={ `${"menu"} ${menuStatus === "normal" ? "menu--normal" : menuStatus === "expanded" ? "menu--expanded" : menuStatus === "hidden" ? "menu--hidden" : menuStatus === "only-notelist" && "menu--only-notelist"}` }>
@@ -180,7 +200,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-            <DndContext collisionDetection={ closestCenter } onDragEnd={ handleDragEnd }>
+            <DndContext collisionDetection={ closestCenter } onDragEnd={ handleDragEnd } onDragStart={handleDragStart} sensors={ sensors }>
 
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
                 <NoteList folders={folders} contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
