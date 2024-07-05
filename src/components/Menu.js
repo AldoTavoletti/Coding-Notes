@@ -26,7 +26,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
         useSensor(MouseSensor),
         useSensor(TouchSensor,{
 
-            activationConstraint:{distance:10}
+            activationConstraint:{delay:100, tolerance:0}
 
         }),
         useSensor(KeyboardSensor, {
