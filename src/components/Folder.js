@@ -12,10 +12,23 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
         transition,
     } = useSortable({ id: folder.folderID });
 
-    const style = { 
+    const style = {
         transform: CSS.Transform.toString(transform),
         transition,
     };
+
+    const handleOnMouseUp = (e) => {
+
+        // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
+        setTimeout(() => {
+
+            e.target.setAttribute("data-bs-toggle", "collapse");
+
+        }, 1);
+
+
+    };
+
 
     return (
 
@@ -33,7 +46,8 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
 
                 <h2 className="accordion-header">
 
-                    <button className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+
+                    <button onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                         <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
                             className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()

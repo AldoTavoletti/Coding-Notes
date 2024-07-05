@@ -31,6 +31,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
     );
 
     const [folders, setFolders] = useState([]);
+
+
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
     const { data, isValidating, error } = useSWR(URL + `?retrieve=all`, fetcher);
@@ -56,7 +58,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
      * @note collapse all the open folders using classes
      */
     const collapseFolders = () => {
-
         // get all the collapsible divs of open accordions
         const accordionCollapseDivs = document.querySelectorAll(".show");
 
@@ -105,8 +106,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     };
 
-    const handleDragEnd = (event) => {
-        const { active, over } = event;
+    const handleDragEnd = (e) => {
+        const { active, over } = e;
 
         if (active && over && active.id !== over.id) {
             setFolders((folders) => {
@@ -122,8 +123,12 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
      * 
      * @param {Event} event 
      */
-    const handleDragStart = (event) => {
-        console.log(event);
+    const handleDragStart = (e) => {
+
+        // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
+        document.getElementById("collapseButton"+e.active.id).removeAttribute("data-bs-toggle");
+        
+        // collapse all the folders
         collapseFolders();
 
 
