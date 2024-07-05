@@ -19,10 +19,10 @@ import {
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
-  
+
     const sensors = useSensors(
-        useSensor(PointerSensor,{
-            activationConstraint:{distance:10}
+        useSensor(PointerSensor, {
+            activationConstraint: { distance: 10 }
 
         }),
         useSensor(KeyboardSensor, {
@@ -106,25 +106,29 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     };
 
-    function handleDragEnd(event) {
-         const { active, over } = event;
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
 
-         if (active && over && active.id !== over.id) {
-             setFolders((folders) => {
-                 const oldIndex = folders.findIndex((folder)=>folder.folderID===active.id);
-                 const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
-                 simplePatchCall({oldIndex:oldIndex, newIndex:newIndex, folderID:active.id});
-                 return arrayMove(folders, oldIndex, newIndex);
-             });
-         }
-    }
+        if (active && over && active.id !== over.id) {
+            setFolders((folders) => {
+                const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
+                const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
+                simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
+                return arrayMove(folders, oldIndex, newIndex);
+            });
+        }
+    };
 
-    const handleDragStart = ()=>{
-
+    /**
+     * 
+     * @param {Event} event 
+     */
+    const handleDragStart = (event) => {
+        console.log(event);
         collapseFolders();
 
 
-    }
+    };
 
     return (
 
@@ -200,11 +204,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-            <DndContext collisionDetection={ closestCenter } onDragEnd={ handleDragEnd } onDragStart={handleDragStart} sensors={ sensors }>
+            <DndContext collisionDetection={ closestCenter } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
-                <NoteList folders={folders} contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
-         
+                <NoteList folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+
             </DndContext>
 
 
