@@ -29,7 +29,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
         }),
         useSensor(TouchSensor,{
 
-            activationConstraint:{distance:20}
+            activationConstraint:{distance:5}
 
         }),
         useSensor(KeyboardSensor, {
