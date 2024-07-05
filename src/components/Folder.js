@@ -2,6 +2,10 @@ import { getContrastColor, openMenu, folderColors } from "../utils/utils";
 import Note from "./Note";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import {
+    SortableContext,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
 
     const {
@@ -38,8 +42,7 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
             id={ "accordion" + folderIndex }
             ref={ setNodeRef }
             style={ style }
-            { ...attributes }
-            { ...listeners }
+            
         >
 
             <div className="accordion-item">
@@ -47,7 +50,7 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
                 <h2 className="accordion-header">
 
 
-                    <button onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                    <button { ...attributes } { ...listeners } onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                         <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
                             className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
@@ -63,14 +66,18 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
 
                     <div className="accordion-body">
 
-                        {/* if the folder has notes show 'em, otherwise show a "This folder is empty!" message */ }
                         { folder.notes.length > 0 ?
+                            (
+                                <SortableContext items={ folder.notes.map(note => note.noteID) } strategy={ verticalListSortingStrategy }>
 
-                            folder.notes.map((note) => (
+                                    { folder.notes.map((note) => (
 
-                                <Note key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+                                        <Note key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
 
-                            ))
+                                    )) }
+
+                                </SortableContext>
+                            )
 
                             :
 

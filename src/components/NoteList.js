@@ -1,7 +1,6 @@
 import React from "react";
 import Folder from "./Folder";
 import ContextMenu from "./ContextMenu";
-
 import {
     SortableContext,
     verticalListSortingStrategy,

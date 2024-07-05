@@ -27,7 +27,8 @@ const ContextMenu = ({contextMenuInfo, setModalShowing, folders, currentNote, se
 
 
         }).then(data => {
-
+            console.log(data);
+            
             mutate(URL + "?retrieve=all");
 
             if (currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID) /* if the current note or its parent folder was deleted */ {

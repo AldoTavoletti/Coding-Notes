@@ -7,12 +7,13 @@ import {
     arrayMove
 } from '@dnd-kit/sortable';
 import { useEffect } from "react";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+
 import {
     closestCenter,
     DndContext,
     KeyboardSensor,
     MouseSensor,
-    PointerSensor,
     TouchSensor,
     useSensor,
     useSensors,
@@ -24,12 +25,12 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const sensors = useSensors(
         useSensor(MouseSensor, {
-            activationConstraint: { distance: 10 }
+            activationConstraint: { distance: 5 }
 
         }),
-        useSensor(TouchSensor,{
+        useSensor(TouchSensor, {
 
-            activationConstraint:{distance:5}
+            activationConstraint: { distance: 5 }
 
         }),
         useSensor(KeyboardSensor, {
@@ -115,14 +116,51 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const handleDragEnd = (e) => {
         const { active, over } = e;
-
+        console.log(e);
         if (active && over && active.id !== over.id) {
-            setFolders((folders) => {
+
+            if (e.activatorEvent.target.classList.contains("accordion-button")) {
                 const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
                 const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
-                simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
-                return arrayMove(folders, oldIndex, newIndex);
-            });
+
+
+                setFolders((folders) => {
+
+                    simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
+                    return arrayMove(folders, oldIndex, newIndex);
+                });
+
+            } else {
+                let note = e.activatorEvent.target;
+                if (!e.activatorEvent.target.classList.contains("note-list__note")) {
+                    note = e.activatorEvent.target.parentElement;
+                }
+
+                console.log(note.getAttribute("parent-folder-index"));
+                const parentFolder = folders[note.getAttribute("parent-folder-index")];
+
+                const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
+                const newIndex = parentFolder.notes.findIndex((note) => note.noteID === over.id);
+                parentFolder.notes = arrayMove(parentFolder.notes, oldIndex, newIndex);
+
+                const index = folders.findIndex((folder) => folder.folderID === parentFolder.folderID);
+                const newFolders = folders.map((folder, i) => {
+
+                    if (i === index) {
+                        return parentFolder;
+                    }
+                    return folder;
+
+                });
+
+                setFolders(() => {
+                    simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: parentFolder.folderID });
+
+                    return newFolders;
+                });
+
+
+            }
         }
     };
 
@@ -131,14 +169,17 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
      * @param {Event} event 
      */
     const handleDragStart = (e) => {
+        const collapseButton = document.getElementById("collapseButton" + e.active.id);
 
-        // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
-        document.getElementById("collapseButton"+e.active.id).removeAttribute("data-bs-toggle");
-        
-        // collapse all the folders
-        collapseFolders();
+        if (collapseButton)/* if a folder is being dragged */ {
 
+            // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
+            collapseButton.removeAttribute("data-bs-toggle");
 
+            // collapse all the folders
+            collapseFolders();
+
+        }
     };
 
     return (
@@ -215,7 +256,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-            <DndContext collisionDetection={ closestCenter } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
+            <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCenter } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
                 <NoteList folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />

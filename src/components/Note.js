@@ -1,8 +1,23 @@
 import { useRef, useEffect } from "react";
 import { getContrastColor, openMenu, folderColors } from "../utils/utils";
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
     
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: note.noteID });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
     /**
      * @param {Object} note 
      * @param {String} folderName 
@@ -45,7 +60,11 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
             onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
             key={ note.noteID }
             className="note-list__note"
-            style={ { '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } } // set a style variable relative to the note color and set a visible text color 
+            parent-folder-index={folder.folderIndex}
+            ref={ setNodeRef }
+            { ...attributes }
+            { ...listeners }
+            style={ { ...style, '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } } // set a style variable relative to the note color and set a visible text color 
         >
 
             {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }
