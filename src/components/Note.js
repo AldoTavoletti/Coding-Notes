@@ -60,7 +60,7 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
             onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
             key={ note.noteID }
             className="note-list__note"
-            parent-folder-index={folder.folderIndex}
+            parent-folder-index={folder.folderIndex-1} // you gotta decrease it cause the indexes start from 1 in the db
             ref={ setNodeRef }
             { ...attributes }
             { ...listeners }
