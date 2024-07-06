@@ -116,7 +116,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const handleDragEnd = (e) => {
         const { active, over } = e;
-        console.log(e);
         if (active && over && active.id !== over.id) {
 
             if (e.activatorEvent.target.classList.contains("accordion-button")) {
@@ -136,7 +135,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                     note = e.activatorEvent.target.parentElement;
                 }
 
-                console.log(note.getAttribute("parent-folder-index"));
                 const parentFolder = folders[note.getAttribute("parent-folder-index")];
 
                 const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
@@ -152,6 +150,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                     return folder;
 
                 });
+
 
                 setFolders(() => {
                     simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: parentFolder.folderID });
@@ -169,6 +168,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
      * @param {Event} event 
      */
     const handleDragStart = (e) => {
+
         const collapseButton = document.getElementById("collapseButton" + e.active.id);
 
         if (collapseButton)/* if a folder is being dragged */ {
@@ -176,7 +176,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
             collapseButton.removeAttribute("data-bs-toggle");
 
-            // collapse all the folders
             collapseFolders();
 
         }

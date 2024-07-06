@@ -64,7 +64,7 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
 
                 <div id={ "collapse" + folderIndex } className="accordion-collapse collapse" data-bs-parent={ "#accordion" + folderIndex }>
 
-                    <div className="accordion-body">
+                    <div id={"accordion-body-" + folder.folderID} className="accordion-body">
 
                         { folder.notes.length > 0 ?
                             (
