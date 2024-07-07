@@ -5,6 +5,8 @@ import { URL } from "../utils/utils";
 import { simplePatchCall } from "../utils/utils";
 import "../prism/prism.css";
 import "../prism/prism";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
 
 const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
@@ -12,6 +14,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
     const content = useRef(null);
 
     const correspondingNoteID = useRef(null);
+
 
     /*
     This prevents the duplication of note contents. 
@@ -50,8 +53,39 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                         // save content changes in db (fired every 1s, it gets executed only if the editor's content is different from the last one saved)
                         if (content.current !== editor.getContent()) {
 
-                            simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
-                            content.current = editor.getContent();
+
+                            let controller = new AbortController();
+
+                            const patchPromise = new Promise((resolve, reject) => {
+
+                                const abortListener = ({ target }) => {
+                                    controller.signal.removeEventListener('abort', abortListener);
+                                    reject(target.reason);
+                                };
+                                controller.signal.addEventListener('abort', abortListener);
+
+                                simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+                                content.current = editor.getContent();
+
+                                resolve('Success');
+
+
+                            });
+
+                            controller.abort('cancelled reason'); 
+
+                            toast.promise(patchPromise, {
+
+                                pending: "Saving content...",
+                                success: "Content saved!",
+                                error: "The content hasn't been saved."
+
+                            }).catch(error => {
+                                if (error === 'Operation aborted') {
+                                    toast.error('Previous operation was aborted');
+                                }
+                            });;
+
                         }
 
                     });
@@ -119,7 +153,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                 menubar: true,
                 toolbar_sticky: true, // makes the toolbar sticky when scrolling, it's a little buggy but I handled it
                 ui_mode: "split", // without this toolbar_sticky doesn't work
-                autosave_interval: "1s",
+                autosave_interval: "3s",
                 autosave_retention: '1m', //not working i think
                 contextmenu: false, // if this is true, when pressing the right button a toolbar with the "link" option would appear
                 autosave_prefix: 'tinymce-autosave-' + note.noteID,

@@ -124,9 +124,14 @@ export const simplePatchCall = (obj) => {
 
     }).then((data)=>{
 
-        // console.log(data);
+        return true;
 
-    }).catch(err => console.log(err));
+    }).catch(err => {
+
+        console.log(err);
+        return false;
+        
+    });
 
 
 };

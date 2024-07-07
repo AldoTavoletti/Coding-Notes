@@ -10,6 +10,7 @@ import { setUserTheme } from "../utils/utils";
 
 import { useEffect, useRef, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
+import { Flip, ToastContainer } from "react-toastify";
 
 const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
@@ -163,6 +164,16 @@ const HomePage = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
             <div className="home-page">
+
+                <ToastContainer 
+                position="top-center"
+                    autoClose={ 400 }
+                    hideProgressBar={ true }
+                    rtl={ false }
+                    theme={localStorage.getItem("light-theme") ? "light":"dark"}
+                    closeButton={false}
+                    transition={Flip}
+                    />
 
                 <Menu contextMenuInfo={contextMenuInfo} setContextMenuInfo={setContextMenuInfo} noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
 
