@@ -18,7 +18,7 @@ export const folderColors = {
     green: { primary: "#03b703", secondary: "#6fc36f" },
     red: { primary: "#c21a1a", secondary: "#ff4b4b" },
     blue: { primary: "#4d94ff", secondary: "#83b5ff" },
-    yellow: { primary: "#e7e731", secondary: "#dfdf77" }
+    yellow: { primary: "#d7da00", secondary: "#dfdf77" }
 };
 
 /**
