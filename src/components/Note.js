@@ -65,11 +65,11 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
             ref={ setNodeRef }
             { ...attributes }
             { ...listeners }
-            style={ { ...style, '--hover-color': folderColors[folder.color].primary + "ee", backgroundColor: folderColors[folder.color].secondary, color: getContrastColor(folderColors[folder.color].secondary) } } // set a style variable relative to the note color and set a visible text color 
+            style={ { ...style, '--hover-color': folderColors[folder.color].primary + "88", backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].secondary) } } // set a style variable relative to the note color and set a visible text color 
         >
 
             {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }
-            <p drag-element="note">{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
+            <p drag-element="note">{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? <span style={ { color: getContrastColor(folderColors[folder.color].primary) + "88" } }>Untitled Note</span> : noteTitle) : (note.title === "" ? <span style={ { color: getContrastColor(folderColors[folder.color].primary)+"88" } }>Untitled Note</span> : note.title) }</p>
 
         </div>
 

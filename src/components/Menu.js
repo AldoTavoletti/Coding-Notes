@@ -10,12 +10,10 @@ import { useEffect } from "react";
 import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 import {
-    closestCenter,
     closestCorners,
     DndContext,
     KeyboardSensor,
     MouseSensor,
-    pointerWithin,
     TouchSensor,
     useSensor,
     useSensors,
@@ -25,6 +23,7 @@ import {
 } from '@dnd-kit/sortable';
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
+    
     const sensors = useSensors(
         useSensor(MouseSensor, {
             activationConstraint: { distance: 5 }
@@ -134,11 +133,16 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
             } else {
                 let note = e.activatorEvent.target;
-                if (!e.activatorEvent.target.classList.contains("note-list__note")) {
-                    note = e.activatorEvent.target.parentElement;
+                while (!note.classList.contains("note-list__note")) {
+                    note = note.parentElement;
                 }
+                
 
                 const parentFolder = folders[note.getAttribute("parent-folder-index")];
+
+                console.log(parentFolder);
+                console.log(note);
+
 
                 const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
                 const newIndex = parentFolder.notes.findIndex((note) => note.noteID === over.id);
