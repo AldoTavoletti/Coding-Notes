@@ -11,10 +11,10 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
         setNodeRef,
         transform,
         transition,
-    } = useSortable({ id: note.noteID });
+    } = useSortable({ id: note.noteID});
 
     const style = {
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
     };
 
@@ -58,10 +58,10 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
         <div
             onClick={ (e) => handleNoteClick(note, folder.folderName) } //open the note
             onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
-            key={ note.noteID }
             className="note-list__note"
             id={"note"+ note.noteID}           
-            parent-folder-index={folderIndex} // you gotta decrease it cause the indexes start from 1 in the db
+            parent-folder-index={folderIndex}
+            drag-element="note"
             ref={ setNodeRef }
             { ...attributes }
             { ...listeners }
@@ -69,7 +69,7 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
         >
 
             {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }
-            <p>{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
+            <p drag-element="note">{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? `Untitled Note` : noteTitle) : (note.title === "" ? `Untitled Note` : note.title) }</p>
 
         </div>
 

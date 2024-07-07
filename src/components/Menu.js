@@ -11,9 +11,11 @@ import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifi
 
 import {
     closestCenter,
+    closestCorners,
     DndContext,
     KeyboardSensor,
     MouseSensor,
+    pointerWithin,
     TouchSensor,
     useSensor,
     useSensors,
@@ -118,7 +120,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
         const { active, over } = e;
         if (active && over && active.id !== over.id) {
 
-            if (e.activatorEvent.target.classList.contains("accordion-button")) {
+            // the drag-element attribute is used to distinguish folders from notes
+            if (e.activatorEvent.target.getAttribute("drag-element") === "folder") {
                 const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
                 const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
 
@@ -255,7 +258,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
-            <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCenter } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
+            <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
                 <NoteList folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
