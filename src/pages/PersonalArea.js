@@ -155,7 +155,6 @@ const PersonalArea = (
                 noteTitle={ noteTitle }
                 setNoteTitle={ setNoteTitle }
                 isLoggedIn={ isLoggedIn }
-                setIsLoggedIn={ setIsLoggedIn }
                 currentNote={ currentNote }
                 setCurrentNote={ setCurrentNote }
                 setModalShowing={ setModalShowing }

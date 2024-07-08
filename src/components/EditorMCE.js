@@ -153,7 +153,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                 menubar: true,
                 toolbar_sticky: true, // makes the toolbar sticky when scrolling, it's a little buggy but I handled it
                 ui_mode: "split", // without this toolbar_sticky doesn't work
-                autosave_interval: "3s",
+                autosave_interval: "2s",
                 autosave_retention: '1m', //not working i think
                 contextmenu: false, // if this is true, when pressing the right button a toolbar with the "link" option would appear
                 autosave_prefix: 'tinymce-autosave-' + note.noteID,
