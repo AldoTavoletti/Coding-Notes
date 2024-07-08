@@ -38,7 +38,7 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
 
         <div
             className={ `accordion ${getContrastColor(folderColors[folder.color].primary) === "#ffffff" ? "accordion__white-svg" : "accordion__black-svg"}` }
-            onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder.folderID, "folder", folder.folderName, folder.color) }
+            onContextMenu={ (e) => openMenu(e, setContextMenuInfo, folder) }
             id={ "accordion" + folderIndex }
             ref={ setNodeRef }
             style={ style }

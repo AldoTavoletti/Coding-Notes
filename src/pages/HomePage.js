@@ -15,7 +15,7 @@ const HomePage = (
     }) => {
 
     // a state variable to determine where the user right clicked and on what element he did it
-    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
+    const [contextMenuInfo, setContextMenuInfo] = useState({ x: null, y: null, element: null });
 
     return (
 

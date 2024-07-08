@@ -98,7 +98,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
                     editor.on("click", () => {
                         // close the contextmenu if open
-                        contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
+                        contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, element: null });
 
                     });
 

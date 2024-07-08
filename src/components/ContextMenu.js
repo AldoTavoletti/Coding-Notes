@@ -1,8 +1,8 @@
 import { useSWRConfig } from "swr";
 import { URL } from "../utils/utils";
 
-const ContextMenu = ({contextMenuInfo, setModalShowing, folders, currentNote, setCurrentNote, setContextMenuInfo}) => {
- 
+const ContextMenu = ({ contextMenuInfo, setModalShowing, folders, currentNote, setCurrentNote, setContextMenuInfo }) => {
+
     // this mutate is global, meaning I can mutate other URLs (in this case, the one that retrieves data relative to the current note)
     const { mutate } = useSWRConfig();
     /**
@@ -11,7 +11,7 @@ const ContextMenu = ({contextMenuInfo, setModalShowing, folders, currentNote, se
     const deleteElement = () => {
 
         // the folder/note to delete.
-        const elementToDelete = { elementID: contextMenuInfo.elementID, elementType: contextMenuInfo.elementType };
+        const elementToDelete = { elementID: contextMenuInfo.element.id, elementType: contextMenuInfo.element.folderName ? "folder" : "note" };
 
         fetch(URL, {
 
@@ -28,10 +28,10 @@ const ContextMenu = ({contextMenuInfo, setModalShowing, folders, currentNote, se
 
         }).then(data => {
             console.log(data);
-            
+
             mutate(URL + "?retrieve=all");
 
-            if (currentNote.noteID === contextMenuInfo.elementID || currentNote.folderID === contextMenuInfo.elementID) /* if the current note or its parent folder was deleted */ {
+            if (currentNote.noteID === contextMenuInfo.element.id || currentNote.folderID === contextMenuInfo.element.id) /* if the current note or its parent folder was deleted */ {
 
                 setCurrentNote({ noteID: null, folderName: null, folderID: null });
 
@@ -44,41 +44,41 @@ const ContextMenu = ({contextMenuInfo, setModalShowing, folders, currentNote, se
     };
 
     //if the contextMenu is open and the screen is clicked, close the contextMenu
-    document.onclick = () => contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, elementID: null, elementType: null, folderName: null, folderColor: null });
-
-    
-    return ( 
-
-            contextMenuInfo.x && (
-
-                <div className="context-menu" style={ { "--left": contextMenuInfo.x, "--top": contextMenuInfo.y } }>
+    document.onclick = () => contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, element: null });
 
 
-                    {/* this is shown only for the folders */ }
-                    { contextMenuInfo.elementType === "folder" &&
-                        <button
-                            type="button"
-                            className="icon-text-button"
-                            onClick={ () => setModalShowing({ elementID: contextMenuInfo.elementID, folderName: contextMenuInfo.folderName, folderColor: contextMenuInfo.folderColor }) }
-                        ><div>{ contextMenuInfo.elementType === "note" ? <i className="bi bi-file-plus-fill"></i> : <i className="bi bi-folder-fill"></i> }</div><span>Modify</span></button>
-                    }
+    return (
 
-                    {/* this button is hidden only if a folder is clicked and there is only one of 'em */ }
-                    { (contextMenuInfo.elementType === "note" || folders.length > 1) &&
-                        <button
-                            type="button"
-                            className="icon-text-button"
-                            onClick={ () => deleteElement() }
-                        ><div>{ contextMenuInfo.elementType === "note" ? <i className="bi bi-file-x"></i> : <i className="bi bi-folder-x"></i> }</div><span>Delete</span></button>
-                    }
-                </div>
+        contextMenuInfo.x && (
+
+            <div className="context-menu" style={ { "--left": contextMenuInfo.x, "--top": contextMenuInfo.y } }>
 
 
-            )
+                {/* this is shown only for the folders */ }
+                { contextMenuInfo.element.folderName &&
+                    <button
+                        type="button"
+                        className="icon-text-button"
+                        onClick={ () => setModalShowing({ elementID: contextMenuInfo.element.id, folderName: contextMenuInfo.element.folderName, folderColor: contextMenuInfo.element.folderColor }) }
+                    ><div>{ contextMenuInfo.element.folderName ? <i className="bi bi-folder-fill"></i> : <i className="bi bi-file-plus-fill"></i> }</div><span>Modify</span></button>
+                }
+
+                {/* this button is hidden only if a folder is clicked and there is only one of 'em */ }
+                { (!contextMenuInfo.element.folderName || folders.length > 1) &&
+                    <button
+                        type="button"
+                        className="icon-text-button"
+                        onClick={ () => deleteElement() }
+                    ><div>{ contextMenuInfo.element.folderName ? <i className="bi bi-folder-x"></i> : <i className="bi bi-file-x"></i> }</div><span>Delete</span></button>
+                }
+            </div>
+
+
+        )
 
 
 
-     );
-}
- 
+    );
+};
+
 export default ContextMenu;

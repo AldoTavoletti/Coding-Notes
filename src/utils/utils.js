@@ -106,7 +106,7 @@ export const getContrastColor = (backgroundColor) => {
  * @param {string} elementType 
  * @note it opens the context menu. Since it's used for both notes and folders, folderName and folderColor will always be there, but they're default value is null.
  */
-export const openMenu = (e, setMethod, elementID, elementType, folderName = null, folderColor = null) => {
+export const openMenu = (e, setMethod, element) => {
 
     // prevent the default browser's context menu to appear
     e.preventDefault();
@@ -122,7 +122,15 @@ export const openMenu = (e, setMethod, elementID, elementType, folderName = null
     folderName (could be null): the name of the folder, that has to be set as default when opening the modify modal.
     folderColor (could be null): the color of the folder, that has to be set as default when opening the modify modal.
     */
-    setMethod({ x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName: folderName, folderColor: folderColor });
+    if (element.folderName) {
+        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: {id:element.folderID, folderName:element.folderName, folderColor:element.color} });
+    
+    }else{
+
+        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: { id: element.noteID} });
+
+
+    }
 
 };
 
