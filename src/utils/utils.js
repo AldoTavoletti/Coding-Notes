@@ -24,9 +24,8 @@ export const folderColors = {
 /**
  * 
  * @param {Function} setState it's the isLoggedIn setState function
- * @param {*} value it's the value that the isLoggedIn state will be set to 
  */
-export const logout = (setState, value) => {
+export const logout = (setState) => {
 
     fetch(URL + "?logout=true", {
 
@@ -45,7 +44,7 @@ export const logout = (setState, value) => {
     }).then(data => {
         if (data["code"] === 200) {
             
-            setState(value); // it's the isLoggedIn state. I gotta use a parameterized function if i want logout to be in utils.js
+            setState(false); // it's the isLoggedIn state. I gotta use a parameterized function if i want logout to be in utils.js
 
 
         }
@@ -56,6 +55,32 @@ export const logout = (setState, value) => {
 
 };
 
+/**
+* @note check if the user is logged in (checks if $_SESSION["userID"] or a rememberme cookie is set).
+*/
+export const checkLoggedIn = (setState) => {
+
+    fetch(URL + "?check=login", {
+
+        method: "GET",
+        credentials: "include"
+
+    }).then(res => {
+
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return res.json();
+
+
+    }).then(data => {
+
+        data["code"] === 200 ? setState(data["username"]) : setState(false);
+
+
+    }).catch(err => console.log(err));
+
+};
 
 /**
  * 
@@ -81,7 +106,7 @@ export const getContrastColor = (backgroundColor) => {
  * @param {string} elementType 
  * @note it opens the context menu. Since it's used for both notes and folders, folderName and folderColor will always be there, but they're default value is null.
  */
-export const openMenu = (e, setMethod, elementID, elementType, folderName = null, folderColor = null) => {
+export const openMenu = (e, setMethod, element) => {
 
     // prevent the default browser's context menu to appear
     e.preventDefault();
@@ -97,7 +122,15 @@ export const openMenu = (e, setMethod, elementID, elementType, folderName = null
     folderName (could be null): the name of the folder, that has to be set as default when opening the modify modal.
     folderColor (could be null): the color of the folder, that has to be set as default when opening the modify modal.
     */
-    setMethod({ x: e.pageX + "px", y: e.pageY + "px", elementID: elementID, elementType: elementType, folderName: folderName, folderColor: folderColor });
+    if (element.folderName) {
+        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: {id:element.folderID, folderName:element.folderName, folderColor:element.color} });
+    
+    }else{
+
+        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: { id: element.noteID} });
+
+
+    }
 
 };
 

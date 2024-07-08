@@ -57,7 +57,7 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
 
         <div
             onClick={ (e) => handleNoteClick(note, folder.folderName) } //open the note
-            onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note.noteID, "note") } // open the menu to delete the note 
+            onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note) } // open the menu to delete the note 
             className="note-list__note"
             id={"note"+ note.noteID}           
             parent-folder-index={folderIndex}

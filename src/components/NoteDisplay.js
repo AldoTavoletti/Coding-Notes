@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import EditorMCE from "./EditorMCE";
+import { Flip, ToastContainer } from "react-toastify";
 
 const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, setContextMenuInfo }) => {
 
@@ -51,8 +52,18 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, set
 
       {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
       { currentNote.noteID ?
-
+      <>
+        <ToastContainer
+                position="top-center"
+                autoClose={ 400 }
+                hideProgressBar={ true }
+                rtl={ false }
+                theme={ localStorage.getItem("light-theme") ? "light" : "dark" }
+                closeButton={ false }
+                transition={ Flip }
+            />
         <EditorMCE currentNote={ currentNote } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } />
+        </>
         :
         (
             <div className="ripple-background">

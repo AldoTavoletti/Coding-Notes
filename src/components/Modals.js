@@ -54,7 +54,6 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
                     (modalShowing.folderID !== noteFolder.folderID || modalShowing.folderName !== noteFolder.folderName) && setNoteFolder({ folderID: modalShowing.folderID, folderName: modalShowing.folderName });
 
                 } else if ("folderColor" in modalShowing) /* if it's the modify-folder modal */ {
-
                     // show data relative to the folder to modify
                     setFolderName(modalShowing.folderName);
                     setSelectedColor(modalShowing.folderColor);
@@ -232,7 +231,7 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
         }).then(data => {
             if (data["code"] === 200) {
 
-                logout(setIsLoggedIn, false);
+                logout(setIsLoggedIn);
 
             }
         }).catch(err => console.log(err));
