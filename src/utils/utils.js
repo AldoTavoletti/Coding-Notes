@@ -24,9 +24,8 @@ export const folderColors = {
 /**
  * 
  * @param {Function} setState it's the isLoggedIn setState function
- * @param {*} value it's the value that the isLoggedIn state will be set to 
  */
-export const logout = (setState, value) => {
+export const logout = (setState) => {
 
     fetch(URL + "?logout=true", {
 
@@ -45,7 +44,7 @@ export const logout = (setState, value) => {
     }).then(data => {
         if (data["code"] === 200) {
             
-            setState(value); // it's the isLoggedIn state. I gotta use a parameterized function if i want logout to be in utils.js
+            setState(false); // it's the isLoggedIn state. I gotta use a parameterized function if i want logout to be in utils.js
 
 
         }
@@ -56,6 +55,32 @@ export const logout = (setState, value) => {
 
 };
 
+/**
+* @note check if the user is logged in (checks if $_SESSION["userID"] or a rememberme cookie is set).
+*/
+export const checkLoggedIn = (setState) => {
+
+    fetch(URL + "?check=login", {
+
+        method: "GET",
+        credentials: "include"
+
+    }).then(res => {
+
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return res.json();
+
+
+    }).then(data => {
+
+        data["code"] === 200 ? setState(data["username"]) : setState(false);
+
+
+    }).catch(err => console.log(err));
+
+};
 
 /**
  * 

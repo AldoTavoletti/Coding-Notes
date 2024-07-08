@@ -232,7 +232,7 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
         }).then(data => {
             if (data["code"] === 200) {
 
-                logout(setIsLoggedIn, false);
+                logout(setIsLoggedIn);
 
             }
         }).catch(err => console.log(err));

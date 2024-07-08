@@ -1,4 +1,4 @@
-import HomePage from "./pages/HomePage";
+import PersonalArea from "./pages/PersonalArea";
 import Login from "./pages/Login";
 import Page404 from "./pages/Page404";
 
@@ -11,6 +11,7 @@ function App() {
   // contains the username if the user is logged in. It's initally null, and becomes false if the user is not logged in.
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
+
   return (
 
     <GoogleOAuthProvider clientId={ process.env.REACT_APP_GOOGLE_CLIENT_ID } /* this could be public but I decided to put it in the .env file anyway */>
@@ -20,13 +21,13 @@ function App() {
         <BrowserRouter>
           <Routes>
 
-            <Route path="/" element={ <HomePage isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
+            <Route path="/" element={ <PersonalArea isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
             <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
             <Route path="*" element={ <Page404 /> } />
 
           </Routes>
         </BrowserRouter>
-        
+
       </div>
 
     </GoogleOAuthProvider>

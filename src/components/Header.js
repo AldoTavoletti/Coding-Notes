@@ -66,7 +66,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
                         {/* the dropdown menu of the account button */ }
                         <ul className="dropdown-menu">
                             <li><h6 className="dropdown-header">Hi { isLoggedIn }!</h6></li>
-                            <li><button onClick={ () => logout(setIsLoggedIn, false) }>Logout</button></li>
+                            <li><button onClick={ () => logout(setIsLoggedIn) }>Logout</button></li>
                             <li><button data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete account</button></li>
 
                         </ul>
