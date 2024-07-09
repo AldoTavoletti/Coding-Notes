@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { URL } from "../utils/utils";
+import { URL, switchNote } from "../utils/utils";
 import { useSWRConfig } from "swr";
 
-const SearchBar = ({ setCurrentNote, setNoteTitle}) => {
+
+const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus}) => {
     
     const [result,setResult] = useState([]);
-    const { mutate } = useSWRConfig();
-
-
 
     const getResult = (string)=>{
         fetch(URL + "?search=" + string, {
@@ -41,15 +39,16 @@ const SearchBar = ({ setCurrentNote, setNoteTitle}) => {
     }
 
     const handleItemClick = (item)=>{
-console.log("ciao");
-        // set the currentNote to be the one that was just created
-        setCurrentNote({ noteID: item.noteID, folderName: item.folderName, folderID: item.folderID });
 
-        //change the noteTitle
-        setNoteTitle(item.title);
+        switchNote
+            (
+                { noteID: item.noteID, folderName: item.folderName, folderID: item.folderID },
+                item.title,
+                setCurrentNote,
+                setNoteTitle,
+                setMenuStatus
+            );
 
-        // refetch
-        mutate();
 
     }
 

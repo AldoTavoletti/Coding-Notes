@@ -170,6 +170,24 @@ export const simplePatchCall = (obj) => {
 };
 
 /**
+ * 
+ * @param {object} currentNoteObj 
+ * @param {string} noteTitle 
+ * @param {Function} setCurrentNote 
+ * @param {Function} setNoteTitle 
+ */
+export const switchNote = (currentNoteObj, noteTitle, setCurrentNote, setNoteTitle, setMenuStatus)=>{
+
+    setCurrentNote(currentNoteObj);
+
+    setNoteTitle(noteTitle);
+
+    setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
+
+
+}
+
+/**
  * @note set the dark mode
  */
 export const setDarkMode = () => {

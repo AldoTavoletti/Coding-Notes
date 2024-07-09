@@ -1,8 +1,8 @@
 import useSWR from "swr";
 import { useEffect, useState } from "react";
-import { URL, folderColors, logout } from "../utils/utils";
+import { URL, folderColors, logout, switchNote } from "../utils/utils";
 
-const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
+const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
 
     // the folder name in the folders modal
     const [folderName, setFolderName] = useState("");
@@ -199,13 +199,14 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
         }).then(msg => {
 
-
-            // set the currentNote to be the one that was just created
-            setCurrentNote({ noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID });
-
-            //change the noteTitle
-            setNoteTitle(noteTitleModal);
-
+            switchNote
+                (
+                    { noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID },
+                    noteTitleModal,
+                    setCurrentNote,
+                    setNoteTitle,
+                    setMenuStatus
+                );
             // refetch
             mutate();
 

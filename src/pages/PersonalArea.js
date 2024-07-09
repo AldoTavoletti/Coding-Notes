@@ -137,6 +137,7 @@ const PersonalArea = (
                 isLoggedIn={ isLoggedIn }
                 setIsLoggedIn={ setIsLoggedIn }
                 setNoteTitle={ setNoteTitle }
+                setMenuStatus={setMenuStatus}
             />
 
             <Header

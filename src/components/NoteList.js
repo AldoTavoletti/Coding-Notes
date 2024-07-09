@@ -14,7 +14,7 @@ const NoteList = ({ folders, currentNote, setCurrentNote, menuStatus, setMenuSta
         <>
             <div className="note-list">
 
-                    <SearchBar setCurrentNote={setCurrentNote} setNoteTitle={setNoteTitle}/>
+                    <SearchBar setMenuStatus={setMenuStatus} setCurrentNote={setCurrentNote} setNoteTitle={setNoteTitle}/>
 
                     <SortableContext items={ folders.map(folder=>folder.folderID) } strategy={ verticalListSortingStrategy }>
 

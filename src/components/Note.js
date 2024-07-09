@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { getContrastColor, openMenu, folderColors } from "../utils/utils";
+import { getContrastColor, openMenu, folderColors, switchNote } from "../utils/utils";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -34,13 +34,15 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
 
         }
 
-        // change the currentNote state
-        setCurrentNote({ noteID: note.noteID, folderName: folderName, folderID: note.folderID });
+        switchNote
+        (
+            { noteID: note.noteID, folderName: folderName, folderID: note.folderID },
+            note.title, 
+            setCurrentNote, 
+            setNoteTitle, 
+            setMenuStatus
+        );
 
-        // change the noteTitle
-        setNoteTitle(note.title);
-
-        setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
 
     };
     useEffect(() => {
