@@ -78,7 +78,7 @@ const ContextMenu = ({ contextMenuInfo, setModalShowing, folders, currentNote, s
                         type="button"
                         className="icon-text-button"
                         onClick={ () => deleteElement() }
-                    ><div>{ contextMenuInfo.element.folderName ? <i className="bi bi-folder-x"></i> : <i className="bi bi-file-x"></i> }</div><span>Delete</span></button>
+                    ><div><i class="bi bi-trash-fill"></i></div><span>Delete</span></button>
                 }
             </div>
 

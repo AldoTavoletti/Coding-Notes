@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { URL, switchNote } from "../utils/utils";
-import { useSWRConfig } from "swr";
 
 
-const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus}) => {
-    
-    const [result,setResult] = useState([]);
+const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus }) => {
 
-    const getResult = (string)=>{
+    const [result, setResult] = useState([]);
+    const [inputContent, setInputContent] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const getResult = (string) => {
+        setIsLoading(true);
         fetch(URL + "?search=" + string, {
 
             method: "GET",
@@ -23,7 +25,8 @@ const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus}) => {
         }).then((data) => {
 
             setResult(data);
-            
+            setIsLoading(false);
+
 
         }).catch(err => {
 
@@ -31,14 +34,14 @@ const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus}) => {
 
         });
 
-    }
-    const handleOnChange = (e)=>{
+    };
+    const handleOnChange = (value) => {
 
-        getResult(e.target.value);
+        getResult(value);
+        setInputContent(value);
+    };
 
-    }
-
-    const handleItemClick = (item)=>{
+    const handleItemClick = (item) => {
 
         switchNote
             (
@@ -50,23 +53,55 @@ const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus}) => {
             );
 
 
-    }
+    };
 
-    return ( 
+    return (
         <div className="search-container">
-        <input onChange={(e)=>handleOnChange(e)} type="text" className="searchbar" placeholder="Search..." />
-        
-        <div className="search-result-container">
+            <input onChange={ (e) => handleOnChange(e.target.value) } type="text" className="searchbar" placeholder="Search..." />
 
-            {result.map((item)=>(
-                <button onClick={()=>handleItemClick(item)} className="search-result-item">{ item.title } &nbsp;&gt; &nbsp;{item.folderName}</button>
-            ))}
+            <div className="search-result-container">
+
+                { inputContent.length > 0 ?
+
+                    isLoading ?
+
+                        <div className="search-result-default-page">
+
+                            <div class="spinner-grow" role="status"></div>
+
+                        </div>
+
+                        :
+
+                        result.length > 0 ?
+                            result.map((item) => (
+                                <button onClick={ () => handleItemClick(item) } className="search-result-item">{ item.title } &nbsp;&gt; &nbsp;{ item.folderName }</button>
+                            ))
+                            :
+
+                            <div className="search-result-default-page">
+
+                                <i class="bi bi-emoji-frown-fill"></i>
+                                <p>No notes found.</p>
+
+                            </div>
+
+                    :
+
+                    <div className="search-result-default-page">
+
+                        <i class="bi bi-search"></i>
+                        <p>Search for a note!</p>
+
+                    </div>
+
+                }
+
+            </div>
 
         </div>
-        
-        </div>
 
-     );
-}
- 
+    );
+};
+
 export default SearchBar;
