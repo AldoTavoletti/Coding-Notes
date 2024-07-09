@@ -58,6 +58,19 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
                     setFolderName(modalShowing.folderName);
                     setSelectedColor(modalShowing.folderColor);
 
+                } else if("parentFolderID" in modalShowing){
+
+                    if (modalShowing.parentFolderID !== folders[0].folderID) {
+                        
+                        // if the current noteFolder is different from the first folder 
+                        ((noteFolder.folderID !== folders[0].folderID || noteFolder.folderName !== folders[0].folderName)) && setNoteFolder({ folderID: folders[0].folderID, folderName: folders[0].folderName });
+                        
+                    }else{
+
+                        // if the current noteFolder is different from the first folder 
+                        (noteFolder.folderID !== folders[1].folderID || noteFolder.folderName !== folders[1].folderName) && setNoteFolder({ folderID: folders[1].folderID, folderName: folders[1].folderName });
+
+                    }
                 }
             }
 
@@ -87,9 +100,8 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
     /**
      * 
-     * @param {Event} e 
      */
-    const addFolder = (e) => {
+    const addFolder = () => {
 
         // the folder to post
         const newFolder = { name: folderName, color: selectedColor };
@@ -124,9 +136,8 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
     /**
      * 
-     * @param {Event} e 
      */
-    const modifyFolder = (e) => {
+    const modifyFolder = () => {
 
         // the folder to patch
         const folder = { name: folderName, color: selectedColor, folderID: modalShowing.elementID };
@@ -165,9 +176,8 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
     /**
      * 
-     * @param {Event} e 
      */
-    const addNote = (e) => {
+    const addNote = () => {
 
         // the note to add
         const newNote = { title: noteTitleModal, folderID: noteFolder.folderID };
@@ -238,6 +248,40 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
     };
 
+    const moveNote = ()=>{
+    
+        fetch(URL, {
+
+            method: "PATCH",
+            credentials: "include",
+            body: JSON.stringify({noteID:modalShowing.noteID,folderID:noteFolder.folderID, action:"move-note"})
+
+
+        }).then(res => {
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+
+
+        }).then(msg => {
+            
+            // refetch modals and notelist
+            mutate();
+
+            setCurrentNote({ ...currentNote, folderName: noteFolder.folderName, folderID: noteFolder.folderID });
+            
+
+        }).catch(err => console.log(err));
+
+
+        //close the modal
+        setModalShowing("none");
+
+    };
+
+
     return (
         <>
             <div className={ `modal-container ${modalShowing !== "none" ? "modal-container--visible" : "modal-container--hidden"}` } onClick={ () => setModalShowing("none") }>
@@ -264,7 +308,7 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
                                     return (
                                         <div
                                             style={ { '--color': color.primary } } // create a css variable with the primary color of the folder
-                                            className={ `color-box${selectedColor === colorKeysArr[i] ? " color-box--selected": ""}` }
+                                            className={ `color-box${selectedColor === colorKeysArr[i] ? " color-box--selected" : ""}` }
                                             onClick={ () => setSelectedColor(colorKeysArr[i]) }
                                             key={ color.primary }>
                                             { selectedColor === colorKeysArr[i] && <i className="bi bi-check-lg"></i> }
@@ -280,7 +324,7 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
                     <div className="myModal__footer">
 
                         <button
-                            onClick={ (e) => modalShowing === "folder" ? addFolder(e) : modifyFolder(e) }
+                            onClick={ () => modalShowing === "folder" ? addFolder() : modifyFolder() }
                             className="secondary-button"
                             disabled={ folderName.trim() === "" ? true : false } // if the folderName field is empty disable the button
                         >{ modalShowing === "folder" ? "Add" : "Modify" }</button>
@@ -318,14 +362,54 @@ const Modals = ({ setNoteTitle, currentNote, setCurrentNote, modalShowing, setMo
 
                     <div className="myModal__footer">
 
-                        <button className="secondary-button" onClick={ (e) => addNote(e) }>Add</button>
+                        <button className="secondary-button" onClick={addNote }>Add</button>
 
                     </div>
 
                 </div>
 
 
+
+                {/* move the note modal */}
+                <div
+                    className={ `${"myModal"} ${(typeof modalShowing === "object" && "parentFolderID" in modalShowing) ? "myModal--visible" : "myModal--hidden"}` }
+                    // when the modal is clicked, don't make the dim layer onClick get triggered
+                    onClick={ (e) => e.stopPropagation() }
+                >
+                    <div className="myModal__title">Move the note</div>
+
+                    <div className="myModal__body">
+
+                        {/* since i have to retrieve the folderName too, the value of the option has to be an object. Since only strings are accepted, I use JSON. */ }
+                        <select name="folder-selection" value={ JSON.stringify(noteFolder) } onChange={ (e) => setNoteFolder(JSON.parse(e.target.value)) }>
+                            
+                            { folders.map((folder, i) => {
+                                // I don't want the current folder to be shown in the options
+                                if (folder.folderID === modalShowing.parentFolderID) return null;
+
+                                return (
+
+                                    <option key={ folder.folderID } value={ JSON.stringify({ folderID: folder.folderID, folderName: folder.folderName }) } className="folder-selection__option">{ folder.folderName }</option>
+
+                                );
+
+                            }) }
+
+
+                        </select>
+
+                    </div>
+
+                    <div className="myModal__footer">
+
+                        <button className="secondary-button" onClick={ moveNote }>Add</button>
+
+                    </div>
+
+                </div>
+
             </div>
+
 
 
             {/* delete account modal */ }

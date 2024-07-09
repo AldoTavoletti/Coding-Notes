@@ -127,7 +127,7 @@ export const openMenu = (e, setMethod, element) => {
     
     }else{
 
-        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: { id: element.noteID} });
+        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: { id: element.noteID, parentFolderID:element.folderID} });
 
 
     }

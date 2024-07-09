@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const Login = ({ isLoggedIn, setIsLoggedIn }) => {
+const Login = ({ setIsLoggedIn }) => {
 
     // it's true if the login page is being showed, false if it's the sign up page
     const [wantsLogin, setWantsLogin] = useState(true);
@@ -16,26 +16,30 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
     // an eventual error is showed using this variable
     const [error, setError] = useState(null);
+
+    // true while waiting for server's response
     const [isLoading, setIsLoading] = useState(false);
-    // conditions
+
+    // password conditions
     const [isLongEnough, setIsLongEnough] = useState(null);
-
     const [hasCapital, setHasCapital] = useState(null);
-
     const [hasSymbol, setHasSymbol] = useState(null);
 
-    // false if the password is hidden, true if it's shown
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
 
+    // refs used for animation
+    const titleRef = useRef();
+    const confirmPasswordRef = useRef();
+
     const navigate = useNavigate();
 
-    //? I need useEffect, otherwise an error is called
     useEffect(() => {
 
         // reset this variable in case the user was logged in but decided to access the login page from the url
-        isLoggedIn && setIsLoggedIn(false);
+        setIsLoggedIn(false);
 
+        // I want the login page to always be in dark mode
         if (localStorage.getItem("light-theme")) {
 
             localStorage.removeItem("light-theme");
@@ -43,8 +47,8 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
         }
 
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     /**
      * @note classic login
@@ -52,56 +56,50 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
     const logIn = () => {
 
 
-        if (username === "") /* if the username hasn't been set */ {
+        if (username === "") return setError("Insert a username");
 
-            setError("Insert a username");
-
-        } else if (password === "") /* if the password hasn't been set */ {
-
-            setError("insert a password");
-
-        } else  /* if it's all good*/ {
-            setIsLoading(true);
-
-            fetch(URL, {
-
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "login" }),
-
-            }).then(res => {
-
-                if (!res.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                //?res.text() to see php error
-                return res.json();
+        if (password === "") return setError("insert a password");
 
 
-            }).then(data => {
-                if (data["code"] === 200) {
-                    // log in
-                    setIsLoggedIn(data["username"]);
-                    navigate("/");
+        setIsLoading(true);
 
-                } else {
+        fetch(URL, {
 
-                    setError(data["message"]);
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "login" }),
 
-                }
+        }).then(res => {
 
-                setIsLoading(false);
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
 
-            }).catch(err => {
-
-                console.log(err);
+            return res.json();
 
 
-                setIsLoading(false);
+        }).then(data => {
 
-            });
+            if (data["code"] === 200) {
 
-        }
+                setIsLoggedIn(data["username"]);
+                navigate("/");
+
+            } else setError(data["message"]);
+
+
+
+            setIsLoading(false);
+
+        }).catch(err => {
+
+            console.log(err);
+
+            setIsLoading(false);
+
+        });
+
+
 
     };
 
@@ -110,72 +108,73 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
      */
     const signUp = () => {
 
-        if (username === "") /* if the username hasn't been set */ {
+        if (username === "") return setError("Insert a username");
 
-            setError("Insert a username");
+        if (password === "") return setError("insert a password");
 
-        } else if (/\s/g.test(username)) {
+        if (!isLongEnough || !hasCapital || !hasSymbol) return setError("Check the password conditions");
 
-            setError("The username can't contain white spaces");
+        if (password2 !== password) return setError("the passwords are not the same");
 
-        } else if (password === "") /* if the password hasn't been set */ {
-
-            setError("insert a password");
+        if (/\s/g.test(username)) return setError("The username can't contain white spaces");
 
 
-        } else if (!isLongEnough || !hasCapital || !hasSymbol) /* if the password conditions are not respected */ {
+        setIsLoading(true);
 
-            setError("Check the password conditions");
+        fetch(URL, {
 
-        } else if (password2 !== password) /* if the 2 passwords are not the same */ {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "signup" })
 
-            setError("the passwords are not the same");
+        }).then(res => {
 
-
-        } else {
-            setIsLoading(true);
-
-            fetch(URL, {
-
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "signup" })
-
-            }).then(res => {
-
-                if (!res.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return res.json();
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
 
 
-            }).then(data => {
-                console.log(data);
-                
-                if (data["code"] === 200) {
+        }).then(data => {
 
-                    // log in
-                    setIsLoggedIn(data["username"]);
-                    navigate("/");
+            if (data["code"] === 200) {
 
-                } else {
+                // log in
+                setIsLoggedIn(data["username"]);
+                navigate("/");
 
-                    setError(data["message"]);
-
-                }
-
-                setIsLoading(false);
+            } else setError(data["message"]);
 
 
-            }).catch(err => {
-
-                console.log(err);
-                setIsLoading(false);
+            setIsLoading(false);
 
 
-            });
+        }).catch(err => {
 
-        }
+            console.log(err);
+            setIsLoading(false);
+
+
+        });
+
+
+    };
+
+    const animateTitle = () => {
+
+        // animation
+        titleRef.current.style.opacity = 0;
+
+        setTimeout(() => {
+
+            titleRef.current.style.opacity = 1;
+
+            setWantsLogin(!wantsLogin);
+
+            setError(null);
+
+
+        }, 200);
 
     };
 
@@ -184,28 +183,10 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
      */
     const handleSignUpClick = () => {
 
-        if (wantsLogin) /* if the user wants to switch from login to signup */ {
-
-            // animation
-            titleRef.current.style.opacity = 0;
-            setTimeout(() => {
-
-                titleRef.current.style.opacity = 1;
-
-                // the user wants to sign up
-                setWantsLogin(false);
-
-                // delete error if there was one
-                error && setError(null);
+        /* if wantsLogin is true, it means that the user pressed the signUp button to switch to the signUp form */
+        wantsLogin ? animateTitle() : signUp();
 
 
-            }, 200);
-
-        } else /* if the user wants to sign up */ {
-
-            signUp();
-
-        }
 
     };
 
@@ -213,37 +194,13 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
      * @note login button click
      */
     const handleLoginClick = () => {
-        if (!wantsLogin) /* if the user wants to switch from signup to login */ {
 
-            //animation
-            titleRef.current.style.opacity = 0;
-
-            setTimeout(() => {
-
-                titleRef.current.style.opacity = 1;
-
-                // the user wants to login
-                setWantsLogin(true);
-
-                // delete error if there was one
-                setError(null);
-
-
-            }, 200);
-        } else /* if the user wants to log in */ {
-
-
-            logIn();
-
-        }
+        /* if wantsLogin is false, it means that the user pressed the logIn button to switch to the logIn form */
+        !wantsLogin ? animateTitle() : logIn();
 
     };
 
-    // ref used for animation
-    const titleRef = useRef();
-
-    // ref used for animation
-    const confirmPasswordRef = useRef();
+    
 
     /**
      * @note google login
@@ -257,7 +214,9 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
          * @param {object} codeResponse 
          */
         onSuccess: (codeResponse) => {
+
             setIsLoading(true);
+
             fetch(URL, {
 
                 method: "POST",
@@ -274,18 +233,13 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
 
             }).then(data => {
-                console.log(data);
+
                 if (data["code"] === 200) {
 
-                    // log in
                     setIsLoggedIn(data["username"]);
                     navigate("/");
 
-                } else {
-
-                    setError(data["message"]);
-
-                }
+                } else setError(data["message"]);
 
                 setIsLoading(false);
 
@@ -304,28 +258,32 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
 
     const checkLength = (length) => {
 
-        if (length === 0) /* if the password is 0 char long, set the state variable to null (it's useless to check if it already was null since it can't be (this function wouldn't have been called)) */ {
+        /*
+        ? I don't know if adding conditions like "isLongEnough !== false" could be useful,
+        ? since as far as I know, react should re-render the state variable if it gets set to its current value.
+        */
 
-            setIsLongEnough(null);
+        /* if the password is 0 char long, set the state variable to null (it's useless to check if it already was null since it can't be (this function wouldn't have been called) */
+        if (length === 0) return setIsLongEnough(null);
 
-        } else if (length >= 8 && isLongEnough !== true) /* if the password is at least 8 char long and the state variable is not true, set it to be */ {
+        /* if the password is at least 8 char long and the state variable is not true, set it to be */
+        if (length >= 8 && isLongEnough !== true) return setIsLongEnough(true);
 
-            setIsLongEnough(true);
+        /* if the password isn't at least 8 char long and the state variable is not false, set it to be */
+        if (length < 8 && isLongEnough !== false) return setIsLongEnough(false);
 
-        } else if (length < 8 && isLongEnough !== false) /* if the password isn't at least 8 char long and the state variable is not false, set it to be */ {
-
-            setIsLongEnough(false);
-
-        }
 
     };
 
     const checkCapital = (string) => {
-        if (string.length === 0) {
-            setHasCapital(null);
-            return;
-        }
-        /[A-Z]/.test(string) ? hasCapital !== true && setHasCapital(true) : hasCapital !== false && setHasCapital(false);
+        if (string.length === 0) return setHasCapital(null);
+            
+        
+        /[A-Z]/.test(string) ? 
+    
+        hasCapital !== true && setHasCapital(true) 
+        : 
+        hasCapital !== false && setHasCapital(false);
 
     };
 
@@ -336,14 +294,11 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
      */
     const checkSymbol = (string) => {
 
-        if (string.length === 0) {
-
-            setHasSymbol(null);
-            return;
-
-        }
+        if (string.length === 0) return setHasSymbol(null);
+            
 
         /[\W_]/.test(string) ?
+
             hasSymbol !== true && setHasSymbol(true)
             :
             hasSymbol !== false && setHasSymbol(false);
@@ -388,11 +343,9 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
     // to login/signup pressing "Enter"
     window.onkeyup = (e) => {
 
-        if (e.key !== "Enter") {
-            return;
-        }
-
-        wantsLogin ? handleLoginClick() : handleSignUpClick();
+        if (e.key !== "Enter") return;
+        
+        wantsLogin ? Login() : signUp();
 
     };
 

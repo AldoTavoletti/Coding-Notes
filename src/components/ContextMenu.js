@@ -43,6 +43,7 @@ const ContextMenu = ({ contextMenuInfo, setModalShowing, folders, currentNote, s
 
     };
 
+
     //if the contextMenu is open and the screen is clicked, close the contextMenu
     document.onclick = () => contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, element: null });
 
@@ -60,8 +61,16 @@ const ContextMenu = ({ contextMenuInfo, setModalShowing, folders, currentNote, s
                         type="button"
                         className="icon-text-button"
                         onClick={ () => setModalShowing({ elementID: contextMenuInfo.element.id, folderName: contextMenuInfo.element.folderName, folderColor: contextMenuInfo.element.folderColor }) }
-                    ><div>{ contextMenuInfo.element.folderName ? <i className="bi bi-folder-fill"></i> : <i className="bi bi-file-plus-fill"></i> }</div><span>Modify</span></button>
-                }
+                    ><div><i className="bi bi-folder-fill"></i></div><span>Modify</span></button>
+}
+                
+                { (!contextMenuInfo.element.folderName && folders.length > 1) &&
+                    <button
+                        type="button"
+                        className="icon-text-button"
+                        onClick={ () => setModalShowing({ noteID: contextMenuInfo.element.id, parentFolderID: contextMenuInfo.element.parentFolderID }) }
+                    ><div><i class="bi bi-arrow-up-right-square-fill"></i></div><span>Move</span></button>
+}
 
                 {/* this button is hidden only if a folder is clicked and there is only one of 'em */ }
                 { (!contextMenuInfo.element.folderName || folders.length > 1) &&

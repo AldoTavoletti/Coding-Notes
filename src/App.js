@@ -22,7 +22,7 @@ function App() {
           <Routes>
 
             <Route path="/" element={ <PersonalArea isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
-            <Route path="/login" element={ <Login isLoggedIn={ isLoggedIn } setIsLoggedIn={ setIsLoggedIn } /> } />
+            <Route path="/login" element={ <Login setIsLoggedIn={ setIsLoggedIn } /> } />
             <Route path="*" element={ <Page404 /> } />
 
           </Routes>
