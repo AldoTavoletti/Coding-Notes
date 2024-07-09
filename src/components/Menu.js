@@ -183,6 +183,8 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
             collapseButton.removeAttribute("data-bs-toggle");
 
+            collapseButton.querySelector(".accordion-button__folder-title").removeAttribute("data-bs-toggle");
+
             collapseFolders();
 
         }
