@@ -263,7 +263,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             }
 
 
-
             <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }

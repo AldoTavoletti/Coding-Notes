@@ -1,6 +1,7 @@
 import React from "react";
 import Folder from "./Folder";
 import ContextMenu from "./ContextMenu";
+import SearchBar from "./SearchBar";
 import {
     SortableContext,
     verticalListSortingStrategy,
@@ -12,6 +13,9 @@ const NoteList = ({ folders, currentNote, setCurrentNote, menuStatus, setMenuSta
     return (
         <>
             <div className="note-list">
+
+                    <SearchBar setCurrentNote={setCurrentNote} setNoteTitle={setNoteTitle}/>
+
                     <SortableContext items={ folders.map(folder=>folder.folderID) } strategy={ verticalListSortingStrategy }>
 
                         { folders && folders.map((folder, folderIndex) => (
