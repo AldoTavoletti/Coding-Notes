@@ -6,7 +6,7 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+const Folder = ({ lastNote, setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
 
     const {
         attributes,
@@ -75,7 +75,7 @@ const Folder = ({ setMenuStatus, folder, folders, folderIndex, setModalShowing, 
 
                                     { folder.notes.map((note) => (
 
-                                        <Note key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+                                        <Note lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
 
                                     )) }
 

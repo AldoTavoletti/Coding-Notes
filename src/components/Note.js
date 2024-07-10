@@ -3,7 +3,7 @@ import { getContrastColor, openMenu, folderColors, switchNote } from "../utils/u
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+const Note = ({ lastNote, setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
     
     const {
         attributes,
@@ -27,13 +27,16 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
         if (lastNote.current.noteID) /* if this isn't the first note that got clicked on */ {
 
             // set the title of the last note (which is still the current one) to be noteTitle
-            folders
-                .find(folder => folder.folderID === lastNote.current.folderID)["notes"]
+
+            const foundFolder = folders.find(folder => folder.folderID === lastNote.current.folderID);
+            
+                
+             foundFolder["notes"]
                 .find(note => note.noteID === lastNote.current.noteID)
                 .title = noteTitle;
 
-        }
 
+        }
         switchNote
         (
             { noteID: note.noteID, folderName: folderName, folderID: note.folderID },
@@ -46,14 +49,14 @@ const Note = ({ setMenuStatus, folder, folders, note, folderIndex, setModalShowi
 
     };
     useEffect(() => {
+        console.log({ noteID: currentNote.noteID, folderID: currentNote.folderID });
         // set the current note to be the last note visited
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentNote]);
 
-    // used to settle the title of the last note, after another note has been clicked on
-    const lastNote = useRef({ noteID: null, folderID: null });
+    
     
     return (
 

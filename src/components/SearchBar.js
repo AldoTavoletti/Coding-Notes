@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { URL, switchNote } from "../utils/utils";
+import { useSWRConfig } from "swr";
 
 
-const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus }) => {
+const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, noteTitle, folders }) => {
 
     const [result, setResult] = useState([]);
     const [inputContent, setInputContent] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const searchInput = useRef(null);
+    const { mutate } = useSWRConfig();
+
 
     const getResult = (string) => {
         setIsLoading(true);
@@ -43,6 +48,20 @@ const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus }) => {
 
     const handleItemClick = (item) => {
 
+        if (lastNote.current.noteID) /* if this isn't the first note that got clicked on */ {
+
+            // set the title of the last note (which is still the current one) to be noteTitle
+
+            const foundFolder = folders.find(folder => folder.folderID === lastNote.current.folderID);
+
+
+            foundFolder["notes"]
+                .find(note => note.noteID === lastNote.current.noteID)
+                .title = noteTitle;
+
+
+        }
+
         switchNote
             (
                 { noteID: item.noteID, folderName: item.folderName, folderID: item.folderID },
@@ -52,14 +71,40 @@ const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus }) => {
                 setMenuStatus
             );
 
+        // mutate(URL + "?retrieve=all");
+
+    };
+
+    const handleOnFocus = () => {
+
+        setIsFocused(true);
+
+        if (inputContent !== "") {
+            getResult(inputContent);
+        }
+
+    };
+
+    const handleOnBlur = () => {
+
+        setIsFocused(false);
+
+    };
+
+    const focusSearch = () => {
+
+        searchInput.current.focus();
 
     };
 
     return (
         <div className="search-container">
-            <input onChange={ (e) => handleOnChange(e.target.value) } type="text" className="searchbar" placeholder="Search..." />
+            <div class="input-group">
+                <input ref={ searchInput } onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
+                <button class="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i class="bi bi-search"></i></button>
+            </div>
 
-            <div className="search-result-container">
+            <div className={ `search-result-container${isFocused ? " show" : ""}` }>
 
                 { inputContent.length > 0 ?
 
@@ -75,7 +120,13 @@ const SearchBar = ({ setCurrentNote, setNoteTitle, setMenuStatus }) => {
 
                         result.length > 0 ?
                             result.map((item) => (
-                                <button onClick={ () => handleItemClick(item) } className="search-result-item">{ item.title } &nbsp;&gt; &nbsp;{ item.folderName }</button>
+                                <button
+                                    onClick={ () => handleItemClick(item) }
+                                    className="search-result-item">
+                                    <div className="search-result-item__title">{ item.title }</div>
+                                    &nbsp;| &nbsp;
+                                    <div className="search-result-item__foldername">{ item.folderName }</div>
+                                </button>
                             ))
                             :
 
