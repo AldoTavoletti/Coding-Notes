@@ -34,8 +34,10 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     }, []);
 
+
     useEffect(()=>{
 
+        // this mutate makes sure content can't get duplicated between notes (sometimes it)
         mutate();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
