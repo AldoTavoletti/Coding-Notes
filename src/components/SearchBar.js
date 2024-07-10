@@ -60,7 +60,6 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                 setMenuStatus
             );
 
-        // mutate(URL + "?retrieve=all");
 
     };
 
