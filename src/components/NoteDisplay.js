@@ -7,6 +7,8 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, set
   // a ref for the note-display div, used to handle the sticky tinyMCE toolbar, which would be buggy without thes adjustments
   const noteDisplayRef = useRef(null);
 
+  
+
   useEffect(() => {
     /*
     This useEffect is used to manage the tinyMCE sticky toolbar, which leads to some problems when resizing divs if not handled correctly.
@@ -51,7 +53,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, set
     <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"}${menuStatus === "hidden" ? " note-display--expanded" : (menuStatus === "expanded" || menuStatus === "only-notelist") ? " note-display--hidden":""}` } ref={ noteDisplayRef }>
 
       {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
-      { currentNote.noteID ?
+      { currentNote.noteID?
       <>
         <ToastContainer
                 position="top-center"

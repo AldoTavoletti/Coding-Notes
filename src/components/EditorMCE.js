@@ -7,15 +7,32 @@ import "../prism/prism.css";
 import "../prism/prism";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     // used to keep track of the saved content and decide wether a patch call should be executed
     const content = useRef(null);
+    const [isReady, setIsReady] = useState(false);
 
     // retrieve data relative to the currentNote
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading, error, mutate } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
+
+    /*
+    this useEffect is used to guarantee a smooth menu transition. 
+    If the extended menu gets closed, and the current note has a lot of text, its animation may be rough. Making editorMCE load 200 ms later
+    this problem gets resolved. The isReady state variable makes sure the loading screen is shown when its value is false.
+    */
+    useEffect(() => {
+
+        setTimeout(() => {
+
+            setIsReady(true);
+
+        }, 200);
+
+    }, []);
 
     useEffect(()=>{
 
@@ -25,7 +42,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
     },[currentNote]);
 
     if (error) return (<div></div>);
-    if (!note || isLoading || isValidating) return (
+    if (!note || isLoading || isValidating || !isReady) return (
 
         <div class="center-container">
             <div class="spinner-grow" role="status">
