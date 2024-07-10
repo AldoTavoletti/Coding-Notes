@@ -200,7 +200,12 @@ export const switchNote = (currentNoteObj, noteTitle, setCurrentNote, setNoteTit
 
     setNoteTitle(noteTitle);
 
-    setMenuStatus(window.innerWidth < 769 ? "hamburger" : "normal");
+    setMenuStatus((menustatus)=>{
+        
+    if (menustatus === "hidden") return "hidden";    
+    else return window.innerWidth < 769 ? "hamburger" : "normal"
+    
+    });
 
 
 }

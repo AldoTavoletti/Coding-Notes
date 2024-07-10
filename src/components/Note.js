@@ -1,10 +1,11 @@
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import { getContrastColor, openMenu, folderColors, switchNote, saveLastNoteTitle } from "../utils/utils";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 const Note = ({ lastNote, setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
     
+
     const {
         attributes,
         listeners,
@@ -35,10 +36,8 @@ const Note = ({ lastNote, setMenuStatus, folder, folders, note, folderIndex, set
             setMenuStatus
         );
 
-
     };
     useEffect(() => {
-        console.log({ noteID: currentNote.noteID, folderID: currentNote.folderID });
         // set the current note to be the last note visited
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
 

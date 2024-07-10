@@ -5,7 +5,6 @@ import Page404 from "./pages/Page404";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
 
   // contains the username if the user is logged in. It's initally null, and becomes false if the user is not logged in.
@@ -13,8 +12,6 @@ function App() {
 
 
   return (
-
-    <GoogleOAuthProvider clientId={ process.env.REACT_APP_GOOGLE_CLIENT_ID } /* this could be public but I decided to put it in the .env file anyway */>
 
       <div className="app">
 
@@ -30,7 +27,6 @@ function App() {
 
       </div>
 
-    </GoogleOAuthProvider>
   );
 }
 

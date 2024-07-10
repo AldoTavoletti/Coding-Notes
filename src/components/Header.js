@@ -1,60 +1,46 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { URL, simplePatchCall, logout } from "../utils/utils";
-import useSWR from "swr";
-
+import useSWR, { useSWRConfig } from "swr";
+import Title from "./Title";
 const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
 
     // I use an header ref to get its offsetWidth
     const header = useRef();
 
+
+    const {cache, mutate} = useSWRConfig();
+
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
-
-    useEffect(() => {
-
-        if (note && note.title !== noteTitle) /* if the note was fetched and noteTitle (the real current title) is different form note.title (which could be a cached value) */ {
-
-            // since useswr initially sets note to be the cached value, I gotta make sure the right title is shown
-            note.title = noteTitle;
-
-        }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [note]);
+    const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher);
 
     useEffect(() => {
 
         note && simplePatchCall({ noteID: currentNote.noteID, title: noteTitle });
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteTitle]);
+
+    
 
     return (
 
         <div className="header" ref={ header }>
 
             {/* if no note has been selected or if the login page is shown */ }
-            { (!isLoggedIn || (!note && !isValidating && !isLoading)) && <p className="header--note__title not-selectable">Coding Notes</p> }
+            { (!note && !isValidating && !isLoading) && <p className="header--note__title not-selectable">Coding Notes</p> }
 
             {/* if the selected note is validating */ }
-            { (!note && (isValidating || isLoading)) && <p></p> }
+            { (isValidating || isLoading) && <p></p> }
 
-            {/* if a note has been selected and it's been fetched */ }
-            { (note && currentNote) &&
-                <div className="header--note">
-                    <div className="header--note__folder-div"><div>{ currentNote.folderName }</div>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</div>
-                    <p
-                        contentEditable="true"
-                        suppressContentEditableWarning={ true }
-                        onKeyDown={ (e) => e.key === "Enter" && e.preventDefault() }
-                        onDragStart={ (e) => e.preventDefault() }
-                        data-placeholder="Title..."
-                        spellCheck="false"
-                        className="header--note__title"
-                        onInput={ (e) => setNoteTitle(e.currentTarget.innerText) }
-                    >{ note.title }</p>
-                </div> }
-
+            { (note && currentNote && !isValidating && !isLoading) && 
+            <Title 
+            note={note}
+            currentNote={currentNote}
+            setNoteTitle={setNoteTitle}
+            isLoading={isLoading}
+            isValidating={isValidating}
+            noteTitle={noteTitle}
+            />
+            }
 
             <div className="header__buttons-div">
                 { isLoggedIn &&

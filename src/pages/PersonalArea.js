@@ -43,7 +43,6 @@ const PersonalArea = (
     const [modalShowing, setModalShowing] = useState("none");
 
 
-
     useEffect(() => {
 
         isLoggedIn === null && checkLoggedIn(setIsLoggedIn);
@@ -139,7 +138,6 @@ const PersonalArea = (
                 setNoteTitle={ setNoteTitle }
                 setMenuStatus={setMenuStatus}
             />
-
             <Header
                 menuStatus={ menuStatus }
                 setMenuStatus={ setMenuStatus }
@@ -149,7 +147,7 @@ const PersonalArea = (
                 setIsLoggedIn={ setIsLoggedIn }
                 currentNote={ currentNote }
             />
-
+            
             <HomePage
                 menuStatus={ menuStatus }
                 setMenuStatus={ setMenuStatus }
