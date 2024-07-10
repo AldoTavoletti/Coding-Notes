@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { URL, simplePatchCall, logout } from "../utils/utils";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import Title from "./Title";
 const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
 
@@ -8,7 +8,6 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
     const header = useRef();
 
 
-    const {cache, mutate} = useSWRConfig();
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher);
