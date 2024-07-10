@@ -36,7 +36,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     // the content ref is set here cause note is undefined before useSWR
     content.current = note.content;
-    console.log("ciao");
+    
     return (
         <Editor
             tinymceScriptSrc='/tinymce/tinymce.min.js'
