@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { getContrastColor, openMenu, folderColors, switchNote } from "../utils/utils";
+import { getContrastColor, openMenu, folderColors, switchNote, saveLastNoteTitle } from "../utils/utils";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -24,19 +24,8 @@ const Note = ({ lastNote, setMenuStatus, folder, folders, note, folderIndex, set
      */
     const handleNoteClick = (note, folderName) => {
 
-        if (lastNote.current.noteID) /* if this isn't the first note that got clicked on */ {
+        saveLastNoteTitle(lastNote.current, folders, noteTitle);
 
-            // set the title of the last note (which is still the current one) to be noteTitle
-
-            const foundFolder = folders.find(folder => folder.folderID === lastNote.current.folderID);
-            
-                
-             foundFolder["notes"]
-                .find(note => note.noteID === lastNote.current.noteID)
-                .title = noteTitle;
-
-
-        }
         switchNote
         (
             { noteID: note.noteID, folderName: folderName, folderID: note.folderID },

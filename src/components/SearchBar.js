@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { URL, switchNote } from "../utils/utils";
+import { URL, saveLastNoteTitle, switchNote } from "../utils/utils";
 import { useSWRConfig } from "swr";
 
 
@@ -48,19 +48,8 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
     const handleItemClick = (item) => {
 
-        if (lastNote.current.noteID) /* if this isn't the first note that got clicked on */ {
 
-            // set the title of the last note (which is still the current one) to be noteTitle
-
-            const foundFolder = folders.find(folder => folder.folderID === lastNote.current.folderID);
-
-
-            foundFolder["notes"]
-                .find(note => note.noteID === lastNote.current.noteID)
-                .title = noteTitle;
-
-
-        }
+       saveLastNoteTitle(lastNote.current, folders, noteTitle);
 
         switchNote
             (

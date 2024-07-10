@@ -169,6 +169,24 @@ export const simplePatchCall = (obj) => {
 
 };
 
+export const saveLastNoteTitle = (lastNote, folders, noteTitle)=>{
+
+    if (lastNote.noteID) /* if this isn't the first note that got clicked on */ {
+
+        // set the title of the last note (which is still the current one) to be noteTitle
+
+        const foundFolder = folders.find(folder => folder.folderID === lastNote.folderID);
+
+
+        foundFolder["notes"]
+            .find(note => note.noteID === lastNote.noteID)
+            .title = noteTitle;
+
+
+    }
+
+}
+
 /**
  * 
  * @param {object} currentNoteObj 
