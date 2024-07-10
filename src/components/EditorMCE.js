@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "../utils/utils";
@@ -13,21 +13,16 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
     // used to keep track of the saved content and decide wether a patch call should be executed
     const content = useRef(null);
 
-    const correspondingNoteID = useRef(null);
-
-
-    /*
-    This prevents the duplication of note contents. 
-    Even if the currentNote changed during the "change" event, it would still remain the same value. 
-    If I didn't use this ref, switching between notes fast could cause content duplication, since the currentNote could change right before sending the object to simplePatchCall.
-    Running some test I discovered that correspondingNoteID.current stays the same during the execution of the change event, while currentNote changes.
-    As a matter of fact, if the change event is fired by clicking on another note, "correspondingNoteID.current = currentNote" gets executed after the end of the event function, while currentNote changes instantly.
-    */
-    correspondingNoteID.current = currentNote.noteID;
-
     // retrieve data relative to the currentNote
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const { data: note, isValidating, isLoading, error } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
+    const { data: note, isValidating, isLoading, error, mutate } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
+
+    useEffect(()=>{
+
+        mutate();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[currentNote]);
 
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating) return (
@@ -41,7 +36,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     // the content ref is set here cause note is undefined before useSWR
     content.current = note.content;
-
+    console.log("ciao");
     return (
         <Editor
             tinymceScriptSrc='/tinymce/tinymce.min.js'
@@ -50,7 +45,6 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                 setup: (editor) => {
 
                     editor.on('storeDraft', (e) => {
-                        // save content changes in db (fired every 1s, it gets executed only if the editor's content is different from the last one saved)
                         if (content.current !== editor.getContent()) {
 
 
@@ -64,7 +58,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                                 };
                                 controller.signal.addEventListener('abort', abortListener);
 
-                                simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+                                simplePatchCall({ content: editor.getContent(), noteID: currentNote.noteID });
                                 content.current = editor.getContent();
 
                                 resolve('Success');
@@ -133,7 +127,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                         // save content changes in db (fired only if the user unfocuses from the editor, it gets executed only if the editor's content is different from the last one saved)
                         if (content.current !== editor.getContent()) {
 
-                            simplePatchCall({ content: editor.getContent(), noteID: correspondingNoteID.current });
+                            simplePatchCall({ content: editor.getContent(), noteID: currentNote.noteID });
 
                             // save the content in the ref variable
                             content.current = editor.getContent();
