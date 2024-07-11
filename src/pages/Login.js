@@ -345,7 +345,7 @@ const Login = ({ setIsLoggedIn }) => {
 
         if (e.key !== "Enter") return;
         
-        wantsLogin ? Login() : signUp();
+        wantsLogin ? logIn() : signUp();
 
     };
 
