@@ -145,10 +145,18 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
     }
 
+    const preventKeys = (e)=>{
+    //? the "arrow up" and "arrow down" keys are used to scroll the notes in the search bar result, but they also fire this event, which changes the position of the cursor back and forth. That's why they need to be prevented.
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();            
+        }
+
+    }
+
     return (
         <div className="search-container" onKeyDown={handleOnKeyDown}>
             <div class="input-group">
-                <input ref={ searchInput } onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
+                <input ref={ searchInput } onKeyDown={preventKeys} onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
                 <button class="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i class="bi bi-search"></i></button>
             </div>
 
