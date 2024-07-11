@@ -124,6 +124,7 @@ const PersonalArea = (
         return (<div className="full-height-container"><LoadingScreen /></div>);
     }
 
+
     return (
 
         <div className="personal-area">
