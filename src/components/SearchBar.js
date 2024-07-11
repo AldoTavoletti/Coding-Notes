@@ -86,11 +86,17 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
     };
 
+    const blurSearch = ()=>{
+
+        searchInput.current.blur();
+
+    }
+
     window.onkeydown = (e)=>{
 
         if (e.ctrlKey && e.key === "p") {
             e.preventDefault();
-            if(searchInput) focusSearch();
+            if(searchInput.current) focusSearch();
             
         }
 
@@ -99,6 +105,13 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     const handleOnKeyDown = (e)=>{
 
         switch (e.key) {
+
+            case "Escape":
+
+            blurSearch();
+
+            break;
+
             case "ArrowDown":
             
                 selectedNote.itemIndex !== result.length - 1 && !isHovering && setSelectedNote(selectedNote => {
