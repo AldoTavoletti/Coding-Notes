@@ -196,6 +196,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                                 <button
                                     onClick={ () => handleItemClick(item) }
                                     onMouseDown={(e)=>e.preventDefault()}
+                                    onTouchStart={ () => handleOnMouseEnter(item, itemIndex) }
                                     onMouseEnter={()=>handleOnMouseEnter(item,itemIndex)}
                                     onMouseLeave={handleOnMouseLeave}
                                     className={`search-result-item${selectedNote.itemIndex === itemIndex ? " selected":""}`}>
