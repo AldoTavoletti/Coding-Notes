@@ -43,7 +43,7 @@ export const logout = (setState) => {
 
     }).then(data => {
         if (data["code"] === 200) {
-            
+
             setState(false); // it's the isLoggedIn state. I gotta use a parameterized function if i want logout to be in utils.js
 
 
@@ -123,11 +123,11 @@ export const openMenu = (e, setMethod, element) => {
     folderColor (could be null): the color of the folder, that has to be set as default when opening the modify modal.
     */
     if (element.folderName) {
-        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: {id:element.folderID, folderName:element.folderName, folderColor:element.color} });
-    
-    }else{
+        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: { id: element.folderID, folderName: element.folderName, folderColor: element.color } });
 
-        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: { id: element.noteID, parentFolderID:element.folderID} });
+    } else {
+
+        setMethod({ x: e.pageX + "px", y: e.pageY + "px", element: { id: element.noteID, parentFolderID: element.folderID } });
 
 
     }
@@ -155,7 +155,7 @@ export const simplePatchCall = (obj) => {
         }
         return res.json();
 
-    }).then((data)=>{
+    }).then((data) => {
 
         return true;
 
@@ -163,13 +163,13 @@ export const simplePatchCall = (obj) => {
 
         console.log(err);
         return false;
-        
+
     });
 
 
 };
 
-export const saveLastNoteTitle = (lastNote, folders, noteTitle)=>{
+export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
 
     if (lastNote.noteID) /* if this isn't the first note that got clicked on */ {
 
@@ -177,15 +177,17 @@ export const saveLastNoteTitle = (lastNote, folders, noteTitle)=>{
 
         const foundFolder = folders.find(folder => folder.folderID === lastNote.folderID);
 
+        if (foundFolder) {
 
-        foundFolder["notes"]
-            .find(note => note.noteID === lastNote.noteID)
-            .title = noteTitle;
+            const note = foundFolder["notes"].find(note => note.noteID === lastNote.noteID);
 
+            if (note) note.title = noteTitle;
+            
+        }
 
     }
 
-}
+};
 
 /**
  * 
@@ -194,21 +196,21 @@ export const saveLastNoteTitle = (lastNote, folders, noteTitle)=>{
  * @param {Function} setCurrentNote 
  * @param {Function} setNoteTitle 
  */
-export const switchNote = (currentNoteObj, noteTitle, setCurrentNote, setNoteTitle, setMenuStatus)=>{
+export const switchNote = (currentNoteObj, noteTitle, setCurrentNote, setNoteTitle, setMenuStatus) => {
 
     setCurrentNote(currentNoteObj);
 
     setNoteTitle(noteTitle);
 
-    setMenuStatus((menustatus)=>{
-        
-    if (menustatus === "hidden") return "hidden";    
-    else return window.innerWidth < 769 ? "hamburger" : "normal"
-    
+    setMenuStatus((menustatus) => {
+
+        if (menustatus === "hidden") return "hidden";
+        else return window.innerWidth < 769 ? "hamburger" : "normal";
+
     });
 
 
-}
+};
 
 /**
  * @note set the dark mode
