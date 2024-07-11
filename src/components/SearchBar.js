@@ -27,7 +27,6 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
      * @param {String} string what the user wrote in the searchbar 
      */
     const getResult = async (string) => {
-        
         try {
             const response = await fetch(URL + "?search=" + string, {
 
@@ -68,6 +67,7 @@ useEffect(() => {
 
 }, [result]);
 
+
 const handleOnChange = async (value) => {
 
 
@@ -95,12 +95,12 @@ const handleItemClick = (item) => {
 
 };
 
-const handleOnFocus = () => {
+const handleOnFocus = async () => {
 
     setIsFocused(true);
 
     if (inputContent !== "") {
-        setResult(getResult(inputContent));
+        setResult(await getResult(inputContent));
     }
 
 };
@@ -199,28 +199,19 @@ const preventKeys = (e) => {
 
 return (
     <div className="search-container" onKeyDown={ handleOnKeyDown }>
-        <div class="input-group">
+        <div className="input-group">
             <input ref={ searchInput } onKeyDown={ preventKeys } onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
-            <button class="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i class="bi bi-search"></i></button>
+            <button className="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i className={ `spinner-grow${!isLoading ? " hidden" : ""}` } role="status"></i><i className={ `bi bi-search${isLoading ? " hidden" : ""}` }></i></button>
         </div>
 
         <div className={ `search-result-container${isFocused ? " show" : ""}` }>
 
             { inputContent.length > 0 ?
 
-                isLoading ?
-
-                    <div className="search-result-default-page">
-
-                        <div class="spinner-grow" role="status"></div>
-
-                    </div>
-
-                    :
-
                     result && result.length > 0 ?
                         result.map((item, itemIndex) => (
                             <button
+                                key={item.noteID}
                                 onClick={ () => handleItemClick(item) }
                                 onMouseDown={ (e) => e.preventDefault() }
                                 onTouchStart={ () => handleOnMouseEnter(item, itemIndex) }
@@ -236,7 +227,7 @@ return (
 
                         <div className="search-result-default-page">
 
-                            <i class="bi bi-emoji-frown-fill"></i>
+                            <i className="bi bi-emoji-frown-fill"></i>
                             <p>No notes found.</p>
 
                         </div>
@@ -245,7 +236,7 @@ return (
 
                 <div className="search-result-default-page">
 
-                    <i class="bi bi-search"></i>
+                    <i className="bi bi-search"></i>
                     <p>Search for a note!</p>
 
                 </div>

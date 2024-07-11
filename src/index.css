@@ -629,7 +629,7 @@ body {
     background-color: var(--secondary-bg-color);
     border: 2px solid var(--secondary-bg-color-hover);
     width: 100%;
-    line-height: 2.75em;
+    height: 45px;
     border-radius: 0.375rem;
     padding-inline: 10px;
     outline: 0;
@@ -642,15 +642,6 @@ body {
 
 }
 
-/* .search-result-container:hover {
-
-    display: block;
-} */
-
-.search-result-container:hover .selected{
-
-
-}
 
 .search-result-container.show {
 
@@ -684,6 +675,32 @@ body {
     align-items: center;
     flex-direction: column;
 
+}
+
+.searchbar+button .spinner-grow {
+
+    /* gotta be the same width as the search icon */
+    width: 16px;
+    height: 16px;
+    
+}
+
+.searchbar+button {
+
+    width: 45px;
+    height: 45px;
+    padding: 13.5px;
+}
+
+
+.searchbar+button i {
+    position: absolute;
+    transition: color .2s ease;
+}
+
+.searchbar+button i.hidden {
+
+    color: transparent;
 }
 
 .search-result-default-page p,
@@ -728,7 +745,8 @@ body {
     border-left: 0;
 
 }
-.search-result-item__title{
+
+.search-result-item__title {
 
     font-weight: bold;
 
@@ -736,7 +754,8 @@ body {
 
 
 
-.search-result-item__title, .search-result-item__foldername {
+.search-result-item__title,
+.search-result-item__foldername {
     width: 50%;
     white-space: nowrap;
     color: inherit;
@@ -753,14 +772,16 @@ body {
 }
 
 
-.search-result-item:hover, .search-result-container:not(:hover) .search-result-item.selected {
+.search-result-item:hover,
+.search-result-container:not(:hover) .search-result-item.selected {
 
     color: white;
     background-color: var(--purple-hover);
 
 }
 
-.search-result-item:hover .search-result-item__title, .search-result-container:not(:hover) .search-result-item.selected .search-result-item__title{
+.search-result-item:hover .search-result-item__title,
+.search-result-container:not(:hover) .search-result-item.selected .search-result-item__title {
 
     width: 75%;
 
