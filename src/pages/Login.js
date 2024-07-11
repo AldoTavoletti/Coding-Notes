@@ -341,17 +341,15 @@ const Login = ({ setIsLoggedIn }) => {
     };
 
     // to login/signup pressing "Enter"
-    window.onkeyup = (e) => {
+    const handleOnKeyDown = (e) => {
 
-        if (e.key !== "Enter") return;
-        
-        wantsLogin ? logIn() : signUp();
+        if (e.key === "Enter") wantsLogin ? logIn() : signUp();
 
     };
 
     return (
 
-        <div className="login-page">
+        <div className="login-page" onKeyDown={handleOnKeyDown}>
 
             <div className="login-container">
                 { isLoading ?
@@ -362,7 +360,7 @@ const Login = ({ setIsLoggedIn }) => {
 
                 }
 
-                <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } maxLength="255" />
+                <input type="text" name="username" placeholder="Username..." onChange={ (e) => setUsername(e.target.value) } maxLength="255" tabIndex="0" />
 
                 {/* password 1 container */ }
                 <div className="password-container" style={ { marginTop: "24.85px" } }> {/* 15.2px is the height of password-condition show in devtools */ }

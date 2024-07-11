@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { URL, saveLastNoteTitle, switchNote } from "../utils/utils";
-import { useSWRConfig } from "swr";
 
 
 const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, noteTitle, folders }) => {
@@ -10,7 +9,9 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     const [isLoading, setIsLoading] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const searchInput = useRef(null);
-    const { mutate } = useSWRConfig();
+
+    const[selectedNote, setSelectedNote] = useState(null);
+    const [isHovering, setIsHovering] = useState(false);
 
 
     const getResult = (string) => {
@@ -30,6 +31,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
         }).then((data) => {
 
             setResult(data);
+            setSelectedNote({...data[0], itemIndex:0});
             setIsLoading(false);
 
 
@@ -47,7 +49,6 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     };
 
     const handleItemClick = (item) => {
-
 
        saveLastNoteTitle(lastNote.current, folders, noteTitle);
 
@@ -85,10 +86,90 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
     };
 
+    const blurSearch = ()=>{
+
+        searchInput.current.blur();
+
+    }
+
+    window.onkeydown = (e)=>{
+
+        if (e.ctrlKey && e.key === "p") {
+            e.preventDefault();
+            if(searchInput.current) focusSearch();
+            
+        }
+
+    }
+
+    const handleOnKeyDown = (e)=>{
+
+        switch (e.key) {
+
+            case "Escape":
+
+            blurSearch();
+
+            break;
+
+            case "ArrowDown":
+            
+                selectedNote.itemIndex !== result.length - 1 && !isHovering && setSelectedNote(selectedNote => {
+                    
+                    return { ...result[++selectedNote.itemIndex], itemIndex:selectedNote.itemIndex++}
+                
+                });
+
+                break;
+
+            case "ArrowUp":
+
+                selectedNote.itemIndex !== 0 && !isHovering && setSelectedNote(selectedNote => {
+
+                    return { ...result[--selectedNote.itemIndex], itemIndex: selectedNote.itemIndex-- }
+
+                });
+
+                break;
+
+
+            case "Enter":
+
+                handleItemClick(selectedNote);
+
+                break;
+        
+            default:
+                break;
+        }
+
+    }
+
+    const handleOnMouseEnter=(item,itemIndex)=>{
+
+        setSelectedNote({ ...item, itemIndex: itemIndex });
+        setIsHovering(true);
+
+    }
+
+    const handleOnMouseLeave = ()=>{
+
+        setIsHovering(false);
+
+    }
+
+    const preventKeys = (e)=>{
+    //? the "arrow up" and "arrow down" keys are used to scroll the notes in the search bar result, but they also fire this event, which changes the position of the cursor back and forth. That's why they need to be prevented.
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();            
+        }
+
+    }
+
     return (
-        <div className="search-container">
+        <div className="search-container" onKeyDown={handleOnKeyDown}>
             <div class="input-group">
-                <input ref={ searchInput } onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
+                <input ref={ searchInput } onKeyDown={preventKeys} onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
                 <button class="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i class="bi bi-search"></i></button>
             </div>
 
@@ -107,10 +188,13 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                         :
 
                         result.length > 0 ?
-                            result.map((item) => (
+                            result.map((item, itemIndex) => (
                                 <button
                                     onClick={ () => handleItemClick(item) }
-                                    className="search-result-item">
+                                    onMouseDown={(e)=>e.preventDefault()}
+                                    onMouseEnter={()=>handleOnMouseEnter(item,itemIndex)}
+                                    onMouseLeave={handleOnMouseLeave}
+                                    className={`search-result-item${selectedNote.itemIndex === itemIndex ? " selected":""}`}>
                                     <div className="search-result-item__title">{ item.title }</div>
                                     &nbsp;| &nbsp;
                                     <div className="search-result-item__foldername">{ item.folderName }</div>
