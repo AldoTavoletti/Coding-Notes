@@ -33,6 +33,10 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
             setResult(data);
             setSelectedNote({...data[0], itemIndex:0});
             setIsLoading(false);
+            
+            //? if you are hovering on an item, than update the research, and in the point where you left the pointer there is no element anymore, the isHovering would still be true even if no item is being hovered.
+            //? that's why it's a better choice to set isHovering to false everytime the result changes 
+            setIsHovering(false);
 
 
         }).catch(err => {
