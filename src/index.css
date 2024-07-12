@@ -668,7 +668,7 @@ background-color: var(--purple-hover);
     width: 100%;
     z-index: 9999;
     background-color: var(--primary-bg-color);
-    border: 1px solid var(--secondary-bg-color-hover);
+    border: 1px solid #3e3d3d;
 }
 
 .search-result-container :last-child:not(.spinner-grow) {
@@ -706,7 +706,7 @@ background-color: var(--purple);
 
 
 .searchbar+button i{
-
+color: white;
 transition: color .2s linear;
 }
 
@@ -734,12 +734,11 @@ transition: color .2s linear;
 
     background-color: transparent;
     border: 0;
-    border-bottom: 1px solid var(--secondary-bg-color-hover);
     width: 100%;
     text-align: left;
     height: 2.75em;
     padding-inline: 10px;
-    color: rgb(191, 191, 191);
+    color: rgb(144, 144, 144);
 
     display: flex;
     align-items: center;
@@ -747,7 +746,6 @@ transition: color .2s linear;
     text-overflow: ellipsis;
     overflow: hidden;
 
-    transition: color .05s ease;
 }
 
 .input-group>input {
