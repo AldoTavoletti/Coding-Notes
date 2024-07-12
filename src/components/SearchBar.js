@@ -51,7 +51,6 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
 
 useEffect(() => {
-    console.log(result);
 
     if (result) {
         setSelectedNote({ ...result[0], itemIndex: 0 });
@@ -100,6 +99,7 @@ const handleOnFocus = async () => {
     setIsFocused(true);
 
     if (inputContent !== "") {
+        setIsLoading(true);
         setResult(await getResult(inputContent));
     }
 

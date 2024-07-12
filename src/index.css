@@ -627,7 +627,9 @@ body {
 .searchbar {
 
     background-color: var(--secondary-bg-color);
-    border: 2px solid var(--secondary-bg-color-hover);
+
+    border: 2px solid var(--purple);
+    border-right-width: 0;
     width: 100%;
     height: 2.75em;
     border-radius: 0.375rem;
@@ -635,13 +637,22 @@ body {
     outline: 0;
 }
 
+
+
+.searchbar:focus, .searchbar:focus+button{
+
+border-color: var(--purple-hover);
+}
 .searchbar:focus {
 
     border-bottom-left-radius: 0;
-
-
+    border-right-width: 0;
 }
 
+.searchbar:focus+button{
+
+background-color: var(--purple-hover);
+}
 
 .search-result-container.show {
 
@@ -685,7 +696,15 @@ body {
 
 .searchbar+button {
 position: relative;
+background-color: var(--primary-bg-color);
+  border: 2px solid var(--purple);
+    border-left-width: 0;
+background-color: var(--purple);
+
 }
+
+
+
 .searchbar+button i{
 
 transition: color .2s linear;
@@ -718,17 +737,17 @@ transition: color .2s linear;
     border-bottom: 1px solid var(--secondary-bg-color-hover);
     width: 100%;
     text-align: left;
-    line-height: 2.75em;
+    height: 2.75em;
     padding-inline: 10px;
     color: rgb(191, 191, 191);
 
     display: flex;
-
+    align-items: center;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 
-    transition: background-color .2s ease;
+    transition: color .05s ease;
 }
 
 .input-group>input {
@@ -738,13 +757,6 @@ transition: color .2s linear;
     min-width: 0;
 }
 
-.input-group-text {
-
-    background-color: transparent;
-    border: 2px solid var(--secondary-bg-color-hover);
-    border-left: 0;
-
-}
 
 .search-result-item__title {
 
@@ -775,8 +787,9 @@ transition: color .2s linear;
 .search-result-item:hover,
 .search-result-container:not(:hover) .search-result-item.selected {
 
-    color: white;
-    background-color: var(--purple-hover);
+    color: var(--purple-light);
+    font-weight:bold;
+    background-color: var(--secondary-bg-color);
 
 }
 
