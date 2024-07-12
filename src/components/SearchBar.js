@@ -50,168 +50,168 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     };
 
 
-useEffect(() => {
+    useEffect(() => {
 
-    if (result) {
-        setSelectedNote({ ...result[0], itemIndex: 0 });
+        if (result) {
+            setSelectedNote({ ...result[0], itemIndex: 0 });
 
-        /*
-        if you are hovering on an item, than update the research, and in the point where you left the pointer there is no element anymore, the isHovering would still be true even if no item is being hovered.
-        that's why it's a better choice to set isHovering to false everytime the result changes 
-        */
+            /*
+            if you are hovering on an item, than update the research, and in the point where you left the pointer there is no element anymore, the isHovering would still be true even if no item is being hovered.
+            that's why it's a better choice to set isHovering to false everytime the result changes 
+            */
+            setIsHovering(false);
+
+            setIsLoading(false);
+        }
+
+    }, [result]);
+
+
+    const handleOnChange = async (value) => {
+
+
+        setIsLoading(true);
+        setResult(await getResult(value));
+        setInputContent(value);
+
+        // get the notes and set the selected note to be the first one
+
+    };
+
+    const handleItemClick = (item) => {
+
+        saveLastNoteTitle(lastNote.current, folders, noteTitle);
+
+        switchNote
+            (
+                { noteID: item.noteID, folderName: item.folderName, folderID: item.folderID },
+                item.title,
+                setCurrentNote,
+                setNoteTitle,
+                setMenuStatus
+            );
+
+
+    };
+
+    const handleOnFocus = async () => {
+
+        setIsFocused(true);
+
+        if (inputContent !== "") {
+            setIsLoading(true);
+            setResult(await getResult(inputContent));
+        }
+
+    };
+
+    const handleOnBlur = () => {
+
+        setIsFocused(false);
+
+    };
+
+    const focusSearch = () => {
+
+        searchInput.current.focus();
+
+    };
+
+    const blurSearch = () => {
+
+        searchInput.current.blur();
+
+    };
+
+    window.onkeydown = (e) => {
+
+        if (e.ctrlKey && e.key === "p") {
+            e.preventDefault();
+            if (searchInput.current) focusSearch();
+
+        }
+
+    };
+
+    const handleOnKeyDown = (e) => {
+
+        switch (e.key) {
+
+            case "Escape":
+
+                blurSearch();
+
+                break;
+
+            case "ArrowDown":
+
+                selectedNote.itemIndex !== result.length - 1 && !isHovering && setSelectedNote(selectedNote => {
+
+                    return { ...result[++selectedNote.itemIndex], itemIndex: selectedNote.itemIndex++ };
+
+                });
+
+                break;
+
+            case "ArrowUp":
+
+                selectedNote.itemIndex !== 0 && !isHovering && setSelectedNote(selectedNote => {
+
+                    return { ...result[--selectedNote.itemIndex], itemIndex: selectedNote.itemIndex-- };
+
+                });
+
+                break;
+
+
+            case "Enter":
+
+                handleItemClick(selectedNote);
+
+                break;
+
+            default:
+                break;
+        }
+
+    };
+
+    const handleOnMouseEnter = (item, itemIndex) => {
+
+        setSelectedNote({ ...item, itemIndex: itemIndex });
+        setIsHovering(true);
+
+    };
+
+    const handleOnMouseLeave = () => {
+
         setIsHovering(false);
 
-        setIsLoading(false);
-    }
+    };
 
-}, [result]);
+    const preventKeys = (e) => {
+        //? the "arrow up" and "arrow down" keys are used to scroll the notes in the search bar result, but they also fire this event, which changes the position of the cursor back and forth. That's why they need to be prevented.
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+        }
 
+    };
 
-const handleOnChange = async (value) => {
+    return (
+        <div className="search-container" onKeyDown={ handleOnKeyDown }>
+            <div className="input-group">
+                <input ref={ searchInput } onKeyDown={ preventKeys } onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
+                <button className="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i className={ `spinner-grow${!isLoading ? " hidden" : ""}` } role="status"></i><i className={ `bi bi-search${isLoading ? " hidden" : ""}` }></i></button>
+            </div>
 
+            <div className={ `search-result-container${isFocused ? " show" : ""}` }>
 
-    setIsLoading(true);
-    setResult(await getResult(value));
-    setInputContent(value);
-
-    // get the notes and set the selected note to be the first one
-
-};
-
-const handleItemClick = (item) => {
-
-    saveLastNoteTitle(lastNote.current, folders, noteTitle);
-
-    switchNote
-        (
-            { noteID: item.noteID, folderName: item.folderName, folderID: item.folderID },
-            item.title,
-            setCurrentNote,
-            setNoteTitle,
-            setMenuStatus
-        );
-
-
-};
-
-const handleOnFocus = async () => {
-
-    setIsFocused(true);
-
-    if (inputContent !== "") {
-        setIsLoading(true);
-        setResult(await getResult(inputContent));
-    }
-
-};
-
-const handleOnBlur = () => {
-
-    setIsFocused(false);
-
-};
-
-const focusSearch = () => {
-
-    searchInput.current.focus();
-
-};
-
-const blurSearch = () => {
-
-    searchInput.current.blur();
-
-};
-
-window.onkeydown = (e) => {
-
-    if (e.ctrlKey && e.key === "p") {
-        e.preventDefault();
-        if (searchInput.current) focusSearch();
-
-    }
-
-};
-
-const handleOnKeyDown = (e) => {
-
-    switch (e.key) {
-
-        case "Escape":
-
-            blurSearch();
-
-            break;
-
-        case "ArrowDown":
-
-            selectedNote.itemIndex !== result.length - 1 && !isHovering && setSelectedNote(selectedNote => {
-
-                return { ...result[++selectedNote.itemIndex], itemIndex: selectedNote.itemIndex++ };
-
-            });
-
-            break;
-
-        case "ArrowUp":
-
-            selectedNote.itemIndex !== 0 && !isHovering && setSelectedNote(selectedNote => {
-
-                return { ...result[--selectedNote.itemIndex], itemIndex: selectedNote.itemIndex-- };
-
-            });
-
-            break;
-
-
-        case "Enter":
-
-            handleItemClick(selectedNote);
-
-            break;
-
-        default:
-            break;
-    }
-
-};
-
-const handleOnMouseEnter = (item, itemIndex) => {
-
-    setSelectedNote({ ...item, itemIndex: itemIndex });
-    setIsHovering(true);
-
-};
-
-const handleOnMouseLeave = () => {
-
-    setIsHovering(false);
-
-};
-
-const preventKeys = (e) => {
-    //? the "arrow up" and "arrow down" keys are used to scroll the notes in the search bar result, but they also fire this event, which changes the position of the cursor back and forth. That's why they need to be prevented.
-    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-        e.preventDefault();
-    }
-
-};
-
-return (
-    <div className="search-container" onKeyDown={ handleOnKeyDown }>
-        <div className="input-group">
-            <input ref={ searchInput } onKeyDown={ preventKeys } onChange={ (e) => handleOnChange(e.target.value) } onBlur={ handleOnBlur } onFocus={ handleOnFocus } type="text" className="searchbar" placeholder="Search..." aria-describedby="btnGroupAddon" />
-            <button className="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i className={ `spinner-grow${!isLoading ? " hidden" : ""}` } role="status"></i><i className={ `bi bi-search${isLoading ? " hidden" : ""}` }></i></button>
-        </div>
-
-        <div className={ `search-result-container${isFocused ? " show" : ""}` }>
-
-            { inputContent.length > 0 ?
+                { inputContent.length > 0 ?
 
                     result && result.length > 0 ?
                         result.map((item, itemIndex) => (
                             <button
-                                key={item.noteID}
+                                key={ item.noteID }
                                 onClick={ () => handleItemClick(item) }
                                 onMouseDown={ (e) => e.preventDefault() }
                                 onTouchStart={ () => handleOnMouseEnter(item, itemIndex) }
@@ -232,22 +232,22 @@ return (
 
                         </div>
 
-                :
+                    :
 
-                <div className="search-result-default-page">
+                    <div className="search-result-default-page">
 
-                    <i className="bi bi-search"></i>
-                    <p>Search for a note!</p>
+                        <i className="bi bi-search"></i>
+                        <p>Search for a note!</p>
 
-                </div>
+                    </div>
 
-            }
+                }
+
+            </div>
 
         </div>
 
-    </div>
-
-);
+    );
 };
 
 export default SearchBar;
