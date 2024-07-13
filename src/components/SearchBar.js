@@ -205,7 +205,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                 <button className="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i className={ `spinner-grow${!isLoading ? " hidden" : ""}` } role="status"></i><i className={ `bi bi-search${isLoading ? " hidden" : ""}` }></i></button>
             </div>
 
-            <div className={ `search-result-container${isFocused ? " show" : ""}` }>
+            <div className={ `search-result-container${isFocused ? " show" : ""}` } style={{"height": isFocused ? result.length === 0 ? "20dvh" : result.length * 2.75 + "em":"0"}}>
 
                 {
 
