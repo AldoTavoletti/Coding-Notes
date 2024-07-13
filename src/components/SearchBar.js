@@ -7,7 +7,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     console.count('counter');
 
     // will contain an array of notes
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState([]);
 
     //the content of the searchbar
     const [inputContent, setInputContent] = useState("");
@@ -217,7 +217,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                     :
                     inputContent.length > 0 &&
 
-                        result && result.length > 0 ?
+                        result.length > 0 ?
                         result.map((item, itemIndex) => (
                             <button
                                 key={ item.noteID }
