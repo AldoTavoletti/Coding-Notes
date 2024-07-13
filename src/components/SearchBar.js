@@ -207,45 +207,53 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
             <div className={ `search-result-container${isFocused ? " show" : ""}` }>
 
-                { (inputContent.length === 0 || (isLoading && result.length === 0)) ?
-                    <div className="search-result-default-page">
+                {
 
-                        <i className="bi bi-search"></i>
-                        <p>Search for a note!</p>
-
-                    </div>
-                    :
-                    inputContent.length > 0 &&
-
-                        result.length > 0 ?
-                        result.map((item, itemIndex) => (
-                            <button
-                                key={ item.noteID }
-                                onClick={ () => handleItemClick(item) }
-                                onMouseDown={ (e) => e.preventDefault() }
-                                onTouchStart={ () => handleOnMouseEnter(item, itemIndex) }
-                                onMouseEnter={ () => handleOnMouseEnter(item, itemIndex) }
-                                onMouseLeave={ handleOnMouseLeave }
-                                className={ `search-result-item${selectedNote.itemIndex === itemIndex ? " selected" : ""}` }>
-                                <div className="search-result-item__title">{ item.title }</div>
-                                &nbsp;| &nbsp;
-                                <div className="search-result-item__foldername">{ item.folderName }</div>
-                            </button>
-                        ))
-                        :
-
+                    inputContent.length === 0 ?
                         <div className="search-result-default-page">
 
-                            <i className="bi bi-emoji-frown-fill"></i>
-                            <p>No notes found.</p>
+                            <i className="bi bi-search"></i>
+                            <p>Search for a note!</p>
 
                         </div>
 
-                }
+                        :
+
+                        result.length > 0 ?
+
+                            result.map((item, itemIndex) => (
+                                <button
+                                    key={ item.noteID }
+                                    onClick={ () => handleItemClick(item) }
+                                    onMouseDown={ (e) => e.preventDefault() }
+                                    onTouchStart={ () => handleOnMouseEnter(item, itemIndex) }
+                                    onMouseEnter={ () => handleOnMouseEnter(item, itemIndex) }
+                                    onMouseLeave={ handleOnMouseLeave }
+                                    className={ `search-result-item${selectedNote.itemIndex === itemIndex ? " selected" : ""}` }>
+                                    <div className="search-result-item__title">{ item.title }</div>
+                                    &nbsp;| &nbsp;
+                                    <div className="search-result-item__foldername">{ item.folderName }</div>
+                                </button>
+                            ))
+
+                            :
+                            
+                            <div className="search-result-default-page">
+
+                            {!isLoading &&
+                            <>
+                                <i className="bi bi-emoji-frown-fill"></i>
+                                <p>No notes found.</p>
+                            </>
+                            }
 
             </div>
 
+                }
+
         </div>
+
+        </div >
 
     );
 };
