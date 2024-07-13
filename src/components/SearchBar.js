@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { URL, saveLastNoteTitle, switchNote } from "../utils/utils";
 
 
 const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, noteTitle, folders }) => {
+
+    console.count('counter');
 
     // will contain an array of notes
     const [result, setResult] = useState(null);
@@ -27,6 +29,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
      * @param {String} string what the user wrote in the searchbar 
      */
     const getResult = async (string) => {
+
         try {
             const response = await fetch(URL + "?search=" + string, {
 
@@ -40,6 +43,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
             }
 
             const data = await response.json();
+
             return data;
 
         } catch (e) {
@@ -50,31 +54,29 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     };
 
 
-    useEffect(() => {
-
-        if (result) {
-            setSelectedNote({ ...result[0], itemIndex: 0 });
-
-            /*
-            if you are hovering on an item, than update the research, and in the point where you left the pointer there is no element anymore, the isHovering would still be true even if no item is being hovered.
-            that's why it's a better choice to set isHovering to false everytime the result changes 
-            */
-            setIsHovering(false);
-
-            setIsLoading(false);
-        }
-
-    }, [result]);
-
-
-    const handleOnChange = async (value) => {
-
+    const fetchResult = async (value) => {
 
         setIsLoading(true);
-        setResult(await getResult(value));
-        setInputContent(value);
 
-        // get the notes and set the selected note to be the first one
+        const currentResult = await getResult(value);
+
+        setResult(currentResult);
+
+        setSelectedNote({ ...currentResult[0], itemIndex: 0 });
+
+        /*
+        if you are hovering on an item, than update the research, and in the point where you left the pointer there is no element anymore, the isHovering would still be true even if no item is being hovered.
+        that's why it's a better choice to set isHovering to false everytime the result changes 
+        */
+        setIsHovering(false);
+
+        setIsLoading(false);
+    };
+
+    const handleOnChange = (value) => {
+
+        setInputContent(value);
+        fetchResult(value);
 
     };
 
@@ -94,13 +96,12 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
     };
 
-    const handleOnFocus = async () => {
+    const handleOnFocus = () => {
 
         setIsFocused(true);
 
         if (inputContent !== "") {
-            setIsLoading(true);
-            setResult(await getResult(inputContent));
+            fetchResult(inputContent);
         }
 
     };
@@ -206,9 +207,17 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
             <div className={ `search-result-container${isFocused ? " show" : ""}` }>
 
-                { inputContent.length > 0 ?
+                { (inputContent.length === 0 || (isLoading && result.length === 0)) ?
+                    <div className="search-result-default-page">
 
-                    result && result.length > 0 ?
+                        <i className="bi bi-search"></i>
+                        <p>Search for a note!</p>
+
+                    </div>
+                    :
+                    inputContent.length > 0 &&
+
+                        result && result.length > 0 ?
                         result.map((item, itemIndex) => (
                             <button
                                 key={ item.noteID }
@@ -231,15 +240,6 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                             <p>No notes found.</p>
 
                         </div>
-
-                    :
-
-                    <div className="search-result-default-page">
-
-                        <i className="bi bi-search"></i>
-                        <p>Search for a note!</p>
-
-                    </div>
 
                 }
 
