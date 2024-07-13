@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import { URL} from "../utils/utils";
+import { URL } from "../utils/utils";
 
 
-const SearchBar = ({ handleNoteClick, lastNote, setCurrentNote, setNoteTitle, setMenuStatus, noteTitle, folders }) => {
+const SearchBar = ({ handleNoteClick }) => {
 
     // will contain an array of notes
     const [result, setResult] = useState([]);
@@ -88,8 +88,6 @@ const SearchBar = ({ handleNoteClick, lastNote, setCurrentNote, setNoteTitle, se
 
     };
 
-   
-
     const handleOnFocus = () => {
 
         setIsFocused(true);
@@ -98,31 +96,25 @@ const SearchBar = ({ handleNoteClick, lastNote, setCurrentNote, setNoteTitle, se
 
     };
 
-    const handleOnBlur = () => {
+    const handleOnBlur = () => { setIsFocused(false); };
 
-        setIsFocused(false);
+    const focusSearch = () => { searchInput.current.focus(); };
 
-    };
+    const blurSearch = () => { searchInput.current.blur(); };
 
-    const focusSearch = () => {
+    const handleOnMouseLeave = () => { setIsHovering(false); };
 
-        searchInput.current.focus();
+    const handleOnMouseEnter = (item, itemIndex) => {
 
-    };
-
-    const blurSearch = () => {
-
-        searchInput.current.blur();
+        setSelectedNote({ ...item, itemIndex: itemIndex });
+        setIsHovering(true);
 
     };
 
-    window.onkeydown = (e) => {
+    //? the "arrow up" and "arrow down" keys are used to scroll the notes in the search bar result, but they also fire this event, which changes the position of the cursor back and forth. That's why they need to be prevented.
+    const preventKeys = (e) => {
 
-        if (e.ctrlKey && e.key === "p") {
-            e.preventDefault();
-            if (searchInput.current) focusSearch();
-
-        }
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") e.preventDefault();
 
     };
 
@@ -133,6 +125,12 @@ const SearchBar = ({ handleNoteClick, lastNote, setCurrentNote, setNoteTitle, se
             case "Escape":
 
                 blurSearch();
+
+                break;
+
+            case "Enter":
+
+                handleNoteClick(selectedNote);
 
                 break;
 
@@ -156,36 +154,19 @@ const SearchBar = ({ handleNoteClick, lastNote, setCurrentNote, setNoteTitle, se
 
                 break;
 
-
-            case "Enter":
-
-                handleNoteClick(selectedNote);
-
-                break;
-
             default:
                 break;
         }
 
     };
 
-    const handleOnMouseEnter = (item, itemIndex) => {
+    window.onkeydown = (e) => {
 
-        setSelectedNote({ ...item, itemIndex: itemIndex });
-        setIsHovering(true);
-
-    };
-
-    const handleOnMouseLeave = () => {
-
-        setIsHovering(false);
-
-    };
-
-    const preventKeys = (e) => {
-        //? the "arrow up" and "arrow down" keys are used to scroll the notes in the search bar result, but they also fire this event, which changes the position of the cursor back and forth. That's why they need to be prevented.
-        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        // shortcut Ctrl + p to open the searchbar
+        if (e.ctrlKey && e.key === "p") {
             e.preventDefault();
+            if (searchInput.current) focusSearch();
+
         }
 
     };
