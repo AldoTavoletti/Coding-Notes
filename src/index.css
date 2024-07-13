@@ -656,8 +656,8 @@ background-color: var(--purple-hover);
 }
 
 .search-result-container.show {
-
-    height: var(--height);
+    /* this is the default height, it changes depanding on result.length */
+    height: 20dvh;
     border: 1px solid #3e3d3d;
 }
 .search-result-container:not(.show) *{
@@ -674,7 +674,7 @@ display: none;
     z-index: 9999;
     background-color: var(--primary-bg-color);
     overflow: hidden;
-    transition: height .3s ease;
+    transition: height .2s ease;
 }
 
 .search-result-container :last-child:not(.spinner-grow) {
@@ -752,7 +752,6 @@ transition: color .2s linear;
     text-overflow: ellipsis;
     overflow: hidden;
 
-    /* animation: load-note-animation .4s ease-in; */
 
 }
 
