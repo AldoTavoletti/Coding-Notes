@@ -41,6 +41,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const [folders, setFolders] = useState([]);
 
+    
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 

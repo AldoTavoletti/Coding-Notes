@@ -640,31 +640,37 @@ body {
 
 
 
-.searchbar:focus, .searchbar:focus+button{
+.searchbar:focus,
+.searchbar:focus+button {
 
-border-color: var(--purple-hover);
+    border-color: var(--purple-hover);
 }
+
 .searchbar:focus {
 
     border-bottom-left-radius: 0;
     border-right-width: 0;
 }
 
-.searchbar:focus+button{
+.searchbar:focus+button {
 
-background-color: var(--purple-hover);
+    background-color: var(--purple-hover);
 }
 
 .search-result-container.show {
     /* this is the default height, it changes depanding on result.length */
-    height: 20dvh;
+    --height: 20dvh;
+    
+    height: var(--height);
     border: 1px solid #3e3d3d;
 }
-.search-result-container:not(.show) *{
 
-display: none;
+.search-result-container:not(.show) * {
+
+    display: none;
 
 }
+
 .search-result-container {
     height: 0;
     position: absolute;
@@ -700,28 +706,28 @@ display: none;
 }
 
 .searchbar+button {
-position: relative;
-background-color: var(--primary-bg-color);
-  border: 2px solid var(--purple);
+    position: relative;
+    background-color: var(--primary-bg-color);
+    border: 2px solid var(--purple);
     border-left-width: 0;
-background-color: var(--purple);
+    background-color: var(--purple);
     transition: all .2s ease;
 
 }
 
 
 
-.searchbar+button i{
-color: white;
-transition: color .2s linear;
+.searchbar+button i {
+    color: white;
+    transition: color .2s linear;
 }
 
 .searchbar+button i:not(.spinner-grow) {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
-    
+    transform: translate(-50%, -50%);
+
 }
 
 .searchbar+button i.hidden {
@@ -793,7 +799,7 @@ transition: color .2s linear;
 .search-result-container:not(:hover) .search-result-item.selected {
 
     color: var(--purple-light);
-    font-weight:bold;
+    font-weight: bold;
     background-color: var(--secondary-bg-color);
 
 }

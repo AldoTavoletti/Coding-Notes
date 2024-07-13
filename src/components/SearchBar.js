@@ -1,10 +1,8 @@
 import { useRef, useState } from "react";
-import { URL, saveLastNoteTitle, switchNote } from "../utils/utils";
+import { URL} from "../utils/utils";
 
 
-const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, noteTitle, folders }) => {
-
-    console.count('counter');
+const SearchBar = ({ handleNoteClick, lastNote, setCurrentNote, setNoteTitle, setMenuStatus, noteTitle, folders }) => {
 
     // will contain an array of notes
     const [result, setResult] = useState([]);
@@ -21,7 +19,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     const [isLoading, setIsLoading] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
-    // used to focus and blur the searchbar with shortcuts
+    // used to focus and blur the searchbar with shortcuts, and to get its height
     const searchInput = useRef(null);
 
     /**
@@ -31,6 +29,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
     const getResult = async (string) => {
 
         try {
+
             const response = await fetch(URL + "?search=" + string, {
 
                 method: "GET",
@@ -53,8 +52,13 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
         }
     };
 
-
+    /**
+    * 
+    * @param {String} value the searchbar content 
+    */
     const fetchResult = async (value) => {
+
+        if (value === "") return setResult([]);
 
         setIsLoading(true);
 
@@ -73,6 +77,10 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
         setIsLoading(false);
     };
 
+    /**
+     * 
+     * @param {String} value the searchbar content 
+     */
     const handleOnChange = (value) => {
 
         setInputContent(value);
@@ -80,29 +88,13 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
     };
 
-    const handleItemClick = (item) => {
-
-        saveLastNoteTitle(lastNote.current, folders, noteTitle);
-
-        switchNote
-            (
-                { noteID: item.noteID, folderName: item.folderName, folderID: item.folderID },
-                item.title,
-                setCurrentNote,
-                setNoteTitle,
-                setMenuStatus
-            );
-
-
-    };
+   
 
     const handleOnFocus = () => {
 
         setIsFocused(true);
+        fetchResult(inputContent);
 
-        if (inputContent !== "") {
-            fetchResult(inputContent);
-        }
 
     };
 
@@ -167,7 +159,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
 
             case "Enter":
 
-                handleItemClick(selectedNote);
+                handleNoteClick(selectedNote);
 
                 break;
 
@@ -205,7 +197,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                 <button className="input-group-text" id="btnGroupAddon" onClick={ focusSearch } ><i className={ `spinner-grow${!isLoading ? " hidden" : ""}` } role="status"></i><i className={ `bi bi-search${isLoading ? " hidden" : ""}` }></i></button>
             </div>
 
-            <div className={ `search-result-container${isFocused ? " show" : ""}` } style={result.length !== 0 ? {height: result.length * searchInput.current.offsetHeight + "px"}:{}}>
+            <div className={ `search-result-container${isFocused ? " show" : ""}` } style={ result.length !== 0 ? { "--height": result.length * searchInput.current.offsetHeight + "px" } : {} }>
 
                 {
 
@@ -224,7 +216,7 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                             result.map((item, itemIndex) => (
                                 <button
                                     key={ item.noteID }
-                                    onClick={ () => handleItemClick(item) }
+                                    onClick={ () => handleNoteClick(item) }
                                     onMouseDown={ (e) => e.preventDefault() }
                                     onTouchStart={ () => handleOnMouseEnter(item, itemIndex) }
                                     onMouseEnter={ () => handleOnMouseEnter(item, itemIndex) }
@@ -237,21 +229,21 @@ const SearchBar = ({ lastNote, setCurrentNote, setNoteTitle, setMenuStatus, note
                             ))
 
                             :
-                            
+
                             <div className="search-result-default-page">
 
-                            {!isLoading &&
-                            <>
-                                <i className="bi bi-emoji-frown-fill"></i>
-                                <p>No notes found.</p>
-                            </>
-                            }
+                                { !isLoading &&
+                                    <>
+                                        <i className="bi bi-emoji-frown-fill"></i>
+                                        <p>No notes found.</p>
+                                    </>
+                                }
 
-            </div>
+                            </div>
 
                 }
 
-        </div>
+            </div>
 
         </div >
 

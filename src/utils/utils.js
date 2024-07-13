@@ -169,6 +169,7 @@ export const simplePatchCall = (obj) => {
 
 };
 
+
 export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
 
     if (lastNote.noteID) /* if this isn't the first note that got clicked on */ {
@@ -196,11 +197,11 @@ export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
  * @param {Function} setCurrentNote 
  * @param {Function} setNoteTitle 
  */
-export const switchNote = (currentNoteObj, noteTitle, setCurrentNote, setNoteTitle, setMenuStatus) => {
+export const switchNote = (note, setCurrentNote, setNoteTitle, setMenuStatus) => {
 
-    setCurrentNote(currentNoteObj);
+    setCurrentNote({ noteID: note.noteID, folderName: note.folderName, folderID: note.folderID });
 
-    setNoteTitle(noteTitle);
+    setNoteTitle(note.title);
 
     setMenuStatus((menustatus) => {
 
