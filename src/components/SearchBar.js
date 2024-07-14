@@ -29,7 +29,7 @@ const SearchBar = ({ handleNoteClick }) => {
 
         try {
 
-            const response = await fetch(URL + "?search=" + string, {
+            const response = await fetch(URL + "?search=" + encodeURIComponent(string), {
 
                 method: "GET",
                 credentials: "include",

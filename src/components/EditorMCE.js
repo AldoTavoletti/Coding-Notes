@@ -133,15 +133,6 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
                     });
 
-                    editor.on('remove', () => {
-
-                        // save content changes in db (fired only if the user unfocuses from the editor, it gets executed only if the editor's content is different from the last one saved)
-
-                        // simplePatchCall({ content: content.current, noteID: currentID.current });
-
-
-                    });
-
 
                 },
                 mobile: {
