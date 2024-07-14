@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { URL } from "../utils/utils";
+import { URL, debounce } from "../utils/utils";
 
 
 const SearchBar = ({ handleNoteClick }) => {
@@ -9,7 +9,6 @@ const SearchBar = ({ handleNoteClick }) => {
 
     //the content of the searchbar
     const [inputContent, setInputContent] = useState("");
-
 
     //? the itemIndex contains the index of the note in the search result, NOT in the folder. The other properties are the ones that are returned by the AJAX call in the getResult function.
     const [selectedNote, setSelectedNote] = useState({ noteID: null, title: null, folderID: null, folderName: null, itemIndex: null });
@@ -34,7 +33,6 @@ const SearchBar = ({ handleNoteClick }) => {
 
                 method: "GET",
                 credentials: "include",
-
             });
 
             if (!response.ok) {
@@ -42,12 +40,12 @@ const SearchBar = ({ handleNoteClick }) => {
             }
 
             const data = await response.json();
-
             return data;
 
         } catch (e) {
 
-            console.log(e);
+            
+                console.log(e);
 
         }
     };
@@ -60,13 +58,14 @@ const SearchBar = ({ handleNoteClick }) => {
 
         if (value === "") return setResult([]);
 
+
         setIsLoading(true);
 
         const currentResult = await getResult(value);
-
-        setResult(currentResult);
-
-        setSelectedNote({ ...currentResult[0], itemIndex: 0 });
+            
+            setResult(currentResult);
+            
+            setSelectedNote({ ...currentResult[0], itemIndex: 0 });
 
         /*
         if you are hovering on an item, than update the research, and in the point where you left the pointer there is no element anymore, the isHovering would still be true even if no item is being hovered.
@@ -81,12 +80,12 @@ const SearchBar = ({ handleNoteClick }) => {
      * 
      * @param {String} value the searchbar content 
      */
-    const handleOnChange = (value) => {
+    const handleOnChange = debounce((value) => {
 
         setInputContent(value);
         fetchResult(value);
 
-    };
+    });
 
     const handleOnFocus = () => {
 

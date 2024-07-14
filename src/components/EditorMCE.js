@@ -15,6 +15,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
     const content = useRef(null);
     const [isReady, setIsReady] = useState(false);
 
+
     // retrieve data relative to the currentNote
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading, error, mutate } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher, { revalidateOnFocus: false });
@@ -67,25 +68,15 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                         if (content.current !== editor.getContent()) {
 
 
-                            let controller = new AbortController();
-
                             const patchPromise = new Promise((resolve, reject) => {
-
-                                const abortListener = ({ target }) => {
-                                    controller.signal.removeEventListener('abort', abortListener);
-                                    reject(target.reason);
-                                };
-                                controller.signal.addEventListener('abort', abortListener);
 
                                 simplePatchCall({ content: editor.getContent(), noteID: currentNote.noteID });
                                 content.current = editor.getContent();
 
                                 resolve('Success');
 
-
                             });
 
-                            controller.abort('cancelled reason'); 
 
                             toast.promise(patchPromise, {
 
@@ -94,9 +85,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                                 error: "The content hasn't been saved."
 
                             }).catch(error => {
-                                if (error === 'Operation aborted') {
-                                    toast.error('Previous operation was aborted');
-                                }
+                               console.log(error);
                             });;
 
                         }

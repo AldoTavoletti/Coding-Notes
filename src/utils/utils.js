@@ -156,7 +156,7 @@ export const simplePatchCall = (obj) => {
         return res.json();
 
     }).then((data) => {
-
+        console.log(data);
         return true;
 
     }).catch(err => {
@@ -168,6 +168,14 @@ export const simplePatchCall = (obj) => {
 
 
 };
+
+export function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+}
 
 
 export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
