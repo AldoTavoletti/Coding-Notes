@@ -2,6 +2,7 @@ import { simplePatchCall, debounce } from "../utils/utils";
 
 const Title = ({ note, currentNote, setNoteTitle, isLoading, isValidating, noteTitle }) => {
 
+
     const handleOnInput = debounce((value) => {
 
         simplePatchCall({ noteID: currentNote.noteID, title: value });

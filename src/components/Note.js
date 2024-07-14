@@ -23,6 +23,7 @@ const Note = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, note,
     useEffect(() => {
         // set the current note to be the last note visited
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
+        
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentNote]);
