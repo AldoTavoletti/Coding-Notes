@@ -5,11 +5,17 @@ const Title = ({ note, currentNote, setNoteTitle, isLoading, isValidating, noteT
 
     const currentID = useRef(null);
 
-    const handleOnInput = useCallback(debounce((value) => {
+    const debouncedSave = debounce((value) => {
 
         simplePatchCall({ noteID: currentID.current, title: value });
 
-    }),[]);
+    });
+    const handleOnInput = useCallback((value) => {
+        currentID.current = currentNote.noteID;
+        setNoteTitle(value);
+        debouncedSave(value);
+
+    }, [debouncedSave, currentNote.noteID, setNoteTitle]);
 
     return (
 
@@ -23,14 +29,7 @@ const Title = ({ note, currentNote, setNoteTitle, isLoading, isValidating, noteT
                 data-placeholder="Title..."
                 spellCheck="false"
                 className="header--note__title"
-                onInput={ (e)=>{
-                    currentID.current = currentNote.noteID;
-                    setNoteTitle(e.currentTarget.innerText);
-
-                    handleOnInput(e.currentTarget.innerText);
-                }
-                
-                }
+                onInput={ (e) => handleOnInput(e.currentTarget.innerText) }
             >{ note.title }</p>
         </div>
     );
