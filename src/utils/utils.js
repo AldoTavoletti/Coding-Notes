@@ -156,7 +156,7 @@ export const simplePatchCall = (obj, resolve=null) => {
         return res.json();
 
     }).then((data) => {
-        console.log(data);
+        console.log(data, obj);
         if (resolve !== null) {
             resolve("success");
         }

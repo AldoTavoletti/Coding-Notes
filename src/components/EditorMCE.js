@@ -15,6 +15,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
     const content = useRef(null);
     const [isReady, setIsReady] = useState(false);
 
+    const currentID = useRef(null);
 
     // retrieve data relative to the currentNote
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -54,8 +55,26 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     );
 
-    // the content ref is set here cause note is undefined before useSWR
-    content.current = note.content;
+    const handleInput= debounce(()=>{
+
+        const patchPromise = new Promise((resolve, reject) => {
+
+            simplePatchCall({ content: content.current, noteID: currentID.current }, resolve);
+
+        });
+
+
+        toast.promise(patchPromise, {
+
+            pending: "Saving content...",
+            success: "Content saved!",
+            error: "The content hasn't been saved."
+
+        }).catch(error => {
+            console.log(error);
+        })
+
+    },500);
 
     return (
         <Editor
@@ -64,38 +83,21 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
             init={ {
                 setup: (editor) => {
 
-                    editor.on('input', debounce(() => {
 
-                        if (content.current !== editor.getContent()) {
+                    editor.on('input', () => {
+                        
+                        content.current = editor.getContent();
+                        currentID.current = currentNote.noteID;
 
-
-                            const patchPromise = new Promise((resolve, reject) => {
-
-                                simplePatchCall({ content: editor.getContent(), noteID: currentNote.noteID }, resolve);
-                                content.current = editor.getContent();
-
-
-                            });
-
-
-                            toast.promise(patchPromise, {
-
-                                pending: "Saving content...",
-                                success: "Content saved!",
-                                error: "The content hasn't been saved."
-
-                            }).catch(error => {
-                                console.log(error);
-                            }
-                            , 500);
-
-                        }
-
-                    }));
+                        handleInput();
+                    
+                        });
+                    
 
                     editor.on("preinit", () => {
                         // before the note gets initialized, change the data-theme attribute of the iframe' contentDocument's body, so that css style changes according to the theme
                         document.querySelector('iframe').contentDocument.body.setAttribute("light-theme", document.body.getAttribute("light-theme"));
+
 
                     });
 
@@ -131,16 +133,12 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
                     });
 
-                    editor.on('change', (e) => {
+                    editor.on('remove', () => {
 
                         // save content changes in db (fired only if the user unfocuses from the editor, it gets executed only if the editor's content is different from the last one saved)
-                        if (content.current !== editor.getContent()) {
 
-                            simplePatchCall({ content: editor.getContent(), noteID: currentNote.noteID });
+                        // simplePatchCall({ content: content.current, noteID: currentID.current });
 
-                            // save the content in the ref variable
-                            content.current = editor.getContent();
-                        }
 
                     });
 
