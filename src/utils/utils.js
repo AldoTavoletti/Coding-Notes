@@ -140,7 +140,7 @@ export const openMenu = (e, setMethod, element) => {
  * @note used to make patch calls 
  * @firedby (ex: when changing the content of a note or reordering folders)
  */
-export const simplePatchCall = (obj) => {
+export const simplePatchCall = (obj, resolve=null) => {
 
     fetch(URL, {
 
@@ -157,6 +157,9 @@ export const simplePatchCall = (obj) => {
 
     }).then((data) => {
         console.log(data);
+        if (resolve !== null) {
+            resolve("success");
+        }
         return true;
 
     }).catch(err => {

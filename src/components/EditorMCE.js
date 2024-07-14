@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import useSWR from "swr";
 import { URL } from "../utils/utils";
-import { simplePatchCall } from "../utils/utils";
+import { simplePatchCall, debounce } from "../utils/utils";
 import "../prism/prism.css";
 import "../prism/prism";
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,13 +36,13 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
     }, []);
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
         // this mutate makes sure content can't get duplicated between notes (sometimes it)
         mutate();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[currentNote]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentNote]);
 
     if (error) return (<div></div>);
     if (!note || isLoading || isValidating || !isReady) return (
@@ -56,7 +56,7 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     // the content ref is set here cause note is undefined before useSWR
     content.current = note.content;
-    
+
     return (
         <Editor
             tinymceScriptSrc='/tinymce/tinymce.min.js'
@@ -64,16 +64,16 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
             init={ {
                 setup: (editor) => {
 
-                    editor.on('storeDraft', (e) => {
+                    editor.on('input', debounce(() => {
+
                         if (content.current !== editor.getContent()) {
 
 
                             const patchPromise = new Promise((resolve, reject) => {
 
-                                simplePatchCall({ content: editor.getContent(), noteID: currentNote.noteID });
+                                simplePatchCall({ content: editor.getContent(), noteID: currentNote.noteID }, resolve);
                                 content.current = editor.getContent();
 
-                                resolve('Success');
 
                             });
 
@@ -85,12 +85,13 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                                 error: "The content hasn't been saved."
 
                             }).catch(error => {
-                               console.log(error);
-                            });;
+                                console.log(error);
+                            }
+                            , 500);
 
                         }
 
-                    });
+                    }));
 
                     editor.on("preinit", () => {
                         // before the note gets initialized, change the data-theme attribute of the iframe' contentDocument's body, so that css style changes according to the theme
@@ -155,16 +156,13 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                 menubar: true,
                 toolbar_sticky: true, // makes the toolbar sticky when scrolling, it's a little buggy but I handled it
                 ui_mode: "split", // without this toolbar_sticky doesn't work
-                autosave_interval: "2s",
-                autosave_retention: '1m', //not working i think
                 contextmenu: false, // if this is true, when pressing the right button a toolbar with the "link" option would appear
-                autosave_prefix: 'tinymce-autosave-' + note.noteID,
                 fullscreen_native: true,
                 skin: localStorage.getItem("light-theme") ? "oxide" : "oxide-dark", //makes the codesample and the menu's text color right
                 autosave_ask_before_unload: true, // let the user know that if he tries to close the browser and the content hasn't been saved yet, it could be lost. Sometimes it doesn't work but rarely.
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                    'searchreplace', 'insertdatetime', 'media', 'table', 'wordcount', 'autosave', 'autoresize', 'codesample', 'quickbars', 'accordion', 'fullscreen'
+                    'searchreplace', 'insertdatetime', 'media', 'table', 'wordcount', 'autoresize', 'codesample', 'quickbars', 'accordion', 'fullscreen'
                 ],
                 toolbar: 'undo redo | fontsize  |' +
                     'bold italic forecolor backcolor codesample | alignleft aligncenter ' +
