@@ -201,8 +201,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
             switchNote
                 (
-                    { noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID },
-                    noteTitleModal,
+                    { noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID, title:noteTitleModal },
                     setCurrentNote,
                     setNoteTitle,
                     setMenuStatus

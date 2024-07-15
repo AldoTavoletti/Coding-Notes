@@ -1,4 +1,4 @@
-import { getContrastColor, openMenu, folderColors } from "../utils/utils";
+import { getContrastColor, openMenu, folderColors, simplePatchCall } from "../utils/utils";
 import Note from "./Note";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -6,7 +6,25 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-const Folder = ({ lastNote, setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+
+import {
+    closestCorners,
+    DndContext,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    arrayMove
+} from '@dnd-kit/sortable';
+
+import {
+    sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
 
     const {
         attributes,
@@ -14,12 +32,31 @@ const Folder = ({ lastNote, setMenuStatus, folder, folders, folderIndex, setModa
         setNodeRef,
         transform,
         transition,
-    } = useSortable({ id: folder.folderID });
+        setActivatorNodeRef
+    } = useSortable({ id: folder.folderID+"-folder" });
 
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
     };
+
+    const sensors = useSensors(
+        useSensor(MouseSensor, {
+            activationConstraint: { distance: 5 }
+
+        }),
+        useSensor(TouchSensor, {
+
+            activationConstraint: { distance: 5 }
+
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    console.log(transition);
+
 
     const handleOnMouseUp = (e) => {
 
@@ -31,6 +68,44 @@ const Folder = ({ lastNote, setMenuStatus, folder, folders, folderIndex, setModa
             e.target.setAttribute("data-bs-toggle", "collapse");
 
         }, 1);
+
+
+    };
+
+    const handleDragEnd = (e) => {
+        const { active, over } = e;
+        active.id = parseInt(active.id);
+        over.id = parseInt(over.id);
+
+                let note = e.activatorEvent.target;
+                while (!note.classList.contains("note-list__note")) {
+                    note = note.parentElement;
+                }
+
+
+                const parentFolder = folders[note.getAttribute("parent-folder-index")];
+
+
+                const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
+                const newIndex = parentFolder.notes.findIndex((note) => note.noteID === over.id);
+                parentFolder.notes = arrayMove(parentFolder.notes, oldIndex, newIndex);
+
+                const index = folders.findIndex((folder) => folder.folderID === parentFolder.folderID);
+                const newFolders = folders.map((folder, i) => {
+
+                    if (i === index) {
+                        return parentFolder;
+                    }
+                    return folder;
+
+                });
+
+
+                setFolders(() => {
+                    simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: parentFolder.folderID });
+
+                    return newFolders;
+                });
 
 
     };
@@ -52,7 +127,7 @@ const Folder = ({ lastNote, setMenuStatus, folder, folders, folderIndex, setModa
                 <h2 className="accordion-header">
 
 
-                    <button { ...attributes } { ...listeners } drag-element="folder" onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                    <button ref={setActivatorNodeRef} { ...attributes } { ...listeners } drag-element="folder" onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                         <span data-bs-target={ "#collapse" + folderIndex } drag-element="folder" className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
                             drag-element="folder"
@@ -67,19 +142,23 @@ const Folder = ({ lastNote, setMenuStatus, folder, folders, folderIndex, setModa
 
                 <div id={ "collapse" + folderIndex } className="accordion-collapse collapse" data-bs-parent={ "#accordion" + folderIndex }>
 
-                    <div id={"accordion-body-" + folder.folderID} style={{backgroundColor:folderColors[folder.color].secondary}}className="accordion-body">
+                    <div id={"accordion-body-" + folder.folderID} style={{backgroundColor:folderColors[folder.color].secondary}} className="accordion-body">
 
                         { folder.notes.length > 0 ?
                             (
-                                <SortableContext items={ folder.notes.map(note => note.noteID) } strategy={ verticalListSortingStrategy }>
+                                <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } sensors={ sensors }>
+
+                                <SortableContext items={ folder.notes.map(note => note.noteID + "-note") } strategy={ verticalListSortingStrategy }>
 
                                     { folder.notes.map((note) => (
 
-                                        <Note lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+                                        <Note setFolders={setFolders} handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
 
                                     )) }
 
                                 </SortableContext>
+            </DndContext>
+
                             )
 
                             :

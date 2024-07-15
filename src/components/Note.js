@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { getContrastColor, openMenu, folderColors, switchNote, saveLastNoteTitle } from "../utils/utils";
+import { getContrastColor, openMenu, folderColors } from "../utils/utils";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const Note = ({ lastNote, setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+const Note = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
     
 
     const {
@@ -11,35 +11,19 @@ const Note = ({ lastNote, setMenuStatus, folder, folders, note, folderIndex, set
         listeners,
         setNodeRef,
         transform,
-        transition,
-    } = useSortable({ id: note.noteID});
+        transition
+    } = useSortable({ id: note.noteID+"-note" });
 
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
     };
+    
 
-    /**
-     * @param {Object} note 
-     * @param {String} folderName 
-     */
-    const handleNoteClick = (note, folderName) => {
-
-        saveLastNoteTitle(lastNote.current, folders, noteTitle);
-
-        switchNote
-        (
-            { noteID: note.noteID, folderName: folderName, folderID: note.folderID },
-            note.title, 
-            setCurrentNote, 
-            setNoteTitle, 
-            setMenuStatus
-        );
-
-    };
     useEffect(() => {
         // set the current note to be the last note visited
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
+        
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentNote]);
@@ -49,7 +33,7 @@ const Note = ({ lastNote, setMenuStatus, folder, folders, note, folderIndex, set
     return (
 
         <div
-            onClick={ (e) => handleNoteClick(note, folder.folderName) } //open the note
+            onClick={ (e) => handleNoteClick({...note,folderName:folder.folderName}) } //open the note
             onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note) } // open the menu to delete the note 
             className="note-list__note"
             id={"note"+ note.noteID}           
