@@ -140,7 +140,7 @@ export const openMenu = (e, setMethod, element) => {
  * @note used to make patch calls 
  * @firedby (ex: when changing the content of a note or reordering folders)
  */
-export const simplePatchCall = (obj) => {
+export const simplePatchCall = (obj, resolve=null) => {
 
     fetch(URL, {
 
@@ -156,7 +156,10 @@ export const simplePatchCall = (obj) => {
         return res.json();
 
     }).then((data) => {
-
+        
+        if (resolve !== null) {
+            resolve("success");
+        }
         return true;
 
     }).catch(err => {
@@ -168,6 +171,15 @@ export const simplePatchCall = (obj) => {
 
 
 };
+
+export function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+}
+
 
 export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
 
@@ -196,11 +208,11 @@ export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
  * @param {Function} setCurrentNote 
  * @param {Function} setNoteTitle 
  */
-export const switchNote = (currentNoteObj, noteTitle, setCurrentNote, setNoteTitle, setMenuStatus) => {
+export const switchNote = (note, setCurrentNote, setNoteTitle, setMenuStatus) => {
 
-    setCurrentNote(currentNoteObj);
+    setCurrentNote({ noteID: note.noteID, folderName: note.folderName, folderID: note.folderID });
 
-    setNoteTitle(noteTitle);
+    setNoteTitle(note.title);
 
     setMenuStatus((menustatus) => {
 

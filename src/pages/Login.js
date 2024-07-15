@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { URL, setDarkMode } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = ({ setIsLoggedIn }) => {
 
@@ -376,7 +375,7 @@ const Login = ({ setIsLoggedIn }) => {
                     <span
                         className="password-toggle-icon"
                         onClick={ () => togglePassword(setShowPassword1, showPassword1) }
-                    >{ showPassword1 ? <FaEyeSlash /> : <FaEye /> }</span>
+                    ><i className={ showPassword1 ? "bi bi-eye-slash-fill" : "bi bi-eye-fill"}></i></span>
                 </div>
                 <div className={ `conditions-container ${wantsLogin && "disappear"}` }>
                     {/* the condition (8 char long) */ }
@@ -411,7 +410,7 @@ const Login = ({ setIsLoggedIn }) => {
                         <span
                             className="password-toggle-icon"
                             onClick={ () => togglePassword(setShowPassword2, showPassword2) }
-                        >{ showPassword2 ? <FaEyeSlash /> : <FaEye /> }</span> }
+                        ><i className={ showPassword2 ? "bi bi-eye-slash-fill" : "bi bi-eye-fill" }></i></span> }
 
                 </div>
 

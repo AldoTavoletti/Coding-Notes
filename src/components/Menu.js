@@ -41,6 +41,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const [folders, setFolders] = useState([]);
 
+    
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
@@ -117,10 +118,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const handleDragEnd = (e) => {
         const { active, over } = e;
+        active.id = parseInt(active.id);
+        over.id = parseInt(over.id);
+
         if (active && over && active.id !== over.id) {
 
-            // the drag-element attribute is used to distinguish folders from notes
-            if (e.activatorEvent.target.getAttribute("drag-element") === "folder") {
                 const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
                 const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
 
@@ -131,42 +133,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                     return arrayMove(folders, oldIndex, newIndex);
                 });
 
-            } else {
-                let note = e.activatorEvent.target;
-                while (!note.classList.contains("note-list__note")) {
-                    note = note.parentElement;
-                }
-                
-
-                const parentFolder = folders[note.getAttribute("parent-folder-index")];
-
-                console.log(parentFolder);
-                console.log(note);
-
-
-                const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
-                const newIndex = parentFolder.notes.findIndex((note) => note.noteID === over.id);
-                parentFolder.notes = arrayMove(parentFolder.notes, oldIndex, newIndex);
-
-                const index = folders.findIndex((folder) => folder.folderID === parentFolder.folderID);
-                const newFolders = folders.map((folder, i) => {
-
-                    if (i === index) {
-                        return parentFolder;
-                    }
-                    return folder;
-
-                });
-
-
-                setFolders(() => {
-                    simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: parentFolder.folderID });
-
-                    return newFolders;
-                });
-
-
-            }
         }
     };
 
@@ -176,7 +142,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
      */
     const handleDragStart = (e) => {
 
-        const collapseButton = document.getElementById("collapseButton" + e.active.id);
+        const collapseButton = document.getElementById("collapseButton" + parseInt(e.active.id));
 
         if (collapseButton)/* if a folder is being dragged */ {
 
@@ -266,7 +232,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
-                <NoteList folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+                <NoteList setFolders={setFolders} folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
 
             </DndContext>
 

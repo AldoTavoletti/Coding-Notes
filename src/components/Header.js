@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { URL, simplePatchCall, logout } from "../utils/utils";
+import { useRef } from "react";
+import { URL, logout } from "../utils/utils";
 import useSWR from "swr";
 import Title from "./Title";
 const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
@@ -12,11 +12,7 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher);
 
-    useEffect(() => {
 
-        note && simplePatchCall({ noteID: currentNote.noteID, title: noteTitle });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [noteTitle]);
 
     
 
