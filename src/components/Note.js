@@ -37,7 +37,6 @@ const Note = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, fo
             onContextMenu={ (e) => openMenu(e, setContextMenuInfo, note) } // open the menu to delete the note 
             className="note-list__note"
             id={"note"+ note.noteID}           
-            parent-folder-index={folderIndex}
             ref={ setNodeRef }
             { ...attributes }
             { ...listeners }

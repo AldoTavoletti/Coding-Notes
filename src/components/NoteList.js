@@ -70,7 +70,7 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
             const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
             const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
-            
+
             setTimeout(() => {
 
                 // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
@@ -81,6 +81,10 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
             setFolders((folders) => {
 
                 simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
+
+                folders[oldIndex].folderIndex = newIndex + 1;
+                folders[newIndex].folderIndex = oldIndex + 1;
+
                 return arrayMove(folders, oldIndex, newIndex);
             });
 

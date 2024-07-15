@@ -58,43 +58,32 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
 
 
 
-        
+
 
 
 
     const handleDragEnd = (e) => {
         const { active, over } = e;
 
-                let note = e.activatorEvent.target;
-                while (!note.classList.contains("note-list__note")) {
-                    note = note.parentElement;
-                    console.log("hello");
-                }
+
+        const oldIndex = folder.notes.findIndex((note) => note.noteID === active.id);
+        const newIndex = folder.notes.findIndex((note) => note.noteID === over.id);
+        folder.notes = arrayMove(folder.notes, oldIndex, newIndex);
+        const newFolders = folders.map((item, i) => {
+
+            if (i === folder.folderIndex - 1) {
+                return folder;
+            }
+            return item;
+
+        });
 
 
-                const parentFolder = folders[note.getAttribute("parent-folder-index")];
+        setFolders(() => {
+            simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: folder.folderID });
 
-
-                const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
-                const newIndex = parentFolder.notes.findIndex((note) => note.noteID === over.id);
-                parentFolder.notes = arrayMove(parentFolder.notes, oldIndex, newIndex);
-
-                const index = folders.findIndex((folder) => folder.folderID === parentFolder.folderID);
-                const newFolders = folders.map((folder, i) => {
-
-                    if (i === index) {
-                        return parentFolder;
-                    }
-                    return folder;
-
-                });
-
-
-                setFolders(() => {
-                    simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: parentFolder.folderID });
-
-                    return newFolders;
-                });
+            return newFolders;
+        });
 
 
     };
@@ -108,7 +97,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
             id={ "accordion" + folderIndex }
             ref={ setNodeRef }
             style={ style }
-            
+
         >
 
             <div className="accordion-item">
@@ -116,7 +105,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
                 <h2 className="accordion-header">
 
 
-                    <button ref={setActivatorNodeRef} { ...attributes } { ...listeners } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                    <button ref={ setActivatorNodeRef } { ...attributes } { ...listeners } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                         <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
                             className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
@@ -130,22 +119,22 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
 
                 <div id={ "collapse" + folderIndex } className="accordion-collapse collapse" data-bs-parent={ "#accordion" + folderIndex }>
 
-                    <div id={"accordion-body-" + folder.folderID} style={{backgroundColor:folderColors[folder.color].secondary}} className="accordion-body">
+                    <div id={ "accordion-body-" + folder.folderID } style={ { backgroundColor: folderColors[folder.color].secondary } } className="accordion-body">
 
                         { folder.notes.length > 0 ?
                             (
                                 <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } sensors={ sensors }>
 
-                                <SortableContext items={ folder.notes.map(note => note.noteID) } strategy={ verticalListSortingStrategy }>
+                                    <SortableContext items={ folder.notes.map(note => note.noteID) } strategy={ verticalListSortingStrategy }>
 
-                                    { folder.notes.map((note) => (
+                                        { folder.notes.map((note) => (
 
-                                        <Note setFolders={setFolders} handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+                                            <Note setFolders={ setFolders } handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
 
-                                    )) }
+                                        )) }
 
-                                </SortableContext>
-            </DndContext>
+                                    </SortableContext>
+                                </DndContext>
 
                             )
 
