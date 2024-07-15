@@ -80,6 +80,11 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
 
 
         setFolders(() => {
+
+            folder.notes[oldIndex].noteIndex = newIndex+1;
+            folder.notes[newIndex].noteIndex = oldIndex + 1;
+
+
             simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: folder.folderID });
 
             return newFolders;
