@@ -44,8 +44,8 @@ const SearchBar = ({ handleNoteClick }) => {
 
         } catch (e) {
 
-            
-                console.log(e);
+
+            console.log(e);
 
         }
     };
@@ -62,10 +62,10 @@ const SearchBar = ({ handleNoteClick }) => {
         setIsLoading(true);
 
         const currentResult = await getResult(value);
-            
-            setResult(currentResult);
-            
-            setSelectedNote({ ...currentResult[0], itemIndex: 0 });
+
+        setResult(currentResult);
+
+        setSelectedNote({ ...currentResult[0], itemIndex: 0 });
 
         /*
         if you are hovering on an item, than update the research, and in the point where you left the pointer there is no element anymore, the isHovering would still be true even if no item is being hovered.
@@ -169,6 +169,8 @@ const SearchBar = ({ handleNoteClick }) => {
         }
 
     };
+
+
 
     return (
         <div className="search-container" onKeyDown={ handleOnKeyDown }>

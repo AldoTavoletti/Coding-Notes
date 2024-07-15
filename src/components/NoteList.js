@@ -39,7 +39,7 @@ const NoteList = ({ folders, currentNote, setCurrentNote, menuStatus, setMenuSta
 
                     <SearchBar handleNoteClick={handleNoteClick} />
 
-                    <SortableContext items={ folders.map(folder=>folder.folderID) } strategy={ verticalListSortingStrategy }>
+                    <SortableContext items={ folders.map(folder=>folder.folderID+"-folder") } strategy={ verticalListSortingStrategy }>
 
                         { folders && folders.map((folder, folderIndex) => (
 

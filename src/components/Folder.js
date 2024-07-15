@@ -14,12 +14,16 @@ const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, fol
         setNodeRef,
         transform,
         transition,
-    } = useSortable({ id: folder.folderID });
+        setActivatorNodeRef
+    } = useSortable({ id: folder.folderID+"-folder" });
 
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
     };
+
+    console.log(transition);
+
 
     const handleOnMouseUp = (e) => {
 
@@ -35,6 +39,7 @@ const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, fol
 
     };
 
+    
 
     return (
 
@@ -52,7 +57,7 @@ const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, fol
                 <h2 className="accordion-header">
 
 
-                    <button { ...attributes } { ...listeners } drag-element="folder" onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                    <button ref={setActivatorNodeRef} { ...attributes } { ...listeners } drag-element="folder" onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
                         <span data-bs-target={ "#collapse" + folderIndex } drag-element="folder" className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
                             drag-element="folder"
@@ -67,11 +72,11 @@ const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, fol
 
                 <div id={ "collapse" + folderIndex } className="accordion-collapse collapse" data-bs-parent={ "#accordion" + folderIndex }>
 
-                    <div id={"accordion-body-" + folder.folderID} style={{backgroundColor:folderColors[folder.color].secondary}}className="accordion-body">
+                    <div id={"accordion-body-" + folder.folderID} style={{backgroundColor:folderColors[folder.color].secondary}} className="accordion-body">
 
                         { folder.notes.length > 0 ?
                             (
-                                <SortableContext items={ folder.notes.map(note => note.noteID) } strategy={ verticalListSortingStrategy }>
+                                <SortableContext items={ folder.notes.map(note => note.noteID + "-note") } strategy={ verticalListSortingStrategy }>
 
                                     { folder.notes.map((note) => (
 

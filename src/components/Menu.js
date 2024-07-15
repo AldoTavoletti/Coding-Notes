@@ -118,6 +118,9 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     const handleDragEnd = (e) => {
         const { active, over } = e;
+        active.id = parseInt(active.id);
+        over.id = parseInt(over.id);
+        
         if (active && over && active.id !== over.id) {
 
             // the drag-element attribute is used to distinguish folders from notes
@@ -140,9 +143,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 
 
                 const parentFolder = folders[note.getAttribute("parent-folder-index")];
-
-                console.log(parentFolder);
-                console.log(note);
 
 
                 const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
@@ -177,7 +177,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
      */
     const handleDragStart = (e) => {
 
-        const collapseButton = document.getElementById("collapseButton" + e.active.id);
+        const collapseButton = document.getElementById("collapseButton" + parseInt(e.active.id));
 
         if (collapseButton)/* if a folder is being dragged */ {
 

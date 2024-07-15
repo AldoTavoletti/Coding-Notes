@@ -11,15 +11,15 @@ const Note = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, note,
         listeners,
         setNodeRef,
         transform,
-        transition,
-    } = useSortable({ id: note.noteID});
+        transition
+    } = useSortable({ id: note.noteID+"-note" });
 
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
     };
+    
 
-   
     useEffect(() => {
         // set the current note to be the last note visited
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };

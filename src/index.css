@@ -336,12 +336,12 @@ body {
     display: flex;
     flex-direction: column;
     width: 90%;
-    padding-block: 0.5em;
+    padding: 0.5em 0 0.5em 0;
     /* i gotta set max-height for animation reasons, the value can't be too hight cause animation would be too fast. Anyway it doesn't cause problems */
     max-height: 200px;
     /* this transition is used when switching to sign up */
     transition: opacity .4s .25s ease,
-        max-height .4s ease;
+        max-height .4s ease, padding .4s ease;
 }
 
 .password-condition {
@@ -405,8 +405,9 @@ body {
 .disappear {
     /* this transition is used when switching to login. It overrides the other elements' transition values */
     transition: opacity .4s ease,
-        max-height .4s .25s ease;
+        max-height .4s .25s ease, padding .4s .25s ease;
     max-height: 0;
+    padding: 0;
     z-index: -1;
     opacity: 0;
 }
