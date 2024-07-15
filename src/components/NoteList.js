@@ -62,23 +62,29 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
 
     };
-    
+
     const handleDragEnd = (e) => {
         const { active, over } = e;
-        active.id = parseInt(active.id);
-        over.id = parseInt(over.id);
 
         if (active && over && active.id !== over.id) {
 
             const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
             const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
+            
+            setTimeout(() => {
 
+                // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
+                document.getElementById("collapseButton" + active.id).setAttribute("data-bs-toggle", "collapse");
+
+            }, 1);
 
             setFolders((folders) => {
 
                 simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
                 return arrayMove(folders, oldIndex, newIndex);
             });
+
+
 
         }
     };
@@ -88,8 +94,7 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
      * @param {Event} event 
      */
     const handleDragStart = (e) => {
-
-        const collapseButton = document.getElementById("collapseButton" + parseInt(e.active.id));
+        const collapseButton = document.getElementById("collapseButton" + e.active.id);
 
 
         // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
@@ -105,16 +110,16 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
             <div className="note-list">
 
-                    <SearchBar handleNoteClick={handleNoteClick} />
+                <SearchBar handleNoteClick={ handleNoteClick } />
 
-                    <SortableContext items={ folders.map(folder=>folder.folderID+"-folder") } strategy={ verticalListSortingStrategy }>
+                <SortableContext items={ folders.map(folder => folder.folderID) } strategy={ verticalListSortingStrategy }>
 
-                        { folders && folders.map((folder, folderIndex) => (
+                    { folders && folders.map((folder, folderIndex) => (
 
-                            <Folder setFolders={setFolders} handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ folder.folderID } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
+                        <Folder setFolders={ setFolders } handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ folder.folderID } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
 
-                        )) }
-                    </SortableContext>
+                    )) }
+                </SortableContext>
             </div>
             <ContextMenu folders={ folders } contextMenuInfo={ contextMenuInfo } setModalShowing={ setModalShowing } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setContextMenuInfo={ setContextMenuInfo } />
         </DndContext>

@@ -12,7 +12,7 @@ const Note = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, fo
         setNodeRef,
         transform,
         transition
-    } = useSortable({ id: note.noteID+"-note" });
+    } = useSortable({ id: note.noteID });
 
     const style = {
         transform: CSS.Translate.toString(transform),
@@ -38,7 +38,6 @@ const Note = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, fo
             className="note-list__note"
             id={"note"+ note.noteID}           
             parent-folder-index={folderIndex}
-            drag-element="note"
             ref={ setNodeRef }
             { ...attributes }
             { ...listeners }
@@ -46,7 +45,7 @@ const Note = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, fo
         >
 
             {/* // The note title. If the current note or every other note's title is empty show "Untitled Note"  */ }
-            <p drag-element="note">{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? <span style={ { color: getContrastColor(folderColors[folder.color].primary) + "88" } }>Untitled Note</span> : noteTitle) : (note.title === "" ? <span style={ { color: getContrastColor(folderColors[folder.color].primary)+"88" } }>Untitled Note</span> : note.title) }</p>
+            <p>{ currentNote && (currentNote.noteID === note.noteID) ? (noteTitle === "" ? <span style={ { color: getContrastColor(folderColors[folder.color].primary) + "88" } }>Untitled Note</span> : noteTitle) : (note.title === "" ? <span style={ { color: getContrastColor(folderColors[folder.color].primary)+"88" } }>Untitled Note</span> : note.title) }</p>
 
         </div>
 

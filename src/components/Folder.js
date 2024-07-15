@@ -33,7 +33,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
         transform,
         transition,
         setActivatorNodeRef
-    } = useSortable({ id: folder.folderID+"-folder" });
+    } = useSortable({ id: folder.folderID });
 
     const style = {
         transform: CSS.Translate.toString(transform),
@@ -55,31 +55,20 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
         })
     );
 
-    console.log(transition);
 
 
-    const handleOnMouseUp = (e) => {
 
-        //? i think this event propagates to the folder-title span element
-
-        // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
-        setTimeout(() => {
-
-            e.target.setAttribute("data-bs-toggle", "collapse");
-
-        }, 1);
+        
 
 
-    };
 
     const handleDragEnd = (e) => {
         const { active, over } = e;
-        active.id = parseInt(active.id);
-        over.id = parseInt(over.id);
 
                 let note = e.activatorEvent.target;
                 while (!note.classList.contains("note-list__note")) {
                     note = note.parentElement;
+                    console.log("hello");
                 }
 
 
@@ -127,15 +116,14 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
                 <h2 className="accordion-header">
 
 
-                    <button ref={setActivatorNodeRef} { ...attributes } { ...listeners } drag-element="folder" onMouseUp={ (e) => handleOnMouseUp(e) } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
-                        <span data-bs-target={ "#collapse" + folderIndex } drag-element="folder" className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
+                    <button ref={setActivatorNodeRef} { ...attributes } { ...listeners } id={ "collapseButton" + folder.folderID } className="accordion-button collapsed" style={ { '--border-color': folderColors[folder.color].secondary, backgroundColor: folderColors[folder.color].primary, color: getContrastColor(folderColors[folder.color].primary) } } type="button" data-bs-toggle="collapse" data-bs-target={ "#collapse" + folderIndex } aria-expanded="false" aria-controls="collapseThree">
+                        <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
-                            drag-element="folder"
                             className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
                             onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName }) } //open the note modal
                             style={ { '--hover-color': getContrastColor(folderColors[folder.color].secondary), color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } // set a style variable relative to the note color and set a visible text color 
                         >+</span>
-                        <span drag-element="folder" className="accordion-button__folder-notesnumber" style={ { color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } >{ folder.notes.length }</span>
+                        <span className="accordion-button__folder-notesnumber" style={ { color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } >{ folder.notes.length }</span>
 
                     </button>
                 </h2>
@@ -148,7 +136,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
                             (
                                 <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } sensors={ sensors }>
 
-                                <SortableContext items={ folder.notes.map(note => note.noteID + "-note") } strategy={ verticalListSortingStrategy }>
+                                <SortableContext items={ folder.notes.map(note => note.noteID) } strategy={ verticalListSortingStrategy }>
 
                                     { folder.notes.map((note) => (
 

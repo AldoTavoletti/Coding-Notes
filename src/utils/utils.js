@@ -147,7 +147,7 @@ export const collapseFolders = () => {
 
 
     for (let i = 0; i < n; i++) {
-
+        console.log(accordionButtons, accordionCollapseDivs);
         // collapse the folder
         accordionCollapseDivs[i].classList.remove("show");
 
