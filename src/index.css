@@ -1415,7 +1415,6 @@ body {
     --bs-accordion-bg: transparent;
     --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-
 }
 
 .accordion__white-svg {
@@ -1494,7 +1493,7 @@ body {
     transition: border-radius 0.15s ease;
 
     /* without this, drag and drop on mobile would have problems (the container would scroll) */
-    touch-action: none;
+    touch-action: manipulation;
 }
 
 .accordion-button:focus {

@@ -31,7 +31,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
         }),
         useSensor(TouchSensor, {
 
-            activationConstraint: { distance: 5 }
+            activationConstraint: { delay:500,tolerance:5 }
 
         }),
         useSensor(KeyboardSensor, {
@@ -144,7 +144,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
         const collapseButton = document.getElementById("collapseButton" + parseInt(e.active.id));
 
-        if (collapseButton)/* if a folder is being dragged */ {
 
             // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
             collapseButton.removeAttribute("data-bs-toggle");
@@ -153,7 +152,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
             collapseFolders();
 
-        }
     };
 
     return (

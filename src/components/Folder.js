@@ -47,7 +47,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
         }),
         useSensor(TouchSensor, {
 
-            activationConstraint: { distance: 5 }
+            activationConstraint: { delay: 500, tolerance: 5 }
 
         }),
         useSensor(KeyboardSensor, {
