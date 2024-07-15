@@ -1,4 +1,4 @@
-import { getContrastColor, openMenu, folderColors } from "../utils/utils";
+import { getContrastColor, openMenu, folderColors, simplePatchCall } from "../utils/utils";
 import Note from "./Note";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -6,7 +6,25 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+
+import {
+    closestCorners,
+    DndContext,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    arrayMove
+} from '@dnd-kit/sortable';
+
+import {
+    sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
 
     const {
         attributes,
@@ -21,6 +39,21 @@ const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, fol
         transform: CSS.Translate.toString(transform),
         transition,
     };
+
+    const sensors = useSensors(
+        useSensor(MouseSensor, {
+            activationConstraint: { distance: 5 }
+
+        }),
+        useSensor(TouchSensor, {
+
+            activationConstraint: { distance: 5 }
+
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     console.log(transition);
 
@@ -39,7 +72,44 @@ const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, fol
 
     };
 
-    
+    const handleDragEnd = (e) => {
+        const { active, over } = e;
+        active.id = parseInt(active.id);
+        over.id = parseInt(over.id);
+
+                let note = e.activatorEvent.target;
+                while (!note.classList.contains("note-list__note")) {
+                    note = note.parentElement;
+                }
+
+
+                const parentFolder = folders[note.getAttribute("parent-folder-index")];
+
+
+                const oldIndex = parentFolder.notes.findIndex((note) => note.noteID === active.id);
+                const newIndex = parentFolder.notes.findIndex((note) => note.noteID === over.id);
+                parentFolder.notes = arrayMove(parentFolder.notes, oldIndex, newIndex);
+
+                const index = folders.findIndex((folder) => folder.folderID === parentFolder.folderID);
+                const newFolders = folders.map((folder, i) => {
+
+                    if (i === index) {
+                        return parentFolder;
+                    }
+                    return folder;
+
+                });
+
+
+                setFolders(() => {
+                    simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: parentFolder.folderID });
+
+                    return newFolders;
+                });
+
+
+    };
+
 
     return (
 
@@ -76,15 +146,19 @@ const Folder = ({ handleNoteClick, lastNote, setMenuStatus, folder, folders, fol
 
                         { folder.notes.length > 0 ?
                             (
+                                <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } sensors={ sensors }>
+
                                 <SortableContext items={ folder.notes.map(note => note.noteID + "-note") } strategy={ verticalListSortingStrategy }>
 
                                     { folder.notes.map((note) => (
 
-                                        <Note handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+                                        <Note setFolders={setFolders} handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
 
                                     )) }
 
                                 </SortableContext>
+            </DndContext>
+
                             )
 
                             :

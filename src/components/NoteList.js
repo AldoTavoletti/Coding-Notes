@@ -10,7 +10,7 @@ import {
 
 import { saveLastNoteTitle, switchNote } from "../utils/utils";
 
-const NoteList = ({ folders, currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
+const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
     // used to settle the title of the last note, after another note has been clicked on
     const lastNote = useRef({ noteID: null, folderID: null });
 
@@ -43,7 +43,7 @@ const NoteList = ({ folders, currentNote, setCurrentNote, menuStatus, setMenuSta
 
                         { folders && folders.map((folder, folderIndex) => (
 
-                            <Folder handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ folder.folderID } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
+                            <Folder setFolders={setFolders} handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ folder.folderID } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
 
                         )) }
                     </SortableContext>
