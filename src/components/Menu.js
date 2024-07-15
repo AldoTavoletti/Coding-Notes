@@ -2,43 +2,13 @@ import NoteList from "./NoteList";
 import { useState } from "react";
 import Theme from "./Theme";
 import useSWR from "swr";
-import { URL, simplePatchCall } from "../utils/utils";
-import {
-    arrayMove
-} from '@dnd-kit/sortable';
+import { URL } from "../utils/utils";
 import { useEffect } from "react";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
-import {
-    closestCorners,
-    DndContext,
-    KeyboardSensor,
-    MouseSensor,
-    TouchSensor,
-    useSensor,
-    useSensors,
-} from '@dnd-kit/core';
-import {
-    sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
     
-    const sensors = useSensors(
-        useSensor(MouseSensor, {
-            activationConstraint: { distance: 5 }
-
-        }),
-        useSensor(TouchSensor, {
-
-            activationConstraint: { delay:500,tolerance:5 }
-
-        }),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        })
-    );
-
+   
     const [folders, setFolders] = useState([]);
 
     
@@ -116,43 +86,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
     };
 
-    const handleDragEnd = (e) => {
-        const { active, over } = e;
-        active.id = parseInt(active.id);
-        over.id = parseInt(over.id);
-
-        if (active && over && active.id !== over.id) {
-
-                const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
-                const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
-
-
-                setFolders((folders) => {
-
-                    simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
-                    return arrayMove(folders, oldIndex, newIndex);
-                });
-
-        }
-    };
-
-    /**
-     * 
-     * @param {Event} event 
-     */
-    const handleDragStart = (e) => {
-
-        const collapseButton = document.getElementById("collapseButton" + parseInt(e.active.id));
-
-
-            // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
-            collapseButton.removeAttribute("data-bs-toggle");
-
-            collapseButton.querySelector(".accordion-button__folder-title").removeAttribute("data-bs-toggle");
-
-            collapseFolders();
-
-    };
+  
 
     return (
 
@@ -227,12 +161,10 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             }
 
 
-            <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
                 <NoteList setFolders={setFolders} folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
 
-            </DndContext>
 
 
         </div>
