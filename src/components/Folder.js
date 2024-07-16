@@ -65,6 +65,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
     const handleDragEnd = (e) => {
         const { active, over } = e;
 
+        if (active && over && active.id !== over.id) {
 
         const oldIndex = folder.notes.findIndex((note) => note.noteID === active.id);
         const newIndex = folder.notes.findIndex((note) => note.noteID === over.id);
@@ -83,7 +84,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
 
             return newFolders;
         });
-
+    }
 
     };
 

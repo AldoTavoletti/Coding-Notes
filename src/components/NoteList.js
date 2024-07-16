@@ -66,17 +66,19 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
     const handleDragEnd = (e) => {
         const { active, over } = e;
 
+        setTimeout(() => {
+
+            // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
+            document.getElementById("collapseButton" + active.id).setAttribute("data-bs-toggle", "collapse");
+
+        }, 1);
+        
         if (active && over && active.id !== over.id) {
 
             const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
             const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
 
-            setTimeout(() => {
-
-                // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
-                document.getElementById("collapseButton" + active.id).setAttribute("data-bs-toggle", "collapse");
-
-            }, 1);
+           
 
             setFolders((folders) => {
 
