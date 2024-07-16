@@ -69,20 +69,14 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
         const oldIndex = folder.notes.findIndex((note) => note.noteID === active.id);
         const newIndex = folder.notes.findIndex((note) => note.noteID === over.id);
         folder.notes = arrayMove(folder.notes, oldIndex, newIndex);
-        const newFolders = folders.map((item, i) => {
-
-            if (i === folder.folderIndex - 1) {
-                return folder;
-            }
-            return item;
-
-        });
-
+        
+        const newFolders = [...folders];
+        newFolders[folder.folderIndex] = folder;
 
         setFolders(() => {
 
-            folder.notes[oldIndex].noteIndex = newIndex+1;
-            folder.notes[newIndex].noteIndex = oldIndex + 1;
+            folder.notes[oldIndex].noteIndex = newIndex;
+            folder.notes[newIndex].noteIndex = oldIndex;
 
 
             simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: folder.folderID });

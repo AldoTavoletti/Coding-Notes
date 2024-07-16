@@ -82,8 +82,8 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
                 simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
 
-                folders[oldIndex].folderIndex = newIndex + 1;
-                folders[newIndex].folderIndex = oldIndex + 1;
+                folders[oldIndex].folderIndex = newIndex;
+                folders[newIndex].folderIndex = oldIndex;
 
                 return arrayMove(folders, oldIndex, newIndex);
             });
