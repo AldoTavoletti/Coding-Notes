@@ -2,16 +2,18 @@ import NoteList from "./NoteList";
 import { useState } from "react";
 import Theme from "./Theme";
 import useSWR from "swr";
-import { URL, collapseFolders, expandFolders } from "../utils/utils";
+import { URL, collapseFolders, expandFolders, saveLastNoteTitle, switchNote } from "../utils/utils";
 import { useEffect } from "react";
-
+import SearchBar from "./SearchBar";
+import { useRef } from "react";
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
     
    
     const [folders, setFolders] = useState([]);
 
-    
+    // used to settle the title of the last note, after another note has been clicked on
+    const lastNote = useRef({ noteID: null, folderID: null });
 
     const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
@@ -34,7 +36,24 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
     if (isValidating && window.innerWidth < 769 && menuStatus === "expanded") return (<></>);
 
 
+    /**
+      * 
+      * @param {Object} item the clicked note 
+      */
+    const handleNoteClick = (note) => {
 
+        saveLastNoteTitle(lastNote.current, folders, noteTitle);
+
+        switchNote
+            (
+                note,
+                setCurrentNote,
+                setNoteTitle,
+                setMenuStatus
+            );
+
+
+    };
 
   
 
@@ -110,11 +129,11 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
             }
 
-
-
+            <div className="flex-wrapper">
+                <SearchBar handleNoteClick={ handleNoteClick } />
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
-                <NoteList setFolders={setFolders} folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
-
+                <NoteList handleNoteClick={handleNoteClick} lastNote={lastNote} setFolders={setFolders} folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+            </div>
 
 
         </div>

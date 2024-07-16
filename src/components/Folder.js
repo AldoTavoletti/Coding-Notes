@@ -55,37 +55,27 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
         })
     );
 
-
-
-
-
-
-
-
     const handleDragEnd = (e) => {
         const { active, over } = e;
 
         if (active && over && active.id !== over.id) {
 
-        const oldIndex = folder.notes.findIndex((note) => note.noteID === active.id);
-        const newIndex = folder.notes.findIndex((note) => note.noteID === over.id);
-        folder.notes = arrayMove(folder.notes, oldIndex, newIndex);
-        
-        const newFolders = [...folders];
-        newFolders[folder.folderIndex] = folder;
+            const oldIndex = folder.notes.findIndex((note) => note.noteID === active.id);
+            const newIndex = folder.notes.findIndex((note) => note.noteID === over.id);
 
-        setFolders(() => {
+            const newFolders = [...folders];
+            newFolders[folderIndex].notes = arrayMove(folder.notes, oldIndex, newIndex);;
 
+            setFolders(() => {
 
-            simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: folder.folderID });
+                simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, noteID: active.id, folderID: folder.folderID });
 
-            return newFolders;
-        });
-    }
+                return newFolders;
+
+            });
+        }
 
     };
-
-    
 
     return (
 
