@@ -2450,7 +2450,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
-    .menu:not(.menu--only-notelist) .note-list {
+    .menu:not(.menu--only-notelist) .flex-wrapper {
 
         display: none;
 
