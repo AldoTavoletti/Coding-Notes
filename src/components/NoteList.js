@@ -10,8 +10,8 @@ import {
 import {
     arrayMove
 } from '@dnd-kit/sortable';
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
-
+import { restrictToFirstScrollableAncestor, restrictToParentElement, restrictToVerticalAxis, restrictToWindowEdges, snapCenterToCursor } from "@dnd-kit/modifiers";
+import { getEventCoordinates } from '@dnd-kit/utilities';
 import {
     closestCorners,
     DndContext,
@@ -29,6 +29,9 @@ import { saveLastNoteTitle, switchNote, simplePatchCall, collapseFolders } from 
 const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
     // used to settle the title of the last note, after another note has been clicked on
     const lastNote = useRef({ noteID: null, folderID: null });
+
+    const noteListRef = useRef(null);
+ 
     const sensors = useSensors(
         useSensor(MouseSensor, {
             activationConstraint: { distance: 5 }
@@ -97,7 +100,7 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
     /**
      * 
-     * @param {Event} event 
+     * @param {Event} e
      */
     const handleDragStart = (e) => {
         const collapseButton = document.getElementById("collapseButton" + e.active.id);
@@ -110,11 +113,40 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
         collapseFolders();
 
-    };
-    return (
-        <DndContext modifiers={ [restrictToVerticalAxis, restrictToParentElement] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
-            <div className="note-list">
+
+    };
+
+    
+
+    const snapYToCursor = ({
+        activatorEvent,
+        draggingNodeRect,
+        transform,
+    }) => {
+        if (draggingNodeRect && activatorEvent) {
+            const activatorCoordinates = getEventCoordinates(activatorEvent);
+
+            if (!activatorCoordinates) {
+                return transform;
+            }
+
+            const offsetY = activatorCoordinates.y - draggingNodeRect.top;
+
+            return {
+                ...transform,
+                y: transform.y + offsetY - draggingNodeRect.height / 2,
+            };
+        }
+
+        return transform;
+    };
+
+
+    return (
+        <DndContext modifiers={ [restrictToVerticalAxis, snapYToCursor] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
+
+            <div className="note-list" ref={noteListRef}>
 
                 <SearchBar handleNoteClick={ handleNoteClick } />
 
