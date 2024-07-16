@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef } from "react";
 import Folder from "./Folder";
 import ContextMenu from "./ContextMenu";
@@ -66,6 +66,12 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
     };
 
+    useEffect(()=>{
+
+
+
+    },[folders]);
+
     const handleDragEnd = (e) => {
         const { active, over } = e;
 
@@ -82,14 +88,9 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
             const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
 
            
-
             setFolders((folders) => {
 
                 simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
-
-                folders[oldIndex].folderIndex = newIndex;
-                folders[newIndex].folderIndex = oldIndex;
-
                 return arrayMove(folders, oldIndex, newIndex);
             });
 
@@ -141,6 +142,39 @@ const NoteList = ({ setFolders, folders, currentNote, setCurrentNote, menuStatus
 
         return transform;
     };
+
+    // function restrictToBoundingRect(
+    //     transform,
+    //     rect,
+    //     boundingRect
+    // ) {
+    //     const value = {
+    //         ...transform,
+    //     };
+
+    //     if (rect.top + transform.y <= boundingRect.top) {
+    //         value.y = boundingRect.top - rect.top;
+    //     } else if (
+    //         rect.bottom + transform.y >=
+    //         boundingRect.top + boundingRect.height
+    //     ) {
+    //         value.y = boundingRect.top + boundingRect.height - rect.bottom;
+    //     }
+
+    //     return value;
+    // }
+
+    // const restrictToParentElement = ({
+    //     containerNodeRect,
+    //     draggingNodeRect,
+    //     transform,
+    // }) => {
+    //     if (!draggingNodeRect || !containerNodeRect) {
+    //         return transform;
+    //     }
+
+    //     return restrictToBoundingRect(transform, draggingNodeRect, containerNodeRect);
+    // };
 
 
     return (

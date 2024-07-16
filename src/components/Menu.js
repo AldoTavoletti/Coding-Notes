@@ -20,6 +20,7 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
     useEffect(() => {
 
         if (data) {
+
             // copy the data read-only array to create a modifiable folders array
             setFolders([...data]);
         }
@@ -34,7 +35,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
 
 
 
- 
 
   
 
