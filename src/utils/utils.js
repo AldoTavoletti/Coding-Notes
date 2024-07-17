@@ -304,7 +304,6 @@ export const setLightMode = () => {
  * @note set the chosen theme
  */
 export const setUserTheme = () => {
-
     // get the value previously chosen
     const isLightTheme = localStorage.getItem("light-theme");
 

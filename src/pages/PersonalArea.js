@@ -2,10 +2,10 @@ import Modals from "../components/Modals";
 import Header from "../components/Header";
 import HomePage from "./HomePage";
 import LoadingScreen from "./LoadingScreen";
+import { setUserTheme, URL, checkLoggedIn, debounce } from "../utils/utils";
 
-import { setUserTheme, URL, checkLoggedIn } from "../utils/utils";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSWRConfig } from "swr";
 
@@ -15,10 +15,7 @@ const PersonalArea = (
         setIsLoggedIn
     }) => {
 
-    const navigate = useNavigate();
 
-    // this mutate is global, meaning I can mutate other URLs (in this case, it's used to refresh the notes list)
-    const { mutate } = useSWRConfig();
 
     // the title of the current note
     const [noteTitle, setNoteTitle] = useState("");
@@ -42,6 +39,9 @@ const PersonalArea = (
     */
     const [modalShowing, setModalShowing] = useState("none");
 
+    const navigate = useNavigate();
+
+    const { mutate } = useSWRConfig();
 
     useEffect(() => {
 
@@ -73,52 +73,49 @@ const PersonalArea = (
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn]);
 
-    //used in the resize eventListener. Without a timeout, even if it's 1ms, the function could be executed multiple times for the same size. 
-    const timeoutID = useRef();
+    const debouncedResizeCheck = debounce(() => {
 
-    /* this ref checks the last width registered. It's used to check if an actual resize took place, sometimes the event is called multiple times for just one resize. */
-    const lastCheckedWidth = useRef(window.innerWidth);
+            setMenuStatus(()=>{
 
-    window.addEventListener("resize", () => {
-
-        clearTimeout(timeoutID.current);
-        timeoutID.current = setTimeout(() => {
-
-            if (lastCheckedWidth.current !== window.innerWidth) /* if the width actually changed */ {
-
-                if (window.innerWidth < 769 && lastCheckedWidth.current > 769) /* if the current width is < 769 and the last time it was > 769*/ {
+                if (window.innerWidth < 769) /* if the current width is < 769 and the last time it was > 769*/ {
 
                     if (menuStatus === "hidden" || menuStatus === "normal") /* if the menuStatus is "hidden" or "normal" */ {
-
-                        // set it to "hamburger"
-                        setMenuStatus("hamburger");
+                        
+                        return "hamburger";
 
                     }
 
-                } else if (window.innerWidth > 769 && lastCheckedWidth.current < 769) /* if the current width is > 769 and the last time it was < 769 */ {
+                } else if (window.innerWidth > 769) /* if the current width is > 769 and the last time it was < 769 */ {
 
                     if (menuStatus === "only-notelist") {
 
-                        setMenuStatus("expanded");
+                        return "expanded";
 
                     }
                     if (menuStatus === "hamburger") {
-                        // set it to "hidden"
-                        setMenuStatus("hidden");
+
+                        return "hidden";
 
                     }
 
 
                 }
 
-                // save this width
-                lastCheckedWidth.current = window.innerWidth;
-            }
+                return menuStatus;
+                
+            });
+            
+    },50);
+
+    window.addEventListener("resize", useCallback(()=>{
+        
+        debouncedResizeCheck();
+        
+},[debouncedResizeCheck])
 
 
-        }, 1);
+);
 
-    });
 
     if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
         return (<div className="full-height-container"><LoadingScreen /></div>);
@@ -137,7 +134,7 @@ const PersonalArea = (
                 isLoggedIn={ isLoggedIn }
                 setIsLoggedIn={ setIsLoggedIn }
                 setNoteTitle={ setNoteTitle }
-                setMenuStatus={setMenuStatus}
+                setMenuStatus={ setMenuStatus }
             />
             <Header
                 menuStatus={ menuStatus }
@@ -148,7 +145,7 @@ const PersonalArea = (
                 setIsLoggedIn={ setIsLoggedIn }
                 currentNote={ currentNote }
             />
-            
+
             <HomePage
                 menuStatus={ menuStatus }
                 setMenuStatus={ setMenuStatus }
