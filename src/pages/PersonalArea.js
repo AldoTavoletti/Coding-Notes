@@ -35,7 +35,8 @@ const PersonalArea = (
     /*
     "none" if no modal is showing; 
     "folder" if the folder modal is showing; 
-    "note" if it's the note modal. 
+    "note" if it's the note modal;
+    an object for other circumstances
     */
     const [modalShowing, setModalShowing] = useState("none");
 
@@ -54,67 +55,55 @@ const PersonalArea = (
 
     useEffect(() => {
 
-        if (isLoggedIn === false) /*//? can't use !isLoggedIn, it would consider null too */ {
+        if (isLoggedIn === false) /* isLoggedIn is false after checkLoggedIn and no loggedIn user is found */ {
 
             setCurrentNote({ noteID: null, folderName: null, folderID: null });
             setNoteTitle("");
             navigate("/login");
 
-        } else if (isLoggedIn) {
+        } else if (isLoggedIn) mutate(URL + "?retrieve=all");
 
-            /* 
-            When a user logs in, the note list has to be refreshed, since "revalidateIfStale:false" was set due to performance reasons. 
-            If this is taken out, there would be some cases where the previous' user notes are shown, or no notes are shown.
-            */
-            mutate(URL + "?retrieve=all");
+        /*
+        When a user logs in, the note list has to be refreshed, since "revalidateIfStale:false" was set due to performance reasons. 
+        If mutate is taken out, there would be some cases where the previous' user notes are shown, or no notes are shown.
+        */
 
-        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn]);
 
+    
     const debouncedResizeCheck = debounce(() => {
 
-            setMenuStatus(()=>{
+        setMenuStatus(() => {
 
-                if (window.innerWidth < 769) /* if the current width is < 769 and the last time it was > 769*/ {
+            if (window.innerWidth < 769) {
 
-                    if (menuStatus === "hidden" || menuStatus === "normal") /* if the menuStatus is "hidden" or "normal" */ {
-                        
-                        return "hamburger";
+                if (menuStatus === "hidden" || menuStatus === "normal") return "hamburger";
 
-                    }
+            } else {
 
-                } else if (window.innerWidth > 769) /* if the current width is > 769 and the last time it was < 769 */ {
+                if (menuStatus === "only-notelist") return "expanded";
 
-                    if (menuStatus === "only-notelist") {
+                if (menuStatus === "hamburger") return "hidden";
 
-                        return "expanded";
+            }
 
-                    }
-                    if (menuStatus === "hamburger") {
+            return menuStatus;
 
-                        return "hidden";
+        });
 
-                    }
+    }, 50);
 
 
-                }
+    window.addEventListener("resize", useCallback(() => {
 
-                return menuStatus;
-                
-            });
-            
-    },50);
-
-    window.addEventListener("resize", useCallback(()=>{
-        
         debouncedResizeCheck();
-        
-},[debouncedResizeCheck])
+
+    }, [debouncedResizeCheck])
 
 
-);
+    );
 
 
     if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {
