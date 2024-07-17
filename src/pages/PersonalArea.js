@@ -5,7 +5,7 @@ import LoadingScreen from "./LoadingScreen";
 import { setUserTheme, URL, checkLoggedIn, debounce } from "../utils/utils";
 
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSWRConfig } from "swr";
 
@@ -38,6 +38,8 @@ const PersonalArea = (
     */
     const [modalShowing, setModalShowing] = useState("none");
 
+    const [windowSize, setWindowSize] = useState();
+
     const navigate = useNavigate();
 
     const { mutate } = useSWRConfig();
@@ -47,6 +49,10 @@ const PersonalArea = (
         isLoggedIn === null && checkLoggedIn(setIsLoggedIn);
 
         setUserTheme();
+
+        window.addEventListener("resize", debouncedResizeCheck);
+
+        return () => window.removeEventListener("resize", debouncedResizeCheck);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -70,16 +76,15 @@ const PersonalArea = (
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn]);
 
+    useEffect(() => {
 
-    const debouncedResizeCheck = debounce(() => {
-
-        setMenuStatus(() => {
+        setMenuStatus((current) => {
 
             if (window.innerWidth < 769) {
 
                 if (menuStatus === "hidden" || menuStatus === "normal") return "hamburger";
 
-            } else {
+            } else if (window.innerWidth > 769) {
 
                 if (menuStatus === "only-notelist") return "expanded";
 
@@ -87,21 +92,20 @@ const PersonalArea = (
 
             }
 
-            return menuStatus;
+            return current;
 
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [windowSize]);
 
-    }, 50);
+    const debouncedResizeCheck = debounce(() => {
+
+        setWindowSize(window.innerWidth);
+
+    }, 100);
 
 
-    window.addEventListener("resize", useCallback(() => {
 
-        debouncedResizeCheck();
-
-    }, [debouncedResizeCheck])
-
-
-    );
 
 
     if (isLoggedIn === null) /* loading screen as soon as you get into the website, until isLoggedIn is different from null */ {

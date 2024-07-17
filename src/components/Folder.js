@@ -85,7 +85,6 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
             id={ "accordion" + folderIndex }
             ref={ setNodeRef }
             style={ style }
-
         >
 
             <div className="accordion-item">
@@ -97,7 +96,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
                         <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
                             className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
-                            onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName }) } //open the note modal
+                            onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName, modalType:"add-specific-note" }) } //open the note modal
                             style={ { '--hover-color': getContrastColor(folderColors[folder.color].secondary), color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } // set a style variable relative to the note color and set a visible text color 
                         >+</span>
                         <span className="accordion-button__folder-notesnumber" style={ { color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } >{ folder.notes.length }</span>

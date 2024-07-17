@@ -4,13 +4,8 @@ import { URL, folderColors, logout, switchNote } from "../utils/utils";
 
 const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
 
-    // the folder name in the folders modal
     const [folderName, setFolderName] = useState("");
-
-    // the selected color in the folders modal
     const [selectedColor, setSelectedColor] = useState("black");
-
-    // the note title in the notes modal
     const [noteTitleModal, setNoteTitleModal] = useState("");
 
     //it contains the parent folderID and the parent folderName. I also need the folderName cause it'll be shown in the header
@@ -25,9 +20,8 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
      */
     const resetFolderStates = () => {
 
-        folderName !== "" && setFolderName("");
-        selectedColor !== "black" && setSelectedColor("black");
-
+        setFolderName("");
+        setSelectedColor("black");
 
     };
 
@@ -36,9 +30,8 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
      */
     const resetNoteStates = () => {
 
-        noteTitleModal !== "" && setNoteTitleModal("");
-
-        //? I don't reset the noteFolder to avoid useless re-renders (it's gonna be given a new value when a modal is opened anyway)
+        setNoteTitleModal("");
+        setNoteFolder({ folderID: null, folderName: null });
 
     };
 
@@ -48,43 +41,48 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
             if (typeof modalShowing === "object") {
 
-                if ("folderID" in modalShowing) /* if it's the add-note modal from the + button in the accordion */ {
+                switch (modalShowing.modalType) {
 
-                    // if the current noteFolder is different from what it should be
-                    (modalShowing.folderID !== noteFolder.folderID || modalShowing.folderName !== noteFolder.folderName) && setNoteFolder({ folderID: modalShowing.folderID, folderName: modalShowing.folderName });
+                    case "add-specific-note":
 
-                } else if ("folderColor" in modalShowing) /* if it's the modify-folder modal */ {
-                    // show data relative to the folder to modify
-                    setFolderName(modalShowing.folderName);
-                    setSelectedColor(modalShowing.folderColor);
+                        (modalShowing.folderID !== noteFolder.folderID || modalShowing.folderName !== noteFolder.folderName) &&
+                            setNoteFolder({ folderID: modalShowing.folderID, folderName: modalShowing.folderName });
 
-                } else if("parentFolderID" in modalShowing){
+                        break;
+                    case "modify-folder":
 
-                    if (modalShowing.parentFolderID !== folders[0].folderID) {
-                        
-                        // if the current noteFolder is different from the first folder 
-                        ((noteFolder.folderID !== folders[0].folderID || noteFolder.folderName !== folders[0].folderName)) && setNoteFolder({ folderID: folders[0].folderID, folderName: folders[0].folderName });
-                        
-                    }else{
+                        setFolderName(modalShowing.folderName);
+                        setSelectedColor(modalShowing.folderColor);
 
-                        // if the current noteFolder is different from the first folder 
-                        (noteFolder.folderID !== folders[1].folderID || noteFolder.folderName !== folders[1].folderName) && setNoteFolder({ folderID: folders[1].folderID, folderName: folders[1].folderName });
+                        break;
 
-                    }
+                    case "move-note":
+
+                        if (modalShowing.parentFolderID !== folders[0].folderID) {
+
+                            (noteFolder.folderID !== folders[0].folderID || noteFolder.folderName !== folders[0].folderName) &&
+                                setNoteFolder({ folderID: folders[0].folderID, folderName: folders[0].folderName });
+
+                        } else {
+
+                            (noteFolder.folderID !== folders[1].folderID || noteFolder.folderName !== folders[1].folderName) &&
+                                setNoteFolder({ folderID: folders[1].folderID, folderName: folders[1].folderName });
+
+                        }
+
+                        break;
+
+                    default:
+                        break;
                 }
-            }
 
-            if (modalShowing === "none") /*if the modal gets closed */ {
+            } else if (modalShowing === "none") {
 
                 resetFolderStates();
                 resetNoteStates();
-
-            } else if (modalShowing === "note") /* if it's the add-note from the menu */ {
-
-                // if the current noteFolder is different from the first folder 
-                (noteFolder.folderID !== folders[0].folderID || noteFolder.folderName !== folders[0].folderName) && setNoteFolder({ folderID: folders[0].folderID, folderName: folders[0].folderName });
             }
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalShowing]);
 
@@ -201,7 +199,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
             switchNote
                 (
-                    { noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID, title:noteTitleModal },
+                    { noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID, title: noteTitleModal },
                     setCurrentNote,
                     setNoteTitle,
                     setMenuStatus
@@ -248,13 +246,13 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     };
 
-    const moveNote = ()=>{
-    
+    const moveNote = () => {
+
         fetch(URL, {
 
             method: "PATCH",
             credentials: "include",
-            body: JSON.stringify({noteID:modalShowing.noteID,folderID:noteFolder.folderID, action:"move-note"})
+            body: JSON.stringify({ noteID: modalShowing.noteID, folderID: noteFolder.folderID, action: "move-note" })
 
 
         }).then(res => {
@@ -266,12 +264,11 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
 
         }).then(msg => {
-            
+
             // refetch modals and notelist
             mutate();
+            if (currentNote.noteID === modalShowing.noteID) setCurrentNote({ ...currentNote, folderName: noteFolder.folderName, folderID: noteFolder.folderID });
 
-            setCurrentNote({ ...currentNote, folderName: noteFolder.folderName, folderID: noteFolder.folderID });
-            
 
         }).catch(err => console.log(err));
 
@@ -362,7 +359,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
                     <div className="myModal__footer">
 
-                        <button className="secondary-button" onClick={addNote }>Add</button>
+                        <button className="secondary-button" onClick={ addNote }>Add</button>
 
                     </div>
 
@@ -370,7 +367,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
 
 
-                {/* move the note modal */}
+                {/* move the note modal */ }
                 <div
                     className={ `${"myModal"} ${(typeof modalShowing === "object" && "parentFolderID" in modalShowing) ? "myModal--visible" : "myModal--hidden"}` }
                     // when the modal is clicked, don't make the dim layer onClick get triggered
@@ -382,7 +379,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
                         {/* since i have to retrieve the folderName too, the value of the option has to be an object. Since only strings are accepted, I use JSON. */ }
                         <select name="folder-selection" value={ JSON.stringify(noteFolder) } onChange={ (e) => setNoteFolder(JSON.parse(e.target.value)) }>
-                            
+
                             { folders.map((folder, i) => {
                                 // I don't want the current folder to be shown in the options
                                 if (folder.folderID === modalShowing.parentFolderID) return null;
