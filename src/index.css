@@ -2667,25 +2667,22 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 @media screen and (max-height: 500px) {
 
-.flex-wrapper {
+    .menu--expanded .flex-wrapper{
 
-        overflow-y: auto;
-        height: calc(var(--height-homepage) - var(--mobile-toolbar-height));
+        padding: 1.75rem;
+
+    }
+    .menu--normal .flex-wrapper {
+        padding-block: 0.875rem;
+    }
+
+    .menu--normal .search-container {
+
+        display: none;
 
     }
 
-    .search-container{
 
-        height: 35%;
-
-    }
-
-    .note-list{
-
-        overflow: visible;
-        height: 65%;
-
-    }
 
     .login-container {
 
