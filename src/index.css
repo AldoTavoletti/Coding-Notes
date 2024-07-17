@@ -2334,6 +2334,12 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 @media screen and (pointer:none),
 (pointer:coarse) and (orientation: landscape) {
 
+    .flex-wrapper {
+
+        overflow-y: auto;
+
+    }
+    
     .tox-editor-header {
 
         top: 60px !important;
@@ -2661,7 +2667,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 @media screen and (max-height: 500px) {
 
 
-
     .login-container {
 
         font-size: 0.8em;
@@ -2683,6 +2688,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
 
 @media screen and (max-height: 425px) {
+
 
     .login-container {
 
