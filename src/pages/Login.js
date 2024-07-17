@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import { URL, setDarkMode } from "../utils/utils";
+
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 
@@ -24,6 +25,7 @@ const Login = ({ setIsLoggedIn }) => {
     const [hasCapital, setHasCapital] = useState(null);
     const [hasSymbol, setHasSymbol] = useState(null);
 
+    // used to control the password eyes
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
 
@@ -49,63 +51,68 @@ const Login = ({ setIsLoggedIn }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+
+    const fetchRequest = async (obj) => {
+
+        try {
+            const res = await fetch(URL, {
+
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(obj),
+
+            });
+
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            return await res.json();
+
+        } catch (err) {
+
+            console.log(err);
+
+
+        };
+
+    };
+
     /**
      * @note classic login
      */
-    const logIn = () => {
+    const logIn = async () => {
 
 
         if (username === "") return setError("Insert a username");
 
         if (password === "") return setError("insert a password");
 
-
         setIsLoading(true);
 
-        fetch(URL, {
+        const data = await fetchRequest({ username: username, password: password, remember: rememberMe.current.checked, action: "login" });
 
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "login" }),
+        handleServerRes(data);
 
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            return res.json();
-
-
-        }).then(data => {
-
-            if (data["code"] === 200) {
-
-                setIsLoggedIn(data["username"]);
-                navigate("/");
-
-            } else setError(data["message"]);
-
-
-
-            setIsLoading(false);
-
-        }).catch(err => {
-
-            console.log(err);
-
-            setIsLoading(false);
-
-        });
-
+        setIsLoading(false);
 
 
     };
 
+    const handleServerRes = (data)=>{
+
+        if (data["code"] === 200) {
+
+            setIsLoggedIn(data["username"]);
+            navigate("/");
+
+        } else setError(data["message"]);
+
+    }
     /**
      * @note classic sign in
      */
-    const signUp = () => {
+    const signUp = async () => {
 
         if (username === "") return setError("Insert a username");
 
@@ -120,41 +127,11 @@ const Login = ({ setIsLoggedIn }) => {
 
         setIsLoading(true);
 
-        fetch(URL, {
+        const data = await fetchRequest({ username: username, password: password, remember: rememberMe.current.checked, action: "signup" });
 
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify({ username: username, password: password, remember: rememberMe.current.checked, action: "signup" })
+        handleServerRes(data);
 
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(data => {
-
-            if (data["code"] === 200) {
-
-                // log in
-                setIsLoggedIn(data["username"]);
-                navigate("/");
-
-            } else setError(data["message"]);
-
-
-            setIsLoading(false);
-
-
-        }).catch(err => {
-
-            console.log(err);
-            setIsLoading(false);
-
-
-        });
+        setIsLoading(false);
 
 
     };
@@ -186,7 +163,6 @@ const Login = ({ setIsLoggedIn }) => {
         wantsLogin ? animateTitle() : signUp();
 
 
-
     };
 
     /**
@@ -199,7 +175,6 @@ const Login = ({ setIsLoggedIn }) => {
 
     };
 
-    
 
     /**
      * @note google login
@@ -212,38 +187,15 @@ const Login = ({ setIsLoggedIn }) => {
          * 
          * @param {object} codeResponse 
          */
-        onSuccess: (codeResponse) => {
+        onSuccess: async (codeResponse) => {
 
             setIsLoading(true);
 
-            fetch(URL, {
+            const data = await fetchRequest({ code: codeResponse.code, remember: rememberMe.current.checked });
 
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify({ code: codeResponse.code, remember: rememberMe.current.checked }),
-                headers: { 'Content-Type': 'application/json' }
+            handleServerRes(data);
 
-            }).then(res => {
-
-                if (!res.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return res.json();
-
-
-            }).then(data => {
-
-                if (data["code"] === 200) {
-
-                    setIsLoggedIn(data["username"]);
-                    navigate("/");
-
-                } else setError(data["message"]);
-
-                setIsLoading(false);
-
-            }).catch(err => console.log(err));
-
+            setIsLoading(false);
 
         },
 
@@ -275,14 +227,15 @@ const Login = ({ setIsLoggedIn }) => {
     };
 
     const checkCapital = (string) => {
-        if (string.length === 0) return setHasCapital(null);
-            
         
-        /[A-Z]/.test(string) ? 
-    
-        hasCapital !== true && setHasCapital(true) 
-        : 
-        hasCapital !== false && setHasCapital(false);
+        if (string.length === 0) return setHasCapital(null);
+
+
+        /[A-Z]/.test(string) ?
+
+            hasCapital !== true && setHasCapital(true)
+            :
+            hasCapital !== false && setHasCapital(false);
 
     };
 
@@ -294,7 +247,7 @@ const Login = ({ setIsLoggedIn }) => {
     const checkSymbol = (string) => {
 
         if (string.length === 0) return setHasSymbol(null);
-            
+
 
         /[\W_]/.test(string) ?
 
@@ -348,7 +301,7 @@ const Login = ({ setIsLoggedIn }) => {
 
     return (
 
-        <div className="login-page" onKeyDown={handleOnKeyDown}>
+        <div className="login-page" onKeyDown={ handleOnKeyDown }>
 
             <div className="login-container">
                 { isLoading ?
@@ -375,7 +328,7 @@ const Login = ({ setIsLoggedIn }) => {
                     <span
                         className="password-toggle-icon"
                         onClick={ () => togglePassword(setShowPassword1, showPassword1) }
-                    ><i className={ showPassword1 ? "bi bi-eye-slash-fill" : "bi bi-eye-fill"}></i></span>
+                    ><i className={ showPassword1 ? "bi bi-eye-slash-fill" : "bi bi-eye-fill" }></i></span>
                 </div>
                 <div className={ `conditions-container ${wantsLogin && "disappear"}` }>
                     {/* the condition (8 char long) */ }
