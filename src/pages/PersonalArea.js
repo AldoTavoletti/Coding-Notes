@@ -15,8 +15,6 @@ const PersonalArea = (
         setIsLoggedIn
     }) => {
 
-
-
     // the title of the current note
     const [noteTitle, setNoteTitle] = useState("");
 
@@ -72,7 +70,7 @@ const PersonalArea = (
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn]);
 
-    
+
     const debouncedResizeCheck = debounce(() => {
 
         setMenuStatus(() => {
