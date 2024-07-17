@@ -625,7 +625,6 @@ body {
 .search-container {
     position: relative;
     width: 100%;
-
 }
 
 .searchbar {
@@ -822,6 +821,8 @@ body {
 }
 
 .menu--normal {
+    display: flex;
+    flex-direction: column;
     border-right: 3px solid var(--secondary-bg-color);
 
 }
@@ -2673,9 +2674,16 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     }
 
+    .search-container{
+
+        height: 35%;
+
+    }
+
     .note-list{
 
         overflow: visible;
+        height: 65%;
 
     }
 
