@@ -36,7 +36,8 @@
 
     --editor-bg-color: #1f1f1f;
 
-    --normal-toolbar-height: 88.6px;
+    --editor-toolbar-height: 88.6px;
+    --mobile-toolbar-height: 93px;
     --current-header-height: max(min(10dvh, 70px), 60px);
     --height-homepage: calc(100dvh - var(--current-header-height));
 }
@@ -612,6 +613,7 @@ body {
 
 .menu {
     flex-basis: 26%;
+    height: var(--height-homepage);
     /* padding: 1% 1.5%; */
     background-color: var(--primary-bg-color);
     transition: all 0.2s ease;
@@ -845,7 +847,7 @@ body {
 .menu__toolbar--normal {
     padding-inline: 5%;
     /* the same height as the tinymce toolbar */
-    height: var(--normal-toolbar-height);
+    height: var(--editor-toolbar-height);
     width: 100%;
     z-index: 4;
     border-bottom: 1px solid var(--secondary-bg-color-hover);
@@ -1383,7 +1385,7 @@ body {
 }
 
 .flex-wrapper {
-    height: calc(var(--height-homepage) - var(--normal-toolbar-height));
+    height: calc(var(--height-homepage) - var(--editor-toolbar-height));
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -2271,7 +2273,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     /* to not make the fixed toolbar go over the content, 93px is the height of the toolbar on mobile */
     .tox-editor-container {
 
-        padding-top: 93px !important;
+        padding-top: var(--mobile-toolbar-height) !important;
 
     }
 
@@ -2290,7 +2292,7 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 
     .menu__toolbar--normal {
         /* the height of the tinymce toolbar is different on mobile */
-        height: 93px;
+        height: var(--mobile-toolbar-height);
 
     }
 
@@ -2334,12 +2336,6 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
 @media screen and (pointer:none),
 (pointer:coarse) and (orientation: landscape) {
 
-    .flex-wrapper {
-
-        overflow-y: auto;
-
-    }
-    
     .tox-editor-header {
 
         top: 60px !important;
@@ -2664,8 +2660,24 @@ div.tox-editor-header.my-tox-header-sticky--fullscreen {
     }
 }
 
+
+
+
+
 @media screen and (max-height: 500px) {
 
+.flex-wrapper {
+
+        overflow-y: auto;
+        height: calc(var(--height-homepage) - var(--mobile-toolbar-height));
+
+    }
+
+    .note-list{
+
+        overflow: visible;
+
+    }
 
     .login-container {
 
