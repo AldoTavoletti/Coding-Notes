@@ -1,11 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import EditorMCE from "./EditorMCE";
 import { Flip, ToastContainer } from "react-toastify";
 
 const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, setContextMenuInfo }) => {
-
-  // a ref for the note-display div, used to handle the sticky tinyMCE toolbar, which would be buggy without thes adjustments
-  const noteDisplayRef = useRef(null);
 
   
 
@@ -16,7 +13,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, set
     "menuStatus === 'expanded'"doesn't need to be handled since note-display gets set to "visibility: hidden" when the menu gets expanded. 
     */
 
-    const editorHeader = noteDisplayRef.current.querySelector(".tox-editor-header");
+    const editorHeader = document.querySelector(".tox-editor-header");
 
     if (editorHeader) /* if the editor has been rendered*/ {
 
@@ -50,7 +47,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, set
   }, [menuStatus]);
 
   return (
-    <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"}${menuStatus !== "expanded" && menuStatus !== "only-notelist" && menuStatus !== "normal" ? " note-display--expanded" : (menuStatus === "expanded" || menuStatus === "only-notelist") ? " note-display--hidden":""}` } ref={ noteDisplayRef }>
+    <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"}${menuStatus !== "expanded" && menuStatus !== "only-notelist" && menuStatus !== "normal" ? " note-display--expanded" : (menuStatus === "expanded" || menuStatus === "only-notelist") ? " note-display--hidden":""}` }>
 
       {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
       { currentNote.noteID?
