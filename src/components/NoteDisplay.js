@@ -4,19 +4,16 @@ import { Flip, ToastContainer } from "react-toastify";
 
 const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, setContextMenuInfo }) => {
 
-  
-
   useEffect(() => {
     /*
     This useEffect is used to manage the tinyMCE sticky toolbar, which leads to some problems when resizing divs if not handled correctly.
-    I use 4 self made classes to resize the sticky toolbar to my needs.
-    "menuStatus === 'expanded'"doesn't need to be handled since note-display gets set to "visibility: hidden" when the menu gets expanded. 
+    I use self made classes to resize the sticky toolbar to my needs.
+    "menuStatus === 'expanded'"doesn't need to be handled since note-display gets unmounted when the menu is expanded. 
     */
 
     const editorHeader = document.querySelector(".tox-editor-header");
 
     if (editorHeader) /* if the editor has been rendered*/ {
-
 
       if (menuStatus === "normal") {
 
