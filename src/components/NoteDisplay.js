@@ -50,7 +50,7 @@ const NoteDisplay = ({ menuStatus, currentNote, isLoggedIn, contextMenuInfo, set
   }, [menuStatus]);
 
   return (
-    <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"}${menuStatus === "hidden" ? " note-display--expanded" : (menuStatus === "expanded" || menuStatus === "only-notelist") ? " note-display--hidden":""}` } ref={ noteDisplayRef }>
+    <div className={ `${"note-display"} ${currentNote.noteID && "editor-opened"}${menuStatus !== "expanded" && menuStatus !== "only-notelist" && menuStatus !== "normal" ? " note-display--expanded" : (menuStatus === "expanded" || menuStatus === "only-notelist") ? " note-display--hidden":""}` } ref={ noteDisplayRef }>
 
       {/* unmounting the component everytime the menu is expanded may seem bad for performance, but this acutally makes menu animations smoother */ }
       { currentNote.noteID?

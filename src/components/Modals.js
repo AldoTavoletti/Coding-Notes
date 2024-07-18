@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { useEffect, useState } from "react";
-import { URL, folderColors, logout, switchNote } from "../utils/utils";
+import { URL, folderColors, logout, switchNote, asyncFetch } from "../utils/utils";
 
 const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, modalShowing, setModalShowing, setIsLoggedIn, isLoggedIn }) => {
 
@@ -15,29 +15,14 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
     const colorsArr = Object.values(folderColors);
     const colorKeysArr = Object.keys(folderColors);
 
-    /**
-     * @note reset the states relative to the folders modal
-     */
-    const resetFolderStates = () => {
+    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
-        setFolderName("");
-        setSelectedColor("black");
-
-    };
-
-    /**
-     * @note reset the states relative to the notes modal
-     */
-    const resetNoteStates = () => {
-
-        setNoteTitleModal("");
-        setNoteFolder({ folderID: null, folderName: null });
-
-    };
+    // I try to revalidate the least possible
+    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, { revalidateOnFocus: false, revalidateIfStale: false });
 
     useEffect(() => {
 
-        if (folders) /* if the user's folders have been fetched */ {
+        if (folders) {
 
             if (typeof modalShowing === "object") {
 
@@ -57,7 +42,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
                         break;
 
                     case "move-note":
-
+                    
                         if (modalShowing.parentFolderID !== folders[0].folderID) {
 
                             (noteFolder.folderID !== folders[0].folderID || noteFolder.folderName !== folders[0].folderName) &&
@@ -76,6 +61,10 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
                         break;
                 }
 
+            } else if (modalShowing === "note") {
+
+                setNoteFolder({ folderID: folders[0].folderID, folderName: folders[0].folderName });
+
             } else if (modalShowing === "none") {
 
                 resetFolderStates();
@@ -86,198 +75,96 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalShowing]);
 
-    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
+    const resetFolderStates = () => {
 
-    // I try to revalidate the least possible
-    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, { revalidateOnFocus: false, revalidateIfStale: false });
+        setFolderName("");
+        setSelectedColor("black");
 
+    };
 
-    // Handles error and loading state. Without these useSWR wouldn't work
-    if (error) return (<div></div>);
-    if (isValidating) return (<div></div>);
+    const resetNoteStates = () => {
 
-    /**
-     * 
-     */
-    const addFolder = () => {
+        setNoteTitleModal("");
+        setNoteFolder({ folderID: null, folderName: null });
+
+    };
+
+    const addFolder = async () => {
 
         // the folder to post
         const newFolder = { name: folderName, color: selectedColor };
 
-        fetch(URL, {
+        await asyncFetch("POST", newFolder);
 
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(newFolder)
+        mutate();
 
-
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(msg => {
-
-            // re-renders modals and notelist
-            mutate();
-
-
-        }).catch(err => console.log(err));
-
-        //close the modal
         setModalShowing("none");
 
     };
 
-    /**
-     * 
-     */
-    const modifyFolder = () => {
+    const modifyFolder = async () => {
 
-        // the folder to patch
         const folder = { name: folderName, color: selectedColor, folderID: modalShowing.elementID };
 
-        fetch(URL, {
+        await asyncFetch("PATCH", folder);
 
-            method: "PATCH",
-            credentials: "include",
-            body: JSON.stringify(folder)
+        mutate();
 
+        if (currentNote && currentNote.folderID === modalShowing.elementID) {
+            // if the folder of the currentNote is being changed, change the currentNote foldername, which is shown in the header
+            folderName !== currentNote.folderName && setCurrentNote({ ...currentNote, folderName: folderName });
+        }
 
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(msg => {
-
-            // refetch modals and notelist
-            mutate();
-
-            if (currentNote && currentNote.folderID === modalShowing.elementID) /* if the folder of the currentNote is being changed, change the currentNote foldername, which is shown in the header */ {
-                folderName !== currentNote.folderName && setCurrentNote({ ...currentNote, folderName: folderName });
-            }
-
-        }).catch(err => console.log(err));
-
-
-        //close the modal
         setModalShowing("none");
 
     };
 
-    /**
-     * 
-     */
-    const addNote = () => {
+    const addNote = async () => {
 
-        // the note to add
         const newNote = { title: noteTitleModal, folderID: noteFolder.folderID };
 
-        fetch(URL, {
+        const data = await asyncFetch("POST", newNote);
 
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(newNote)
+        switchNote
+            (
+                { noteID: data["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID, title: noteTitleModal },
+                setCurrentNote,
+                setNoteTitle,
+                setMenuStatus
+            );
 
+        mutate();
 
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(msg => {
-
-            switchNote
-                (
-                    { noteID: msg["noteID"], folderName: noteFolder.folderName, folderID: noteFolder.folderID, title: noteTitleModal },
-                    setCurrentNote,
-                    setNoteTitle,
-                    setMenuStatus
-                );
-            // refetch
-            mutate();
-
-            //close the modal
-            setModalShowing("none");
-
-
-        }).catch(err => console.log(err));
-
+        setModalShowing("none");
 
     };
 
-    /**
-     * @note delete the account
-     */
-    const deleteAccount = () => {
+    const deleteAccount = async () => {
 
-        fetch(URL, {
+        const data = await asyncFetch("DELETE", { deleteUser: true });
 
-            method: "DELETE",
-            body: JSON.stringify({ deleteUser: true }),
-            credentials: "include",
+        if (data["code"] === 200) logout(setIsLoggedIn);
 
+        
+    }
 
-        }).then(res => {
+    const moveNote = async () => {
 
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
+        const note = { noteID: modalShowing.noteID, folderID: noteFolder.folderID, action: "move-note" };
 
+        await asyncFetch("PATCH", note);
+        
+        mutate();
 
-        }).then(data => {
-            if (data["code"] === 200) {
-
-                logout(setIsLoggedIn);
-
-            }
-        }).catch(err => console.log(err));
-
-    };
-
-    const moveNote = () => {
-
-        fetch(URL, {
-
-            method: "PATCH",
-            credentials: "include",
-            body: JSON.stringify({ noteID: modalShowing.noteID, folderID: noteFolder.folderID, action: "move-note" })
-
-
-        }).then(res => {
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
-
-
-        }).then(msg => {
-
-            // refetch modals and notelist
-            mutate();
-            if (currentNote.noteID === modalShowing.noteID) setCurrentNote({ ...currentNote, folderName: noteFolder.folderName, folderID: noteFolder.folderID });
-
-
-        }).catch(err => console.log(err));
-
+        if (currentNote.noteID === modalShowing.noteID) setCurrentNote({ ...currentNote, folderName: noteFolder.folderName, folderID: noteFolder.folderID });
 
         //close the modal
         setModalShowing("none");
 
     };
 
+    if (error) return (<div></div>);
+    if (isValidating) return (<div></div>);
 
     return (
         <>

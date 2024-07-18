@@ -612,7 +612,7 @@ body {
 
 
 .menu {
-    flex-basis: 26%;
+    flex-basis: 0;
     height: var(--height-homepage);
     /* padding: 1% 1.5%; */
     background-color: var(--primary-bg-color);
@@ -822,6 +822,7 @@ body {
 
 .menu--normal {
     display: flex;
+    flex-basis: 26%;
     flex-direction: column;
     border-right: 3px solid var(--secondary-bg-color);
 

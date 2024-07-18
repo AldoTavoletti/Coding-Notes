@@ -184,13 +184,40 @@ export const expandFolders = () => {
     }
 
 };
+
+export const asyncFetch = async (method, obj) => {
+
+    try {
+
+        const res = await fetch(URL, {
+
+            method: method,
+            credentials: "include",
+            body: JSON.stringify(obj)
+
+        });
+
+        if (!res.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return await res.json();
+
+
+    } catch (err) {
+
+        console.log(err);
+        return false;
+
+    }
+};
+
 /**
  * 
  * @param {Object} obj
  * @note used to make patch calls 
  * @firedby (ex: when changing the content of a note or reordering folders)
  */
-export const simplePatchCall = (obj, resolve=null) => {
+export const simplePatchCall = (obj, resolve = null) => {
 
     fetch(URL, {
 
@@ -206,7 +233,7 @@ export const simplePatchCall = (obj, resolve=null) => {
         return res.json();
 
     }).then((data) => {
-        
+
         if (resolve !== null) {
             resolve("success");
         }
@@ -244,7 +271,7 @@ export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
             const note = foundFolder["notes"].find(note => note.noteID === lastNote.noteID);
 
             if (note) note.title = noteTitle;
-            
+
         }
 
     }
