@@ -11,11 +11,12 @@ import { useState } from "react";
 
 const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
-    // used to keep track of the saved content and decide wether a patch call should be executed
+    // these refs are used to make sure the right content for the right note gets saved in the DB (switiching through notes fast could lead to some problems)
     const content = useRef(null);
+    const currentID = useRef(null);
+
     const [isReady, setIsReady] = useState(false);
 
-    const currentID = useRef(null);
 
     // retrieve data relative to the currentNote
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -39,23 +40,14 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
     useEffect(() => {
 
-        // this mutate makes sure content can't get duplicated between notes (sometimes it)
+        // this mutate makes sure content can't get duplicated between notes
         mutate();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentNote]);
 
-    if (error) return (<div></div>);
-    if (!note || isLoading || isValidating || !isReady) return (
 
-        <div class="center-container">
-            <div class="spinner-grow" role="status">
-            </div>
-        </div>
-
-    );
-
-    const handleInput= debounce(()=>{
+    const handleInput = debounce(() => {
 
         const patchPromise = new Promise((resolve, reject) => {
 
@@ -72,27 +64,36 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
 
         }).catch(error => {
             console.log(error);
-        })
+        });
 
-    },500);
+    }, 500);
 
+    if (error) return (<div></div>);
+    if (!note || isLoading || isValidating || !isReady) return (
+
+        <div class="center-container">
+            <div class="spinner-grow" role="status">
+            </div>
+        </div>
+
+    );
     return (
+
         <Editor
             tinymceScriptSrc='/tinymce/tinymce.min.js'
             initialValue={ note.content }
             init={ {
                 setup: (editor) => {
 
-
                     editor.on('input', () => {
-                        
+
                         content.current = editor.getContent();
                         currentID.current = currentNote.noteID;
 
                         handleInput();
-                    
-                        });
-                    
+
+                    });
+
 
                     editor.on("preinit", () => {
                         // before the note gets initialized, change the data-theme attribute of the iframe' contentDocument's body, so that css style changes according to the theme
@@ -102,13 +103,13 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                     });
 
                     editor.on("click", () => {
-                        // close the contextmenu if open
+                        
                         contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, element: null });
 
                     });
 
                     editor.on("FullScreenStateChanged", (isFullscreen) => {
-                        // get the header of the editor
+
                         const editorHeader = editor.container.querySelector(".tox-editor-header");
 
                         if (isFullscreen.state) /* if the fullscreen mode is activated */ {
@@ -116,18 +117,15 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                             // get rid of the header containing the note's title
                             document.querySelector(".header").style.display = "none";
 
-                            // make the editorHeader full width. There is no need to remove previous classes, since this class has more specificity in the css file (div.tox-editor-header.my-tox-header-sticky--fullscreen)
                             editorHeader.classList.add("my-tox-header-sticky--fullscreen");
 
 
                         } else {
 
-                            //remove the class
                             editorHeader.classList.remove("my-tox-header-sticky--fullscreen");
 
                             // show the header containing the note's title
                             document.querySelector(".header").style.display = "flex";
-
 
                         }
 
@@ -160,36 +158,53 @@ const EditorMCE = ({ currentNote, contextMenuInfo, setContextMenuInfo }) => {
                 // I use content_style because these instructions don't work if put in the index.css file, they refer only to the tinyMCE editor
                 content_style: `
                 
-                    :root {
+                        :root {
 
                         --primary-bg-color: #1b1b1b;
+
                         --secondary-bg-color: #232323;
                         --secondary-bg-color-hover: #3e3d3d;
+
                         --tertiary-bg-color: #ffffff;
                         --tertiary-bg-color-hover: #ffffffc9;
                         --tertiary-bg-color-active: #ffffff8f;
+
                         --quaternary-bg-color: #1d1d1d;
+
                         --purple: #6b41bf;
                         --purple-light: #9b64df;
                         --purple-hover: #5326a8;
                         --purple-active: #3e247d;
+
                         --text-color: white;
                         --text-color-secondary: black;
+
                         --editor-bg-color: #1f1f1f;
+
+                        --editor-toolbar-height: 88.6px;
+                        --mobile-toolbar-height: 93px;
+                        --current-header-height: max(min(10dvh, 70px), 60px);
+                        --height-homepage: calc(100dvh - var(--current-header-height));
                     }
 
                     [light-theme="true"] {
 
                         --primary-bg-color: #efefef;
+
                         --secondary-bg-color: #e2e2e2;
                         --secondary-bg-color-hover: #ffffff8f;
+
                         --tertiary-bg-color: #1b1b1b;
                         --tertiary-bg-color-hover: #232323;
                         --tertiary-bg-color-active: #3e3d3d;
+
                         --quaternary-bg-color: #c0c0c0;
+
                         --text-color: black;
                         --text-color-secondary: white;
+
                         --purple-active: #3e247d;
+
 
                         --editor-bg-color: white;
                     }

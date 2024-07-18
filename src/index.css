@@ -13,23 +13,12 @@
 
     --quaternary-bg-color: #1d1d1d;
 
-    /* old */
-    /* --purple: #5941df;
-    --purple-light: #7e64ff;
-    --purple-hover: #4a33ce;
-    --purple-active: #31247d; */
 
-    /* cool */
     --purple: #6b41bf;
     --purple-light: #9b64df;
     --purple-hover: #5326a8;
     --purple-active: #3e247d;
 
-    /* warm */
-    /* --purple: #703fad;
-        --purple-light: #a064d4;
-        --purple-hover: #582e8f;
-        --purple-active: #442368; */
 
     --text-color: white;
     --text-color-secondary: black;
