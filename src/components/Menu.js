@@ -6,10 +6,9 @@ import { URL, collapseFolders, expandFolders, saveLastNoteTitle, switchNote } fr
 import { useEffect } from "react";
 import SearchBar from "./SearchBar";
 import { useRef } from "react";
+
 const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
-    
-   
     const [folders, setFolders] = useState([]);
 
     // used to settle the title of the last note, after another note has been clicked on
@@ -52,10 +51,9 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                 setMenuStatus
             );
 
-
     };
 
-  
+
 
     return (
 
@@ -64,7 +62,6 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
             { menuStatus === "expanded" &&
                 (
                     <div className="menu__toolbar menu__toolbar--expanded">
-
 
                         <div className="button-group">
                             <Theme />
@@ -122,17 +119,13 @@ const Menu = ({ menuStatus, setMenuStatus, currentNote, setCurrentNote, setModal
                         </div>
                     </div>
 
-
-
                 )
-
-
             }
 
             <div className="flex-wrapper">
                 <SearchBar handleNoteClick={ handleNoteClick } />
                 {/* the noteList is always mounted so that open folders stay open even if the menu is closed and then reopened */ }
-                <NoteList handleNoteClick={handleNoteClick} lastNote={lastNote} setFolders={setFolders} folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } setNoteTitle={ setNoteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } menuStatus={ menuStatus } setMenuStatus={ setMenuStatus } setModalShowing={ setModalShowing } />
+                <NoteList handleNoteClick={ handleNoteClick } lastNote={ lastNote } setFolders={ setFolders } folders={ folders } contextMenuInfo={ contextMenuInfo } setContextMenuInfo={ setContextMenuInfo } noteTitle={ noteTitle } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
             </div>
 
 

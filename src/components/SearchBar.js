@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { URL, debounce } from "../utils/utils";
 
-
 const SearchBar = ({ handleNoteClick }) => {
 
     // will contain an array of notes

@@ -147,7 +147,7 @@ export const collapseFolders = () => {
 
 
     for (let i = 0; i < n; i++) {
-        console.log(accordionButtons, accordionCollapseDivs);
+
         // collapse the folder
         accordionCollapseDivs[i].classList.remove("show");
 
@@ -261,8 +261,6 @@ export function debounce(func, timeout = 300) {
 export const saveLastNoteTitle = (lastNote, folders, noteTitle) => {
 
     if (lastNote.noteID) /* if this isn't the first note that got clicked on */ {
-
-        // set the title of the last note (which is still the current one) to be noteTitle
 
         const foundFolder = folders.find(folder => folder.folderID === lastNote.folderID);
 

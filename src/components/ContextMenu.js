@@ -1,50 +1,27 @@
 import { useSWRConfig } from "swr";
-import { URL } from "../utils/utils";
+import { asyncFetch, URL } from "../utils/utils";
 
 const ContextMenu = ({ contextMenuInfo, setModalShowing, folders, currentNote, setCurrentNote, setContextMenuInfo }) => {
 
-    // this mutate is global, meaning I can mutate other URLs (in this case, the one that retrieves data relative to the current note)
     const { mutate } = useSWRConfig();
-    /**
-    * @note to delete folders/notes from the DB
-    */
-    const deleteElement = () => {
 
-        // the folder/note to delete.
+    const deleteElement = async () => {
+
+
         const elementToDelete = { elementID: contextMenuInfo.element.id, elementType: contextMenuInfo.element.folderName ? "folder" : "note" };
 
-        fetch(URL, {
+        await asyncFetch("DELETE", elementToDelete);
 
-            method: "DELETE",
-            body: JSON.stringify(elementToDelete)
+        mutate(URL + "?retrieve=all");
 
-        }).then(res => {
+        if (currentNote.noteID === contextMenuInfo.element.id || currentNote.folderID === contextMenuInfo.element.id) /* if the current note or its parent folder was deleted */ {
 
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return res.json();
+            setCurrentNote({ noteID: null, folderName: null, folderID: null });
 
+        }
 
-        }).then(data => {
-            console.log(data);
+    }
 
-            mutate(URL + "?retrieve=all");
-
-            if (currentNote.noteID === contextMenuInfo.element.id || currentNote.folderID === contextMenuInfo.element.id) /* if the current note or its parent folder was deleted */ {
-
-                setCurrentNote({ noteID: null, folderName: null, folderID: null });
-
-            }
-
-
-        }).catch(err => console.log(err));
-
-
-    };
-
-
-    //if the contextMenu is open and the screen is clicked, close the contextMenu
     document.onclick = () => contextMenuInfo.x && setContextMenuInfo({ x: null, y: null, element: null });
 
 

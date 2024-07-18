@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useRef } from "react";
+import React from "react";
 import Folder from "./Folder";
 import ContextMenu from "./ContextMenu";
 import {
@@ -9,7 +8,7 @@ import {
 import {
     arrayMove
 } from '@dnd-kit/sortable';
-import { restrictToFirstScrollableAncestor, restrictToParentElement, restrictToVerticalAxis, restrictToWindowEdges, snapCenterToCursor } from "@dnd-kit/modifiers";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { getEventCoordinates } from '@dnd-kit/utilities';
 import {
     closestCorners,
@@ -23,13 +22,10 @@ import {
 import {
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
-import { saveLastNoteTitle, switchNote, simplePatchCall, collapseFolders } from "../utils/utils";
+import { simplePatchCall, collapseFolders } from "../utils/utils";
 
-const NoteList = ({ handleNoteClick, lastNote, setFolders, folders, currentNote, setCurrentNote, menuStatus, setMenuStatus, setModalShowing, noteTitle, setNoteTitle, contextMenuInfo, setContextMenuInfo }) => {
-   
+const NoteList = ({ handleNoteClick, lastNote, setFolders, folders, currentNote, setCurrentNote, setModalShowing, noteTitle, contextMenuInfo, setContextMenuInfo }) => {
 
-    const noteListRef = useRef(null);
- 
     const sensors = useSensors(
         useSensor(MouseSensor, {
             activationConstraint: { distance: 5 }
@@ -45,33 +41,28 @@ const NoteList = ({ handleNoteClick, lastNote, setFolders, folders, currentNote,
         })
     );
 
- 
-
-
     const handleDragEnd = (e) => {
         const { active, over } = e;
 
+        // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
         setTimeout(() => {
 
-            // i use a settimeout cause otherwise the accordion would expand as soon as the data-bs-toggle attribute is set again
             document.getElementById("collapseButton" + active.id).setAttribute("data-bs-toggle", "collapse");
 
         }, 1);
-        
+
         if (active && over && active.id !== over.id) {
 
             const oldIndex = folders.findIndex((folder) => folder.folderID === active.id);
             const newIndex = folders.findIndex((folder) => folder.folderID === over.id);
 
-           
+
             setFolders((folders) => {
 
                 simplePatchCall({ oldIndex: oldIndex, newIndex: newIndex, folderID: active.id });
                 return arrayMove(folders, oldIndex, newIndex);
 
             });
-
-
 
         }
     };
@@ -81,27 +72,24 @@ const NoteList = ({ handleNoteClick, lastNote, setFolders, folders, currentNote,
      * @param {Event} e
      */
     const handleDragStart = (e) => {
-        const collapseButton = document.getElementById("collapseButton" + e.active.id);
 
+        const collapseButton = document.getElementById("collapseButton" + e.active.id);
 
         // remove the data-bs-toggle, so that the accordion doesn't open after the dragging finished (yes, if you drag an accordion towards the top, it opens, but with this rule it doesn't)
         collapseButton.removeAttribute("data-bs-toggle");
 
-        collapseButton.querySelector(".accordion-button__folder-title").removeAttribute("data-bs-toggle");
-
         collapseFolders();
-
-
 
     };
 
-    
 
+    // I copied the dnd-lit snapCenterToCursor, and adjusted it to only set the Y to the cursor
     const snapYToCursor = ({
         activatorEvent,
         draggingNodeRect,
         transform,
     }) => {
+
         if (draggingNodeRect && activatorEvent) {
             const activatorCoordinates = getEventCoordinates(activatorEvent);
 
@@ -120,57 +108,24 @@ const NoteList = ({ handleNoteClick, lastNote, setFolders, folders, currentNote,
         return transform;
     };
 
-    // function restrictToBoundingRect(
-    //     transform,
-    //     rect,
-    //     boundingRect
-    // ) {
-    //     const value = {
-    //         ...transform,
-    //     };
-
-    //     if (rect.top + transform.y <= boundingRect.top) {
-    //         value.y = boundingRect.top - rect.top;
-    //     } else if (
-    //         rect.bottom + transform.y >=
-    //         boundingRect.top + boundingRect.height
-    //     ) {
-    //         value.y = boundingRect.top + boundingRect.height - rect.bottom;
-    //     }
-
-    //     return value;
-    // }
-
-    // const restrictToParentElement = ({
-    //     containerNodeRect,
-    //     draggingNodeRect,
-    //     transform,
-    // }) => {
-    //     if (!draggingNodeRect || !containerNodeRect) {
-    //         return transform;
-    //     }
-
-    //     return restrictToBoundingRect(transform, draggingNodeRect, containerNodeRect);
-    // };
-
-
     return (
         <DndContext modifiers={ [restrictToVerticalAxis, snapYToCursor] } collisionDetection={ closestCorners } onDragEnd={ handleDragEnd } onDragStart={ handleDragStart } sensors={ sensors }>
 
-            <div className="note-list" ref={noteListRef}>
-
-                
+            <div className="note-list">
 
                 <SortableContext items={ folders.map(folder => folder.folderID) } strategy={ verticalListSortingStrategy }>
 
                     { folders && folders.map((folder, folderIndex) => (
 
-                        <Folder setFolders={ setFolders } handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ folder.folderID } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setModalShowing={ setModalShowing } />
+                        <Folder setFolders={ setFolders } handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ folder.folderID } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setModalShowing={ setModalShowing } />
 
                     )) }
                 </SortableContext>
+
             </div>
+
             <ContextMenu folders={ folders } contextMenuInfo={ contextMenuInfo } setModalShowing={ setModalShowing } currentNote={ currentNote } setCurrentNote={ setCurrentNote } setContextMenuInfo={ setContextMenuInfo } />
+        
         </DndContext>
 
     );

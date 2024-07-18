@@ -3,9 +3,8 @@ import { getContrastColor, openMenu, folderColors } from "../utils/utils";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const Note = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, folders, note, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+const Note = ({ handleNoteClick, lastNote, folder, note, setContextMenuInfo, currentNote, noteTitle }) => {
     
-
     const {
         attributes,
         listeners,
@@ -21,10 +20,10 @@ const Note = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, fo
     
 
     useEffect(() => {
+
         // set the current note to be the last note visited
         lastNote.current = { noteID: currentNote.noteID, folderID: currentNote.folderID };
         
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentNote]);
 

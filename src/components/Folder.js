@@ -2,12 +2,7 @@ import { getContrastColor, openMenu, folderColors, simplePatchCall } from "../ut
 import Note from "./Note";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import {
-    SortableContext,
-    verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
 import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
-
 import {
     closestCorners,
     DndContext,
@@ -18,13 +13,13 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import {
+    SortableContext,
+    verticalListSortingStrategy,
+    sortableKeyboardCoordinates,
     arrayMove
 } from '@dnd-kit/sortable';
 
-import {
-    sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
-const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, folders, folderIndex, setModalShowing, contextMenuInfo, setContextMenuInfo, currentNote, setCurrentNote, noteTitle, setNoteTitle }) => {
+const Folder = ({ setFolders, handleNoteClick, lastNote, folder, folders, folderIndex, setModalShowing, setContextMenuInfo, currentNote, noteTitle }) => {
 
     const {
         attributes,
@@ -96,7 +91,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
                         <span className="accordion-button__folder-title" style={ { color: getContrastColor(folderColors[folder.color].secondary) } } >{ folder.folderName }</span>
                         <span
                             className="non-collapsing plus-button" data-bs-toggle="collapse" data-bs-target // i set these attributes cause it works like a e.stopPropagation()
-                            onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName, modalType:"add-specific-note" }) } //open the note modal
+                            onClick={ (e) => setModalShowing({ folderID: folder.folderID, folderName: folder.folderName, modalType: "add-specific-note" }) } //open the note modal
                             style={ { '--hover-color': getContrastColor(folderColors[folder.color].secondary), color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } // set a style variable relative to the note color and set a visible text color 
                         >+</span>
                         <span className="accordion-button__folder-notesnumber" style={ { color: getContrastColor(folderColors[folder.color].secondary) + "cc" } } >{ folder.notes.length }</span>
@@ -116,7 +111,7 @@ const Folder = ({ setFolders, handleNoteClick, lastNote, setMenuStatus, folder, 
 
                                         { folder.notes.map((note) => (
 
-                                            <Note setFolders={ setFolders } handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } folders={ folders } noteTitle={ noteTitle } folderIndex={ folderIndex } contextMenuInfo={ contextMenuInfo } setNoteTitle={ setNoteTitle } setMenuStatus={ setMenuStatus } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } setCurrentNote={ setCurrentNote } />
+                                            <Note handleNoteClick={ handleNoteClick } lastNote={ lastNote } key={ note.noteID } note={ note } folder={ folder } noteTitle={ noteTitle } setContextMenuInfo={ setContextMenuInfo } currentNote={ currentNote } />
 
                                         )) }
 
