@@ -1,24 +1,15 @@
-import { useRef } from "react";
+import Title from "./Title";
 import { URL, logout } from "../utils/utils";
 import useSWR from "swr";
-import Title from "./Title";
-const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
 
-    // I use an header ref to get its offsetWidth
-    const header = useRef();
-
-
+const Header = ({ currentNote, setNoteTitle, isLoggedIn, setIsLoggedIn, menuStatus, setMenuStatus }) => {
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const { data: note, isValidating, isLoading } = useSWR(URL + `?retrieve=single&note=${currentNote.noteID}`, fetcher);
 
-
-
-    
-
     return (
 
-        <div className="header" ref={ header }>
+        <div className="header">
 
             {/* if no note has been selected or if the login page is shown */ }
             { (!note && !isValidating && !isLoading) && <p className="header--note__title not-selectable">Coding Notes</p> }
@@ -31,9 +22,6 @@ const Header = ({ currentNote, noteTitle, setNoteTitle, isLoggedIn, setIsLoggedI
             note={note}
             currentNote={currentNote}
             setNoteTitle={setNoteTitle}
-            isLoading={isLoading}
-            isValidating={isValidating}
-            noteTitle={noteTitle}
             />
             }
 
