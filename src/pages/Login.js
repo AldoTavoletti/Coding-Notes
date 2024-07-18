@@ -1,4 +1,4 @@
-import { URL, setDarkMode } from "../utils/utils";
+import { setDarkMode, asyncFetch } from "../utils/utils";
 
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -52,32 +52,6 @@ const Login = ({ setIsLoggedIn }) => {
     }, []);
 
 
-    const fetchRequest = async (obj) => {
-
-        try {
-            const res = await fetch(URL, {
-
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify(obj),
-
-            });
-
-            if (!res.ok) {
-                throw new Error("Network response was not ok");
-            }
-
-            return await res.json();
-
-        } catch (err) {
-
-            console.log(err);
-
-
-        };
-
-    };
-
     /**
      * @note classic login
      */
@@ -90,7 +64,7 @@ const Login = ({ setIsLoggedIn }) => {
 
         setIsLoading(true);
 
-        const data = await fetchRequest({ username: username, password: password, remember: rememberMe.current.checked, action: "login" });
+        const data = await asyncFetch("POST",{ username: username, password: password, remember: rememberMe.current.checked, action: "login" });
 
         handleServerRes(data);
 
@@ -127,7 +101,7 @@ const Login = ({ setIsLoggedIn }) => {
 
         setIsLoading(true);
 
-        const data = await fetchRequest({ username: username, password: password, remember: rememberMe.current.checked, action: "signup" });
+        const data = await asyncFetch("POST", { username: username, password: password, remember: rememberMe.current.checked, action: "signup" });
 
         handleServerRes(data);
 
@@ -191,7 +165,7 @@ const Login = ({ setIsLoggedIn }) => {
 
             setIsLoading(true);
 
-            const data = await fetchRequest({ code: codeResponse.code, remember: rememberMe.current.checked });
+            const data = await asyncFetch("POST", { code: codeResponse.code, remember: rememberMe.current.checked });
 
             handleServerRes(data);
 

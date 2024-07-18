@@ -15,25 +15,10 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
     const colorsArr = Object.values(folderColors);
     const colorKeysArr = Object.keys(folderColors);
 
-    /**
-     * @note reset the states relative to the folders modal
-     */
-    const resetFolderStates = () => {
+    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
 
-        setFolderName("");
-        setSelectedColor("black");
-
-    };
-
-    /**
-     * @note reset the states relative to the notes modal
-     */
-    const resetNoteStates = () => {
-
-        setNoteTitleModal("");
-        setNoteFolder({ folderID: null, folderName: null });
-
-    };
+    // I try to revalidate the least possible
+    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, { revalidateOnFocus: false, revalidateIfStale: false });
 
     useEffect(() => {
 
@@ -86,15 +71,25 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalShowing]);
 
-    const fetcher = (url) => fetch(url, { credentials: 'include' }).then((res) => res.json());
+    /**
+  * @note reset the states relative to the folders modal
+  */
+    const resetFolderStates = () => {
 
-    // I try to revalidate the least possible
-    const { data: folders, isValidating, error, mutate } = useSWR(URL + "?retrieve=all", fetcher, { revalidateOnFocus: false, revalidateIfStale: false });
+        setFolderName("");
+        setSelectedColor("black");
 
+    };
 
-    // Handles error and loading state. Without these useSWR wouldn't work
-    if (error) return (<div></div>);
-    if (isValidating) return (<div></div>);
+    /**
+     * @note reset the states relative to the notes modal
+     */
+    const resetNoteStates = () => {
+
+        setNoteTitleModal("");
+        setNoteFolder({ folderID: null, folderName: null });
+
+    };
 
     /**
      * 
@@ -278,6 +273,9 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     };
 
+    // Handles error and loading state. Without these useSWR wouldn't work
+    if (error) return (<div></div>);
+    if (isValidating) return (<div></div>);
 
     return (
         <>
