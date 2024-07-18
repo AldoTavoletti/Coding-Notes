@@ -22,7 +22,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     useEffect(() => {
 
-        if (folders) /* if the user's folders have been fetched */ {
+        if (folders) {
 
             if (typeof modalShowing === "object") {
 
@@ -75,9 +75,6 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalShowing]);
 
-    /**
-  * @note reset the states relative to the folders modal
-  */
     const resetFolderStates = () => {
 
         setFolderName("");
@@ -85,9 +82,6 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     };
 
-    /**
-     * @note reset the states relative to the notes modal
-     */
     const resetNoteStates = () => {
 
         setNoteTitleModal("");
@@ -95,9 +89,6 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     };
 
-    /**
-     * 
-     */
     const addFolder = async () => {
 
         // the folder to post
@@ -111,9 +102,6 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     };
 
-    /**
-     * 
-     */
     const modifyFolder = async () => {
 
         const folder = { name: folderName, color: selectedColor, folderID: modalShowing.elementID };
@@ -131,9 +119,6 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     };
 
-    /**
-     * 
-     */
     const addNote = async () => {
 
         const newNote = { title: noteTitleModal, folderID: noteFolder.folderID };
@@ -147,17 +132,13 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
                 setNoteTitle,
                 setMenuStatus
             );
-        // refetch
+
         mutate();
 
-        //close the modal
         setModalShowing("none");
 
     };
 
-    /**
-     * @note delete the account
-     */
     const deleteAccount = async () => {
 
         const data = await asyncFetch("DELETE", { deleteUser: true });
@@ -170,7 +151,7 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
     const moveNote = async () => {
 
         const note = { noteID: modalShowing.noteID, folderID: noteFolder.folderID, action: "move-note" };
-        
+
         await asyncFetch("PATCH", note);
         
         mutate();
@@ -182,7 +163,6 @@ const Modals = ({ setMenuStatus, setNoteTitle, currentNote, setCurrentNote, moda
 
     };
 
-    // Handles error and loading state. Without these useSWR wouldn't work
     if (error) return (<div></div>);
     if (isValidating) return (<div></div>);
 
