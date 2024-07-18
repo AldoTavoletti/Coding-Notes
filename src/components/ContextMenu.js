@@ -60,7 +60,7 @@ const ContextMenu = ({ contextMenuInfo, setModalShowing, folders, currentNote, s
                     <button
                         type="button"
                         className="icon-text-button"
-                        onClick={ () => setModalShowing({ elementID: contextMenuInfo.element.id, folderName: contextMenuInfo.element.folderName, folderColor: contextMenuInfo.element.folderColor }) }
+                        onClick={ () => setModalShowing({ elementID: contextMenuInfo.element.id, folderName: contextMenuInfo.element.folderName, folderColor: contextMenuInfo.element.folderColor, modalType:"modify-folder" }) }
                     ><div><i className="bi bi-folder-fill"></i></div><span>Modify</span></button>
 }
                 
@@ -68,7 +68,7 @@ const ContextMenu = ({ contextMenuInfo, setModalShowing, folders, currentNote, s
                     <button
                         type="button"
                         className="icon-text-button"
-                        onClick={ () => setModalShowing({ noteID: contextMenuInfo.element.id, parentFolderID: contextMenuInfo.element.parentFolderID }) }
+                        onClick={ () => setModalShowing({ noteID: contextMenuInfo.element.id, parentFolderID: contextMenuInfo.element.parentFolderID, modalType:"move-note" }) }
                     ><div><i class="bi bi-arrow-up-right-square-fill"></i></div><span>Move</span></button>
 }
 
