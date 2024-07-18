@@ -1,8 +1,10 @@
 import { useCallback, useRef } from "react";
 import { simplePatchCall, debounce } from "../utils/utils";
 
-const Title = ({ note, currentNote, setNoteTitle, isLoading, isValidating, noteTitle }) => {
+const Title = ({ note, currentNote, setNoteTitle }) => {
 
+
+    // this makes sure the id used to save the title in the DB is the right one (using currentNote.noteID would be problematic when switching between notes)
     const currentID = useRef(null);
 
     const debouncedSave = debounce((value) => {
@@ -10,7 +12,9 @@ const Title = ({ note, currentNote, setNoteTitle, isLoading, isValidating, noteT
         simplePatchCall({ noteID: currentID.current, title: value });
 
     });
+
     const handleOnInput = useCallback((value) => {
+
         currentID.current = currentNote.noteID;
         setNoteTitle(value);
         debouncedSave(value);
@@ -20,7 +24,9 @@ const Title = ({ note, currentNote, setNoteTitle, isLoading, isValidating, noteT
     return (
 
         <div className="header--note">
+
             <div className="header--note__folder-div"><div>{ currentNote.folderName }</div>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</div>
+            
             <p
                 contentEditable="true"
                 suppressContentEditableWarning={ true }
